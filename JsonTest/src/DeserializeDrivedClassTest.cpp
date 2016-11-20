@@ -16,6 +16,8 @@ using namespace web;
 using namespace std;
 using namespace Json;
 
+// test deserialization of drived class
+
 namespace JsonTest
 {
 namespace TestDeserializer
