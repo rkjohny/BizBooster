@@ -1,0 +1,693 @@
+/**
+ * Author: Rezaul Karm
+ * Email: rkjohny@gmail.com
+ *
+ * Copyright (C) 2016 Rezaul Karim (rkjohny@gmail.com)
+ *     The information contained here-in is the property of Rezaul Karim and
+ *     is not to be disclosed or used without prior written permission of Rezaul Karim.
+ *     This copyright extends to all media in which this information may be preserved
+ *     including magnetic storage, computer print-out or visual display.
+ *     Please refer to License.txt file for more details.
+ */
+
+#ifndef DESERIALIZER_H
+#define DESERIALIZER_H
+
+#include <cpprest/json.h>
+#include "TypeTratits.h"
+
+#include <iostream>
+
+namespace Json
+{
+using namespace web;
+
+class Deserializer
+{
+private:
+    Deserializer() = delete;
+
+    /**
+     * calls the setter method with value type argument
+     */
+    template<class T, class B, class ArgT>
+    static void SetData( T *object, void ( B::*SetterPtr )( const ArgT ), const json::value &jvalue )
+    {
+        std::cout << "Setdata : void (T::*SetterPtr)(const ArgT)" << std::endl;
+
+        using Type = typename Remove_CVR<ArgT>::Type;
+
+        Type var;
+        FromJson( var, jvalue );
+        ( object->*SetterPtr )( var );
+    }
+
+
+    /**
+     * calls the setter method with reference type argument
+     */
+    template<class T, class B, class ArgT>
+    static void SetData( T *object, void ( B::*SetterPtr )( ArgT& ), const json::value &jvalue )
+    {
+        std::cout << "Setdata : void (T::*SetterPtr)(ArgT&)" << std::endl;
+
+        using Type = typename Remove_CVR<ArgT>::Type;
+
+        Type var;
+        FromJson( var, jvalue );
+        ( object->*SetterPtr )( var );
+    }
+
+    /**
+     * calls the setter method with constant reference type argument
+     */
+    template<class T, class B, class ArgT>
+    static void SetData( T *object, void ( B::*SetterPtr )( const ArgT& ), const json::value &jvalue )
+    {
+        std::cout << "Setdata : void (T::*SetterPtr)(const ArgT&)" << std::endl;
+
+        using Type = typename Remove_CVR<ArgT>::Type;
+
+        Type var;
+        FromJson( var, jvalue );
+        ( object->*SetterPtr )( var );
+    }
+
+    /**
+     * calls the setter method with pointer type argument
+     */
+    template<class T, class B, class ArgT>
+    static void SetData( T *object, void ( B::*SetterPtr )( ArgT* ), const json::value &jvalue )
+    {
+        std::cout << "Setdata : void (T::*SetterPtr)(ArgT*)" << std::endl;
+
+        using Type = typename Remove_CVR<ArgT>::Type;
+
+        Type *var = new Type();
+        FromJson( var, jvalue );
+        ( object->*SetterPtr )( var );
+    }
+
+    /**
+     * calls the setter method with constant pointer type argument
+     */
+    template<class T, class B, class ArgT>
+    static void SetData( T *object, void ( B::*SetterPtr )( const ArgT* ), const json::value &jvalue )
+    {
+        std::cout << "Setdata : void (T::*SetterPtr)(const ArgT*)" << std::endl;
+
+        using Type = typename Remove_CVR<ArgT>::Type;
+
+        Type *var = new Type();
+        FromJson( var, jvalue );
+        ( object->*SetterPtr )( var );
+    }
+
+
+    /**
+     * calls the setter method with constant pointer type argument
+     */
+    template<class T, class B, class ArgT>
+    static void SetData( T *object, void ( B::*SetterPtr )( ArgT** ), const json::value &jvalue )
+    {
+        std::cout << "Setdata : void (T::*SetterPtr)(ArgT**)" << std::endl;
+
+        using Type = typename Remove_CVR<ArgT>::Type;
+
+        Type **var = new Type*();
+        FromJson( var, jvalue );
+        ( object->*SetterPtr )( var );
+    }
+
+    /**
+     * calls the setter method with constant pointer type argument
+     */
+    template<class T, class B, class ArgT>
+    static void SetData( T *object, void ( B::*SetterPtr )( const ArgT** ), const json::value &jvalue )
+    {
+        std::cout << "Setdata : void (T::*SetterPtr)(const ArgT**)" << std::endl;
+
+        using Type = typename Remove_CVR<ArgT>::Type;
+
+        Type **var = new Type*();
+        FromJson( var, jvalue );
+        ( object->*SetterPtr )( var );
+    }
+
+
+
+    /**
+     * get the setter at tuple position referenced by iteratiorn.
+     * call the setter to set the value to the object'c property.
+     */
+    template<size_t iteration, class T>
+    static void DeDeserialize( T *object, const json::value &jvalue )
+    {
+        using Type = typename Remove_CVR<T>::Type;
+        auto setters = Type::setters;
+        auto setter = std::get<iteration> ( setters );
+
+        using ClassT = typename Remove_CVR< typename decltype( setter ) ::Class >::Type;
+        using ArgT = typename decltype( setter ) ::Type;
+        auto name = setter.name;
+        auto fp = setter.fp;
+
+        cout << "Found a setter with name: " << name << std::endl;
+        bool found = false;
+
+        if ( jvalue.has_field( U( name ) ) )
+        {
+            const auto &jval = jvalue.at( U( name ) );
+
+            if ( !jval.is_null() )
+            {
+                found = true;
+                // either Type and ClassT are same type or ClassT is base of Type
+                SetData<Type, ClassT> ( object, fp, jval );
+            }
+        }
+
+        if ( !found )
+        {
+            std::cout << "value is null and will be ignored." << std::endl;
+        }
+    }
+
+    /**
+     * execute the setter at position greater than 0
+     */
+    template<size_t iteration, class T>
+    typename std::enable_if < ( iteration > 0 ), void >::type
+    static Deserialize( T *object, const json::value &jvalue )
+    {
+        DeDeserialize<iteration> ( object, jvalue );
+
+        Deserialize < iteration - 1 > ( object, jvalue );
+    }
+
+    /**
+     * execute the setter at position 0
+     */
+    template<size_t iteration, class T>
+    typename std::enable_if< ( iteration == 0 ), void>::type
+    static Deserialize( T *object, const json::value &jvalue )
+    {
+        DeDeserialize<iteration> ( object, jvalue );
+    }
+
+public:
+    /**
+     * object is constant reference, return error
+     */
+    template<class T>
+    typename std::enable_if<std::is_const<T>::value , void>::type
+    FromJson( T &object )
+    {
+        static_assert( true, "object cannot be constant" );
+    }
+
+    /**
+     * object is constant pointer, return error
+     */
+    template<class T>
+    typename std::enable_if<std::is_const<T>::value , void>::type
+    FromJson( T *object )
+    {
+        static_assert( true, "object pointer cannot be constant" );
+    }
+
+    /**
+     * object is constant reference, return error
+     */
+    template<class T>
+    typename std::enable_if<std::is_array<T>::value , void>::type
+    FromJson( T &object )
+    {
+        static_assert( true, "Deserialization of array is not supported." );
+    }
+
+    /*********************************************************************************
+     * object type: bool
+     *********************************************************************************/
+    template<class T>
+    typename std::enable_if<Is_Bool<T>::Value, void>::type
+    static FromJson( T &object, const json::value &jvalue )
+    {
+        object = jvalue.as_bool();
+        std::cout << "Deserializing object: type = Bool&, value = " << object << std::endl;
+    }
+
+
+    /*********************************************************************************
+     * object type: bool*
+     * object should be allcated;
+     *
+     * example of usages:
+     *
+     *      json::value jvalue = json::value(true);
+     *
+     * example1:
+     *      bool bvalue;
+     *      Json::FromJson(&bvalue, jvalue);
+     *
+     * example2:
+     *      bool *p = new bool();
+     *      Json::FromJson(p, jvalue); // p will NOT be allocated
+     *      delete p;
+     *********************************************************************************/
+    template<class T>
+    typename std::enable_if<Is_Bool<T>::Value, void>::type
+    static FromJson( T *object, const json::value &jvalue )
+    {
+        *object = jvalue.as_bool();
+        std::cout << "Deserializing object: type = Bool*, value = " << *object << std::endl;
+    }
+
+    /*********************************************************************************
+     * object type: bool*
+     * object should NOT be allcated;
+     *
+     * example of usages:
+     *
+     *      json::value jvalue = json::value(true);
+     *
+     * example1:
+     *      bool *p = nullptr;
+     *      Json::FromJson(&p, jvalue); // *p will be allocated
+     *      if (p)
+     *          delete p;
+     *
+     * example2:
+     *      bool **p = new bool*();
+     *      Json::FromJson(p, jvalue); // *p will be allocated
+     *      if (*p)
+     *          delete *p;
+     *      if (p)
+     *          delete p;
+     *********************************************************************************/
+    template<class T>
+    typename std::enable_if<Is_Bool<T>::Value, void>::type
+    static FromJson( T **object, const json::value &jvalue )
+    {
+        *object = new bool ( jvalue.as_bool() );
+        std::cout << "Deserializing object: type = Bool**, value = " << **object << std::endl;
+    }
+
+    /*********************************************************************************
+     * object type: char
+     *********************************************************************************/
+    template<class T>
+    typename std::enable_if<Is_Char<T>::Value, void>::type
+    static FromJson( T &object, const json::value &jvalue )
+    {
+        object = jvalue.as_integer();
+        std::cout << "Deserializing object: type = char&, value = " << object << std::endl;
+    }
+
+    /**********************************************************************************
+     * type: char*
+     *
+     * see usges of for bool*
+     ***********************************************************************************/
+    template<class T>
+    typename std::enable_if<Is_Char<T>::Value, void>::type
+    static FromJson( T *object, const json::value &jvalue )
+    {
+        utility::string_t strT = jvalue.as_string();
+        std::string str = utility::conversions::to_utf8string( strT );
+        strcpy( object, str.c_str() );
+        std::cout << "Deserializing object: type = char*, value = " << object << std::endl;
+    }
+
+    /**********************************************************************************
+     * type: char**
+     *
+     * see usages for bool**
+     *
+     ***********************************************************************************/
+    template<class T>
+    typename std::enable_if<Is_Char<T>::Value, void>::type
+    static FromJson( T **object, const json::value &jvalue )
+    {
+        utility::string_t strT = jvalue.as_string();
+        std::string str = utility::conversions::to_utf8string( strT );
+        *object = new char [str.length() + 1];
+        strcpy( *object, str.c_str() );
+        std::cout << "Deserializing object: type = char**, value = " << *object << std::endl;
+    }
+
+    /***********************************************************************************
+     * object type: int8_t, int16_t, int32_t
+     ***********************************************************************************/
+    template<class T>
+    typename std::enable_if < Is_Int8<T>::Value || Is_Int16<T>::Value || Is_Int32<T>::Value, void >::type
+    static FromJson( T &object, const json::value &jvalue )
+    {
+        object = static_cast<T>( jvalue.as_number().to_int32() );
+        std::cout << "Deserializing object: type = signed integer32&, value = " << ( int32_t ) object << std::endl;
+    }
+
+    /***********************************************************************************
+     * object type: int8_t*, int16_t*, int32_t*
+     ***********************************************************************************/
+    template<class T>
+    typename std::enable_if < Is_Int8<T>::Value || Is_Int16<T>::Value || Is_Int32<T>::Value, void >::type
+    static FromJson( T *object, const json::value &jvalue )
+    {
+        *object = static_cast<T>( jvalue.as_number().to_int32() );
+        std::cout << "Deserializing object: type = signed integer32*, value = " << ( int32_t ) *object << std::endl;
+    }
+
+    /***********************************************************************************
+     * object type: int8_t**, int16_t**, int32_t**
+     ***********************************************************************************/
+    template<class T>
+    typename std::enable_if < Is_Int8<T>::Value || Is_Int16<T>::Value || Is_Int32<T>::Value, void >::type
+    static FromJson( T **object, const json::value &jvalue )
+    {
+        *object = new typename Remove_CVR<T>::Type( static_cast<T>( jvalue.as_number().to_int32() ) );
+        std::cout << "Deserializing object: type = signed integer32**, value = " << ( int32_t )**object << std::endl;
+    }
+
+
+    /***********************************************************************************
+     * object type: uint8_t, uint16_t, uint32_t
+     ***********************************************************************************/
+    template<class T>
+    typename std::enable_if < Is_UInt8<T>::Value || Is_UInt16<T>::Value || Is_UInt32<T>::Value, void >::type
+    static FromJson( T &object, const json::value &jvalue )
+    {
+        object = static_cast<T>( jvalue.as_number().to_uint32() );
+        std::cout << "Deserializing object: type = unsigned integer32&, value = " << ( uint32_t ) object << std::endl;
+    }
+
+    /***********************************************************************************
+     * object type: uint8_t*, uint16_t*, uint32_t*
+     ***********************************************************************************/
+    template<class T>
+    typename std::enable_if < Is_UInt8<T>::Value || Is_UInt16<T>::Value || Is_UInt32<T>::Value, void >::type
+    static FromJson( T *object, const json::value &jvalue )
+    {
+        *object = static_cast<T>( jvalue.as_number().to_uint32() );
+        std::cout << "Deserializing object: type = unsigned integer32*, value = " << ( uint32_t ) *object << std::endl;
+    }
+
+    /***********************************************************************************
+     * object type: uint8_t**, uint16_t**, uint32_t**
+     ***********************************************************************************/
+    template<class T>
+    typename std::enable_if < Is_UInt8<T>::Value || Is_UInt16<T>::Value || Is_UInt32<T>::Value, void >::type
+    static FromJson( T **object, const json::value &jvalue )
+    {
+
+        *object = new typename Remove_CVR<T>::Type( static_cast<T>( jvalue.as_number().to_uint32() ) );
+        std::cout << "Deserializing object: type = unsigned integer32**, value = " << ( uint32_t )**object << std::endl;
+    }
+
+    /***********************************************************************************
+     * object type: int64_t
+     ***********************************************************************************/
+    template<class T>
+    typename std::enable_if<Is_Int64<T>::Value, void>::type
+    static FromJson( T &object, const json::value &jvalue )
+    {
+        object = jvalue.as_number().to_int64();
+        std::cout << "Deserializing object: type = signed integer64&, value = " << object << std::endl;
+    }
+
+    /***********************************************************************************
+     * object type: int64_t*
+     ***********************************************************************************/
+    template<class T>
+    typename std::enable_if<Is_Int64<T>::Value, void>::type
+    static FromJson( T *object, const json::value &jvalue )
+    {
+        *object = jvalue.as_number().to_int64();
+        std::cout << "Deserializing object: type = signed integer64*, value = " << *object << std::endl;
+    }
+
+    /***********************************************************************************
+     * object type: int64_t**
+     ***********************************************************************************/
+    template<class T>
+    typename std::enable_if<Is_Int64<T>::Value, void>::type
+    static FromJson( T **object, const json::value &jvalue )
+    {
+        *object = new int64_t ( jvalue.as_number().to_int64() );
+        std::cout << "Deserializing object: type = signed integer64**, value = " << **object << std::endl;
+    }
+
+
+    /***********************************************************************************
+     * object type: uint64_t
+     ***********************************************************************************/
+    template<class T>
+    typename std::enable_if<Is_UInt64<T>::Value, void>::type
+    static FromJson( T &object, const json::value &jvalue )
+    {
+        object = jvalue.as_number().to_uint64();
+        std::cout << "Deserializing object: type = unsigned integer64&, value = " << object << std::endl;
+    }
+
+    /***********************************************************************************
+     * object type: uint64_t*
+     ***********************************************************************************/
+    template<class T>
+    typename std::enable_if<Is_UInt64<T>::Value, void>::type
+    static FromJson( T *object, const json::value &jvalue )
+    {
+        *object = jvalue.as_number().to_uint64();
+        std::cout << "Deserializing object: type = unsigned integer64*, value = " << *object << std::endl;
+    }
+
+    /***********************************************************************************
+     * object type: uint64_t**
+     ***********************************************************************************/
+    template<class T>
+    typename std::enable_if<Is_UInt64<T>::Value, void>::type
+    static FromJson( T **object, const json::value &jvalue )
+    {
+        *object = new uint64_t ( jvalue.as_number().to_uint64() );
+        std::cout << "Deserializing object: type = unsigned integer64**, value = " << **object << std::endl;
+    }
+
+
+    /***********************************************************************************
+     * object type: float, double, long double
+     ***********************************************************************************/
+    template<class T>
+    typename std::enable_if<Is_Decimal<T>::Value, void>::type
+    static FromJson( T &object, const json::value &jvalue )
+    {
+        object = static_cast<T>( jvalue.as_number().to_double() );
+        std::cout << "Deserializing object: type = decimal&, value = " << object << std::endl;
+    }
+
+    /***********************************************************************************
+     * object type: float*, double*, long double*
+     ***********************************************************************************/
+    template<class T>
+    typename std::enable_if<Is_Decimal<T>::Value, void>::type
+    static FromJson( T *object, const json::value &jvalue )
+    {
+        *object = static_cast<T>( jvalue.as_number().to_double() );
+        std::cout << "Deserializing object: type = decimal*, value = " << *object << std::endl;
+    }
+
+    /***********************************************************************************
+     * object type: float**, double**, long double**
+     ***********************************************************************************/
+    template<class T>
+    typename std::enable_if<Is_Decimal<T>::Value, void>::type
+    static FromJson( T **object, const json::value &jvalue )
+    {
+        *object = new typename Remove_CVR<T>::Type( static_cast<T>( jvalue.as_number().to_double() ) );
+        std::cout << "Deserializing object: type = decimal**, value = " << **object << std::endl;
+    }
+
+
+    /***********************************************************************************
+     * object type: std::string
+     ***********************************************************************************/
+    template<class T>
+    typename std::enable_if<Is_String<T>::Value, void>::type
+    static FromJson( T &object, const json::value &jvalue )
+    {
+        object = utility::conversions::to_utf8string( jvalue.as_string() );
+        std::cout << "Deserializing object: type = std::string&, value = " << object << std::endl;
+    }
+
+    /***********************************************************************************
+     * object type: std::string*
+     ***********************************************************************************/
+    template<class T>
+    typename std::enable_if<Is_String<T>::Value, void>::type
+    static FromJson( T *object, const json::value &jvalue )
+    {
+        *object = utility::conversions::to_utf8string( jvalue.as_string() );
+        std::cout << "Deserializing object: type = std::string*, value = " << *object << std::endl;
+    }
+
+    /***********************************************************************************
+     * object type: std::string**
+     ***********************************************************************************/
+    template<class T>
+    typename std::enable_if<Is_String<T>::Value, void>::type
+    static FromJson( T **object, const json::value &jvalue )
+    {
+        *object = new std::string( utility::conversions::to_utf8string( jvalue.as_string() ) );
+        std::cout << "Deserializing object: type = std::string**, value = " << **object << std::endl;
+    }
+
+
+    /*///////////////////////////  OBJECT ////////////////////////////////////////////*/
+
+    /***********************************************************************************
+     * object type: userdefined class{}*
+     ***********************************************************************************/
+    template<class T>
+    typename std::enable_if<Is_Object<T>::Value, void>::type
+    static FromJson( T *object, const json::value &jvalue )
+    {
+        std::cout << "Deserializing object: type = class{}*" << std::endl;
+
+        using Type = typename Remove_CVR<T>::Type;
+        auto setters = Type::setters;
+        Deserialize < std::tuple_size<decltype( setters ) >::value - 1 > ( object, jvalue );
+    }
+
+    /***********************************************************************************
+     * object type: userdefined class{}&
+     ***********************************************************************************/
+    template<class T>
+    typename std::enable_if<Is_Object<T>::Value, void>::type
+    static FromJson( T &object, const json::value &jvalue )
+    {
+        std::cout << "Deserializing object: type = class{}&" << std::endl;
+
+        FromJson( &object, jvalue );
+    }
+
+    /***********************************************************************************
+     * object type: userdefined class{}**
+     ***********************************************************************************/
+    template<class T>
+    typename std::enable_if<Is_Object<T>::Value, void>::type
+    static FromJson( T **object, const json::value &jvalue )
+    {
+        std::cout << "Deserializing object: type = class{}**" << std::endl;
+
+        using Type = typename Remove_CVR<T>::Type;
+
+        *object = new Type();
+        auto setters = Type::setters;
+        Deserialize < std::tuple_size<decltype( setters ) >::value - 1 > ( *object, jvalue );
+    }
+
+
+    /*///////////////////////////  VECTOR ////////////////////////////////////////////*/
+
+    /***********************************************************************************
+     * object type: std::vector<T*>*
+     ***********************************************************************************/
+    template<class T>
+    static void FromJson( std::vector<T*> *object, const json::value &jvalue )
+    {
+        std::cout << "Deserializing object: type = vector<T*>*" << std::endl;
+
+        using Type = typename Remove_CVR<T>::Type;
+
+        for ( const auto &arrItem : jvalue.as_array() )
+        {
+            Type *var = new Type();
+            FromJson( var, arrItem );
+            object->push_back( var );
+        }
+    }
+
+    /***********************************************************************************
+     * object type: std::vector<T*>&
+     ***********************************************************************************/
+    template<class T>
+    static void FromJson( std::vector<T*> &object, const json::value &jvalue )
+    {
+        std::cout << "Deserializing object: type = vector<T*>&" << std::endl;
+
+        FromJson( &object, jvalue );
+    }
+
+    /***********************************************************************************
+     * object type: std::vector<T*>**
+     ***********************************************************************************/
+    template<class T>
+    static void FromJson( std::vector<T*> **object, const json::value &jvalue )
+    {
+        std::cout << "Deserializing object: type = vector<T*>*" << std::endl;
+
+        using Type = typename Remove_CVR<T>::Type;
+
+        *object = new std::vector<T*>();
+
+        for ( const auto &arrItem : jvalue.as_array() )
+        {
+            Type *var = new Type();
+            FromJson( var, arrItem );
+            ( *object )->push_back( var );
+        }
+    }
+
+
+    /***********************************************************************************
+     * object type: std::vector<T>*
+     ***********************************************************************************/
+    template<class T>
+    static void FromJson( std::vector<T> *object, const json::value &jvalue )
+    {
+        std::cout << "Deserializing object: type = vector<T>*" << std::endl;
+
+        using Type = typename Remove_CVR<T>::Type;
+
+        for ( const auto &arrItem : jvalue.as_array() )
+        {
+            Type var = Type();
+            FromJson( var, arrItem );
+            object->push_back( var );
+        }
+    }
+
+    /***********************************************************************************
+     * object type: std::vector<T>&
+     ***********************************************************************************/
+    template<class T>
+    static void FromJson( std::vector<T> &object, const json::value &jvalue )
+    {
+        std::cout << "Deserializing object: type = vector<T>&" << std::endl;
+
+        FromJson( &object, jvalue );
+    }
+
+    /***********************************************************************************
+     * object type: std::vector<T>**
+     ***********************************************************************************/
+    template<class T>
+    static void FromJson( std::vector<T> **object, const json::value &jvalue )
+    {
+        std::cout << "Deserializing object: type = vector<T>*" << std::endl;
+
+        using Type = typename Remove_CVR<T>::Type;
+
+        *object = new std::vector<T>();
+
+        for ( const auto &arrItem : jvalue.as_array() )
+        {
+            Type var = Type();
+            FromJson( var, arrItem );
+            ( *object )->push_back( var );
+        }
+    }
+
+};
+
+} //namspace Json
+
+#endif //DESERIALIZER_H
