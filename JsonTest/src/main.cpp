@@ -17,6 +17,8 @@
 
 using namespace std;
 
+// running all test cases
+
 int main( int argc, char **argv )
 {
     std::cout << "Running Json testing..." << std::endl;
