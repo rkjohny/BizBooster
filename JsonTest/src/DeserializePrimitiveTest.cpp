@@ -10,6 +10,8 @@
 #include <cpprest/json.h>
 #include "Json.h"
 
+
+// test of deserialization of premitive types
 namespace JsonTest
 {
 namespace TestDeserializer
