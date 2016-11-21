@@ -11,6 +11,8 @@
 #include "Json.h"
 #include <vector>
 
+
+// test of deserialization of std::vector
 namespace JsonTest
 {
 namespace TestDeserializer
