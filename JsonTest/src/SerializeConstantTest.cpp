@@ -18,6 +18,9 @@ using namespace web;
 using namespace std;
 using namespace Json;
 
+
+//deserializing an object containing constant data
+
 namespace JsonTest
 {
 namespace TestSerializer
