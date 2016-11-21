@@ -14,6 +14,7 @@
 #include <vector>
 #include "TestSerializableBase.h"
 
+// deserializaion of object test
 namespace JsonTest
 {
 namespace TestDeserializer
