@@ -10,7 +10,7 @@
 #include <gtest/gtest.h>
 #include <cpprest/json.h>
 #include <string>
-#include "Json.h"
+#include "BizBooster/Json/Json.h"
 
 using namespace web;
 using namespace std;

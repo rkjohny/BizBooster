@@ -9,9 +9,9 @@
 
 #include <gtest/gtest.h>
 #include <cpprest/json.h>
-#include "Json.h"
-#include "Setter.h"
 #include <vector>
+#include "BizBooster/Json/Json.h"
+#include "BizBooster/Json/Setter.h"
 #include "TestSerializableBase.h"
 
 // deserializaion of object test

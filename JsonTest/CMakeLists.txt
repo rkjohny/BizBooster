@@ -13,10 +13,20 @@ include_directories(${PROJECT_INCLUDE_DIR})
 message("JSON_TEST_INCCUDE_DIR = ${PROJECT_INCLUDE_DIR}")
 
 # Locate GTest
-find_package(GTest REQUIRED)
+find_package(${LIB_GTEST} REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
 message("GTEST_LIBRARIES= ${GTEST_LIBRARIES}")
 message("GTEST_INCLUDE_DIRS = ${GTEST_INCLUDE_DIRS}")
+
+# Locate cpprest
+find_library(CPP_REST_LIBRARIES ${LIB_CPP_REST} REQUIRED)
+message ("CPP_REST_LIBRARIES = ${CPP_REST_LIBRARIES}")
+
+
+if (NOT ${CPP_REST_LIBRARIES})
+    message("error: no cpprest installation found.")
+endif()
+
 
 # include libJson header files
 include_directories(${LIB_JSON_INCLUDE_DIR})
@@ -42,8 +52,8 @@ ${PROJECT_SOURCE_DIR}/DeserializeDrivedClassTest.cpp
 ${PROJECT_SOURCE_DIR}/SerializeDoublePointerTest.cpp
 )
 
-# setting search path for libJson and libcpprest libraries
-link_directories(${PROJECT_BINARY_DIR} ${CPP_REST_INSTALLATION_DIR}/lib)
+# setting search path for libJson
+link_directories(${PROJECT_BINARY_DIR})
 
 # creating JonTest target
 add_executable(${PROJECT_NAME} ${JSON_TEST_SRCS})
@@ -53,7 +63,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_JSON})
 
 # linking imported libcpprest library as dependencies
 #target_link_libraries(JsonUnitTest PUBLIC /usr/local/lib/libcpprest.so)
-target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_CPP_REST})
+target_link_libraries(${PROJECT_NAME} PUBLIC ${CPP_REST_LIBRARIES})
 
 # link goole test and pthread
 target_link_libraries(${PROJECT_NAME} ${GTEST_LIBRARIES} pthread)
