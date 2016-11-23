@@ -4,7 +4,6 @@
  *      Author: rezaul
  *
  * Copyright (C) 2016 Rezaul Karim, rkjohny@gmail.com. All rights reserved.
- * Nobody should use this file without taking written permission from the author.
  */
 
 #include "AbstractHelper.h"
@@ -13,11 +12,12 @@
 #include "AppException.h"
 #include "AppFactory.h"
 
-namespace Api {
+namespace Api
+{
 using namespace Common;
 
 AbstractHelper::AbstractHelper() :
-        m_output( nullptr ), m_input( nullptr )
+    m_output( nullptr ), m_input( nullptr )
 {
 }
 
@@ -37,15 +37,16 @@ BaseOutput* AbstractHelper::Execute()
         Initialize();
         CheckPermission();
         ExecuteHelper();
-    } catch ( AppException& e )
+    }
+    catch ( AppException& e )
     {
-        LOG_ERROR(
-                "API: " + m_input->ApiName() + " failed with with error: [" + e.ToString() + "]" );
-    } catch ( exception& e )
+        LOG_ERROR( "API: " + m_input->ApiName() +
+                   " failed with with error: [" + e.ToString() + "]" );
+    }
+    catch ( exception& e )
     {
-        LOG_ERROR(
-                "API: " + m_input->ApiName() + " failed with with error: ["
-                        + AppException( e ).ToString() + "]" );
+        LOG_ERROR( "API: " + m_input->ApiName() + " failed with with error: [" +
+                   AppException( e ).ToString() + "]" );
     }
 
     // the output must be deleted by caller

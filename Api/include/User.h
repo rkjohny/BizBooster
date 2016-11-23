@@ -4,7 +4,6 @@
  *      Author: rezaul
  *
  * Copyright (C) 2016 Rezaul Karim, rkjohny@gmail.com. All rights reserved.
- * Nobody should use this file without taking written permission from the author.
  */
 
 #ifndef USER_H_
@@ -13,7 +12,8 @@
 #include <string>
 #include "Serializeable.h"
 
-namespace Api {
+namespace Api
+{
 using namespace std;
 using namespace Common;
 

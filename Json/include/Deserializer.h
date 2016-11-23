@@ -152,7 +152,7 @@ private:
         auto name = setter.name;
         auto fp = setter.fp;
 
-        cout << "Found a setter with name: " << name << std::endl;
+        std::cout << "Found a setter with name: " << name << std::endl;
         bool found = false;
 
         if ( jvalue.has_field( U( name ) ) )

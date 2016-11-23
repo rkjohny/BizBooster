@@ -4,7 +4,6 @@
  *      Author: rezaul
  *
  * Copyright (C) 2016 Rezaul Karim, rkjohny@gmail.com. All rights reserved.
- * Nobody should use this file without taking written permission from the author.
  */
 
 #ifndef REGISTERUSERHELPER_H_
@@ -12,7 +11,8 @@
 
 #include "AbstractHelper.h"
 
-namespace Api {
+namespace Api
+{
 
 //TODO: FOrward declaration
 class RegisterUserInput;

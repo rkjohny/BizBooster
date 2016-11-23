@@ -4,7 +4,6 @@
  *      Author: rezaul
  *
  * Copyright (C) 2016 Rezaul Karim, rkjohny@gmail.com. All rights reserved.
- * Nobody should use this file without taking written permission from the author.
  */
 
 #include "RegisterUserInput.h"
@@ -14,11 +13,12 @@
 
 #define REGISTER_USER_API_NAME "register_user"
 
-namespace Api {
+namespace Api
+{
 
 RegisterUserInput::RegisterUserInput() :
-        m_age( 0 ), m_price( 0 ), m_isValid( false ), user( nullptr ), users( nullptr ), emails(
-                nullptr )
+    m_age( 0 ), m_price( 0 ), m_isValid( false ),
+    user( nullptr ), users( nullptr ), emails( nullptr )
 {
     m_className = "RegisterUserInput";
     m_apiName = REGISTER_USER_API_NAME;

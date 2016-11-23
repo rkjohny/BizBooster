@@ -4,7 +4,6 @@
  *      Author: rezaul
  *
  * Copyright (C) 2016 Rezaul Karim, rkjohny@gmail.com. All rights reserved.
- * Nobody should use this file without taking written permission from the author.
  */
 
 #ifndef REGISTERUSERINPUT_H_
@@ -19,7 +18,8 @@
 #include "SObjectFactory.h"
 #include "User.h"
 
-namespace Api {
+namespace Api
+{
 using namespace std;
 using namespace Common;
 

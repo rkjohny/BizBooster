@@ -9,7 +9,8 @@
 
 #include "RegisterUserInput.h"
 
-namespace Api {
+namespace Api
+{
 
 void LibApi::LoadLibrary()
 {

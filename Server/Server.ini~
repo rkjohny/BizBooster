@@ -1,0 +1,11 @@
+#Set the log file path
+#path must be seperated by platfor specific path seperator, example: for windows it is \\ for unix it is /
+#path must be ended with platfor specific path seperator
+LOG_FILE_PATH=E:\\MyWorks\\Works\\Project\\TradeX\\Log
+
+
+
+#Set the log level
+#0={ERROR}, 1={WARNING and ERROR}, 2={INFO, WARNING and ERROR}, 3={DEBUG, INFO, WARNING and ERROR}
+#default is 3, setting any illigal value will be ignored
+LOG_LEVEL=3

@@ -4,16 +4,16 @@
  *      Author: rezaul
  *
  * Copyright (C) 2016 Rezaul Karim, rkjohny@gmail.com. All rights reserved.
- * Nobody should use this file without taking written permission from the author.
  */
 
 #include "User.h"
 #include "RegisterClass.h"
 
-namespace Api {
+namespace Api
+{
 
 User::User() :
-        name( "" ), id( 0 )
+    name( "" ), id( 0 )
 {
 }
 

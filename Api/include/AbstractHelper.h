@@ -4,13 +4,13 @@
  *      Author: rezaul
  *
  * Copyright (C) 2016 Rezaul Karim, rkjohny@gmail.com. All rights reserved.
- * Nobody should use this file without taking written permission from the author.
  */
 
 #ifndef ABSTRACTHELPER_H_
 #define ABSTRACTHELPER_H_
 
-namespace Api {
+namespace Api
+{
 
 //TODO: Forward declaration
 class BaseOutput;

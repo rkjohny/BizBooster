@@ -4,7 +4,7 @@ project(BizBooster)
 
 message("Executing BizBooster::CMakeLists.txt")
 
-add_compile_options(-std=c++14)
+add_compile_options(-std=c++11)
 set(CMAKE_BUILD_TYPE Debug)
 
 # setting the output path
@@ -14,25 +14,84 @@ set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
+
 # list of all projects
 set(APP_NAME bizbooster)
 set(LIB_JSON json)
 set(LIB_JSON_TEST jsontester)
 set(LIB_COMMON common)
 set(LIB_API api)
+set(SERVER server)
+
 
 # third party library used
-set(LIB_CPP_REST cpprest)
-set(LIB_WITTY wt)
-set(LIB_GTEST GTest)
+set(CPPREST cpprest)
+set(WITTY wt)
+set(GTEST GTest)
+set(BOOST boost_system)
+set(SSL ssl)
+set(CRYPTO crypto)
+set(CRYPT crypt)
+
+# setting search path for librraies
+link_directories(${PROJECT_BINARY_DIR})
+
+# setting search path for external librraies
+#link_directories(/usr/local/lib/ /usr/lib/x86_64-linux-gnu/)
 
 
-# add Json first beacuse it will export the librray header location which will be used by JsonTest
+# Locate GTest
+find_package(${GTEST} REQUIRED)
+message("GTEST_LIBRARIES= ${GTEST_LIBRARIES}")
+message("GTEST_INCLUDE_DIRS = ${GTEST_INCLUDE_DIRS}")
+
+# find_package(Boost REQUIRED)
+# message("cpprest_LIBRARIES= ${Boost_LIBRARIES}")
+# message("cpprest_INCLUDE_DIRS = ${Boost_INCLUDE_DIRS}")
+
+
+# Locate cpprest
+find_library(LIB_CPP_REST ${CPPREST} REQUIRED)
+message ("LIB_CPP_REST = ${LIB_CPP_REST}")
+if (NOT LIB_CPP_REST)
+    message(FATAL_ERROR "cpprest library not found.")
+endif()
+
+# Locate libboost_system
+find_library(LIB_BOOST ${BOOST} REQUIRED)
+message ("LIB_BOOST = ${LIB_BOOST}")
+if (NOT LIB_BOOST)
+    message(FATAL_ERROR "boost librray not found.")
+endif()
+
+# Locate libssl
+find_library(LIB_SSL ${SSL} REQUIRED)
+message ("LIB_SSL = ${LIB_SSL}")
+if (NOT LIB_SSL)
+    message(FATAL_ERROR "libssl librray not found.")
+endif()
+
+# Locate libcrypyo
+find_library(LIB_CRYPTO ${CRYPTO} REQUIRED)
+message ("LIB_CRYPTO = ${LIB_CRYPTO}")
+if (NOT LIB_CRYPTO)
+    message(FATAL_ERROR "libcrypto librray not found.")
+endif()
+
+
+# Locate libcrypyo
+find_library(LIB_CRYPT ${CRYPT} REQUIRED)
+message ("LIB_CRYPT = ${LIB_CRYPT}")
+if (NOT LIB_CRYPT)
+    message(FATAL_ERROR "libcrypt librray not found.")
+endif()
+
+# add Json, common and Api first beacuse they will export the librray header locations which will be used by JsonTest, Server and Client
 add_subdirectory(Json)
 add_subdirectory(JsonTest)
 add_subdirectory(Common)
 add_subdirectory(Api)
-
+add_subdirectory(Server)
 
 
 # setting linking dependices explecitely
