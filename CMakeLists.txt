@@ -19,6 +19,7 @@ set(APP_NAME bizbooster)
 set(LIB_JSON json)
 set(LIB_JSON_TEST jsontester)
 set(LIB_COMMON common)
+set(LIB_API api)
 
 # third party library used
 set(LIB_CPP_REST cpprest)
@@ -30,6 +31,9 @@ set(LIB_GTEST GTest)
 add_subdirectory(Json)
 add_subdirectory(JsonTest)
 add_subdirectory(Common)
+add_subdirectory(Api)
+
+
 
 # setting linking dependices explecitely
 # add_dependencies(JsonTest Json)
