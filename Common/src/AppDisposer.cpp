@@ -7,7 +7,7 @@
  * Nobody should use this file without taking written permission from the author.
  */
 
-#include "BizBooster/Common/AppDisposer.h"
+#include "AppDisposer.h"
 
 namespace Common
 {

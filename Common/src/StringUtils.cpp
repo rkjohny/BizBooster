@@ -5,7 +5,7 @@
  *      Author: rezaul
  */
 
-#include "BizBooster/Common/StringUtils.h"
+#include "StringUtils.h"
 
 #define USE_C_FUNCTION 1
 

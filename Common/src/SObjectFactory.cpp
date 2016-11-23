@@ -7,7 +7,7 @@
  * Nobody should use this file without taking written permission from the author.
  */
 
-#include "BizBooster/Common/SObjectFactory.h"
+#include "SObjectFactory.h"
 
 namespace Common
 {

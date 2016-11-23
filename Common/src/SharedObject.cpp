@@ -5,7 +5,7 @@
  *      Author: rezaul
  */
 
-#include "BizBooster/Common/SharedObject.h"
+#include "SharedObject.h"
 
 namespace Common
 {

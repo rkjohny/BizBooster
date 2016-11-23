@@ -5,7 +5,7 @@
  *      Author: rezaul
  */
 
-#include "BizBooster/Common/OSTDStream.h"
+#include "OSTDStream.h"
 #include <iostream>
 
 namespace Common

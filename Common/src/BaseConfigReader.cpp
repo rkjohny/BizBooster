@@ -6,9 +6,9 @@
  */
 
 #include <fstream>
-#include "BizBooster/Common/BaseConfigReader.h"
-#include "BizBooster/Common/StringUtils.h"
-#include "BizBooster/Common/AppConstant.h"
+#include "BaseConfigReader.h"
+#include "StringUtils.h"
+#include "AppConstant.h"
 
 namespace Common
 {

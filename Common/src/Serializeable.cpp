@@ -7,7 +7,7 @@
  * Nobody should use this file without taking written permission from the author.
  */
 
-#include "BizBooster/Common/Serializeable.h"
+#include "Serializeable.h"
 
 namespace Common
 {

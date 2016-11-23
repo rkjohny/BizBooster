@@ -5,7 +5,7 @@
  *      Author: rezaul
  */
 
-#include "BizBooster/Common/OStream.h"
+#include "OStream.h"
 
 namespace Common
 {

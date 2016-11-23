@@ -5,7 +5,7 @@
  *      Author: rezaul
  */
 
-#include "BizBooster/Common/Disposable.h"
+#include "Disposable.h"
 
 namespace Common
 {

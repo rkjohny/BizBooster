@@ -5,8 +5,8 @@
  *      Author: rezaul
  */
 
-#include "BizBooster/Common/AppException.h"
-#include "BizBooster/Common/StringUtils.h"
+#include "AppException.h"
+#include "StringUtils.h"
 
 namespace Common
 {

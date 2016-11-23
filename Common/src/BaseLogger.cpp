@@ -5,9 +5,9 @@
  *      Author: rezaul
  */
 
-#include "BizBooster/Common/BaseLogger.h"
-#include "BizBooster/Common/DateTimeUtils.h"
-#include "BizBooster/Common/FileUtility.h"
+#include "BaseLogger.h"
+#include "DateTimeUtils.h"
+#include "FileUtility.h"
 
 namespace Common
 {

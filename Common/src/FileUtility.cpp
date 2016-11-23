@@ -5,9 +5,9 @@
  *      Author: rezaul
  */
 
-#include "BizBooster/Common/FileUtility.h"
-#include "BizBooster/Common/StringUtils.h"
-#include "BizBooster/Common/AppConstant.h"
+#include "FileUtility.h"
+#include "StringUtils.h"
+#include "AppConstant.h"
 
 namespace Common
 {

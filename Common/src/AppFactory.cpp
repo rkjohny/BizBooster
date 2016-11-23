@@ -5,7 +5,7 @@
  *      Author: rezaul
  */
 
-#include "BizBooster/Common/AppFactory.h"
+#include "AppFactory.h"
 
 namespace Common
 {
