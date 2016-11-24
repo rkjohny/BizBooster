@@ -26,7 +26,7 @@ else()
     file(GLOB CLIENT_SOURCES ${PROJECT_SOURCE_DIR}/*.cpp)
 
     #creating target server
-    add_executable(${PROJECT_NAME} ${CLIENT_SOURCES})
+    add_executable(${PROJECT_NAME} ${CLIENT_SOURCES} ${PROJECT_INCLUDE_DIR})
 
     # linking libcommon library as dependencies
     target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_COMMON})

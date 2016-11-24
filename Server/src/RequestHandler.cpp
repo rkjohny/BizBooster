@@ -1,21 +1,16 @@
 #include "RequestHandler.h"
-#include "BaseInput.h"
-#include "Deserializer.h"
+#include "ApiExecutor.h"
+#include "AppConstant.h"
 #include "AppFactory.h"
-#include "BaseOutput.h"
 
-#include <string>
-#include <cpprest/asyncrt_utils.h>
+#include <exception>
 #include <cpprest/json.h>
-
+#include <pplx/pplxtasks.h>
+#include <AppConstant.h>
 
 using namespace Server;
-using namespace Api;
-using namespace Common;
 
-
-
-void RequestHandler:: HandleGetRequest( web::http::http_request& request )
+void RequestHandler::HandleGetRequest( web::http::http_request& request )
 {
 
 }
@@ -34,7 +29,36 @@ void RequestHandler::HandlePostRequest( web::http::http_request& request )
     {
         try
         {
-            web::json::value&& jvalue = task.get();
+            web::json::value jrequest = task.get();
+            web::json::value jresponse;
+
+            if (!jrequest.is_null() && jrequest.is_object())
+            {
+                if (!jrequest.is_array())
+                {
+                    const web::json::value &jvalApi = jrequest.at(JSON_API);
+                    const web::json::value &jvalData = jrequest.at(JSON_DATA);
+
+                    if (!jvalApi.is_null() && !jvalData.is_null() &&
+                        jvalApi.is_string() && jvalData.is_object())
+                    {
+                        jresponse = ApiExecutor::ExecuteSingleApi(jrequest);
+                    }
+                    else
+                    {
+                        //TODO: handle bad request
+                    }
+                }
+                else
+                {
+                    // TODO: handle agregate api
+                }
+            }
+            else
+            {
+                //TODO: handle bad request
+            }
+
 
 // 			Serializeable* sObject = Deserializer::Deserialize ( jvalue );
 // 			BaseInput* input = dynamic_cast<BaseInput*> (sObject);
@@ -57,7 +81,7 @@ void RequestHandler::HandlePostRequest( web::http::http_request& request )
             //delete out;
 
         }
-        catch ( exception e )
+        catch ( std::exception e )
         {
             LOG_ERROR( e.what() );
         }

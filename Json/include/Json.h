@@ -81,13 +81,13 @@ json::value ToJson( T  **object )
 
 /************************** Deserializing *************************/
 template<class T>
-void FromJson( T &object, json::value &jvalue )
+void FromJson( T &object, const json::value &jvalue )
 {
     Deserializer::FromJson( object, jvalue );
 }
 
 template<class T>
-void FromJson( T *object, json::value &jvalue )
+void FromJson( T *object, const json::value &jvalue )
 {
     //std::cout << "Json::FromJson T*" <<std::endl;
     Deserializer::FromJson( object, jvalue );

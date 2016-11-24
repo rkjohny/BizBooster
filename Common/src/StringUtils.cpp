@@ -152,5 +152,15 @@ void StringUtils::ToLower( string& str )
     transform( str.begin(), str.end(), str.begin(), ::tolower );
 }
 
+int StringUtils::Compare(std::string first, std::string second, bool ignore_case)
+{
+    if(ignore_case)
+    {
+        StringUtils::ToLower(first);
+        StringUtils::ToLower(second);
+    }
+    return first.compare(second);
+}
+
 } /* namespace Common */
 

@@ -11,13 +11,13 @@
 #include "BaseLogger.h"
 #include "BaseConfigReader.h"
 
-#define LOG_DEBUG(message) AppFactory::GetLogger()->Debug(__FILE__,message);
-#define LOG_INFO(message) AppFactory::GetLogger()->Info(__FILE__,message);
-#define LOG_WARNING(message) AppFactory::GetLogger()->Warning(__FILE__,message);
-#define LOG_ERROR(message) AppFactory::GetLogger()->Error(__FILE__,message);
+#define LOG_DEBUG(message) Common::AppFactory::GetLogger()->Debug(__FILE__,message);
+#define LOG_INFO(message) Common::AppFactory::GetLogger()->Info(__FILE__,message);
+#define LOG_WARNING(message) Common::AppFactory::GetLogger()->Warning(__FILE__,message);
+#define LOG_ERROR(message) Common::AppFactory::GetLogger()->Error(__FILE__,message);
 
-#define CONFIG_VALUE(key) AppFactory::GetConfigReader()->GetValueOf(key)
-#define PROPERTY_VALUE(key) AppFactory::GetPropertyReader()->GetValueOf(key)
+#define CONFIG_VALUE(key) Common::AppFactory::GetConfigReader()->GetValueOf(key)
+#define PROPERTY_VALUE(key) Common::AppFactory::GetPropertyReader()->GetValueOf(key)
 
 namespace Common {
 

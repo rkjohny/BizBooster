@@ -11,6 +11,7 @@
 
 #include "ApiError.h"
 #include "Serializeable.h"
+#include "Json.h"
 
 namespace Api
 {
@@ -27,6 +28,12 @@ public:
 
 private:
     ApiError m_error;
+
+    REGISTER_GETTER_START
+    REGISTER_GETTER_END
+
+    REGISTER_SETTER_START
+    REGISTER_SETTER_END
 };
 
 } /* namespace Api */

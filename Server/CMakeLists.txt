@@ -32,7 +32,7 @@ else()
     file(GLOB SERVER_SOURCES ${PROJECT_SOURCE_DIR}/*.cpp)
 
     #creating target server
-    add_executable(${PROJECT_NAME} ${SERVER_SOURCES})
+    add_executable(${PROJECT_NAME} ${SERVER_SOURCES} ${PROJECT_INCLUDE_DIR})
 
     # linking libapi library as dependencies
     target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_API})

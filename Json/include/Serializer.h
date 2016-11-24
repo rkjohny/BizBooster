@@ -85,7 +85,7 @@ private:
     }
 
     template<std::size_t iteration, class T>
-    typename std::enable_if < ( iteration > 0 ), void >::type
+    typename std::enable_if < ( iteration > 0 && iteration < UINT64_MAX), void >::type
     static Serialize( T* object, json::value &jvalue )
     {
         DoSerialize<iteration, T>( object, jvalue );
@@ -98,6 +98,16 @@ private:
     static Serialize( T* object, json::value &jvalue )
     {
         DoSerialize<iteration, T>( object, jvalue );
+    }
+
+    /**
+     * what craps!! when the length of getters is 0 it tryes to compile with length -1 which is UINT64_MAX
+     * stop iterating
+     */
+    template<std::size_t iteration, class T>
+    typename std::enable_if<( iteration == UINT64_MAX ), void>::type
+    static Serialize( T* object, json::value &jvalue )
+    {
     }
 
 
@@ -286,11 +296,20 @@ public:
     static ToJson( const T &&object )
     {
         cout << "Serializing object: type = class{}&&" << endl;
-        json::value jvalue;
+        json::value jvalue = json::value::object();
 
         using ObjectType = typename Remove_CVRP<T>::Type;
         auto getters = ObjectType::getters;
-        Serialize < std::tuple_size<decltype( getters )>::value - 1 > ( &object, jvalue );
+        const auto length = std::tuple_size<decltype( getters )>::value;
+        if (length > 0)
+        {
+            Serialize < length - 1 > ( &object, jvalue );
+        }
+        else
+        {
+            //return json::value::null();
+        }
+
         return jvalue;
     }
 
@@ -303,7 +322,16 @@ public:
 
         using ObjectType = typename Remove_CVRP<T>::Type;
         auto getters = ObjectType::getters;
-        Serialize < std::tuple_size<decltype( getters )>::value - 1 > ( &object, jvalue );
+        const auto length = std::tuple_size<decltype( getters )>::value;
+        if (length > 0)
+        {
+            Serialize < length - 1 > ( &object, jvalue );
+        }
+        else
+        {
+            //return json::value::null();
+        }
+
         return jvalue;
     }
 

@@ -24,6 +24,9 @@ set(JSON_TEST_SRCS
 ${PROJECT_INCLUDE_DIR}/TestSerializableBase.h
 
 ${PROJECT_SOURCE_DIR}/main.cpp
+
+${PROJECT_SOURCE_DIR}/EmptyClassTest.cpp
+
 ${PROJECT_SOURCE_DIR}/TypeTraitsTest.cpp
 ${PROJECT_SOURCE_DIR}/SerializePremitiveTest.cpp
 ${PROJECT_SOURCE_DIR}/SerializeVectorTest.cpp
@@ -37,6 +40,7 @@ ${PROJECT_SOURCE_DIR}/DeserializePOD.cpp
 ${PROJECT_SOURCE_DIR}/DeserializeVectorTest.cpp
 ${PROJECT_SOURCE_DIR}/DeserializeDrivedClassTest.cpp
 ${PROJECT_SOURCE_DIR}/SerializeDoublePointerTest.cpp
+
 )
 
 

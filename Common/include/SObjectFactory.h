@@ -23,8 +23,8 @@ using namespace std;
 class SObjectFactory
 {
 public:
-    static Serializeable* CreateObject( const string& key );
-    static vector< Serializeable* >* CreateObjectArray( const string& key, const size_t size );
+    static Serializeable* CreateObject( string key );
+    static vector< Serializeable* >* CreateObjectArray( string key, const size_t size );
 
 protected:
     SObjectFactory() = default;

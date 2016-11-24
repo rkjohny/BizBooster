@@ -51,6 +51,8 @@ public:
     static string GetTabLineStr();
 
     static void ToLower( string& str );
+
+    static int Compare(std::string first, std::string second, bool ignore_case = false);
 };
 
 } /* namespace Common */

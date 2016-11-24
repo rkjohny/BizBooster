@@ -141,7 +141,8 @@ private:
      * call the setter to set the value to the object'c property.
      */
     template<size_t iteration, class T>
-    static void DeDeserialize( T *object, const json::value &jvalue )
+    typename std::enable_if< (iteration >= 0), void>::type
+    static DeDeserialize( T *object, const json::value &jvalue )
     {
         using Type = typename Remove_CVR<T>::Type;
         auto setters = Type::setters;
@@ -177,7 +178,7 @@ private:
      * execute the setter at position greater than 0
      */
     template<size_t iteration, class T>
-    typename std::enable_if < ( iteration > 0 ), void >::type
+    typename std::enable_if < ( iteration > 0 && iteration < UINT64_MAX), void >::type
     static Deserialize( T *object, const json::value &jvalue )
     {
         DeDeserialize<iteration> ( object, jvalue );
@@ -193,6 +194,16 @@ private:
     static Deserialize( T *object, const json::value &jvalue )
     {
         DeDeserialize<iteration> ( object, jvalue );
+    }
+
+    /**
+     * what craps!! when the length of setters is 0 it tryes to compile with length -1 which is UINT64_MAX
+     * stop iterating
+     */
+    template<size_t iteration, class T>
+    typename std::enable_if< ( iteration == UINT64_MAX ), void>::type
+    static Deserialize( T *object, const json::value &jvalue )
+    {
     }
 
 public:
@@ -553,11 +564,16 @@ public:
 
         using Type = typename Remove_CVR<T>::Type;
         auto setters = Type::setters;
-        Deserialize < std::tuple_size<decltype( setters ) >::value - 1 > ( object, jvalue );
+        //Deserialize < std::tuple_size<decltype( setters ) >::value - 1 > ( object, jvalue );
+        const auto length = std::tuple_size<decltype( setters ) >::value;
+        if (length > 0 )
+        {
+            Deserialize < length - 1 > ( object, jvalue );
+        }
     }
 
     /***********************************************************************************
-     * object type: userdefined class{}&
+     * object type: user defined class{}&
      ***********************************************************************************/
     template<class T>
     typename std::enable_if<Is_Object<T>::Value, void>::type
@@ -569,7 +585,7 @@ public:
     }
 
     /***********************************************************************************
-     * object type: userdefined class{}**
+     * object type: user defined class{}**
      ***********************************************************************************/
     template<class T>
     typename std::enable_if<Is_Object<T>::Value, void>::type
@@ -578,10 +594,15 @@ public:
         std::cout << "Deserializing object: type = class{}**" << std::endl;
 
         using Type = typename Remove_CVR<T>::Type;
-
         *object = new Type();
-        auto setters = Type::setters;
-        Deserialize < std::tuple_size<decltype( setters ) >::value - 1 > ( *object, jvalue );
+        FromJson(*object, jvalue);
+
+//         auto setters = Type::setters;
+//         const size_t length = std::tuple_size<decltype( setters ) >::value;
+//         if (length > 0 )
+//         {
+//             Deserialize < length - 1 > ( *object, jvalue );
+//         }
     }
 
 
@@ -625,15 +646,15 @@ public:
         std::cout << "Deserializing object: type = vector<T*>*" << std::endl;
 
         using Type = typename Remove_CVR<T>::Type;
-
         *object = new std::vector<T*>();
+        FromJson(*object, jvalue);
 
-        for ( const auto &arrItem : jvalue.as_array() )
-        {
-            Type *var = new Type();
-            FromJson( var, arrItem );
-            ( *object )->push_back( var );
-        }
+//         for ( const auto &arrItem : jvalue.as_array() )
+//         {
+//             Type *var = new Type();
+//             FromJson( var, arrItem );
+//             ( *object )->push_back( var );
+//         }
     }
 
 
@@ -675,15 +696,15 @@ public:
         std::cout << "Deserializing object: type = vector<T>*" << std::endl;
 
         using Type = typename Remove_CVR<T>::Type;
-
         *object = new std::vector<T>();
+        FromJson(*object, jvalue);
 
-        for ( const auto &arrItem : jvalue.as_array() )
-        {
-            Type var = Type();
-            FromJson( var, arrItem );
-            ( *object )->push_back( var );
-        }
+//         for ( const auto &arrItem : jvalue.as_array() )
+//         {
+//             Type var = Type();
+//             FromJson( var, arrItem );
+//             ( *object )->push_back( var );
+//         }
     }
 
 };

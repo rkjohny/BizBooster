@@ -11,6 +11,7 @@
 
 #include <string>
 #include "Serializeable.h"
+#include "Json.h"
 
 namespace Api
 {
@@ -27,6 +28,12 @@ public:
 
     virtual BaseOutput* Process() = 0;
     virtual string ApiName() const = 0;
+
+    REGISTER_GETTER_START
+    REGISTER_GETTER_END
+
+    REGISTER_SETTER_START
+    REGISTER_SETTER_END
 };
 
 } /* namespace Api */

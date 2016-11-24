@@ -18,14 +18,13 @@ SObjectFactory::ListCreators SObjectFactory::cm_objectCreators;
 mutex SObjectFactory::cm_mutexArr;
 SObjectFactory::ListCreatorsArr SObjectFactory::cm_objectArrayCreators;
 
-Serializeable* SObjectFactory::CreateObject( const string& key )
+Serializeable* SObjectFactory::CreateObject( string key )
 {
     Serializeable* p = nullptr;
-    string lowerKey = key;
-    StringUtils::ToLower( lowerKey );
+    StringUtils::ToLower( key );
 
     cm_mutex.lock();
-    ListCreators::iterator itr = cm_objectCreators.find( lowerKey );
+    ListCreators::iterator itr = cm_objectCreators.find( std::move(key) );
     if ( itr != cm_objectCreators.end() )
     {
         p = itr->second();
@@ -35,14 +34,13 @@ Serializeable* SObjectFactory::CreateObject( const string& key )
     return p;
 }
 
-vector< Serializeable* >* SObjectFactory::CreateObjectArray( const string& key, const size_t size )
+vector< Serializeable* >* SObjectFactory::CreateObjectArray(string key, const size_t size )
 {
     vector< Serializeable* >* v = nullptr;
-    string lowerKey = key;
-    StringUtils::ToLower( lowerKey );
+    StringUtils::ToLower( key );
 
     cm_mutexArr.lock();
-    ListCreatorsArr::iterator itr = cm_objectArrayCreators.find( lowerKey );
+    ListCreatorsArr::iterator itr = cm_objectArrayCreators.find( std::move(key) );
     if ( itr != cm_objectArrayCreators.end() )
     {
         v = itr->second( size );
