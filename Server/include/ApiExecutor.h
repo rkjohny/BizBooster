@@ -9,6 +9,9 @@
 #ifndef API_EXECUTOR_H
 #define API_EXECUTOR_H
 
+#include "ApiCode.h"
+#include "BaseInput.h"
+
 #include <cpprest/json.h>
 
 namespace Server
@@ -18,9 +21,12 @@ class ApiExecutor
 {
 public:
     static web::json::value ExecuteSingleApi(const web::json::value &jrequest);
+
+    template<Api::ApiCode api_code>
+    static web::json::value ExecuteApi( Api::BaseInput* binput, const web::json::value& jdata );
 };
 
 
-} // namespace Broker
+} // namespace Server
 
-#endif // BROKER_H
+#endif // API_EXECUTOR_H

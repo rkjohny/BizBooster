@@ -10,7 +10,7 @@
 #define APIERROR_H_
 
 #include <string>
-#include "AppConstant.h"
+#include "ApiCode.h"
 
 namespace Api
 {

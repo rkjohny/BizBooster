@@ -58,28 +58,6 @@ void RequestHandler::HandlePostRequest( web::http::http_request& request )
             {
                 //TODO: handle bad request
             }
-
-
-// 			Serializeable* sObject = Deserializer::Deserialize ( jvalue );
-// 			BaseInput* input = dynamic_cast<BaseInput*> (sObject);
-// 			BaseOutput *outPut = NULL;
-//
-// 			if (input != NULL) {
-// 				std::shared_ptr<BaseInput> entityObj ( input );
-// 				outPut = input->Process();
-// 			}
-//
-// 			if (outPut != NULL) {
-//
-// 			}
-
-            //std::shared_ptr<BaseOutput> output ( input->Process() );
-            //std::shared_ptr<BaseOutput> output2 ( ServiceFacade::RegisterUser ( dynamic_cast<RegisterUserInput*>( input.get() ) ) );
-            //RegisterUserInput* in = new RegisterUserInput();
-            //RegisterUserOutput* out = new RegisterUserOutput();
-            //delete in;
-            //delete out;
-
         }
         catch ( std::exception e )
         {

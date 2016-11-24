@@ -40,19 +40,14 @@
 #define JSON_DATA U("@data")
 
 
-enum ApiReturnCode
-{
-    SUCCESS = 200,
-    UN_KNOWN = -1,
-    NOT_IMPLEMENTED = -2,
-    COULD_NOT_OPEN_FILE = -3,
-    INVALID_ARGUMENT = -4,
-    INVALID_REQUEST_DATA = -5
-};
+#define UNKNOWN_ERROR -0x1000
 
-enum HttpResposeCode
+enum AppErrorCode
 {
-    OK = 200, NOT_FOUND = 404
+    UN_KNOWN = UNKNOWN_ERROR,
+    NOT_IMPLEMENTED = -0x1001,
+    COULD_NOT_OPEN_FILE = -0x1002,
+    INVALID_ARGUMENT = -0x1003
 };
 
 #endif

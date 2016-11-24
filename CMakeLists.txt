@@ -4,7 +4,7 @@ project(BizBooster)
 
 message("Executing BizBooster::CMakeLists.txt")
 
-add_compile_options(-std=c++11)
+add_compile_options(-std=c++1y)
 set(CMAKE_BUILD_TYPE Debug)
 
 # setting the output path

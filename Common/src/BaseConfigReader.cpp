@@ -84,14 +84,14 @@ void BaseConfigReader::LoadFile( const string& filename ) throw ( AppException )
         catch ( exception &e )
         {
             infs.close();
-            throw AppException( e, ApiReturnCode::COULD_NOT_OPEN_FILE,
+            throw AppException( e, AppErrorCode::COULD_NOT_OPEN_FILE,
                                 "Could not open file : " + filename );
         }
         infs.close();
     }
     catch ( exception &e )
     {
-        throw AppException( e, ApiReturnCode::COULD_NOT_OPEN_FILE,
+        throw AppException( e, AppErrorCode::COULD_NOT_OPEN_FILE,
                             "Could not open file : " + filename );
     }
 }

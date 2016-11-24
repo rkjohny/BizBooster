@@ -14,11 +14,11 @@ namespace Common
 AppException::AppException( const string& message ) :
     runtime_error( message.c_str() )
 {
-    m_code = ApiReturnCode::UN_KNOWN;
+    m_code = AppErrorCode::UN_KNOWN;
     m_message = message;
 }
 
-AppException::AppException( const ApiReturnCode& code, const string& message ) :
+AppException::AppException( const AppErrorCode& code, const string& message ) :
     runtime_error( message.c_str() )
 {
     m_code = code;
@@ -35,11 +35,11 @@ AppException::AppException( const AppException &e ) :
 AppException::AppException( const exception& e, const string& message ) :
     runtime_error( e.what() ? e.what() : message.c_str() )
 {
-    m_code = ApiReturnCode::UN_KNOWN;
+    m_code = AppErrorCode::UN_KNOWN;
     SetMessage( e, message );
 }
 
-AppException::AppException( const exception& e, const ApiReturnCode& code, const string& message ) :
+AppException::AppException( const exception& e, const AppErrorCode& code, const string& message ) :
     runtime_error( e.what() ? e.what() : message.c_str() )
 {
     m_code = code;
@@ -57,7 +57,7 @@ AppException& AppException::operator = ( AppException& e )
     return *this;
 }
 
-ApiReturnCode AppException::GetCode() const
+AppErrorCode AppException::GetCode() const
 {
     return m_code;
 }

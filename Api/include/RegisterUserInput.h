@@ -17,6 +17,7 @@
 #include "BaseInput.h"
 #include "SObjectFactory.h"
 #include "User.h"
+#include "Json.h"
 
 namespace Api
 {
@@ -68,6 +69,12 @@ private:
     vector< User * >* users;
 
     vector< string >* emails;
+
+    REGISTER_GETTER_START
+    REGISTER_GETTER_END
+
+    REGISTER_SETTER_START
+    REGISTER_SETTER_END
 };
 
 } /* namespace Api */
