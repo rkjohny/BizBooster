@@ -121,6 +121,7 @@ private:
 
     /**
      * calls the setter method with constant pointer type argument
+     * TODO: make first level const, i.e const ArgT* const*
      */
     template<class T, class B, class ArgT>
     static void SetData( T *object, void ( B::*SetterPtr )( const ArgT** ), const json::value &jvalue )
@@ -141,15 +142,14 @@ private:
      * call the setter to set the value to the object'c property.
      */
     template<size_t iteration, class T>
-    typename std::enable_if< (iteration >= 0), void>::type
-    static DeDeserialize( T *object, const json::value &jvalue )
+    static void DoDeserialize( T *object, const json::value &jvalue )
     {
         using Type = typename Remove_CVR<T>::Type;
         auto setters = Type::setters;
         auto setter = std::get<iteration> ( setters );
 
         using ClassT = typename Remove_CVR< typename decltype( setter ) ::Class >::Type;
-        using ArgT = typename decltype( setter ) ::Type;
+        //using ArgT = typename decltype( setter ) ::Type;
         auto name = setter.name;
         auto fp = setter.fp;
 
@@ -178,10 +178,10 @@ private:
      * execute the setter at position greater than 0
      */
     template<size_t iteration, class T>
-    typename std::enable_if < ( iteration > 0 && iteration < UINT64_MAX), void >::type
+    typename std::enable_if < ( iteration > 1 ), void >::type
     static Deserialize( T *object, const json::value &jvalue )
     {
-        DeDeserialize<iteration> ( object, jvalue );
+        DoDeserialize<iteration - 1> ( object, jvalue );
 
         Deserialize < iteration - 1 > ( object, jvalue );
     }
@@ -190,19 +190,19 @@ private:
      * execute the setter at position 0
      */
     template<size_t iteration, class T>
-    typename std::enable_if< ( iteration == 0 ), void>::type
+    typename std::enable_if< ( iteration == 1 ), void>::type
     static Deserialize( T *object, const json::value &jvalue )
     {
-        DeDeserialize<iteration> ( object, jvalue );
+        DoDeserialize<0> ( object, jvalue );
     }
 
     /**
-     * what craps!! when the length of setters is 0 it tryes to compile with length -1 which is UINT64_MAX
-     * stop iterating
+     * added to remove compile error.
+     * when setters length is 0, it will try to compile with iteration = 0
      */
     template<size_t iteration, class T>
-    typename std::enable_if< ( iteration == UINT64_MAX ), void>::type
-    static Deserialize( T *object, const json::value &jvalue )
+    typename std::enable_if< ( iteration == 0 ), void>::type
+    static Deserialize( T *, const json::value & )
     {
     }
 
@@ -212,7 +212,7 @@ public:
      */
     template<class T>
     typename std::enable_if<std::is_const<T>::value , void>::type
-    FromJson( T &object )
+    FromJson( T & )
     {
         static_assert( true, "object cannot be constant" );
     }
@@ -222,7 +222,7 @@ public:
      */
     template<class T>
     typename std::enable_if<std::is_const<T>::value , void>::type
-    FromJson( T *object )
+    FromJson( T * )
     {
         static_assert( true, "object pointer cannot be constant" );
     }
@@ -232,7 +232,7 @@ public:
      */
     template<class T>
     typename std::enable_if<std::is_array<T>::value , void>::type
-    FromJson( T &object )
+    FromJson( T & )
     {
         static_assert( true, "Deserialization of array is not supported." );
     }
@@ -564,16 +564,15 @@ public:
 
         using Type = typename Remove_CVR<T>::Type;
         auto setters = Type::setters;
-        //Deserialize < std::tuple_size<decltype( setters ) >::value - 1 > ( object, jvalue );
         const auto length = std::tuple_size<decltype( setters ) >::value;
-        if (length > 0 )
+        if (length > 0)
         {
-            Deserialize < length - 1 > ( object, jvalue );
+            Deserialize < length > ( object, jvalue );
         }
     }
 
     /***********************************************************************************
-     * object type: user defined class{}&
+     * object type: userdefined class{}&
      ***********************************************************************************/
     template<class T>
     typename std::enable_if<Is_Object<T>::Value, void>::type
@@ -585,7 +584,7 @@ public:
     }
 
     /***********************************************************************************
-     * object type: user defined class{}**
+     * object type: userdefined class{}**
      ***********************************************************************************/
     template<class T>
     typename std::enable_if<Is_Object<T>::Value, void>::type
@@ -595,14 +594,8 @@ public:
 
         using Type = typename Remove_CVR<T>::Type;
         *object = new Type();
-        FromJson(*object, jvalue);
 
-//         auto setters = Type::setters;
-//         const size_t length = std::tuple_size<decltype( setters ) >::value;
-//         if (length > 0 )
-//         {
-//             Deserialize < length - 1 > ( *object, jvalue );
-//         }
+        FromJson(*object, jvalue);
     }
 
 
@@ -645,16 +638,10 @@ public:
     {
         std::cout << "Deserializing object: type = vector<T*>*" << std::endl;
 
-        using Type = typename Remove_CVR<T>::Type;
+        //using Type = typename Remove_CVR<T>::Type;
         *object = new std::vector<T*>();
-        FromJson(*object, jvalue);
 
-//         for ( const auto &arrItem : jvalue.as_array() )
-//         {
-//             Type *var = new Type();
-//             FromJson( var, arrItem );
-//             ( *object )->push_back( var );
-//         }
+        FromJson(*object, jvalue);
     }
 
 
@@ -695,18 +682,11 @@ public:
     {
         std::cout << "Deserializing object: type = vector<T>*" << std::endl;
 
-        using Type = typename Remove_CVR<T>::Type;
+        //using Type = typename Remove_CVR<T>::Type;
         *object = new std::vector<T>();
+
         FromJson(*object, jvalue);
-
-//         for ( const auto &arrItem : jvalue.as_array() )
-//         {
-//             Type var = Type();
-//             FromJson( var, arrItem );
-//             ( *object )->push_back( var );
-//         }
     }
-
 };
 
 } //namspace Json

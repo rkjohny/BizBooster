@@ -34,7 +34,7 @@ else()
     # linking third party library dependencies
     target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_WITTY})
     target_link_libraries(${PROJECT_NAME} PUBLIC ${WITTY_HTTP})
-    target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_WITTY_FCGI})
+    #target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_WITTY_FCGI})
     target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_BOOST})
 
     configure_file(Client.ini ${EXECUTABLE_OUTPUT_PATH}/ COPYONLY UNIX)

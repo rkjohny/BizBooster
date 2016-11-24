@@ -74,7 +74,7 @@ private:
         using ObjectType = typename Remove_CVRP<T>::Type;
         constexpr auto getter = std::get<iteration>( ObjectType::getters );
         auto getterName = getter.name;
-        using GetterReturnType = typename decltype( getter )::Type;
+        //using GetterReturnType = typename decltype( getter )::Type;
         auto method = getter.fp;
 
         const auto &getterReturnedObject = ( object->*method )();
@@ -85,28 +85,28 @@ private:
     }
 
     template<std::size_t iteration, class T>
-    typename std::enable_if < ( iteration > 0 && iteration < UINT64_MAX), void >::type
+    typename std::enable_if < ( iteration > 1 ), void >::type
     static Serialize( T* object, json::value &jvalue )
     {
-        DoSerialize<iteration, T>( object, jvalue );
-        // next iteration
+        DoSerialize<iteration - 1, T>( object, jvalue );
+
         Serialize < iteration - 1, T > ( object, jvalue );
     }
 
     template<std::size_t iteration, class T>
-    typename std::enable_if<( iteration == 0 ), void>::type
+    typename std::enable_if<( iteration == 1 ), void>::type
     static Serialize( T* object, json::value &jvalue )
     {
-        DoSerialize<iteration, T>( object, jvalue );
+        DoSerialize<0, T>( object, jvalue );
     }
 
     /**
-     * what craps!! when the length of getters is 0 it tryes to compile with length -1 which is UINT64_MAX
-     * stop iterating
+     * added to remove compile error.
+     * when setters length is 0, it will try to compile with iteration = 0
      */
     template<std::size_t iteration, class T>
-    typename std::enable_if<( iteration == UINT64_MAX ), void>::type
-    static Serialize( T* object, json::value &jvalue )
+    typename std::enable_if<( iteration == 0 ), void>::type
+    static Serialize( T*, json::value& )
     {
     }
 
@@ -303,13 +303,8 @@ public:
         const auto length = std::tuple_size<decltype( getters )>::value;
         if (length > 0)
         {
-            Serialize < length - 1 > ( &object, jvalue );
+            Serialize < length > ( &object, jvalue );
         }
-        else
-        {
-            //return json::value::null();
-        }
-
         return jvalue;
     }
 
@@ -325,13 +320,8 @@ public:
         const auto length = std::tuple_size<decltype( getters )>::value;
         if (length > 0)
         {
-            Serialize < length - 1 > ( &object, jvalue );
+            Serialize < length > ( &object, jvalue );
         }
-        else
-        {
-            //return json::value::null();
-        }
-
         return jvalue;
     }
 

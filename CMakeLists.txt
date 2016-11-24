@@ -70,11 +70,11 @@ endif()
 
 
 # Locate witty fcgi
-find_library(LIB_WITTY_FCGI ${WITTY_FCGI} REQUIRED)
-message ("LIB_WITTY_FCGI = ${LIB_WITTY_FCGI}")
-if (NOT LIB_WITTY_FCGI)
-    message(FATAL_ERROR "wtfcgi library not found.")
-endif()
+# find_library(LIB_WITTY_FCGI ${WITTY_FCGI} REQUIRED)
+# message ("LIB_WITTY_FCGI = ${LIB_WITTY_FCGI}")
+# if (NOT LIB_WITTY_FCGI)
+#     message(FATAL_ERROR "wtfcgi library not found.")
+# endif()
 
 # Locate cpprest
 find_library(LIB_CPP_REST ${CPPREST} REQUIRED)

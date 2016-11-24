@@ -7,19 +7,17 @@
  *     Please refer to License.txt file for more details.
  */
 
-
 #include <gtest/gtest.h>
 #include <cpprest/json.h>
 #include <string>
-#include "Json.h"
 #include <tuple>
-#include <iostream>
-#include "TypeTratits.h"
+#include "Json.h"
 
 using namespace web;
 using namespace std;
 using namespace Json;
 
+// test deserialization of drived class
 
 namespace JsonTest
 {
@@ -33,41 +31,29 @@ class EmptyClass
     REGISTER_SETTER_END
 };
 
-TEST(EmptyClassTest, EmptyTest)
+TEST(EmptyClassTest, EmptyObject)
 {
-    json::value jvalue = json::value::null();
-
-    EmptyClass *emptyObject = new EmptyClass();
-
     using Type = typename Remove_CVR<EmptyClass>::Type;
     auto setters = Type::setters;
     auto getters = Type::setters;
-
     const size_t lengthGetter = std::tuple_size<decltype(getters)>::value;
     const size_t lengthSetter = std::tuple_size<decltype(setters)>::value;
-
     std::cout << "lengthGetter = " << lengthGetter << std::endl;
     std::cout << "lengthSetter = " << lengthSetter << std::endl;
-
     ASSERT_TRUE(lengthGetter == 0);
     ASSERT_TRUE(lengthSetter == 0);
 
-    Json::FromJson(emptyObject, jvalue);
+    EmptyClass *emptyObject = new EmptyClass();
+    json::value jvalue = json::value::null();
 
-    ASSERT_TRUE( jvalue.is_null() );
+    Json::FromJson(emptyObject, jvalue);
+    ASSERT_TRUE(jvalue.is_null());
 
     jvalue = Json::ToJson(emptyObject);
+    delete emptyObject;
 
-    ASSERT_FALSE( jvalue.is_null() );
-    ASSERT_TRUE( jvalue.is_object() );
-    bool isEmpty = true;
-    for(auto &item : jvalue.as_object())
-    {
-        isEmpty = false;
-    }
-    ASSERT_TRUE(isEmpty);
+    ASSERT_FALSE(jvalue.is_null());
+    ASSERT_TRUE(jvalue.is_object());
+    ASSERT_TRUE(jvalue.as_object().begin() == jvalue.as_object().end());
 }
-
 }
-
-
