@@ -22,16 +22,19 @@ set(LIB_JSON_TEST jsontester)
 set(LIB_COMMON common)
 set(LIB_API api)
 set(SERVER server)
+set(CLIENT client)
 
 
 # third party library used
 set(CPPREST cpprest)
-set(WITTY wt)
 set(GTEST GTest)
 set(BOOST boost_system)
 set(SSL ssl)
 set(CRYPTO crypto)
 set(CRYPT crypt)
+set(WITTY wt)
+set(WITTY_HTTP wthttp)
+set(WITTY_FCGI wtfcgi)
 
 # setting search path for librraies
 link_directories(${PROJECT_BINARY_DIR})
@@ -49,6 +52,29 @@ message("GTEST_INCLUDE_DIRS = ${GTEST_INCLUDE_DIRS}")
 # message("cpprest_LIBRARIES= ${Boost_LIBRARIES}")
 # message("cpprest_INCLUDE_DIRS = ${Boost_INCLUDE_DIRS}")
 
+
+# Locate witty
+find_library(LIB_WITTY ${WITTY} REQUIRED)
+message ("LIB_WITTY = ${LIB_WITTY}")
+if (NOT LIB_WITTY)
+    message(FATAL_ERROR "witty library not found.")
+endif()
+
+
+# Locate witty http
+find_library(LIB_WITTY_HTTP ${WITTY_HTTP} REQUIRED)
+message ("LIB_WITTY_HTTP = ${LIB_WITTY_HTTP}")
+if (NOT LIB_WITTY_HTTP)
+    message(FATAL_ERROR "wthttp library not found.")
+endif()
+
+
+# Locate witty fcgi
+find_library(LIB_WITTY_FCGI ${WITTY_FCGI} REQUIRED)
+message ("LIB_WITTY_FCGI = ${LIB_WITTY_FCGI}")
+if (NOT LIB_WITTY_FCGI)
+    message(FATAL_ERROR "wtfcgi library not found.")
+endif()
 
 # Locate cpprest
 find_library(LIB_CPP_REST ${CPPREST} REQUIRED)
@@ -92,6 +118,7 @@ add_subdirectory(JsonTest)
 add_subdirectory(Common)
 add_subdirectory(Api)
 add_subdirectory(Server)
+add_subdirectory(Client)
 
 
 # setting linking dependices explecitely
