@@ -18,8 +18,8 @@
 #define SERVER_ADDRESS "http://localhost"
 #define SERVER_PORT "8088"
 
-#define SERVER_LOG_FILE_NAME "TradeXServer.log"
-#define SERVER_CONFIG_FILE_NAME "TradeXServer.ini"
+#define SERVER_LOG_FILE_NAME "Server.log"
+#define SERVER_CONFIG_FILE_NAME "Server.ini"
 
 #define SERVER_LOG_FILE_PATH_STR "LOG_FILE_PATH"
 #define SERVER_LOG_LEVEL_STR "LOG_LEVEL"
@@ -29,8 +29,8 @@
 
 #define CLIENT_VERSION "0.1"
 
-#define CLIENT_LOG_FILE_NAME "TradeXClient.log"
-#define CLIENT_CONFIG_FILE_NAME "TradeXClient.ini"
+#define CLIENT_LOG_FILE_NAME "Client.log"
+#define CLIENT_CONFIG_FILE_NAME "Client.ini"
 
 #define CLIENT_LOG_FILE_PATH_STR "LOG_FILE_PATH"
 #define CLIENT_LOG_LEVEL_STR "LOG_LEVEL"
