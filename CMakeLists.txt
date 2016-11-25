@@ -112,10 +112,11 @@ if (NOT LIB_CRYPT)
     message(FATAL_ERROR "libcrypt librray not found.")
 endif()
 
-# add Json, common and Api first beacuse they will export the librray header locations which will be used by JsonTest, Server and Client
+# add common, Json and Api first beacuse they will export the librray header locations which will be used by JsonTest, Server and Client
+#include Common first, before Json
+add_subdirectory(Common)
 add_subdirectory(Json)
 add_subdirectory(JsonTest)
-add_subdirectory(Common)
 add_subdirectory(Api)
 add_subdirectory(Server)
 add_subdirectory(Client)

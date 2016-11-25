@@ -15,11 +15,11 @@
 #include <map>
 #include <mutex>
 #include <vector>
-//#include <type_traits>
 #include "Serializable.h"
 
 
-namespace Json {
+namespace Json
+{
 using namespace std;
 using namespace Json;
 
@@ -32,10 +32,10 @@ public:
 protected:
     SOFactory() = default;
 
-    typedef Serializable* (*FunPtr)( void );
+    typedef Serializable* ( *FunPtr )( void );
     typedef map< string, FunPtr > ListCreators;
 
-    typedef vector< Serializable* >* (*FunPtrArr)( const size_t );
+    typedef vector< Serializable* >* ( *FunPtrArr )( const size_t );
     typedef map< string, FunPtrArr > ListCreatorsArr;
 
     template< class T >
@@ -49,7 +49,7 @@ protected:
     static vector< Serializable* >* CreateArrary( const size_t size )
     {
         vector< Serializable* >* v = new vector< Serializable * >();
-        for (size_t i = 0; i < size; i++)
+        for ( size_t i = 0; i < size; i++ )
         {
             Serializable* p = reinterpret_cast< Serializable* >( new T() );
             v->push_back( p );
@@ -67,3 +67,4 @@ protected:
 } /* namespace Api */
 
 #endif /* SOBJECTFACTORY_H_ */
+
