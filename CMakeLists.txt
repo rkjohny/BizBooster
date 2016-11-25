@@ -17,9 +17,9 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
 # list of all projects
 set(APP_NAME bizbooster)
+set(LIB_COMMON common)
 set(LIB_JSON json)
 set(LIB_JSON_TEST jsontester)
-set(LIB_COMMON common)
 set(LIB_API api)
 set(SERVER server)
 set(CLIENT client)

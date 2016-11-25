@@ -155,7 +155,7 @@ public:
             GETTER( ClassB, const ClassA*, "null_objec_ptr", &ClassB::GetNullPtrObject ),
             GETTER( ClassB, const int*, "null_int_ptr", &ClassB::GetNullPtrInt )
             OWN_GETTER_END
-            REGISTER_ALL_GETER_END
+            REGISTER_ALL_GETTER_END
 
             //    REGISTER_GETER_START
             //    GETTER (ClassB, const ClassA&, "object", &ClassB::GetObject),

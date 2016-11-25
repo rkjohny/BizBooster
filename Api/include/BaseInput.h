@@ -10,30 +10,65 @@
 #define BASEINPUT_H_
 
 #include <string>
-#include "Serializeable.h"
+#include "Serializable.h"
 #include "Json.h"
 
 namespace Api
 {
 using namespace std;
-using namespace Common;
+using namespace Json;
 
 class BaseOutput;
 
-class BaseInput: public Serializeable
+class BaseInput: public Serializable
 {
 public:
     BaseInput();
     virtual ~BaseInput();
 
     virtual BaseOutput* Process() = 0;
-    virtual string ApiName() const = 0;
 
-    REGISTER_GETTER_START
-    REGISTER_GETTER_END
+    REGISTER_ALL_GETTER_START
+    BASE_GETTER(Serializable)
+    OWN_GETTER_START
+    OWN_GETTER_END
+    REGISTER_ALL_GETTER_END
 
-    REGISTER_SETTER_START
-    REGISTER_SETTER_END
+    REGISTER_ALL_SETTER_START
+    BASE_SETTER(Serializable)
+    OWN_SETTER_START
+    OWN_SETTER_END
+    REGISTER_ALL_SETTER_END
+};
+
+template <class T>
+class ApiInput : public BaseInput
+{
+public:
+    ApiInput() = default;
+    virtual ~ApiInput() = default;
+
+    web::json::value Serialize() override
+    {
+        return Json::ToJson<T>( dynamic_cast<T*>(this) );
+    }
+
+    void Deserialize(const web::json::value& jvalue) override
+    {
+        Json::FromJson<T>( dynamic_cast<T*>(this), jvalue );
+    }
+
+    REGISTER_ALL_GETTER_START
+    BASE_GETTER(Serializable)
+    OWN_GETTER_START
+    OWN_GETTER_END
+    REGISTER_ALL_GETTER_END
+
+    REGISTER_ALL_SETTER_START
+    BASE_SETTER(Serializable)
+    OWN_SETTER_START
+    OWN_SETTER_END
+    REGISTER_ALL_SETTER_END
 };
 
 } /* namespace Api */

@@ -42,7 +42,7 @@ void RegisterUserHelper::CheckPermission()
 void RegisterUserHelper::ExecuteHelper()
 {
     // this must be deleted by caller of execute method
-    this->m_output = new RegisterUserOutput();
+    //this->m_output = new RegisterUserOutput();
 }
 
 } /* namespace Api */

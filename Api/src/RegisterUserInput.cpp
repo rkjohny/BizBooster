@@ -7,8 +7,6 @@
  */
 
 #include "RegisterUserInput.h"
-#include "ServiceFacade.h"
-#include "RegisterClass.h"
 
 
 #define REGISTER_USER_API_NAME "register_user"
@@ -16,119 +14,42 @@
 namespace Api
 {
 
-RegisterUserInput::RegisterUserInput() :
-    m_age( 0 ), m_price( 0 ), m_isValid( false ),
-    user( nullptr ), users( nullptr ), emails( nullptr )
+RegisterUserInput::RegisterUserInput()
 {
-    m_className = "RegisterUserInput";
-    m_apiName = REGISTER_USER_API_NAME;
 }
 
 RegisterUserInput::~RegisterUserInput()
 {
-    if ( user )
-    {
-        delete user;
-    }
-    if ( users )
-    {
-        delete[] users;
-    }
-    if ( emails )
-    {
-        delete emails;
-    }
 }
 
-void RegisterUserInput::RegisterClass()
+const std::string& RegisterUserInput::GetEmail() const
 {
-    REGISTER_CLASS( RegisterUserInput, ApiName() );
-    REGISTER_CLASS( RegisterUserInput, ClassName() );
+    return m_email;
 }
 
-string RegisterUserInput::ClassName() const
+void RegisterUserInput::SetEmail(std::string email)
 {
-    return m_className;
+    m_email = std::move(email);
 }
 
-string RegisterUserInput::ApiName() const
+const std::string& RegisterUserInput::GetName() const
 {
-    return m_apiName;
+    return m_name;
 }
 
-BaseOutput* RegisterUserInput::Process()
+void RegisterUserInput::SetName(std::string name)
 {
-    return ServiceFacade::RegisterUser( this );
+    m_name = std::move(name);
 }
 
-string* RegisterUserInput::GetEmail( void )
+const std::string& RegisterUserInput::GetRoles() const
 {
-    return &m_email;
+    return m_roles;
 }
 
-void RegisterUserInput::SetEmail( string email )
+void RegisterUserInput::SetRoles(std::string roles)
 {
-    this->m_email = email;
-}
-
-int* RegisterUserInput::GetAge()
-{
-    return &m_age;
-}
-
-void RegisterUserInput::SetAge( int val )
-{
-    m_age = val;
-}
-
-double* RegisterUserInput::GetPrice()
-{
-    return &m_price;
-}
-
-void RegisterUserInput::SetPrice( double val )
-{
-    m_price = val;
-}
-
-bool* RegisterUserInput::GetIsValid()
-{
-    return &m_isValid;
-}
-
-void RegisterUserInput::SetIsValid( bool val )
-{
-    m_isValid = val;
-}
-
-Serializeable** RegisterUserInput::GetUser()
-{
-    return reinterpret_cast< Serializeable** >( &user );
-}
-
-void RegisterUserInput::SetUser( Serializeable* val )
-{
-    user = reinterpret_cast< User* >( val );
-}
-
-vector< Serializeable* >** RegisterUserInput::GetUsers()
-{
-    return reinterpret_cast< vector< Serializeable* >** >( &users );
-}
-
-void RegisterUserInput::SetUsers( vector< Serializeable * >* val )
-{
-    users = reinterpret_cast< vector< User * >* >( val );
-}
-
-std::vector< std::string >** RegisterUserInput::GetEmails()
-{
-    return &emails;
-}
-
-void RegisterUserInput::SetEmails( vector< std::string >* val )
-{
-    emails = val;
+    m_roles = std::move(roles);
 }
 
 } /* namespace Api */

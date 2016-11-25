@@ -40,13 +40,13 @@ BaseOutput* AbstractHelper::Execute()
     }
     catch ( AppException& e )
     {
-        LOG_ERROR( "API: " + m_input->ApiName() +
-                   " failed with with error: [" + e.ToString() + "]" );
+//         LOG_ERROR(std::string("API: ") + m_input->ApiName() +
+//                    " failed with with error: [" + e.ToString() + "]" );
     }
     catch ( exception& e )
     {
-        LOG_ERROR( "API: " + m_input->ApiName() + " failed with with error: [" +
-                   AppException( e ).ToString() + "]" );
+//         LOG_ERROR(std::string("API: ") + m_input->ApiName() + " failed with with error: [" +
+//                    AppException( e ).ToString() + "]" );
     }
 
     // the output must be deleted by caller

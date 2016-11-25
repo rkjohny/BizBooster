@@ -8,8 +8,8 @@
 
 #include "ApiExecutor.h"
 #include "AppConstant.h"
-#include "SObjectFactory.h"
-#include "Serializeable.h"
+#include "SOFactory.h"
+#include "Serializable.h"
 //#include "BaseInput.h"
 #include "BaseOutput.h"
 //#include "ApiCode.h"
@@ -23,16 +23,16 @@
 namespace Server
 {
 
-template<>
-web::json::value
-ApiExecutor::ExecuteApi<Api::ApiCode::REGISTER_USER>(Api::BaseInput* binput, const web::json::value &jdata)
-{
-    Api::RegisterUserInput *input = dynamic_cast<Api::RegisterUserInput*>(binput);
-    Json::FromJson<Api::RegisterUserInput>(input, jdata);
-    Api::BaseOutput *boutput = input->Process();
-    Api::RegisterUserOutput *output = dynamic_cast<Api::RegisterUserOutput*>(boutput);
-    return Json::ToJson(output);
-}
+// template<>
+// web::json::value
+// ApiExecutor::ExecuteApi<Api::ApiCode::REGISTER_USER>(Api::BaseInput* binput, const web::json::value &jdata)
+// {
+//     Api::RegisterUserInput *input = dynamic_cast<Api::RegisterUserInput*>(binput);
+//     Json::FromJson<Api::RegisterUserInput>(input, jdata);
+//     Api::BaseOutput *boutput = input->Process();
+//     Api::RegisterUserOutput *output = dynamic_cast<Api::RegisterUserOutput*>(boutput);
+//     return Json::ToJson(output);
+// }
 
 
 web::json::value ApiExecutor::ExecuteSingleApi(const web::json::value &jrequest)
@@ -42,10 +42,15 @@ web::json::value ApiExecutor::ExecuteSingleApi(const web::json::value &jrequest)
     const web::json::value &jdata = jrequest.at(JSON_DATA);
     std::string apiName = utility::conversions::to_utf8string(japi.as_string());
 
-    Common::Serializeable* obj = Common::SObjectFactory::CreateObject(apiName);
+    Json::Serializable* obj = Json::SOFactory::CreateObject(apiName);
+
     Api::BaseInput *input = dynamic_cast<Api::BaseInput*>( obj );
 
-    return ApiExecutor::ExecuteApi<Api::ApiCode::REGISTER_USER>(input, jdata);
+    input->Deserialize(jdata);
+
+    Api::BaseOutput *output = input->Process();
+
+    return output->Serialize();
 }
 
 

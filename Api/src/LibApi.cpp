@@ -7,15 +7,12 @@
 
 #include "LibApi.h"
 
-#include "RegisterUserInput.h"
 
 namespace Api
 {
 
 void LibApi::LoadLibrary()
 {
-    Api::RegisterUserInput().RegisterClass();
-    Api::User().RegisterClass();
 }
 
 } /* namespace TeamBoosterCommon */

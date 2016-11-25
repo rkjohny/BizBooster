@@ -10,71 +10,56 @@
 #define REGISTERUSERINPUT_H_
 
 //Note: do not include BaseOutpu.h it has been forward declared in BaseInput
-// and do not forward declare Serializeable class it is base class
+// and do not forward declare Serializable class it is base class
 
 #include <string>
-#include <vector>
 #include "BaseInput.h"
-#include "SObjectFactory.h"
-#include "User.h"
 #include "Json.h"
 
 namespace Api
 {
 using namespace std;
-using namespace Common;
+using namespace Json;
 
-class RegisterUserInput: public BaseInput
+class RegisterUserInput: public ApiInput<RegisterUserInput>
 {
 public:
     RegisterUserInput();
     ~RegisterUserInput();
 
-    void RegisterClass() override;
-    string ClassName() const override;
-    string ApiName() const override;
     BaseOutput* Process() override;
 
-    string* GetEmail( void );
-    void SetEmail( string email );
+    const std::string& GetEmail() const;
+    void SetEmail(std::string email);
 
-    int* GetAge();
-    void SetAge( int val );
+    const std::string& GetName() const;
+    void SetName(std::string name);
 
-    double* GetPrice();
-    void SetPrice( double val );
-
-    bool* GetIsValid();
-    void SetIsValid( bool val );
-
-    Serializeable** GetUser();
-    void SetUser( Serializeable* val );
-
-    vector< Serializeable* >** GetUsers();
-    void SetUsers( vector< Serializeable* >* val );
-
-    std::vector< std::string >** GetEmails();
-    void SetEmails( std::vector< std::string >* val );
+    const std::string& GetRoles() const;
+    void SetRoles(std::string roles);
 
 private:
-    string m_className;
-    string m_apiName;
+    std::string m_email;
+    std::string m_name;
+    std::string m_roles;
 
-    string m_email;
-    int m_age;
-    double m_price;
-    bool m_isValid;
+    REGISTER_ALL_GETTER_START
+    BASE_GETTER(ApiInput<RegisterUserInput>)
+    OWN_GETTER_START
+    GETTER(RegisterUserInput, const std::string&, "email", &RegisterUserInput::GetEmail),
+    GETTER(RegisterUserInput, const std::string&, "email", &RegisterUserInput::GetName),
+    GETTER(RegisterUserInput, const std::string&, "email", &RegisterUserInput::GetRoles)
+    OWN_GETTER_END
+    REGISTER_ALL_GETTER_END
 
-    User* user;
-    vector< User * >* users;
-
-    vector< string >* emails;
-
-    REGISTER_GETTER_START
-    REGISTER_GETTER_END
-
-    REGISTER_SETTER_START
-    REGISTER_SETTER_END
+    REGISTER_ALL_SETTER_START
+    BASE_SETTER(ApiInput<RegisterUserInput>)
+    OWN_SETTER_START
+    SETTER(RegisterUserInput, std::string, "email", &RegisterUserInput::SetEmail),
+    SETTER(RegisterUserInput, std::string, "email", &RegisterUserInput::SetName),
+    SETTER(RegisterUserInput, std::string, "email", &RegisterUserInput::SetRoles)
+    OWN_SETTER_END
+    REGISTER_ALL_SETTER_END
 };
 
 } /* namespace Api */

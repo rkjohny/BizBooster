@@ -22,8 +22,8 @@ class ApiExecutor
 public:
     static web::json::value ExecuteSingleApi(const web::json::value &jrequest);
 
-    template<Api::ApiCode api_code>
-    static web::json::value ExecuteApi( Api::BaseInput* binput, const web::json::value& jdata );
+//     template<Api::ApiCode api_code>
+//     static web::json::value ExecuteApi( Api::BaseInput* binput, const web::json::value& jdata );
 };
 
 

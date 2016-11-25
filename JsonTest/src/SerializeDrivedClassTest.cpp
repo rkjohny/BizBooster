@@ -79,7 +79,7 @@ public:
     GETTER( DrivedClass, long, "id", &DrivedClass::GetId ),
     GETTER( DrivedClass, string, "name", &DrivedClass::GetName )
     OWN_GETTER_END
-    REGISTER_ALL_GETER_END
+    REGISTER_ALL_GETTER_END
 
 };
 
@@ -100,7 +100,7 @@ public:
     OWN_GETTER_START
     GETTER( DrivedClass2, int, "code", &DrivedClass2::GetCode )
     OWN_GETTER_END
-    REGISTER_ALL_GETER_END
+    REGISTER_ALL_GETTER_END
 };
 
 class SerializeDrivedClassTest : public ::testing::Test

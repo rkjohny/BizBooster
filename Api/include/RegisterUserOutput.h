@@ -10,64 +10,30 @@
 #define REGISTERUSEROUTPUT_H_
 
 #include "BaseOutput.h"
-#include "User.h"
-#include "Json.h"
-
-#include <vector>
 
 namespace Api
 {
 using namespace std;
-using namespace Common;
+using namespace Json;
 
-class RegisterUserOutput: public BaseOutput
+class RegisterUserOutput: public ApiOutput<RegisterUserOutput>
 {
 public:
     RegisterUserOutput();
     ~RegisterUserOutput();
 
-    void RegisterClass() override;
-    string ClassName() const override;
-
-    string* GetEmail( void );
-    void SetEmail( string email );
-
-    int* GetAge();
-    void SetAge( int val );
-
-    double* GetPrice();
-    void SetPrice( double val );
-
-    bool* GetIsValid();
-    void SetIsValid( bool val );
-
-    Serializeable** GetUser();
-    void SetUser( Serializeable* val );
-
-    vector< Serializeable* >** GetUsers();
-    void SetUsers( vector< Serializeable* >* val );
-
-    std::vector< std::string >** GetEmails();
-    void SetEmails( std::vector< std::string >* val );
-
 private:
-    string m_className;
+    REGISTER_ALL_GETTER_START
+    BASE_GETTER(ApiOutput<RegisterUserOutput>)
+    OWN_GETTER_START
+    OWN_GETTER_END
+    REGISTER_ALL_GETTER_END
 
-    string m_email;
-    int m_age;
-    double m_price;
-    bool m_isValid;
-
-    User* user;
-    vector< User * >* users;
-
-    vector< string >* emails;
-
-    REGISTER_GETTER_START
-    REGISTER_GETTER_END
-
-    REGISTER_SETTER_START
-    REGISTER_SETTER_END
+    REGISTER_ALL_SETTER_START
+    BASE_SETTER(ApiOutput<RegisterUserOutput>)
+    OWN_SETTER_START
+    OWN_SETTER_END
+    REGISTER_ALL_SETTER_END
 };
 
 } /* namespace Api */

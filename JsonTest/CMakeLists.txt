@@ -50,6 +50,9 @@ add_executable(${PROJECT_NAME} ${JSON_TEST_SRCS})
 # linking libJson library as dependencies
 target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_JSON})
 
+# linking libcommon library as dependencies
+target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_COMMON})
+
 # linking imported libcpprest library as dependencies
 #target_link_libraries(JsonUnitTest PUBLIC /usr/local/lib/libcpprest.so)
 target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_CPP_REST})

@@ -21,6 +21,9 @@ else()
     # including heared files
     include_directories(${LIB_JSON_INCLUDE_DIR})
 
+    # including libcommon header files
+    include_directories(${LIB_COMMON_INCLUDE_DIR})
+
     file(GLOB LIB_JSON_HEADERS ${LIB_JSON_INCLUDE_DIR}/*.h)
     file(GLOB LIB_JSON_SOURCES ${PROJECT_SOURCE_DIR}/*.cpp)
 

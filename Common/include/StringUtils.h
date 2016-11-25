@@ -5,8 +5,8 @@
  *      Author: rezaul
  */
 
-#ifndef STRINGUTILS_H_
-#define STRINGUTILS_H_
+#ifndef STRING_UTILS_H_
+#define STRING_UTILS_H_
 
 #include <vector>
 #include <mutex>

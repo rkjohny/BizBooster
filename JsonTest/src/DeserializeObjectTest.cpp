@@ -86,7 +86,7 @@ public:
     SETTER( SimpleClass2, int&, "id", &SimpleClass2::SetId ),
             SETTER( SimpleClass2, const std::vector<int>&, "score", &SimpleClass2::SetScore )
             OWN_SETTER_END
-            REGISTER_ALL_SETER_END
+            REGISTER_ALL_SETTER_END
 };
 
 // all getters take pointer (without const) type arguments

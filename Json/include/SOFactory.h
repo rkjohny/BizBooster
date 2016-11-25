@@ -10,45 +10,48 @@
 #ifndef SOBJECTFACTORY_H_
 #define SOBJECTFACTORY_H_
 
+
+#include <string>
 #include <map>
 #include <mutex>
 #include <vector>
-#include <type_traits>
-#include "Serializeable.h"
-#include "StringUtils.h"
+//#include <type_traits>
+#include "Serializable.h"
 
-namespace Common {
+
+namespace Json {
 using namespace std;
+using namespace Json;
 
-class SObjectFactory
+class SOFactory
 {
 public:
-    static Serializeable* CreateObject( string key );
-    static vector< Serializeable* >* CreateObjectArray( string key, const size_t size );
+    static Serializable* CreateObject( string key );
+    static vector< Serializable* >* CreateObjectArray( string key, const size_t size );
 
 protected:
-    SObjectFactory() = default;
+    SOFactory() = default;
 
-    typedef Serializeable* (*FunPtr)( void );
+    typedef Serializable* (*FunPtr)( void );
     typedef map< string, FunPtr > ListCreators;
 
-    typedef vector< Serializeable* >* (*FunPtrArr)( const size_t );
+    typedef vector< Serializable* >* (*FunPtrArr)( const size_t );
     typedef map< string, FunPtrArr > ListCreatorsArr;
 
     template< class T >
-    static Serializeable* Create()
+    static Serializable* Create()
     {
-        Serializeable* p = reinterpret_cast< Serializeable* >( new T() );
+        Serializable* p = reinterpret_cast< Serializable* >( new T() );
         return p;
     }
 
     template< class T >
-    static vector< Serializeable* >* CreateArrary( const size_t size )
+    static vector< Serializable* >* CreateArrary( const size_t size )
     {
-        vector< Serializeable* >* v = new vector< Serializeable * >();
+        vector< Serializable* >* v = new vector< Serializable * >();
         for (size_t i = 0; i < size; i++)
         {
-            Serializeable* p = reinterpret_cast< Serializeable* >( new T() );
+            Serializable* p = reinterpret_cast< Serializable* >( new T() );
             v->push_back( p );
         }
         return v;

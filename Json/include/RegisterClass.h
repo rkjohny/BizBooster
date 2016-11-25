@@ -8,25 +8,25 @@
 #ifndef REGISTERCLASS_H_
 #define REGISTERCLASS_H_
 
-#include "SObjectFactory.h"
+#include "SOFactory.h"
 #include <string>
 
 #include <iostream>
 
-namespace Common {
+namespace Json {
 using namespace std;
 
 #define REGISTER_CLASS(TYPE, NAME) \
 		RegisterClass::Register<TYPE>(string(NAME));
 
-class RegisterClass: public SObjectFactory
+class RegisterClass: public SOFactory
 {
 public:
 
     template< class T >
     static void Register( string &&key )
     {
-        static_assert(std::is_base_of< Serializeable, T >::value, "T must be derived from Serializeable");
+        static_assert(std::is_base_of< Serializable, T >::value, "T must be derived from Serializable");
         StringUtils::ToLower( key );
 
         cm_mutex.lock();
@@ -46,7 +46,7 @@ protected:
 };
 
 template< class T >
-class ClassRegistrar: public SObjectFactory
+class ClassRegistrar: public SOFactory
 {
 public:
 

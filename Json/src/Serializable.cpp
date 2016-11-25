@@ -1,5 +1,5 @@
 /**
- * Serializeable.cpp
+ * Serializable.cpp
  *
  *      Author: rezaul
  *
@@ -7,17 +7,17 @@
  * Nobody should use this file without taking written permission from the author.
  */
 
-#include "Serializeable.h"
+#include "Serializable.h"
 
-namespace Common
+namespace Json
 {
 
-Serializeable::Serializeable()
+Serializable::Serializable()
 {
 
 }
 
-Serializeable::~Serializeable()
+Serializable::~Serializable()
 {
 
 }

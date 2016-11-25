@@ -1,5 +1,5 @@
 /**
- * SObjectFactory.cpp
+ * SOFactory.cpp
  *
  *      Author: rezaul
  *
@@ -7,21 +7,24 @@
  * Nobody should use this file without taking written permission from the author.
  */
 
-#include "SObjectFactory.h"
+#include "SOFactory.h"
+//#include "StringUtils.h"
 
-namespace Common
+
+namespace Json
 {
+//using namespace Common;
 
-mutex SObjectFactory::cm_mutex;
-SObjectFactory::ListCreators SObjectFactory::cm_objectCreators;
+mutex SOFactory::cm_mutex;
+SOFactory::ListCreators SOFactory::cm_objectCreators;
 
-mutex SObjectFactory::cm_mutexArr;
-SObjectFactory::ListCreatorsArr SObjectFactory::cm_objectArrayCreators;
+mutex SOFactory::cm_mutexArr;
+SOFactory::ListCreatorsArr SOFactory::cm_objectArrayCreators;
 
-Serializeable* SObjectFactory::CreateObject( string key )
+Serializable* SOFactory::CreateObject( string key )
 {
-    Serializeable* p = nullptr;
-    StringUtils::ToLower( key );
+    Serializable* p = nullptr;
+    //StringUtils::ToLower( key );
 
     cm_mutex.lock();
     ListCreators::iterator itr = cm_objectCreators.find( std::move(key) );
@@ -34,10 +37,10 @@ Serializeable* SObjectFactory::CreateObject( string key )
     return p;
 }
 
-vector< Serializeable* >* SObjectFactory::CreateObjectArray(string key, const size_t size )
+vector< Serializable* >* SOFactory::CreateObjectArray(string key, const size_t size )
 {
-    vector< Serializeable* >* v = nullptr;
-    StringUtils::ToLower( key );
+    vector< Serializable* >* v = nullptr;
+    //StringUtils::ToLower( key );
 
     cm_mutexArr.lock();
     ListCreatorsArr::iterator itr = cm_objectArrayCreators.find( std::move(key) );

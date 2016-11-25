@@ -115,7 +115,7 @@ public:
     GETTER( DrivedClass, long, "id", &DrivedClass::GetId ),
     GETTER( DrivedClass, string, "name", &DrivedClass::GetName )
     OWN_GETTER_END
-    REGISTER_ALL_GETER_END
+           REGISTER_ALL_GETTER_END
 
     REGISTER_ALL_SETTER_START
     BASE_SETTER( BaseClass )
@@ -123,7 +123,7 @@ public:
     SETTER( DrivedClass, long, "id", &DrivedClass::SetId ),
     SETTER( DrivedClass, string, "name", &DrivedClass::SetName )
     OWN_SETTER_END
-    REGISTER_ALL_SETER_END
+    REGISTER_ALL_SETTER_END
 
 };
 
@@ -155,14 +155,14 @@ public:
     OWN_GETTER_START
     GETTER( DrivedClass2, int, "code", &DrivedClass2::GetCode )
     OWN_GETTER_END
-    REGISTER_ALL_GETER_END
+    REGISTER_ALL_GETTER_END
 
     REGISTER_ALL_SETTER_START
     BASE_SETTER( DrivedClass )
     OWN_SETTER_START
     SETTER( DrivedClass2, int, "code", &DrivedClass2::SetCode )
     OWN_SETTER_END
-    REGISTER_ALL_SETER_END
+    REGISTER_ALL_SETTER_END
 };
 
 class DeserializeDrivedClassTest : public ::testing::Test
