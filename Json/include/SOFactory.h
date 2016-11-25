@@ -26,8 +26,8 @@ using namespace Json;
 class SOFactory
 {
 public:
-    static Serializable* CreateObject( string key );
-    static vector< Serializable* >* CreateObjectArray( string key, const size_t size );
+    static Serializable* CreateObject( string &&key );
+    static vector< Serializable* >* CreateObjectArray( string &&key, const size_t size );
 
 protected:
     SOFactory() = default;

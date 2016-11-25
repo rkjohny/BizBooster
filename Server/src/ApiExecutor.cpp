@@ -42,7 +42,7 @@ web::json::value ApiExecutor::ExecuteSingleApi(const web::json::value &jrequest)
     const web::json::value &jdata = jrequest.at(JSON_DATA);
     std::string apiName = utility::conversions::to_utf8string(japi.as_string());
 
-    Json::Serializable* obj = Json::SOFactory::CreateObject(apiName);
+    Json::Serializable* obj = Json::SOFactory::CreateObject( std::move(apiName) );
 
     Api::BaseInput *input = dynamic_cast<Api::BaseInput*>( obj );
 

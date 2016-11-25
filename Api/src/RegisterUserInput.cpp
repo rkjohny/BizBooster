@@ -9,10 +9,11 @@
 #include "RegisterUserInput.h"
 
 
-#define REGISTER_USER_API_NAME "register_user"
-
 namespace Api
 {
+
+REGISTER_CLASS_DEC(Api::RegisterUserInput, register_user)
+REGISTER_CLASS_DEC(RegisterUserInput, RegisterUserInput)
 
 RegisterUserInput::RegisterUserInput()
 {

@@ -21,7 +21,7 @@ SOFactory::ListCreators SOFactory::cm_objectCreators;
 mutex SOFactory::cm_mutexArr;
 SOFactory::ListCreatorsArr SOFactory::cm_objectArrayCreators;
 
-Serializable* SOFactory::CreateObject( string key )
+Serializable* SOFactory::CreateObject( string &&key )
 {
     Serializable* p = nullptr;
     StringUtils::ToLower( key );
@@ -37,7 +37,7 @@ Serializable* SOFactory::CreateObject( string key )
     return p;
 }
 
-vector< Serializable* >* SOFactory::CreateObjectArray(string key, const size_t size )
+vector< Serializable* >* SOFactory::CreateObjectArray(string &&key, const size_t size )
 {
     vector< Serializable* >* v = nullptr;
     StringUtils::ToLower( key );

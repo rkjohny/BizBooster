@@ -13,6 +13,7 @@
 // and do not forward declare Serializable class it is base class
 
 #include <string>
+#include "RegisterClass.h"
 #include "BaseInput.h"
 #include "Json.h"
 
@@ -60,6 +61,9 @@ private:
     SETTER(RegisterUserInput, std::string, "email", &RegisterUserInput::SetRoles)
     OWN_SETTER_END
     REGISTER_ALL_SETTER_END
+
+    REGISTER_CLASS_DEF(RegisterUserInput, register_user)
+    REGISTER_CLASS_DEF(RegisterUserInput, RegisterUserInput)
 };
 
 } /* namespace Api */

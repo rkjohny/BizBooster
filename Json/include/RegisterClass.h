@@ -9,6 +9,7 @@
 #define REGISTERCLASS_H_
 
 #include "SOFactory.h"
+#include "StringUtils.h"
 #include <string>
 
 #include <iostream>
@@ -19,6 +20,13 @@ using namespace std;
 #define REGISTER_CLASS(TYPE, NAME) \
 		RegisterClass::Register<TYPE>(string(NAME));
 
+#define REGISTER_CLASS_DEF(TYPE, KEY) \
+        private: static Json::ClassRegistrar<TYPE> _class_registrar_##KEY;
+
+#define REGISTER_CLASS_DEC(TYPE, KEY) \
+        Json::ClassRegistrar<TYPE> \
+        TYPE::_class_registrar_##KEY = Json::ClassRegistrar<TYPE>( "##KEY" );
+
 class RegisterClass: public SOFactory
 {
 public:
@@ -27,7 +35,7 @@ public:
     static void Register( string &&key )
     {
         static_assert(std::is_base_of< Serializable, T >::value, "T must be derived from Serializable");
-        StringUtils::ToLower( key );
+        Common::StringUtils::ToLower( key );
 
         cm_mutex.lock();
         cm_objectCreators[ std::move(key) ] = &Create< T >;
@@ -50,7 +58,7 @@ class ClassRegistrar: public SOFactory
 {
 public:
 
-    explicit ClassRegistrar( string key )
+    ClassRegistrar( string &&key )
     {
         RegisterClass::Register< T >( std::move( key ) );
     }
