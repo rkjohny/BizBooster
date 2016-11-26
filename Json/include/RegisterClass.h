@@ -20,12 +20,12 @@ using namespace std;
 #define REGISTER_CLASS(TYPE, NAME) \
 		RegisterClass::Register<TYPE>(string(NAME));
 
-#define REGISTER_CLASS_DEF(TYPE, KEY) \
-        private: static Json::ClassRegistrar<TYPE> _class_registrar_##KEY;
+#define REGISTER_CLASS_DEF(TYPE, KEY, ID) \
+        private: static Json::ClassRegistrar<TYPE> _class_registrar_##ID;
 
-#define REGISTER_CLASS_DEC(TYPE, KEY) \
+#define REGISTER_CLASS_DEC(TYPE, KEY, ID) \
         Json::ClassRegistrar<TYPE> \
-        TYPE::_class_registrar_##KEY = Json::ClassRegistrar<TYPE>( "##KEY" );
+        TYPE::_class_registrar_##ID = Json::ClassRegistrar<TYPE>( string(KEY) );
 
 class RegisterClass: public SOFactory
 {

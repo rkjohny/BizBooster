@@ -12,8 +12,8 @@
 namespace Api
 {
 
-REGISTER_CLASS_DEC(Api::RegisterUserInput, register_user)
-REGISTER_CLASS_DEC(RegisterUserInput, RegisterUserInput)
+REGISTER_CLASS_DEC(RegisterUserInput, "register_user", 0)
+REGISTER_CLASS_DEC(RegisterUserInput, "RegisterUserInput", 1)
 
 RegisterUserInput::RegisterUserInput()
 {

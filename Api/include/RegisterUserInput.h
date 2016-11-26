@@ -62,8 +62,8 @@ private:
     OWN_SETTER_END
     REGISTER_ALL_SETTER_END
 
-    REGISTER_CLASS_DEF(RegisterUserInput, register_user)
-    REGISTER_CLASS_DEF(RegisterUserInput, RegisterUserInput)
+    REGISTER_CLASS_DEF(RegisterUserInput, "register_user", 0)
+    REGISTER_CLASS_DEF(RegisterUserInput, "RegisterUserInput", 1)
 };
 
 } /* namespace Api */

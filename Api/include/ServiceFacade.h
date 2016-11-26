@@ -9,7 +9,7 @@
 #ifndef SERVICEFACADE_H_
 #define SERVICEFACADE_H_
 
-#include "BaseOutput.h"
+#include "RegisterUserOutput.h"
 
 namespace Api
 {
@@ -20,7 +20,7 @@ class RegisterUserInput;
 class ServiceFacade
 {
 public:
-    static BaseOutput* RegisterUser( RegisterUserInput* input );
+    static RegisterUserOutput* RegisterUser( RegisterUserInput* input );
 
 private:
     ServiceFacade() = delete;

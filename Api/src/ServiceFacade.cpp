@@ -13,7 +13,7 @@
 namespace Api
 {
 
-BaseOutput* ServiceFacade::RegisterUser( RegisterUserInput* input )
+RegisterUserOutput* ServiceFacade::RegisterUser( RegisterUserInput* input )
 {
     RegisterUserHelper helper( input );
     RegisterUserOutput* output = dynamic_cast< RegisterUserOutput* >( helper.Execute() );
