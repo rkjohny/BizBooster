@@ -19,10 +19,10 @@ public:
 
 
 private:
-    void HandleGet( web::http::http_request& request );
-    void HandlePut( web::http::http_request& request );
-    void HandlePost( web::http::http_request& request );
-    void HandleDelete( web::http::http_request& request );
+    void HandleGet( web::http::http_request request );
+    void HandlePut( web::http::http_request request );
+    void HandlePost( web::http::http_request request );
+    void HandleDelete( web::http::http_request request );
 
 
     web::http::experimental::listener::http_listener m_listener;

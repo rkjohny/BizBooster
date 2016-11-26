@@ -42,15 +42,30 @@ web::json::value ApiExecutor::ExecuteSingleApi(const web::json::value &jrequest)
     const web::json::value &jdata = jrequest.at(JSON_DATA);
     std::string apiName = utility::conversions::to_utf8string(japi.as_string());
 
-    Json::Serializable* obj = Json::SOFactory::CreateObject( std::move(apiName) );
+    if (japi.is_string() && jdata.is_object())
+    {
+        Json::Serializable* obj = Json::SOFactory::CreateObject( std::move(apiName) );
 
-    Api::BaseInput *input = dynamic_cast<Api::BaseInput*>( obj );
+        if (obj)
+        {
+            Api::BaseInput *input = dynamic_cast<Api::BaseInput*>( obj );
 
-    input->Deserialize(jdata);
+            input->Deserialize(jdata);
 
-    Api::BaseOutput *output = input->Process();
+            Api::BaseOutput *output = input->Process();
 
-    return output->Serialize();
+            jresponse = output->Serialize();
+        }
+        else
+        {
+            //TODO: handle bad request
+        }
+    }
+    else
+    {
+        //TODO: handle bad request
+    }
+    return jresponse;
 }
 
 
