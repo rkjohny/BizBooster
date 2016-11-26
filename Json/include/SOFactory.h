@@ -10,7 +10,8 @@
 #ifndef SOBJECTFACTORY_H_
 #define SOBJECTFACTORY_H_
 
-
+#include "SOFactory.h"
+#include "StringUtils.h"
 #include <string>
 #include <map>
 #include <mutex>
@@ -23,11 +24,40 @@ namespace Json
 using namespace std;
 using namespace Json;
 
+#define REGISTER_CLASS(TYPE, NAME) \
+SOFactory::Register<TYPE>(string(NAME));
+
+#define REGISTER_CLASS_DEF(TYPE, KEY, ID) \
+private: static Json::ClassRegistrar<TYPE> _class_registrar_##ID;
+
+#define REGISTER_CLASS_DEC(TYPE, KEY, ID) \
+Json::ClassRegistrar<TYPE> \
+TYPE::_class_registrar_##ID = Json::ClassRegistrar<TYPE>( string(KEY) );
+
 class SOFactory
 {
 public:
     static Serializable* CreateObject( string &&key );
     static vector< Serializable* >* CreateObjectArray( string &&key, const size_t size );
+
+    template< class T >
+    static void Register( string key )
+    {
+        static_assert(std::is_base_of< Serializable, T >::value, "T must be derived from Serializable");
+        Common::StringUtils::ToLower( key );
+
+        cm_mutex.lock();
+        //cm_objectCreators[ key ] = &Create< T >;
+        //cm_objectCreators.insert(std::pair<string, FunPtr>(key, &Create< T >));
+        cm_mutex.unlock();
+
+        cm_mutexArr.lock();
+        //cm_objectArrayCreators[ key ] = &CreateArrary< T >;
+        cm_mutexArr.unlock();
+
+        cout << cm_objectCreators.size() << endl;
+        cout << cm_objectArrayCreators.size() << endl;
+    }
 
 protected:
     SOFactory() = default;
@@ -63,6 +93,21 @@ protected:
     static mutex cm_mutexArr;
     static ListCreatorsArr cm_objectArrayCreators;
 };
+
+
+template< class T >
+class ClassRegistrar
+{
+public:
+    ClassRegistrar( string key )
+    {
+        SOFactory::Register< T >( key  );
+    }
+
+protected:
+    ClassRegistrar() = default;
+};
+
 
 } /* namespace Api */
 

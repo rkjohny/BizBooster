@@ -54,6 +54,10 @@ namespace Json
 #define REGISTER_ALL_SETTER_END REGISTER_SETTER_END
 
 
+/************* Load Librray **************************/
+void LoadLibrary();
+
+
 /************************** Serializing *************************/
 template <class  T>
 json::value ToJson( T  &&object )

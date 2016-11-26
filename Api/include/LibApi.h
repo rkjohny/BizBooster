@@ -11,15 +11,10 @@
 namespace Api
 {
 
-class LibApi
-{
-public:
-    static void LoadLibrary();
 
-private:
-    LibApi() = delete;
-};
+void LoadLibrary();
 
-} /* namespace TeamBoosterCommon */
+
+} /* namespace */
 
 #endif /* LIBAPI_H_ */

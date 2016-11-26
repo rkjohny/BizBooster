@@ -10,8 +10,14 @@
  *     Please refer to License.txt file for more details.
  */
 
+#include "Json.h"
 
 namespace Json
 {
+
+void LoadLibrary()
+{
+
+}
 
 }

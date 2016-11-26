@@ -7,12 +7,17 @@
 
 #include "LibApi.h"
 
+#include "Json.h"
+#include "RegisterUserInput.h"
 
 namespace Api
 {
 
-void LibApi::LoadLibrary()
+void LoadLibrary()
 {
+    RegisterUserInput ruin;
+    Json::LoadLibrary();
 }
 
-} /* namespace TeamBoosterCommon */
+
+} /* namespace  */

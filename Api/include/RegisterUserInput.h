@@ -13,7 +13,7 @@
 // and do not forward declare Serializable class it is base class
 
 #include <string>
-#include "RegisterClass.h"
+#include "SOFactory.h"
 #include "BaseInput.h"
 #include "Json.h"
 
@@ -48,8 +48,8 @@ private:
     BASE_GETTER(ApiInput<RegisterUserInput>)
     OWN_GETTER_START
     GETTER(RegisterUserInput, const std::string&, "email", &RegisterUserInput::GetEmail),
-    GETTER(RegisterUserInput, const std::string&, "email", &RegisterUserInput::GetName),
-    GETTER(RegisterUserInput, const std::string&, "email", &RegisterUserInput::GetRoles)
+    GETTER(RegisterUserInput, const std::string&, "name", &RegisterUserInput::GetName),
+    GETTER(RegisterUserInput, const std::string&, "roles", &RegisterUserInput::GetRoles)
     OWN_GETTER_END
     REGISTER_ALL_GETTER_END
 
@@ -57,13 +57,13 @@ private:
     BASE_SETTER(ApiInput<RegisterUserInput>)
     OWN_SETTER_START
     SETTER(RegisterUserInput, std::string, "email", &RegisterUserInput::SetEmail),
-    SETTER(RegisterUserInput, std::string, "email", &RegisterUserInput::SetName),
-    SETTER(RegisterUserInput, std::string, "email", &RegisterUserInput::SetRoles)
+    SETTER(RegisterUserInput, std::string, "name", &RegisterUserInput::SetName),
+    SETTER(RegisterUserInput, std::string, "roles", &RegisterUserInput::SetRoles)
     OWN_SETTER_END
     REGISTER_ALL_SETTER_END
 
     REGISTER_CLASS_DEF(RegisterUserInput, "register_user", 0)
-    REGISTER_CLASS_DEF(RegisterUserInput, "RegisterUserInput", 1)
+    //REGISTER_CLASS_DEF(RegisterUserInput, "RegisterUserInput", 1)
 };
 
 } /* namespace Api */

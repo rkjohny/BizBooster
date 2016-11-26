@@ -17,7 +17,7 @@ using namespace Api;
 void ServerInitializer::Initialize()
 {
     // Load all libraries
-    LibApi::LoadLibrary();
+    Api::LoadLibrary();
 
     // Initializing config reader and reading server config file
     AppFactory::ConfigReader* configReader = AppFactory::GetConfigReader();

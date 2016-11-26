@@ -13,6 +13,7 @@
 namespace Common {
 using namespace std;
 
+
 class SharedObject
 {
 protected:

@@ -7,13 +7,13 @@
  */
 
 #include "RegisterUserInput.h"
-
+#include "ServiceFacade.h"
 
 namespace Api
 {
 
 REGISTER_CLASS_DEC(RegisterUserInput, "register_user", 0)
-REGISTER_CLASS_DEC(RegisterUserInput, "RegisterUserInput", 1)
+//REGISTER_CLASS_DEC(RegisterUserInput, "RegisterUserInput", 1)
 
 RegisterUserInput::RegisterUserInput()
 {
@@ -21,6 +21,11 @@ RegisterUserInput::RegisterUserInput()
 
 RegisterUserInput::~RegisterUserInput()
 {
+}
+
+BaseOutput* RegisterUserInput::Process()
+{
+    return ServiceFacade::RegisterUser(this);
 }
 
 const std::string& RegisterUserInput::GetEmail() const

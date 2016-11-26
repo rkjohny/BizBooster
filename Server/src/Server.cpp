@@ -70,13 +70,12 @@ int main( int argc, char** argv )
             break;
         }
 #ifdef _WIN32
-        Sleep( 100 );
+        Sleep( 1000 );
 #else
-        sleep( 100 );
+        sleep( 1 );
 #endif
     }
 
-    LOG_DEBUG( "TradeXServer is shutting down ..." );
     LOG_DEBUG( "TradeXServer is shutting down ..." );
 
     server.ShutDown();
@@ -85,7 +84,7 @@ int main( int argc, char** argv )
 #ifdef _WIN32
     Sleep( 1000 );
 #else
-    sleep( 1000 );
+    sleep( 1 );
 #endif
 
     return 0;

@@ -20,6 +20,8 @@
 #include <string>
 #include <cpprest/asyncrt_utils.h>
 
+#include <iostream>
+
 namespace Server
 {
 
@@ -50,7 +52,12 @@ web::json::value ApiExecutor::ExecuteSingleApi(const web::json::value &jrequest)
         {
             Api::BaseInput *input = dynamic_cast<Api::BaseInput*>( obj );
 
+            std::cout << "DATA:" << std::endl << jdata.serialize() << std::endl;
+
             input->Deserialize(jdata);
+
+            jresponse = input->Serialize();
+            std::cout << "INPUT:" << std::endl << jrequest.serialize() << std::endl;
 
             Api::BaseOutput *output = input->Process();
 
@@ -65,6 +72,7 @@ web::json::value ApiExecutor::ExecuteSingleApi(const web::json::value &jrequest)
     {
         //TODO: handle bad request
     }
+
     return jresponse;
 }
 
