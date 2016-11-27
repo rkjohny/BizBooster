@@ -11,13 +11,14 @@
  */
 
 #include "Json.h"
+#include "SOFactory.h"
 
 namespace Json
 {
 
 void LoadLibrary()
 {
-
+    SOFactory::Load();
 }
 
 }

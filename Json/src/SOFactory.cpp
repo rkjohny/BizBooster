@@ -21,15 +21,19 @@ SOFactory::ListCreators SOFactory::cm_objectCreators;
 mutex SOFactory::cm_mutexArr;
 SOFactory::ListCreatorsArr SOFactory::cm_objectArrayCreators;
 
+void SOFactory::Load()
+{
+    
+}
 
 Serializable* SOFactory::CreateObject( string &&key )
 {
     Serializable* p = nullptr;
     StringUtils::ToLower( key );
-
+    
     cout << cm_objectCreators.size() << endl;
     cout << cm_objectArrayCreators.size() << endl;
-
+            
     cm_mutex.lock();
     ListCreators::iterator itr = cm_objectCreators.find( std::move(key) );
     if ( itr != cm_objectCreators.end() )

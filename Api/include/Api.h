@@ -1,9 +1,4 @@
-/*
- * TradeXApiLibrary.h
- *
- *  Created on: Oct 14, 2016
- *      Author: rezaul
- */
+
 
 #ifndef LIBAPI_H_
 #define LIBAPI_H_

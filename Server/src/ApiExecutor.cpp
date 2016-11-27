@@ -56,12 +56,14 @@ web::json::value ApiExecutor::ExecuteSingleApi(const web::json::value &jrequest)
 
             input->Deserialize(jdata);
 
-            jresponse = input->Serialize();
-            std::cout << "INPUT:" << std::endl << jrequest.serialize() << std::endl;
+            web::json::value temp = input->Serialize();
+            std::cout << "INPUT:" << std::endl << temp.serialize() << std::endl;
 
             Api::BaseOutput *output = input->Process();
 
             jresponse = output->Serialize();
+            
+            std::cout << "OUTPUT:" << std::endl << jresponse.serialize() << std::endl;
         }
         else
         {

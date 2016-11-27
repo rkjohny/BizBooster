@@ -10,7 +10,6 @@
 #ifndef SOBJECTFACTORY_H_
 #define SOBJECTFACTORY_H_
 
-#include "SOFactory.h"
 #include "StringUtils.h"
 #include <string>
 #include <map>
@@ -37,6 +36,9 @@ TYPE::_class_registrar_##ID = Json::ClassRegistrar<TYPE>( string(KEY) );
 class SOFactory
 {
 public:
+    
+    static void Load();
+    
     static Serializable* CreateObject( string &&key );
     static vector< Serializable* >* CreateObjectArray( string &&key, const size_t size );
 
@@ -47,12 +49,12 @@ public:
         Common::StringUtils::ToLower( key );
 
         cm_mutex.lock();
-        //cm_objectCreators[ key ] = &Create< T >;
+        cm_objectCreators[ key ] = &Create< T >;
         //cm_objectCreators.insert(std::pair<string, FunPtr>(key, &Create< T >));
         cm_mutex.unlock();
 
         cm_mutexArr.lock();
-        //cm_objectArrayCreators[ key ] = &CreateArrary< T >;
+        cm_objectArrayCreators[ key ] = &CreateArrary< T >;
         cm_mutexArr.unlock();
 
         cout << cm_objectCreators.size() << endl;
@@ -96,7 +98,7 @@ protected:
 
 
 template< class T >
-class ClassRegistrar
+class ClassRegistrar : public SOFactory
 {
 public:
     ClassRegistrar( string key )

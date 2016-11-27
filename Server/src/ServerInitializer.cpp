@@ -5,8 +5,9 @@
 #include "OSTDStream.h"
 #include "AppFactory.h"
 #include "AppConstant.h"
-
-#include "LibApi.h"
+#include "Api.h"
+#include "Json.h"
+#include "Common.h"
 #include <string>
 
 using namespace std;
@@ -17,6 +18,8 @@ using namespace Api;
 void ServerInitializer::Initialize()
 {
     // Load all libraries
+    Common::LoadLibrary();
+    Json::LoadLibrary();
     Api::LoadLibrary();
 
     // Initializing config reader and reading server config file
