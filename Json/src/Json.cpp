@@ -16,9 +16,13 @@
 namespace Json
 {
 
+static bool loaded = false;
 void LoadLibrary()
 {
-    Common::LoadLibrary();
+    if (!loaded) {
+        Common::LoadLibrary();
+        loaded = true;
+    }
 }
 
 }

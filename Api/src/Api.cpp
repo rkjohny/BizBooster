@@ -9,16 +9,21 @@
 namespace Api
 {
 
+static bool loaded = false;
 void LoadLibrary()
 {
-    Common::LoadLibrary();
-    Json::LoadLibrary();
-    
-    SOFactory::Load();    
-    REGISTER_CLASS(RegisterUserInput, "register_user");
-    REGISTER_CLASS(RegisterUserInput, "RegisterUserInput");
-    REGISTER_CLASS(RegisterUserOutput, "RegisterUserOutput");
-    REGISTER_CLASS(User, "User");
+    if (!loaded) {
+        Common::LoadLibrary();
+        Json::LoadLibrary();
+
+        SOFactory::Load();    
+        REGISTER_CLASS(RegisterUserInput, "register_user");
+        REGISTER_CLASS(RegisterUserInput, "RegisterUserInput");
+        REGISTER_CLASS(RegisterUserOutput, "RegisterUserOutput");
+        REGISTER_CLASS(User, "User");
+
+        loaded = true;
+    }
 }
 
 
