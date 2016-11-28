@@ -14,24 +14,23 @@
 #include "Json.h"
 
 namespace Api {
-using namespace std;
+    using namespace std;
 
-class Serializable
-{
-public:
-    Serializable();
-    virtual ~Serializable();
+    class Serializable {
+    public:
+        Serializable();
+        virtual ~Serializable();
 
-    virtual web::json::value Serialize() = 0;
-    virtual void Deserialize(const web::json::value&) = 0;
+        virtual web::json::value Serialize() = 0;
+        virtual void Deserialize(const web::json::value&) = 0;
 
 
-    REGISTER_GETTER_START
-    REGISTER_GETTER_END
+        REGISTER_GETTER_START
+        REGISTER_GETTER_END
 
-    REGISTER_SETTER_START
-    REGISTER_SETTER_END
-};
+        REGISTER_SETTER_START
+        REGISTER_SETTER_END
+    };
 
 } /* namespace Api */
 

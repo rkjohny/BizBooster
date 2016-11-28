@@ -8,8 +8,7 @@
 
 #include "BaseInput.h"
 
-namespace Api
-{
+namespace Api {
 
 BaseInput::BaseInput()
 {

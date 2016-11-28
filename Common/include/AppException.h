@@ -13,39 +13,38 @@
 #include "AppConstant.h"
 
 namespace Common {
-using namespace std;
+    using namespace std;
 
-class AppException: public runtime_error
-{
-public:
+    class AppException : public runtime_error {
+    public:
 
-    explicit AppException( const string& message = "Unknown" );
+        explicit AppException(const string& message = "Unknown");
 
-    explicit AppException( const AppErrorCode& code, const string& message = "Unknown" );
+        explicit AppException(const AppErrorCode& code, const string& message = "Unknown");
 
-    AppException( const AppException &e );
+        AppException(const AppException &e);
 
-    explicit AppException( const exception& e, const string& message = "Unknown" );
+        explicit AppException(const exception& e, const string& message = "Unknown");
 
-    explicit AppException( const exception& e, const AppErrorCode& code,
-            const string& message = "Unknown" );
+        explicit AppException(const exception& e, const AppErrorCode& code,
+                const string& message = "Unknown");
 
-    virtual ~AppException();
+        virtual ~AppException();
 
-    AppException& operator =( AppException& e );
+        AppException& operator=(AppException& e);
 
-    AppErrorCode GetCode() const;
+        AppErrorCode GetCode() const;
 
-    string GetMessage() const;
+        string GetMessage() const;
 
-    string ToString() const;
+        string ToString() const;
 
-private:
-    AppErrorCode m_code;
-    string m_message;
+    private:
+        AppErrorCode m_code;
+        string m_message;
 
-    void SetMessage( const exception& e, const string &message );
-};
+        void SetMessage(const exception& e, const string &message);
+    };
 
 } /* namespace Common */
 

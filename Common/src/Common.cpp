@@ -1,11 +1,15 @@
 
 #include "Common.h"
 
-namespace Common
+namespace Common {
+
+static bool loaded = false;
+
+void LoadLibrary()
 {
-    static bool loaded = false;
-    void LoadLibrary()
-    {
-        loaded = true;
-    }
+    //needed just to initialize the static variables
+    //this method will be called form outside the library
+    loaded = true;
+}
+
 }

@@ -11,19 +11,18 @@
 #include "RegisterUserOutput.h"
 #include "User.h"
 
-namespace Api
-{
+namespace Api {
 
 RegisterUserHelper::RegisterUserHelper()
 {
 }
 
-RegisterUserHelper::RegisterUserHelper( RegisterUserInput* input )
+RegisterUserHelper::RegisterUserHelper(RegisterUserInput* input)
 {
     this->m_input = input;
 }
 
-void RegisterUserHelper::SetInput( RegisterUserInput* input )
+void RegisterUserHelper::SetInput(RegisterUserInput* input)
 {
     this->m_input = input;
 }
@@ -47,9 +46,9 @@ void RegisterUserHelper::ExecuteHelper()
     user.SetEmail(m_input->GetEmail());
     user.SetName(m_input->GetName());
     user.SetRoles(m_input->GetRoles());
-    
+
     this->m_output = new RegisterUserOutput();
-    dynamic_cast<RegisterUserOutput*>(m_output)->SetUser(user);
+    dynamic_cast<RegisterUserOutput*> (m_output)->SetUser(user);
 }
 
 } /* namespace Api */

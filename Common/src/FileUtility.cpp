@@ -9,33 +9,29 @@
 #include "StringUtils.h"
 #include "AppConstant.h"
 
-namespace Common
-{
+namespace Common {
 
-void FileUtility::SplitPath( vector< string >& listPath, const string& absulateFileName )
+void FileUtility::SplitPath(vector< string >& listPath, const string& absulateFileName)
 {
-    StringUtils::Tokenize( listPath, absulateFileName, PATH_SEPARATOR );
+    StringUtils::Tokenize(listPath, absulateFileName, PATH_SEPARATOR);
 }
 
-string FileUtility::GetNameWithoutType( const string& absulateFileName )
+string FileUtility::GetNameWithoutType(const string& absulateFileName)
 {
     string file = "";
     auto listPath = vector< string >();
 
-    StringUtils::Tokenize( listPath, absulateFileName, PATH_SEPARATOR );
-    if ( listPath.size() > 0 )
-    {
+    StringUtils::Tokenize(listPath, absulateFileName, PATH_SEPARATOR);
+    if (listPath.size() > 0) {
         file = listPath[ listPath.size() - 1 ];
     }
 
     listPath.clear();
-    StringUtils::Tokenize( listPath, string( file ), FILE_TYPE_SEPERATOR );
+    StringUtils::Tokenize(listPath, string(file), FILE_TYPE_SEPERATOR);
 
-    if ( listPath.size() > 1 )
-    {
+    if (listPath.size() > 1) {
         file = "";
-        for ( auto& str : listPath )
-        {
+        for (auto& str : listPath) {
             file += str;
         }
     }

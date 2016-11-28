@@ -19,10 +19,10 @@ using namespace std;
 
 // running all test cases
 
-int main( int argc, char **argv )
+int main(int argc, char **argv)
 {
     std::cout << "Running Json testing..." << std::endl;
 
-    ::testing::InitGoogleTest( &argc, argv );
+    ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }

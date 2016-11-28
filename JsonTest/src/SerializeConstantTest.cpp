@@ -21,14 +21,10 @@ using namespace Json;
 
 //deserializing an object containing constant data
 
-namespace JsonTest
-{
-namespace TestSerializer
-{
+namespace JsonTest {
+namespace TestSerializer {
 
-
-class SerializeConstantTest : public ::testing::Test
-{
+class SerializeConstantTest : public ::testing::Test {
 public:
     SerializeConstantTest() = default;
     virtual ~SerializeConstantTest() = default;
@@ -40,214 +36,195 @@ public:
     void SetUp() override
     {
         m_scores = new vector<const double*>;
-        m_scores->push_back( new double( 9.9 ) );
-        m_scores->push_back( new double( 10.01 ) );
-        m_scores->push_back( new double( 10.1 ) );
-        m_scores->push_back( new double( 10.4 ) );
-        m_scores->push_back( new double( 10.5 ) );
+        m_scores->push_back(new double( 9.9));
+        m_scores->push_back(new double( 10.01));
+        m_scores->push_back(new double( 10.1));
+        m_scores->push_back(new double( 10.4));
+        m_scores->push_back(new double( 10.5));
 
 
         m_emails = new std::vector<const std::string*>();
-        m_emails->push_back( new string( "first string pointer" ) );
-        m_emails->push_back( new string( "second string pointer" ) );
-        m_emails->push_back( new string( "third string pointer" ) );
+        m_emails->push_back(new string("first string pointer"));
+        m_emails->push_back(new string("second string pointer"));
+        m_emails->push_back(new string("third string pointer"));
 
         char *p = new char[100];
-        strcpy( p, "this is first string pointer" );
-        m_cities.push_back( p );
+        strcpy(p, "this is first string pointer");
+        m_cities.push_back(p);
 
         p = new char[100];
-        strcpy( p, "this is second string pointer" );
-        m_cities.push_back( p );
+        strcpy(p, "this is second string pointer");
+        m_cities.push_back(p);
 
         p = new char[100];
-        strcpy( p, "this is third string pointer" );
-        m_cities.push_back( p );
+        strcpy(p, "this is third string pointer");
+        m_cities.push_back(p);
     }
 
     void TearDown() override
     {
-        for ( auto p : *m_scores )
-        {
+        for (auto p : *m_scores) {
             delete p;
         }
         delete m_scores;
 
-        for ( auto p : *m_emails )
-        {
+        for (auto p : *m_emails) {
             delete p;
         }
         delete m_emails;
 
-        for ( auto p : m_cities )
-        {
+        for (auto p : m_cities) {
             delete p;
         }
     }
 };
 
-TEST_F( SerializeConstantTest, TestInt )
+TEST_F(SerializeConstantTest, TestInt)
 {
     json::value jvalue;
-    const std::vector<int> vecInt( {1, 2, 3} );
+    const std::vector<int> vecInt({1, 2, 3});
 
-    jvalue = Json::ToJson( std::move( vecInt ) );
-    ASSERT_TRUE( jvalue.is_array() );
-    ASSERT_TRUE( jvalue.as_array().size() == vecInt.size() );
+    jvalue = Json::ToJson(std::move(vecInt));
+    ASSERT_TRUE(jvalue.is_array());
+    ASSERT_TRUE(jvalue.as_array().size() == vecInt.size());
     auto itr = vecInt.begin();
-    for ( auto &arrItem : jvalue.as_array() )
-    {
-        ASSERT_EQ( *itr, arrItem.as_integer() );
+    for (auto &arrItem : jvalue.as_array()) {
+        ASSERT_EQ(*itr, arrItem.as_integer());
         ++itr;
     }
 
-    jvalue = Json::ToJson( vecInt );
-    ASSERT_TRUE( jvalue.is_array() );
-    ASSERT_TRUE( jvalue.as_array().size() == vecInt.size() );
+    jvalue = Json::ToJson(vecInt);
+    ASSERT_TRUE(jvalue.is_array());
+    ASSERT_TRUE(jvalue.as_array().size() == vecInt.size());
     itr = vecInt.begin();
-    for ( auto &arrItem : jvalue.as_array() )
-    {
-        ASSERT_EQ( *itr, arrItem.as_integer() );
+    for (auto &arrItem : jvalue.as_array()) {
+        ASSERT_EQ(*itr, arrItem.as_integer());
         ++itr;
     }
 
-    jvalue = Json::ToJson( &vecInt );
-    ASSERT_TRUE( jvalue.is_array() );
-    ASSERT_TRUE( jvalue.as_array().size() == vecInt.size() );
+    jvalue = Json::ToJson(&vecInt);
+    ASSERT_TRUE(jvalue.is_array());
+    ASSERT_TRUE(jvalue.as_array().size() == vecInt.size());
     itr = vecInt.begin();
-    for ( auto &arrItem : jvalue.as_array() )
-    {
-        ASSERT_EQ( *itr, arrItem.as_integer() );
+    for (auto &arrItem : jvalue.as_array()) {
+        ASSERT_EQ(*itr, arrItem.as_integer());
         ++itr;
     }
 }
 
-TEST_F( SerializeConstantTest, TestScore )
+TEST_F(SerializeConstantTest, TestScore)
 {
     json::value jvalue;
     const vector<const double*> * const vecPtr = m_scores;
 
-    jvalue = Json::ToJson( std::move( *vecPtr ) );
-    ASSERT_TRUE( jvalue.is_array() );
-    ASSERT_TRUE( jvalue.as_array().size() == vecPtr->size() );
+    jvalue = Json::ToJson(std::move(*vecPtr));
+    ASSERT_TRUE(jvalue.is_array());
+    ASSERT_TRUE(jvalue.as_array().size() == vecPtr->size());
     auto itr = vecPtr->begin();
-    for ( auto &arrItem : jvalue.as_array() )
-    {
-        ASSERT_DOUBLE_EQ( arrItem.as_double(), **itr );
+    for (auto &arrItem : jvalue.as_array()) {
+        ASSERT_DOUBLE_EQ(arrItem.as_double(), **itr);
         ++itr;
     }
 
-    jvalue = Json::ToJson( *vecPtr );
-    ASSERT_TRUE( jvalue.is_array() );
-    ASSERT_TRUE( jvalue.as_array().size() == vecPtr->size() );
+    jvalue = Json::ToJson(*vecPtr);
+    ASSERT_TRUE(jvalue.is_array());
+    ASSERT_TRUE(jvalue.as_array().size() == vecPtr->size());
     itr = vecPtr->begin();
-    for ( auto &arrItem : jvalue.as_array() )
-    {
-        ASSERT_DOUBLE_EQ( arrItem.as_double(), **itr );
+    for (auto &arrItem : jvalue.as_array()) {
+        ASSERT_DOUBLE_EQ(arrItem.as_double(), **itr);
         ++itr;
     }
 
-    jvalue = Json::ToJson( vecPtr );
-    ASSERT_TRUE( jvalue.is_array() );
-    ASSERT_TRUE( jvalue.as_array().size() == vecPtr->size() );
+    jvalue = Json::ToJson(vecPtr);
+    ASSERT_TRUE(jvalue.is_array());
+    ASSERT_TRUE(jvalue.as_array().size() == vecPtr->size());
     itr = vecPtr->begin();
-    for ( auto &arrItem : jvalue.as_array() )
-    {
-        ASSERT_DOUBLE_EQ( arrItem.as_double(), **itr );
+    for (auto &arrItem : jvalue.as_array()) {
+        ASSERT_DOUBLE_EQ(arrItem.as_double(), **itr);
         ++itr;
     }
 }
 
-
-TEST_F( SerializeConstantTest, TestEmails )
+TEST_F(SerializeConstantTest, TestEmails)
 {
     json::value jvalue;
     const vector<const string*> * const vecPtr = m_emails;
 
-    jvalue = Json::ToJson( vector<const string*>( *vecPtr ) );
-    ASSERT_TRUE( jvalue.is_array() );
-    ASSERT_TRUE( jvalue.as_array().size() == vecPtr->size() );
+    jvalue = Json::ToJson(vector<const string*>(*vecPtr));
+    ASSERT_TRUE(jvalue.is_array());
+    ASSERT_TRUE(jvalue.as_array().size() == vecPtr->size());
     auto itr = vecPtr->begin();
-    for ( auto &arrItem : jvalue.as_array() )
-    {
-        ASSERT_EQ( 0, ( **itr ).compare( arrItem.as_string() ) );
+    for (auto &arrItem : jvalue.as_array()) {
+        ASSERT_EQ(0, (**itr).compare(arrItem.as_string()));
         ++itr;
     }
 
-    jvalue = Json::ToJson( std::move( *vecPtr ) );
-    ASSERT_TRUE( jvalue.is_array() );
-    ASSERT_TRUE( jvalue.as_array().size() == vecPtr->size() );
+    jvalue = Json::ToJson(std::move(*vecPtr));
+    ASSERT_TRUE(jvalue.is_array());
+    ASSERT_TRUE(jvalue.as_array().size() == vecPtr->size());
     itr = vecPtr->begin();
-    for ( auto &arrItem : jvalue.as_array() )
-    {
-        ASSERT_EQ( 0, ( **itr ).compare( arrItem.as_string() ) );
+    for (auto &arrItem : jvalue.as_array()) {
+        ASSERT_EQ(0, (**itr).compare(arrItem.as_string()));
         ++itr;
     }
 
-    jvalue = Json::ToJson( *vecPtr );
-    ASSERT_TRUE( jvalue.is_array() );
-    ASSERT_TRUE( jvalue.as_array().size() == vecPtr->size() );
+    jvalue = Json::ToJson(*vecPtr);
+    ASSERT_TRUE(jvalue.is_array());
+    ASSERT_TRUE(jvalue.as_array().size() == vecPtr->size());
     itr = vecPtr->begin();
-    for ( auto &arrItem : jvalue.as_array() )
-    {
-        ASSERT_EQ( 0, ( **itr ).compare( arrItem.as_string() ) );
+    for (auto &arrItem : jvalue.as_array()) {
+        ASSERT_EQ(0, (**itr).compare(arrItem.as_string()));
         ++itr;
     }
 
-    jvalue = Json::ToJson( vecPtr );
-    ASSERT_TRUE( jvalue.is_array() );
-    ASSERT_TRUE( jvalue.as_array().size() == vecPtr->size() );
+    jvalue = Json::ToJson(vecPtr);
+    ASSERT_TRUE(jvalue.is_array());
+    ASSERT_TRUE(jvalue.as_array().size() == vecPtr->size());
     itr = vecPtr->begin();
-    for ( auto &arrItem : jvalue.as_array() )
-    {
-        ASSERT_EQ( 0, ( **itr ).compare( arrItem.as_string() ) );
+    for (auto &arrItem : jvalue.as_array()) {
+        ASSERT_EQ(0, (**itr).compare(arrItem.as_string()));
         ++itr;
     }
 }
 
-
-TEST_F( SerializeConstantTest, TestCeties )
+TEST_F(SerializeConstantTest, TestCeties)
 {
     json::value jvalue;
     const vector<const char*> * const vecPtr = &m_cities;
 
-    jvalue = Json::ToJson( std::vector<const char*>( *vecPtr ) );
-    ASSERT_TRUE( jvalue.is_array() );
-    ASSERT_TRUE( jvalue.as_array().size() == vecPtr->size() );
+    jvalue = Json::ToJson(std::vector<const char*>(*vecPtr));
+    ASSERT_TRUE(jvalue.is_array());
+    ASSERT_TRUE(jvalue.as_array().size() == vecPtr->size());
     auto itr = vecPtr->begin();
-    for ( auto &arrItem : jvalue.as_array() )
-    {
-        ASSERT_EQ( 0, std::string( *itr ).compare( arrItem.as_string() ) );
+    for (auto &arrItem : jvalue.as_array()) {
+        ASSERT_EQ(0, std::string(*itr).compare(arrItem.as_string()));
         ++itr;
     }
 
-    jvalue = Json::ToJson( std::move( *vecPtr ) );
-    ASSERT_TRUE( jvalue.is_array() );
-    ASSERT_TRUE( jvalue.as_array().size() == vecPtr->size() );
+    jvalue = Json::ToJson(std::move(*vecPtr));
+    ASSERT_TRUE(jvalue.is_array());
+    ASSERT_TRUE(jvalue.as_array().size() == vecPtr->size());
     itr = vecPtr->begin();
-    for ( auto &arrItem : jvalue.as_array() )
-    {
-        ASSERT_EQ( 0, std::string( *itr ).compare( arrItem.as_string() ) );
+    for (auto &arrItem : jvalue.as_array()) {
+        ASSERT_EQ(0, std::string(*itr).compare(arrItem.as_string()));
         ++itr;
     }
 
-    jvalue = Json::ToJson( *vecPtr );
-    ASSERT_TRUE( jvalue.is_array() );
-    ASSERT_TRUE( jvalue.as_array().size() == vecPtr->size() );
+    jvalue = Json::ToJson(*vecPtr);
+    ASSERT_TRUE(jvalue.is_array());
+    ASSERT_TRUE(jvalue.as_array().size() == vecPtr->size());
     itr = vecPtr->begin();
-    for ( auto &arrItem : jvalue.as_array() )
-    {
-        ASSERT_EQ( 0, std::string( *itr ).compare( arrItem.as_string() ) );
+    for (auto &arrItem : jvalue.as_array()) {
+        ASSERT_EQ(0, std::string(*itr).compare(arrItem.as_string()));
         ++itr;
     }
 
-    jvalue = Json::ToJson( vecPtr );
-    ASSERT_TRUE( jvalue.is_array() );
-    ASSERT_TRUE( jvalue.as_array().size() == vecPtr->size() );
+    jvalue = Json::ToJson(vecPtr);
+    ASSERT_TRUE(jvalue.is_array());
+    ASSERT_TRUE(jvalue.as_array().size() == vecPtr->size());
     itr = vecPtr->begin();
-    for ( auto &arrItem : jvalue.as_array() )
-    {
-        ASSERT_EQ( 0, std::string( *itr ).compare( arrItem.as_string() ) );
+    for (auto &arrItem : jvalue.as_array()) {
+        ASSERT_EQ(0, std::string(*itr).compare(arrItem.as_string()));
         ++itr;
     }
 }

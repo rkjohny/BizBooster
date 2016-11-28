@@ -9,15 +9,13 @@
 #ifndef APPDISPOSER_H_
 #define APPDISPOSER_H_
 
-namespace Common
-{
+namespace Common {
 
-class AppDisposer
-{
-public:
-	AppDisposer();
-	virtual ~AppDisposer();
-};
+    class AppDisposer {
+    public:
+        AppDisposer();
+        virtual ~AppDisposer();
+    };
 
 } /* namespace Common */
 

@@ -16,18 +16,18 @@ string DateTimeUtils::GetTimeStamp()
     struct tm tstruct;
     char buf[ 80 ];
 
-    now = time( 0 );
+    now = time(0);
 
 #ifdef WIN32
-    localtime_s( &tstruct, &now );
+    localtime_s(&tstruct, &now);
 #else
-    localtime_r( &now, &tstruct );
+    localtime_r(&now, &tstruct);
 #endif
 
     // Reference: http://en.cppreference.com/w/cpp/chrono/c/strftime
-    strftime( buf, sizeof(buf), "%Y-%m-%d %I:%M:%S %p", &tstruct );
+    strftime(buf, sizeof (buf), "%Y-%m-%d %I:%M:%S %p", &tstruct);
 
-    return string( buf );
+    return string(buf);
 }
 
 } /* namespace Common */

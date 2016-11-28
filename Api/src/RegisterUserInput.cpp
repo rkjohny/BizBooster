@@ -9,8 +9,7 @@
 #include "RegisterUserInput.h"
 #include "ServiceFacade.h"
 
-namespace Api
-{
+namespace Api {
 
 //REGISTER_CLASS_DEC(RegisterUserInput, "register_user", 0)
 //REGISTER_CLASS_DEC(RegisterUserInput, "RegisterUserInput", 1)

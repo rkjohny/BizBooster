@@ -7,11 +7,10 @@
 
 #include "Disposable.h"
 
-namespace Common
-{
+namespace Common {
 
 Disposable::Disposable() :
-    m_isDosposed( false )
+m_isDosposed(false)
 {
 }
 

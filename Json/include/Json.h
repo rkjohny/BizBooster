@@ -23,8 +23,7 @@
 
 #include <iostream>
 
-namespace Json
-{
+namespace Json {
 
 #define REGISTER_GETTER_START public:\
     static constexpr auto getters = std::make_tuple(
@@ -54,55 +53,47 @@ namespace Json
 #define REGISTER_ALL_SETTER_END REGISTER_SETTER_END
 
 
-/************* Load Librray **************************/
-void LoadLibrary();
+    /************* Load Librray **************************/
+    void LoadLibrary();
 
+    /************************** Serializing *************************/
+    template <class T>
+    json::value ToJson(T &&object) {
+        return Serializer::ToJson(std::move(object));
+    }
 
-/************************** Serializing *************************/
-template <class  T>
-json::value ToJson( T  &&object )
-{
-    return Serializer::ToJson( std::move( object ) );
-}
+    template <class T>
+    json::value ToJson(T &object) {
+        return Serializer::ToJson(object);
+    }
 
-template <class  T>
-json::value ToJson( T  &object )
-{
-    return Serializer::ToJson( object );
-}
+    template <class T>
+    json::value ToJson(T *object) {
+        return Serializer::ToJson(object);
+    }
 
-template <class  T>
-json::value ToJson( T  *object )
-{
-    return Serializer::ToJson( object );
-}
+    template <class T>
+    json::value ToJson(T **object) {
+        return Serializer::ToJson(object);
+    }
 
-template <class  T>
-json::value ToJson( T  **object )
-{
-    return Serializer::ToJson( object );
-}
+    /************************** Deserializing *************************/
+    template<class T>
+    void FromJson(T &object, const json::value &jvalue) {
+        Deserializer::FromJson(object, jvalue);
+    }
 
-/************************** Deserializing *************************/
-template<class T>
-void FromJson( T &object, const json::value &jvalue )
-{
-    Deserializer::FromJson( object, jvalue );
-}
+    template<class T>
+    void FromJson(T *object, const json::value &jvalue) {
+        //std::cout << "Json::FromJson T*" <<std::endl;
+        Deserializer::FromJson(object, jvalue);
+    }
 
-template<class T>
-void FromJson( T *object, const json::value &jvalue )
-{
-    //std::cout << "Json::FromJson T*" <<std::endl;
-    Deserializer::FromJson( object, jvalue );
-}
-
-template<class T>
-void FromJson( T **object, json::value &jvalue )
-{
-    //std::cout << "Json::FromJson T** <<std::endl;
-    Deserializer::FromJson( object, jvalue );
-}
+    template<class T>
+    void FromJson(T **object, json::value &jvalue) {
+        //std::cout << "Json::FromJson T** <<std::endl;
+        Deserializer::FromJson(object, jvalue);
+    }
 
 } // namespace Json
 

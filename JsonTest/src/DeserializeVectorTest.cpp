@@ -13,15 +13,12 @@
 
 
 // test of deserialization of std::vector
-namespace JsonTest
-{
-namespace TestDeserializer
-{
+namespace JsonTest {
+namespace TestDeserializer {
 using namespace web;
 using namespace std;
 
-class DeserializeVectorTest : public ::testing::Test
-{
+class DeserializeVectorTest : public ::testing::Test {
 public:
     std::vector<string> m_names;
     std::vector<string*> *m_emails;
@@ -29,11 +26,9 @@ public:
     std::vector<const char*> **m_cityes;
     std::vector<const int*> m_ranks;
 
-
     void DeleteEmails()
     {
-        for ( auto &p : *m_emails )
-        {
+        for (auto &p : *m_emails) {
             delete p;
         }
         delete m_emails;
@@ -41,8 +36,7 @@ public:
 
     void DeleteScores()
     {
-        for ( auto &p : *m_scores )
-        {
+        for (auto &p : *m_scores) {
             delete p;
         }
         delete m_scores;
@@ -50,8 +44,7 @@ public:
 
     void DeleteCities()
     {
-        for ( auto &p : **m_cityes )
-        {
+        for (auto &p : **m_cityes) {
             delete p;
         }
         delete *m_cityes;
@@ -60,131 +53,124 @@ public:
 
     void DeleteRank()
     {
-        for ( auto &p : m_ranks )
-        {
+        for (auto &p : m_ranks) {
             delete p;
         }
     }
 
-    void VerifyNames( const json::value &jval )
+    void VerifyNames(const json::value &jval)
     {
-        ASSERT_TRUE( jval.as_array().size() == m_names.size() );
+        ASSERT_TRUE(jval.as_array().size() == m_names.size());
         auto itr = m_names.begin();
-        for ( auto &item : jval.as_array() )
-        {
-            ASSERT_TRUE( item.as_string().compare( *itr ) == 0 );
+        for (auto &item : jval.as_array()) {
+            ASSERT_TRUE(item.as_string().compare(*itr) == 0);
             ++itr;
         }
     }
 
-    void VerifyEmails( const json::value &jval )
+    void VerifyEmails(const json::value &jval)
     {
-        ASSERT_TRUE( jval.as_array().size() == m_emails->size() );
+        ASSERT_TRUE(jval.as_array().size() == m_emails->size());
         auto itr = m_emails->begin();
-        for ( auto &item : jval.as_array() )
-        {
-            ASSERT_TRUE( item.as_string().compare( **itr ) == 0 );
+        for (auto &item : jval.as_array()) {
+            ASSERT_TRUE(item.as_string().compare(**itr) == 0);
             ++itr;
         }
     }
 
-    void VerifyScores( const json::value &jval )
+    void VerifyScores(const json::value &jval)
     {
-        ASSERT_TRUE( jval.as_array().size() == m_scores->size() );
+        ASSERT_TRUE(jval.as_array().size() == m_scores->size());
         auto itr = m_scores->begin();
-        for ( auto &item : jval.as_array() )
-        {
-            ASSERT_DOUBLE_EQ( item.as_double(), **itr );
+        for (auto &item : jval.as_array()) {
+            ASSERT_DOUBLE_EQ(item.as_double(), **itr);
             ++itr;
         }
     }
 
-    void VerifyCities( const json::value &jval )
+    void VerifyCities(const json::value &jval)
     {
-        ASSERT_TRUE( jval.as_array().size() == ( *m_cityes )->size() );
-        auto itr = ( *m_cityes )->begin();
-        for ( auto &item : jval.as_array() )
-        {
-            ASSERT_TRUE( item.as_string().compare( U( const_cast<char*>( *itr ) ) ) == 0 );
+        ASSERT_TRUE(jval.as_array().size() == (*m_cityes)->size());
+        auto itr = (*m_cityes)->begin();
+        for (auto &item : jval.as_array()) {
+            ASSERT_TRUE(item.as_string().compare(U(const_cast<char*> (*itr))) == 0);
             ++itr;
         }
     }
 
-    void VerifyRanks( const json::value &jval )
+    void VerifyRanks(const json::value &jval)
     {
-        ASSERT_TRUE( jval.as_array().size() == m_ranks.size() );
+        ASSERT_TRUE(jval.as_array().size() == m_ranks.size());
         auto itr = m_ranks.begin();
-        for ( auto &item : jval.as_array() )
-        {
-            ASSERT_EQ( item.as_integer(), **itr );
+        for (auto &item : jval.as_array()) {
+            ASSERT_EQ(item.as_integer(), **itr);
             ++itr;
         }
     }
 };
 
-TEST_F( DeserializeVectorTest, TestNames )
+TEST_F(DeserializeVectorTest, TestNames)
 {
     json::value jarray = json::value::array();
     json::array &arr = jarray.as_array();
-    arr[0] = json::value( U( "Rezaul Karim" ) );
-    arr[1] = json::value( U( "Rezaul Johny" ) );
-    arr[2] = json::value( U( "Rezaul Karim Johny" ) );
+    arr[0] = json::value(U("Rezaul Karim"));
+    arr[1] = json::value(U("Rezaul Johny"));
+    arr[2] = json::value(U("Rezaul Karim Johny"));
 
-    Json::FromJson( m_names, jarray );
-    VerifyNames( jarray );
+    Json::FromJson(m_names, jarray);
+    VerifyNames(jarray);
 }
 
-
-TEST_F( DeserializeVectorTest, TestEmails )
+TEST_F(DeserializeVectorTest, TestEmails)
 {
     json::value jarray = json::value::array();
     json::array &arr = jarray.as_array();
-    arr[0] = json::value( U( "rezaul1@domain1.com" ) );
-    arr[1] = json::value( U( "rezaul2@domain2.com" ) );
-    arr[2] = json::value( U( "rezaul3@domain3.com" ) );
+    arr[0] = json::value(U("rezaul1@domain1.com"));
+    arr[1] = json::value(U("rezaul2@domain2.com"));
+    arr[2] = json::value(U("rezaul3@domain3.com"));
 
-    Json::FromJson( &m_emails, jarray );
-    VerifyEmails( jarray );
+    Json::FromJson(&m_emails, jarray);
+    VerifyEmails(jarray);
     DeleteEmails();
 }
 
-TEST_F( DeserializeVectorTest, TestScores )
+TEST_F(DeserializeVectorTest, TestScores)
 {
     json::value jarray = json::value::array();
     json::array &arr = jarray.as_array();
-    arr[0] = json::value( 11.56 );
-    arr[1] = json::value( 12.65 );
-    arr[2] = json::value( 15.015 );
+    arr[0] = json::value(11.56);
+    arr[1] = json::value(12.65);
+    arr[2] = json::value(15.015);
 
-    Json::FromJson( &m_scores, jarray );
-    VerifyScores( jarray );
+    Json::FromJson(&m_scores, jarray);
+    VerifyScores(jarray);
     DeleteScores();
 }
 
-TEST_F( DeserializeVectorTest, TestCities )
+TEST_F(DeserializeVectorTest, TestCities)
 {
     json::value jarray = json::value::array();
     json::array &arr = jarray.as_array();
-    arr[0] = json::value( U( "New york" ) );
-    arr[1] = json::value( U( "Dhaka" ) );
-    arr[2] = json::value( U( "London" ) );
+    arr[0] = json::value(U("New york"));
+    arr[1] = json::value(U("Dhaka"));
+    arr[2] = json::value(U("London"));
 
     m_cityes = new std::vector<const char*>*();
-    Json::FromJson( m_cityes, jarray );
-    VerifyCities( jarray );
+    Json::FromJson(m_cityes, jarray);
+    VerifyCities(jarray);
     DeleteCities();
 }
 
-TEST_F( DeserializeVectorTest, TestRanks )
+TEST_F(DeserializeVectorTest, TestRanks)
 {
     json::value jarray = json::value::array();
     json::array &arr = jarray.as_array();
-    arr[0] = json::value( 22 );
-    arr[1] = json::value( 32 );
-    arr[2] = json::value( 42 );
+    arr[0] = json::value(22);
+    arr[1] = json::value(32);
+    arr[2] = json::value(42);
 
-    Json::FromJson( m_ranks, jarray );
-    VerifyRanks( jarray );
+    Json::FromJson(m_ranks, jarray);
+    VerifyRanks(jarray);
     DeleteRank();
 }
 

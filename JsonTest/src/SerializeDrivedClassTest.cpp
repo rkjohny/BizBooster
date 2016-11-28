@@ -16,20 +16,21 @@ using namespace web;
 using namespace std;
 using namespace Json;
 
-namespace JsonTest
-{
-namespace TestSerializer
-{
+namespace JsonTest {
+namespace TestSerializer {
 
-class BaseClass
-{
+class BaseClass {
 private:
     double score;
     bool is_valid;
 
 public:
-    BaseClass() : score {24.5678}, is_valid {true} {}
-    BaseClass( double d, bool b ) : score {d}, is_valid {b} {}
+    BaseClass() : score{24.5678}, is_valid{true}
+    {
+    }
+    BaseClass(double d, bool b) : score{d}, is_valid{b}
+    {
+    }
 
     double GetScore() const
     {
@@ -42,18 +43,19 @@ public:
     }
 
     REGISTER_GETTER_START
-    GETTER( BaseClass, double, "score", &BaseClass::GetScore ),
-            GETTER( BaseClass, bool, "is_valid", &BaseClass::IsValid )
-            REGISTER_GETTER_END
+    GETTER(BaseClass, double, "score", &BaseClass::GetScore),
+    GETTER(BaseClass, bool, "is_valid", &BaseClass::IsValid)
+    REGISTER_GETTER_END
 };
 
-class DrivedClass : public BaseClass
-{
+class DrivedClass : public BaseClass {
 private:
     long id;
     string name;
 public:
-    DrivedClass() : BaseClass(), id {10L}, name {"name1"} {}
+    DrivedClass() : BaseClass(), id{10L}, name{"name1"}
+    {
+    }
 
     long GetId() const
     {
@@ -65,30 +67,31 @@ public:
         return name;
     }
 
-//     static constexpr auto getters = std::tuple_cat(
-//         std::make_tuple(
-//             Json::Getter<DrivedClass, long>(&DrivedClass::GetId, "id"),
-//             Json::Getter<DrivedClass, string>(&DrivedClass::GetName, "name")
-//         ),
-//         BaseClass::getters
-//     );
+    //     static constexpr auto getters = std::tuple_cat(
+    //         std::make_tuple(
+    //             Json::Getter<DrivedClass, long>(&DrivedClass::GetId, "id"),
+    //             Json::Getter<DrivedClass, string>(&DrivedClass::GetName, "name")
+    //         ),
+    //         BaseClass::getters
+    //     );
 
     REGISTER_ALL_GETTER_START
-    BASE_GETTER( BaseClass )
+    BASE_GETTER(BaseClass)
     OWN_GETTER_START
-    GETTER( DrivedClass, long, "id", &DrivedClass::GetId ),
-    GETTER( DrivedClass, string, "name", &DrivedClass::GetName )
+    GETTER(DrivedClass, long, "id", &DrivedClass::GetId),
+    GETTER(DrivedClass, string, "name", &DrivedClass::GetName)
     OWN_GETTER_END
     REGISTER_ALL_GETTER_END
 
 };
 
-class DrivedClass2 : public DrivedClass
-{
+class DrivedClass2 : public DrivedClass {
 private:
     int code;
 public:
-    DrivedClass2() : DrivedClass(), code {200} {}
+    DrivedClass2() : DrivedClass(), code{200}
+    {
+    }
 
     int GetCode() const
     {
@@ -96,15 +99,14 @@ public:
     }
 
     REGISTER_ALL_GETTER_START
-    BASE_GETTER( DrivedClass )
+    BASE_GETTER(DrivedClass)
     OWN_GETTER_START
-    GETTER( DrivedClass2, int, "code", &DrivedClass2::GetCode )
+    GETTER(DrivedClass2, int, "code", &DrivedClass2::GetCode)
     OWN_GETTER_END
     REGISTER_ALL_GETTER_END
 };
 
-class SerializeDrivedClassTest : public ::testing::Test
-{
+class SerializeDrivedClassTest : public ::testing::Test {
 public:
     BaseClass *base;
     DrivedClass *drived;
@@ -125,38 +127,38 @@ public:
     }
 };
 
-TEST_F( SerializeDrivedClassTest, BaseTest )
+TEST_F(SerializeDrivedClassTest, BaseTest)
 {
-    json::value jvalue = Json::ToJson( base );
+    json::value jvalue = Json::ToJson(base);
 
-    ASSERT_TRUE( jvalue.is_object() );
-    ASSERT_DOUBLE_EQ( base->GetScore(), jvalue.at( U( "score" ) ).as_double() );
-    ASSERT_TRUE( base->IsValid() == jvalue.at( U( "is_valid" ) ).as_bool() );
+    ASSERT_TRUE(jvalue.is_object());
+    ASSERT_DOUBLE_EQ(base->GetScore(), jvalue.at(U("score")).as_double());
+    ASSERT_TRUE(base->IsValid() == jvalue.at(U("is_valid")).as_bool());
     cout << jvalue.serialize() << endl;
 }
 
-TEST_F( SerializeDrivedClassTest, DrivedTest )
+TEST_F(SerializeDrivedClassTest, DrivedTest)
 {
-    json::value jvalue = Json::ToJson( drived );
+    json::value jvalue = Json::ToJson(drived);
 
-    ASSERT_TRUE( jvalue.is_object() );
-    ASSERT_DOUBLE_EQ( drived->GetId(), jvalue.at( U( "id" ) ).as_integer() );
-    ASSERT_TRUE( 0 == jvalue.at( U( "name" ) ).as_string().compare( drived->GetName() ) );
-    ASSERT_DOUBLE_EQ( drived->GetScore(), jvalue.at( U( "score" ) ).as_double() );
-    ASSERT_TRUE( drived->IsValid() == jvalue.at( U( "is_valid" ) ).as_bool() );
+    ASSERT_TRUE(jvalue.is_object());
+    ASSERT_DOUBLE_EQ(drived->GetId(), jvalue.at(U("id")).as_integer());
+    ASSERT_TRUE(0 == jvalue.at(U("name")).as_string().compare(drived->GetName()));
+    ASSERT_DOUBLE_EQ(drived->GetScore(), jvalue.at(U("score")).as_double());
+    ASSERT_TRUE(drived->IsValid() == jvalue.at(U("is_valid")).as_bool());
     cout << jvalue.serialize() << endl;
 }
 
-TEST_F( SerializeDrivedClassTest, DrivedTest2 )
+TEST_F(SerializeDrivedClassTest, DrivedTest2)
 {
-    json::value jvalue = Json::ToJson( drived2 );
+    json::value jvalue = Json::ToJson(drived2);
 
-    ASSERT_TRUE( jvalue.is_object() );
-    ASSERT_EQ( drived2->GetCode(), jvalue.at( U( "code" ) ).as_integer() );
-    ASSERT_DOUBLE_EQ( drived2->GetId(), jvalue.at( U( "id" ) ).as_integer() );
-    ASSERT_TRUE( 0 == jvalue.at( U( "name" ) ).as_string().compare( drived2->GetName() ) );
-    ASSERT_DOUBLE_EQ( drived2->GetScore(), jvalue.at( U( "score" ) ).as_double() );
-    ASSERT_TRUE( drived2->IsValid() == jvalue.at( U( "is_valid" ) ).as_bool() );
+    ASSERT_TRUE(jvalue.is_object());
+    ASSERT_EQ(drived2->GetCode(), jvalue.at(U("code")).as_integer());
+    ASSERT_DOUBLE_EQ(drived2->GetId(), jvalue.at(U("id")).as_integer());
+    ASSERT_TRUE(0 == jvalue.at(U("name")).as_string().compare(drived2->GetName()));
+    ASSERT_DOUBLE_EQ(drived2->GetScore(), jvalue.at(U("score")).as_double());
+    ASSERT_TRUE(drived2->IsValid() == jvalue.at(U("is_valid")).as_bool());
     cout << jvalue.serialize() << endl;
 }
 

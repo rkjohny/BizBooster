@@ -15,31 +15,30 @@
 #include "AppException.h"
 
 namespace Common {
-using namespace std;
+    using namespace std;
 
-class BaseConfigReader: public SharedObject, public Disposable
-{
-public:
-    string GetValueOf( const string& key );
+    class BaseConfigReader : public SharedObject, public Disposable {
+    public:
+        string GetValueOf(const string& key);
 
-    void ReloadFile() throw (AppException);
-    void SetFile( const string& fileName ) throw (AppException);
+        void ReloadFile() throw (AppException);
+        void SetFile(const string& fileName) throw (AppException);
 
-protected:
-    BaseConfigReader();
-    ~BaseConfigReader();
+    protected:
+        BaseConfigReader();
+        ~BaseConfigReader();
 
-    void Dispose() override;
-    void LoadFile( const string& fileName ) throw (AppException);
+        void Dispose() override;
+        void LoadFile(const string& fileName) throw (AppException);
 
-private:
+    private:
 
-    map< string, string > m_properties;
-    string m_fileName;
+        map< string, string > m_properties;
+        string m_fileName;
 
-    BaseConfigReader( BaseConfigReader& ) = delete;
-    BaseConfigReader& operator=( BaseConfigReader& ) = delete;
-};
+        BaseConfigReader(BaseConfigReader&) = delete;
+        BaseConfigReader& operator=(BaseConfigReader&) = delete;
+    };
 
 } /* namespace Common */
 

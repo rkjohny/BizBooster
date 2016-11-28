@@ -2,20 +2,17 @@
 #define _TRADEX_CLIENT_APP_DISPOSER_H_
 
 
-namespace Client
-{
+namespace Client {
 
+    class ClientDisposer {
+    private:
+        ClientDisposer();
+        ClientDisposer(const ClientDisposer&);
+        ClientDisposer& operator=(ClientDisposer&);
 
-class ClientDisposer
-{
-private:
-    ClientDisposer();
-    ClientDisposer( const ClientDisposer& );
-    ClientDisposer& operator = ( ClientDisposer& );
-
-public:
-    static void Dispose();
-};
+    public:
+        static void Dispose();
+    };
 
 
 }

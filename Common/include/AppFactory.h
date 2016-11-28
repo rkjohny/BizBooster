@@ -21,44 +21,42 @@
 
 namespace Common {
 
-class AppFactory
-{
-public:
-    class Logger: public BaseLogger
-    {
-        friend class AppFactory;
-    protected:
-        Logger() = default;
-        ~Logger() = default;
+    class AppFactory {
+    public:
+
+        class Logger : public BaseLogger {
+            friend class AppFactory;
+        protected:
+            Logger() = default;
+            ~Logger() = default;
+        };
+
+        class ConfigReader : public BaseConfigReader {
+            friend class AppFactory;
+        protected:
+            ConfigReader() = default;
+            ~ConfigReader() = default;
+        };
+
+        static void Dispose();
+
+        static Logger* GetLogger();
+        static void DisposeLogger();
+        static ConfigReader* GetConfigReader();
+        static void DisposeConfigReader();
+        static ConfigReader* GetPropertyReader();
+        static void DisposePropertyReader();
+
+    private:
+        AppFactory() = delete;
+        AppFactory(const AppFactory&) = delete;
+        AppFactory& operator=(const AppFactory&) = delete;
+        ~AppFactory() = delete;
+
+        static Logger* cm_logger;
+        static ConfigReader* cm_configReader;
+        static ConfigReader* cm_propertyReader;
     };
-
-    class ConfigReader: public BaseConfigReader
-    {
-        friend class AppFactory;
-    protected:
-        ConfigReader() = default;
-        ~ConfigReader() = default;
-    };
-
-    static void Dispose();
-
-    static Logger* GetLogger();
-    static void DisposeLogger();
-    static ConfigReader* GetConfigReader();
-    static void DisposeConfigReader();
-    static ConfigReader* GetPropertyReader();
-    static void DisposePropertyReader();
-
-private:
-    AppFactory() = delete;
-    AppFactory( const AppFactory& ) = delete;
-    AppFactory& operator=( const AppFactory& ) = delete;
-    ~AppFactory() = delete;
-
-    static Logger* cm_logger;
-    static ConfigReader* cm_configReader;
-    static ConfigReader* cm_propertyReader;
-};
 
 } /* namespace Common */
 

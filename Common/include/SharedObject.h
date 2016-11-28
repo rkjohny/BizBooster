@@ -11,17 +11,15 @@
 #include <mutex>
 
 namespace Common {
-using namespace std;
+    using namespace std;
 
+    class SharedObject {
+    protected:
+        SharedObject();
+        virtual ~SharedObject();
 
-class SharedObject
-{
-protected:
-    SharedObject();
-    virtual ~SharedObject();
-
-    mutex m_mutex;
-};
+        mutex m_mutex;
+    };
 
 } /* namespace Common */
 

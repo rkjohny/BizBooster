@@ -7,8 +7,7 @@
 
 #include "AppFactory.h"
 
-namespace Common
-{
+namespace Common {
 
 AppFactory::Logger* AppFactory::cm_logger = nullptr;
 AppFactory::ConfigReader* AppFactory::cm_configReader = nullptr;
@@ -16,8 +15,7 @@ AppFactory::ConfigReader* AppFactory::cm_propertyReader = nullptr;
 
 AppFactory::Logger* AppFactory::GetLogger()
 {
-    if ( !cm_logger )
-    {
+    if (!cm_logger) {
         cm_logger = new AppFactory::Logger();
     }
     return cm_logger;
@@ -25,16 +23,14 @@ AppFactory::Logger* AppFactory::GetLogger()
 
 void AppFactory::DisposeLogger()
 {
-    if ( cm_logger )
-    {
+    if (cm_logger) {
         cm_logger->Dispose();
     }
 }
 
 AppFactory::ConfigReader* AppFactory::GetConfigReader()
 {
-    if ( !cm_configReader )
-    {
+    if (!cm_configReader) {
         cm_configReader = new AppFactory::ConfigReader();
     }
     return cm_configReader;
@@ -42,16 +38,14 @@ AppFactory::ConfigReader* AppFactory::GetConfigReader()
 
 void AppFactory::DisposeConfigReader()
 {
-    if ( cm_configReader )
-    {
+    if (cm_configReader) {
         cm_configReader->Dispose();
     }
 }
 
 AppFactory::ConfigReader* AppFactory::GetPropertyReader()
 {
-    if ( !cm_propertyReader )
-    {
+    if (!cm_propertyReader) {
         cm_propertyReader = new AppFactory::ConfigReader();
     }
     return cm_propertyReader;
@@ -59,8 +53,7 @@ AppFactory::ConfigReader* AppFactory::GetPropertyReader()
 
 void AppFactory::DisposePropertyReader()
 {
-    if ( cm_propertyReader )
-    {
+    if (cm_propertyReader) {
         cm_propertyReader->Dispose();
     }
 }

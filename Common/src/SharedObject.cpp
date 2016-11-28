@@ -7,8 +7,7 @@
 
 #include "SharedObject.h"
 
-namespace Common
-{
+namespace Common {
 
 SharedObject::SharedObject()
 {

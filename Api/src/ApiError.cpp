@@ -8,8 +8,7 @@
 
 #include "ApiError.h"
 
-namespace Api
-{
+namespace Api {
 
 ApiError::ApiError()
 {
@@ -17,12 +16,12 @@ ApiError::ApiError()
     m_message = "Success";
 }
 
-void ApiError::SetCode( const ApiReturnCode& code )
+void ApiError::SetCode(const ApiReturnCode& code)
 {
     m_code = code;
 }
 
-void ApiError::SetMessage( const string& message )
+void ApiError::SetMessage(const string& message)
 {
     m_message = message;
 }

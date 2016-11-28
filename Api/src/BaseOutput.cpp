@@ -8,8 +8,7 @@
 
 #include "BaseOutput.h"
 
-namespace Api
-{
+namespace Api {
 
 BaseOutput::BaseOutput()
 {
@@ -19,7 +18,7 @@ BaseOutput::~BaseOutput()
 {
 }
 
-void BaseOutput::SetError( const ApiError& error )
+void BaseOutput::SetError(const ApiError& error)
 {
     m_error = error;
 }

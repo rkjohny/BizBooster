@@ -12,22 +12,21 @@
 #include "OStream.h"
 
 namespace Common {
-using namespace std;
+    using namespace std;
 
-class OSTDStream: public OStream
-{
-public:
-    OSTDStream();
-    ~OSTDStream();
+    class OSTDStream : public OStream {
+    public:
+        OSTDStream();
+        ~OSTDStream();
 
-    void Open() override;
+        void Open() override;
 
-    void Flush() override;
+        void Flush() override;
 
-    void Write( const string& message ) override;
+        void Write(const string& message) override;
 
-    void Close() override;
-};
+        void Close() override;
+    };
 
 } /* namespace Common */
 

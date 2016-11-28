@@ -22,8 +22,7 @@
 
 #include <iostream>
 
-namespace Server
-{
+namespace Server {
 
 // template<>
 // web::json::value
@@ -36,7 +35,6 @@ namespace Server
 //     return Json::ToJson(output);
 // }
 
-
 web::json::value ApiExecutor::ExecuteSingleApi(const web::json::value &jrequest)
 {
     web::json::value jresponse;
@@ -44,13 +42,11 @@ web::json::value ApiExecutor::ExecuteSingleApi(const web::json::value &jrequest)
     const web::json::value &jdata = jrequest.at(JSON_DATA);
     std::string apiName = utility::conversions::to_utf8string(japi.as_string());
 
-    if (japi.is_string() && jdata.is_object())
-    {
-        Api::Serializable* obj = Api::SOFactory::CreateObject( std::move(apiName) );
+    if (japi.is_string() && jdata.is_object()) {
+        Api::Serializable* obj = Api::SOFactory::CreateObject(std::move(apiName));
 
-        if (obj)
-        {
-            Api::BaseInput *input = dynamic_cast<Api::BaseInput*>( obj );
+        if (obj) {
+            Api::BaseInput *input = dynamic_cast<Api::BaseInput*> (obj);
 
             std::cout << "DATA:" << std::endl << jdata.serialize() << std::endl;
 
@@ -62,16 +58,12 @@ web::json::value ApiExecutor::ExecuteSingleApi(const web::json::value &jrequest)
             Api::BaseOutput *output = input->Process();
 
             jresponse = output->Serialize();
-            
+
             std::cout << "OUTPUT:" << std::endl << jresponse.serialize() << std::endl;
-        }
-        else
-        {
+        } else {
             //TODO: handle bad request
         }
-    }
-    else
-    {
+    } else {
         //TODO: handle bad request
     }
 

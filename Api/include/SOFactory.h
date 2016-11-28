@@ -18,10 +18,9 @@
 #include "Serializable.h"
 
 
-namespace Api
-{
-using namespace std;
-using namespace Json;
+namespace Api {
+    using namespace std;
+    using namespace Json;
 
 #define REGISTER_CLASS(TYPE, NAME) \
 SOFactory::Register<TYPE>(string(NAME));
@@ -33,82 +32,75 @@ private: static Json::ClassRegistrar<TYPE> _class_registrar_##ID;
 Json::ClassRegistrar<TYPE> \
 TYPE::_class_registrar_##ID = Json::ClassRegistrar<TYPE>( string(KEY) );
 
-class SOFactory
-{
-public:
-    
-    static void Load();
-    
-    static Serializable* CreateObject( string &&key );
-    static vector< Serializable* >* CreateObjectArray( string &&key, const size_t size );
+    class SOFactory {
+    public:
 
-    template< class T >
-    static void Register( string key )
-    {
-        static_assert(std::is_base_of< Serializable, T >::value, "T must be derived from Serializable");
-        Common::StringUtils::ToLower( key );
+        static void Load();
 
-        cm_mutex.lock();
-        cm_objectCreators[ key ] = &Create< T >;
-        //cm_objectCreators.insert(std::pair<string, FunPtr>(key, &Create< T >));
-        cm_mutex.unlock();
+        static Serializable* CreateObject(string &&key);
+        static vector< Serializable* >* CreateObjectArray(string &&key, const size_t size);
 
-        cm_mutexArr.lock();
-        cm_objectArrayCreators[ key ] = &CreateArrary< T >;
-        cm_mutexArr.unlock();
+        template< class T >
+        static void Register(string key) {
+            static_assert(std::is_base_of< Serializable, T >::value, "T must be derived from Serializable");
+            Common::StringUtils::ToLower(key);
 
-        cout << cm_objectCreators.size() << endl;
-        cout << cm_objectArrayCreators.size() << endl;
-    }
+            cm_mutex.lock();
+            cm_objectCreators[ key ] = &Create< T >;
+            //cm_objectCreators.insert(std::pair<string, FunPtr>(key, &Create< T >));
+            cm_mutex.unlock();
 
-protected:
-    SOFactory() = default;
+            cm_mutexArr.lock();
+            cm_objectArrayCreators[ key ] = &CreateArrary< T >;
+            cm_mutexArr.unlock();
 
-    typedef Serializable* ( *FunPtr )( void );
-    typedef map< string, FunPtr > ListCreators;
-
-    typedef vector< Serializable* >* ( *FunPtrArr )( const size_t );
-    typedef map< string, FunPtrArr > ListCreatorsArr;
-
-    template< class T >
-    static Serializable* Create()
-    {
-        Serializable* p = reinterpret_cast< Serializable* >( new T() );
-        return p;
-    }
-
-    template< class T >
-    static vector< Serializable* >* CreateArrary( const size_t size )
-    {
-        vector< Serializable* >* v = new vector< Serializable * >();
-        for ( size_t i = 0; i < size; i++ )
-        {
-            Serializable* p = reinterpret_cast< Serializable* >( new T() );
-            v->push_back( p );
+            cout << cm_objectCreators.size() << endl;
+            cout << cm_objectArrayCreators.size() << endl;
         }
-        return v;
-    }
 
-    static mutex cm_mutex;
-    static ListCreators cm_objectCreators;
+    protected:
+        SOFactory() = default;
 
-    static mutex cm_mutexArr;
-    static ListCreatorsArr cm_objectArrayCreators;
-};
+        typedef Serializable* (*FunPtr)(void);
+        typedef map< string, FunPtr > ListCreators;
 
+        typedef vector< Serializable* >* (*FunPtrArr)(const size_t);
+        typedef map< string, FunPtrArr > ListCreatorsArr;
 
-template< class T >
-class ClassRegistrar : public SOFactory
-{
-public:
-    ClassRegistrar( string key )
-    {
-        SOFactory::Register< T >( key  );
-    }
+        template< class T >
+        static Serializable* Create() {
+            Serializable* p = reinterpret_cast<Serializable*> (new T());
+            return p;
+        }
 
-protected:
-    ClassRegistrar() = default;
-};
+        template< class T >
+        static vector< Serializable* >* CreateArrary(const size_t size) {
+            vector< Serializable* >* v = new vector< Serializable * >();
+            for (size_t i = 0; i < size; i++) {
+                Serializable* p = reinterpret_cast<Serializable*> (new T());
+                v->push_back(p);
+            }
+            return v;
+        }
+
+        static mutex cm_mutex;
+        static ListCreators cm_objectCreators;
+
+        static mutex cm_mutexArr;
+        static ListCreatorsArr cm_objectArrayCreators;
+    };
+
+    template< class T >
+    class ClassRegistrar : public SOFactory {
+    public:
+
+        ClassRegistrar(string key) {
+            SOFactory::Register< T >(key);
+        }
+
+    protected:
+        ClassRegistrar() = default;
+    };
 
 
 } /* namespace Api */

@@ -8,22 +8,19 @@
 
 
 
-namespace Server
-{
+namespace Server {
 
+    class AppServer {
+    public:
+        AppServer();
+        void Run();
+        void ShutDown();
 
-class AppServer
-{
-public:
-    AppServer();
-    void Run();
-    void ShutDown();
-
-private:
-    web::uri_builder uri;
-    utility::string_t address;
-    std::unique_ptr<Listener> m_listener;
-};
+    private:
+        web::uri_builder uri;
+        utility::string_t address;
+        std::unique_ptr<Listener> m_listener;
+    };
 
 
 } //namespace Server

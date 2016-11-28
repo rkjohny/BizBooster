@@ -13,26 +13,25 @@
 #include "OStream.h"
 
 namespace Common {
-using namespace std;
+    using namespace std;
 
-class OFStream: public OStream
-{
-private:
-    ofstream m_ofs;
-    string m_fileName;
+    class OFStream : public OStream {
+    private:
+        ofstream m_ofs;
+        string m_fileName;
 
-public:
-    OFStream();
-    explicit OFStream( const string& filename );
-    virtual ~OFStream();
+    public:
+        OFStream();
+        explicit OFStream(const string& filename);
+        virtual ~OFStream();
 
-    void SetFile( const string& filename );
+        void SetFile(const string& filename);
 
-    void Open() override;
-    void Flush() override;
-    void Write( const string& message ) override;
-    void Close() override;
-};
+        void Open() override;
+        void Flush() override;
+        void Write(const string& message) override;
+        void Close() override;
+    };
 
 } /* namespace Common */
 

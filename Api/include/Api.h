@@ -3,11 +3,10 @@
 #ifndef LIBAPI_H_
 #define LIBAPI_H_
 
-namespace Api
-{
+namespace Api {
 
 
-void LoadLibrary();
+    void LoadLibrary();
 
 
 } /* namespace */

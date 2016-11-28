@@ -10,16 +10,15 @@
 
 namespace Common {
 
-class Disposable
-{
-protected:
-    bool m_isDosposed;
+    class Disposable {
+    protected:
+        bool m_isDosposed;
 
-public:
-    Disposable();
-    virtual ~Disposable();
-    virtual void Dispose() = 0;
-};
+    public:
+        Disposable();
+        virtual ~Disposable();
+        virtual void Dispose() = 0;
+    };
 
 } /* namespace Common */
 

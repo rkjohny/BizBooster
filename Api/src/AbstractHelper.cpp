@@ -11,11 +11,10 @@
 #include "AppException.h"
 #include "AppFactory.h"
 
-namespace Api
-{
+namespace Api {
 using namespace Common;
 
-AbstractHelper::AbstractHelper() : m_output( nullptr )
+AbstractHelper::AbstractHelper() : m_output(nullptr)
 {
 }
 
@@ -25,22 +24,17 @@ AbstractHelper::~AbstractHelper()
 
 BaseOutput* AbstractHelper::Execute()
 {
-    try
-    {
+    try {
         ValidateInput();
         Initialize();
         CheckPermission();
         ExecuteHelper();
-    }
-    catch ( AppException& e )
-    {
-//         LOG_ERROR(std::string("API: ") + m_input->ApiName() +
-//                    " failed with with error: [" + e.ToString() + "]" );
-    }
-    catch ( exception& e )
-    {
-//         LOG_ERROR(std::string("API: ") + m_input->ApiName() + " failed with with error: [" +
-//                    AppException( e ).ToString() + "]" );
+    } catch (AppException& e) {
+        //         LOG_ERROR(std::string("API: ") + m_input->ApiName() +
+        //                    " failed with with error: [" + e.ToString() + "]" );
+    } catch (exception& e) {
+        //         LOG_ERROR(std::string("API: ") + m_input->ApiName() + " failed with with error: [" +
+        //                    AppException( e ).ToString() + "]" );
     }
 
     // the output must be deleted by caller

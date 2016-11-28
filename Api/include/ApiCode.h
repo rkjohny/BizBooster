@@ -3,22 +3,18 @@
 
 #include "AppConstant.h"
 
-namespace Api
-{
+namespace Api {
 
+    enum ApiCode {
+        ADD_USER = 0,
+        REGISTER_USER
+    };
 
-enum ApiCode
-{
-    ADD_USER = 0,
-    REGISTER_USER
-};
-
-enum ApiReturnCode
-{
-    SUCCESS = 200,
-    UN_KNOWN = UNKNOWN_ERROR,
-    INVALID_REQUEST_DATA = -0x2001
-};
+    enum ApiReturnCode {
+        SUCCESS = 200,
+        UN_KNOWN = UNKNOWN_ERROR,
+        INVALID_REQUEST_DATA = -0x2001
+    };
 
 
 }

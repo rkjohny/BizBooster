@@ -13,10 +13,10 @@
 #include "Json.h"
 #include "Common.h"
 
-namespace Json
-{
+namespace Json {
 
 static bool loaded = false;
+
 void LoadLibrary()
 {
     if (!loaded) {

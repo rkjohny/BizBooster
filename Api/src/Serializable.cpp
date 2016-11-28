@@ -9,8 +9,7 @@
 
 #include "Serializable.h"
 
-namespace Api
-{
+namespace Api {
 
 Serializable::Serializable()
 {

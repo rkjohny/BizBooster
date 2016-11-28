@@ -19,11 +19,9 @@ using namespace Json;
 
 // test deserialization of drived class
 
-namespace JsonTest
-{
+namespace JsonTest {
 
-class EmptyClass
-{
+class EmptyClass {
     REGISTER_GETTER_START
     REGISTER_GETTER_END
 
@@ -36,8 +34,8 @@ TEST(EmptyClassTest, EmptyObject)
     using Type = typename Remove_CVR<EmptyClass>::Type;
     auto setters = Type::setters;
     auto getters = Type::setters;
-    const size_t lengthGetter = std::tuple_size<decltype(getters)>::value;
-    const size_t lengthSetter = std::tuple_size<decltype(setters)>::value;
+    const size_t lengthGetter = std::tuple_size < decltype(getters)>::value;
+    const size_t lengthSetter = std::tuple_size < decltype(setters)>::value;
     std::cout << "lengthGetter = " << lengthGetter << std::endl;
     std::cout << "lengthSetter = " << lengthSetter << std::endl;
     ASSERT_TRUE(lengthGetter == 0);

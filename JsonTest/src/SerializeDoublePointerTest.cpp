@@ -20,13 +20,10 @@ using namespace web;
 using namespace std;
 using namespace Json;
 
-namespace JsonTest
-{
-namespace TestSerializer
-{
+namespace JsonTest {
+namespace TestSerializer {
 
-class DoubolePointerTestBase
-{
+class DoubolePointerTestBase {
 public:
     std::vector<string**> **m_names;
 
@@ -36,12 +33,11 @@ public:
     }
 
     REGISTER_GETTER_START
-    GETTER( DoubolePointerTestBase, std::vector<string**>**, "names", &DoubolePointerTestBase::GetNames )
+    GETTER(DoubolePointerTestBase, std::vector<string**>**, "names", &DoubolePointerTestBase::GetNames)
     REGISTER_GETTER_END
 };
 
-class DoublePointerTestDrived
-{
+class DoublePointerTestDrived {
 public:
     int **m_id;
     DoubolePointerTestBase **m_base;
@@ -57,50 +53,48 @@ public:
     }
 
     REGISTER_GETTER_START
-    GETTER( DoublePointerTestDrived, int**, "id", &DoublePointerTestDrived::GetId ),
-            GETTER( DoublePointerTestDrived, DoubolePointerTestBase**, "base", &DoublePointerTestDrived::GetBase )
-            REGISTER_GETTER_END
+    GETTER(DoublePointerTestDrived, int**, "id", &DoublePointerTestDrived::GetId),
+    GETTER(DoublePointerTestDrived, DoubolePointerTestBase**, "base", &DoublePointerTestDrived::GetBase)
+    REGISTER_GETTER_END
 };
 
-
-TEST( DoubolePointerTest, TestDoublePointer )
+TEST(DoubolePointerTest, TestDoublePointer)
 {
-    DoubolePointerTestBase ** base = new DoubolePointerTestBase* ();
+    DoubolePointerTestBase ** base = new DoubolePointerTestBase * ();
     *base = new DoubolePointerTestBase();
 
     std::vector<string**> **names = new std::vector<string**>* ();
     *names = new std::vector<string**>();
-    string **name = new string*();
-    *name = new string( "first string" );
-    ( *names )->push_back( name );
+    string **name = new string * ();
+    *name = new string("first string");
+    (*names)->push_back(name);
 
-    name = new string*();
-    *name = new string( "second string" );
-    ( *names )->push_back( name );
+    name = new string * ();
+    *name = new string("second string");
+    (*names)->push_back(name);
 
-    ( *base )->m_names = names;
+    (*base)->m_names = names;
 
-    DoublePointerTestDrived **obj = new DoublePointerTestDrived*();
+    DoublePointerTestDrived **obj = new DoublePointerTestDrived * ();
     *obj = new DoublePointerTestDrived();
 
-    ( *obj )->m_id = new int*();
-    *( ( *obj )->m_id ) = new int( 100 );
+    (*obj)->m_id = new int*();
+    *((*obj)->m_id) = new int( 100);
 
-    ( *obj )->m_base = base;
+    (*obj)->m_base = base;
 
-    json::value jval = Json::ToJson( obj );
+    json::value jval = Json::ToJson(obj);
 
-    ASSERT_TRUE( jval.is_object() );
-    ASSERT_EQ( **( *obj )->m_id, jval.at( U( "id" ) ).as_integer() );
-    json::value jbase = jval.at( U( "base" ) );
-    ASSERT_TRUE( jbase.is_object() );
-    json::value jnames = jbase.at( U( "names" ) );
-    ASSERT_TRUE( jnames.is_array() );
+    ASSERT_TRUE(jval.is_object());
+    ASSERT_EQ(**(*obj)->m_id, jval.at(U("id")).as_integer());
+    json::value jbase = jval.at(U("base"));
+    ASSERT_TRUE(jbase.is_object());
+    json::value jnames = jbase.at(U("names"));
+    ASSERT_TRUE(jnames.is_array());
 
-    auto itr = ( *( *( *obj )->m_base )->m_names )->begin();
-    for ( auto &item : jnames.as_array() )
-    {
-        ASSERT_TRUE( item.as_string().compare( ***itr ) == 0 );
+    auto itr = (*(*(*obj)->m_base)->m_names)->begin();
+    for (auto &item : jnames.as_array()) {
+        ASSERT_TRUE(item.as_string().compare(***itr) == 0);
         ++itr;
     }
 }

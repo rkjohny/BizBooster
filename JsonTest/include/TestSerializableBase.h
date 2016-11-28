@@ -16,23 +16,21 @@
 #include <string>
 #include "Json.h"
 
-namespace Json
-{
+namespace Json {
 
-class TestSerializableBase
-{
-public:
-    TestSerializableBase() = default;
-    virtual ~TestSerializableBase() = default;
+    class TestSerializableBase {
+    public:
+        TestSerializableBase() = default;
+        virtual ~TestSerializableBase() = default;
 
-    virtual const char* GetClassName() const = 0;
+        virtual const char* GetClassName() const = 0;
 
-    REGISTER_GETTER_START
-    REGISTER_GETTER_END
+        REGISTER_GETTER_START
+        REGISTER_GETTER_END
 
-    REGISTER_SETTER_START
-    REGISTER_SETTER_END
-};
+        REGISTER_SETTER_START
+        REGISTER_SETTER_END
+    };
 
 } // namespace Json
 

@@ -12,24 +12,22 @@
 #include <string>
 #include "ApiCode.h"
 
-namespace Api
-{
-using namespace std;
+namespace Api {
+    using namespace std;
 
-class ApiError
-{
-public:
-    ApiError();
+    class ApiError {
+    public:
+        ApiError();
 
-    void SetCode( const ApiReturnCode& code );
-    void SetMessage( const string& message );
-    ApiReturnCode GetCode() const;
-    string GetMessage() const;
+        void SetCode(const ApiReturnCode& code);
+        void SetMessage(const string& message);
+        ApiReturnCode GetCode() const;
+        string GetMessage() const;
 
-private:
-    ApiReturnCode m_code;
-    string m_message;
-};
+    private:
+        ApiReturnCode m_code;
+        string m_message;
+    };
 
 } /* namespace Api */
 

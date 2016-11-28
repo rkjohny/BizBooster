@@ -2,20 +2,17 @@
 #define _TRADEX_SERVER_APP_DISPOSER_H_
 
 
-namespace Server
-{
+namespace Server {
 
+    class ServerDisposer {
+    private:
+        ServerDisposer();
+        ServerDisposer(const ServerDisposer&);
+        ServerDisposer& operator=(ServerDisposer&);
 
-class ServerDisposer
-{
-private:
-    ServerDisposer();
-    ServerDisposer( const ServerDisposer& );
-    ServerDisposer& operator = ( ServerDisposer& );
-
-public:
-    static void Dispose();
-};
+    public:
+        static void Dispose();
+    };
 
 
 } //namespace Server

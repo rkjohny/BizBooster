@@ -8,8 +8,7 @@
 #include "OSTDStream.h"
 #include <iostream>
 
-namespace Common
-{
+namespace Common {
 
 OSTDStream::OSTDStream()
 {
@@ -27,7 +26,7 @@ void OSTDStream::Flush()
 {
 }
 
-void OSTDStream::Write( const string& message )
+void OSTDStream::Write(const string& message)
 {
     m_mutex.lock();
     cout << message << endl;

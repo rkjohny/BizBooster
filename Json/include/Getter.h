@@ -14,25 +14,24 @@
 #ifndef GETTER_H
 #define GETTER_H
 
-namespace Json
-{
+namespace Json {
 
-template<class ClassT, class ReturnT>
-class Getter
-{
-public:
+    template<class ClassT, class ReturnT>
+    class Getter {
+    public:
 
-    using Class = ClassT;
-    using Type = ReturnT;
+        using Class = ClassT;
+        using Type = ReturnT;
 
-    typedef ReturnT( Class::*GetterPtr )() const;
-    GetterPtr fp;
-    const char* name;
+        typedef ReturnT(Class::*GetterPtr)() const;
+        GetterPtr fp;
+        const char* name;
 
-    constexpr Getter( GetterPtr fp, const char* name ) :
-        fp { fp }, name { name }
-    {}
-};
+        constexpr Getter(GetterPtr fp, const char* name) :
+        fp{fp}, name{ name}
+        {
+        }
+    };
 
 }
 

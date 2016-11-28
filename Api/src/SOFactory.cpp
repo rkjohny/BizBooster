@@ -11,8 +11,7 @@
 #include "StringUtils.h"
 
 
-namespace Api
-{
+namespace Api {
 using namespace Common;
 
 mutex SOFactory::cm_mutex;
@@ -23,21 +22,20 @@ SOFactory::ListCreatorsArr SOFactory::cm_objectArrayCreators;
 
 void SOFactory::Load()
 {
-    
+    //needed just to initialize the static variables
 }
 
-Serializable* SOFactory::CreateObject( string &&key )
+Serializable* SOFactory::CreateObject(string &&key)
 {
     Serializable* p = nullptr;
-    StringUtils::ToLower( key );
-    
+    StringUtils::ToLower(key);
+
     cout << cm_objectCreators.size() << endl;
     cout << cm_objectArrayCreators.size() << endl;
-            
+
     cm_mutex.lock();
-    ListCreators::iterator itr = cm_objectCreators.find( std::move(key) );
-    if ( itr != cm_objectCreators.end() )
-    {
+    ListCreators::iterator itr = cm_objectCreators.find(std::move(key));
+    if (itr != cm_objectCreators.end()) {
         p = itr->second();
     }
     cm_mutex.unlock();
@@ -45,16 +43,15 @@ Serializable* SOFactory::CreateObject( string &&key )
     return p;
 }
 
-vector< Serializable* >* SOFactory::CreateObjectArray(string &&key, const size_t size )
+vector< Serializable* >* SOFactory::CreateObjectArray(string &&key, const size_t size)
 {
     vector< Serializable* >* v = nullptr;
-    StringUtils::ToLower( key );
+    StringUtils::ToLower(key);
 
     cm_mutexArr.lock();
-    ListCreatorsArr::iterator itr = cm_objectArrayCreators.find( std::move(key) );
-    if ( itr != cm_objectArrayCreators.end() )
-    {
-        v = itr->second( size );
+    ListCreatorsArr::iterator itr = cm_objectArrayCreators.find(std::move(key));
+    if (itr != cm_objectArrayCreators.end()) {
+        v = itr->second(size);
     }
     cm_mutexArr.unlock();
     return v;

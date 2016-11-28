@@ -18,11 +18,13 @@ RegisterUserOutput::~RegisterUserOutput()
 {
 }
 
-const User& RegisterUserOutput::GetUser() const {
+const User& RegisterUserOutput::GetUser() const
+{
     return m_user;
 }
 
-void RegisterUserOutput::SetUser(const User& user) {
+void RegisterUserOutput::SetUser(const User& user)
+{
     m_user.SetEmail(user.GetEmail());
     m_user.SetName(user.GetName());
     m_user.SetRoles(user.GetRoles());

@@ -2,19 +2,17 @@
 #define _CLIENT_APP_INITIALIZER_H_
 
 
-namespace Client
-{
+namespace Client {
 
-class ClientInitializer
-{
-private:
-    ClientInitializer();
-    ClientInitializer( ClientInitializer& );
-    ClientInitializer& operator = ( ClientInitializer& );
+    class ClientInitializer {
+    private:
+        ClientInitializer();
+        ClientInitializer(ClientInitializer&);
+        ClientInitializer& operator=(ClientInitializer&);
 
-public:
-    static void Initialize();
-};
+    public:
+        static void Initialize();
+    };
 
 }
 #endif

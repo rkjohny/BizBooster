@@ -12,34 +12,32 @@
 #include "AbstractHelper.h"
 #include "RegisterUserInput.h"
 
-namespace Api
-{
+namespace Api {
 
-//TODO: FOrward declaration
-class RegisterUserInput;
+    //TODO: FOrward declaration
+    class RegisterUserInput;
 
-class RegisterUserHelper: public AbstractHelper
-{
-private:
-    RegisterUserHelper( const RegisterUserHelper& helper ) = delete;
-    RegisterUserHelper& operator =( const RegisterUserHelper& ) = delete;
-    
-    RegisterUserInput *m_input;
+    class RegisterUserHelper : public AbstractHelper {
+    private:
+        RegisterUserHelper(const RegisterUserHelper& helper) = delete;
+        RegisterUserHelper& operator=(const RegisterUserHelper&) = delete;
 
-public:
-    RegisterUserHelper();
-    explicit RegisterUserHelper( RegisterUserInput* input );
+        RegisterUserInput *m_input;
 
-    void SetInput( RegisterUserInput* in );
+    public:
+        RegisterUserHelper();
+        explicit RegisterUserHelper(RegisterUserInput* input);
 
-    void ValidateInput() override;
+        void SetInput(RegisterUserInput* in);
 
-    void Initialize() override;
+        void ValidateInput() override;
 
-    void CheckPermission() override;
+        void Initialize() override;
 
-    void ExecuteHelper() override;
-};
+        void CheckPermission() override;
+
+        void ExecuteHelper() override;
+    };
 
 } /* namespace Api */
 

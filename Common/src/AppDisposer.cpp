@@ -9,17 +9,14 @@
 
 #include "AppDisposer.h"
 
-namespace Common
-{
+namespace Common {
 
 AppDisposer::AppDisposer()
 {
-
 }
 
 AppDisposer::~AppDisposer()
 {
-
 }
 
 } /* namespace Common */

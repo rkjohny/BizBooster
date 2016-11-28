@@ -18,20 +18,21 @@ using namespace Json;
 
 // test deserialization of drived class
 
-namespace JsonTest
-{
-namespace TestDeserializer
-{
+namespace JsonTest {
+namespace TestDeserializer {
 
-class BaseClass
-{
+class BaseClass {
 private:
     double score;
     bool is_valid;
 
 public:
-    BaseClass() : score {24.5678}, is_valid {true} {}
-    BaseClass( double d, bool b ) : score {d}, is_valid {b} {}
+    BaseClass() : score{24.5678}, is_valid{true}
+    {
+    }
+    BaseClass(double d, bool b) : score{d}, is_valid{b}
+    {
+    }
 
     virtual ~BaseClass() = default;
 
@@ -45,12 +46,12 @@ public:
         return is_valid;
     }
 
-    void SetScore( double d )
+    void SetScore(double d)
     {
         score = d;
     }
 
-    void SetValid( bool b )
+    void SetValid(bool b)
     {
         is_valid = b;
     }
@@ -62,23 +63,24 @@ public:
     }
 
     REGISTER_GETTER_START
-    GETTER( BaseClass, double, "score", &BaseClass::GetScore ),
-    GETTER( BaseClass, bool, "is_valid", &BaseClass::IsValid )
+    GETTER(BaseClass, double, "score", &BaseClass::GetScore),
+    GETTER(BaseClass, bool, "is_valid", &BaseClass::IsValid)
     REGISTER_GETTER_END
 
     REGISTER_SETTER_START
-    SETTER( BaseClass, double, "score", &BaseClass::SetScore ),
-    SETTER( BaseClass, bool, "is_valid", &BaseClass::SetValid )
+    SETTER(BaseClass, double, "score", &BaseClass::SetScore),
+    SETTER(BaseClass, bool, "is_valid", &BaseClass::SetValid)
     REGISTER_SETTER_END
 };
 
-class DrivedClass : public BaseClass
-{
+class DrivedClass : public BaseClass {
 private:
     long id;
     string name;
 public:
-    DrivedClass() : BaseClass(), id {10L}, name {"name1"} {}
+    DrivedClass() : BaseClass(), id{10L}, name{"name1"}
+    {
+    }
 
     virtual ~DrivedClass() = default;
 
@@ -92,12 +94,12 @@ public:
         return name;
     }
 
-    void SetId( long i )
+    void SetId(long i)
     {
         id = i;
     }
 
-    void SetName( string s )
+    void SetName(string s)
     {
         name = s;
     }
@@ -110,36 +112,37 @@ public:
     }
 
     REGISTER_ALL_GETTER_START
-    BASE_GETTER( BaseClass )
+    BASE_GETTER(BaseClass)
     OWN_GETTER_START
-    GETTER( DrivedClass, long, "id", &DrivedClass::GetId ),
-    GETTER( DrivedClass, string, "name", &DrivedClass::GetName )
+    GETTER(DrivedClass, long, "id", &DrivedClass::GetId),
+    GETTER(DrivedClass, string, "name", &DrivedClass::GetName)
     OWN_GETTER_END
-           REGISTER_ALL_GETTER_END
+    REGISTER_ALL_GETTER_END
 
     REGISTER_ALL_SETTER_START
-    BASE_SETTER( BaseClass )
+    BASE_SETTER(BaseClass)
     OWN_SETTER_START
-    SETTER( DrivedClass, long, "id", &DrivedClass::SetId ),
-    SETTER( DrivedClass, string, "name", &DrivedClass::SetName )
+    SETTER(DrivedClass, long, "id", &DrivedClass::SetId),
+    SETTER(DrivedClass, string, "name", &DrivedClass::SetName)
     OWN_SETTER_END
     REGISTER_ALL_SETTER_END
 
 };
 
-class DrivedClass2 : public DrivedClass
-{
+class DrivedClass2 : public DrivedClass {
 private:
     int code;
 public:
-    DrivedClass2() : DrivedClass(), code {200} {}
+    DrivedClass2() : DrivedClass(), code{200}
+    {
+    }
 
     int GetCode() const
     {
         return code;
     }
 
-    void SetCode( int code )
+    void SetCode(int code)
     {
         this->code = code;
     }
@@ -151,22 +154,21 @@ public:
     }
 
     REGISTER_ALL_GETTER_START
-    BASE_GETTER( DrivedClass )
+    BASE_GETTER(DrivedClass)
     OWN_GETTER_START
-    GETTER( DrivedClass2, int, "code", &DrivedClass2::GetCode )
+    GETTER(DrivedClass2, int, "code", &DrivedClass2::GetCode)
     OWN_GETTER_END
     REGISTER_ALL_GETTER_END
 
     REGISTER_ALL_SETTER_START
-    BASE_SETTER( DrivedClass )
+    BASE_SETTER(DrivedClass)
     OWN_SETTER_START
-    SETTER( DrivedClass2, int, "code", &DrivedClass2::SetCode )
+    SETTER(DrivedClass2, int, "code", &DrivedClass2::SetCode)
     OWN_SETTER_END
     REGISTER_ALL_SETTER_END
 };
 
-class DeserializeDrivedClassTest : public ::testing::Test
-{
+class DeserializeDrivedClassTest : public ::testing::Test {
 public:
     BaseClass *base;
     DrivedClass *drived;
@@ -187,62 +189,62 @@ public:
     }
 };
 
-TEST_F( DeserializeDrivedClassTest, BaseTest )
+TEST_F(DeserializeDrivedClassTest, BaseTest)
 {
-    json::value jvalue = Json::ToJson( base );
+    json::value jvalue = Json::ToJson(base);
 
-    ASSERT_TRUE( jvalue.is_object() );
-    ASSERT_DOUBLE_EQ( base->GetScore(), jvalue.at( U( "score" ) ).as_double() );
-    ASSERT_TRUE( base->IsValid() == jvalue.at( U( "is_valid" ) ).as_bool() );
+    ASSERT_TRUE(jvalue.is_object());
+    ASSERT_DOUBLE_EQ(base->GetScore(), jvalue.at(U("score")).as_double());
+    ASSERT_TRUE(base->IsValid() == jvalue.at(U("is_valid")).as_bool());
     cout << jvalue.serialize() << endl;
 
     base->Clear();
-    Json::FromJson( base, jvalue );
+    Json::FromJson(base, jvalue);
 
-    ASSERT_DOUBLE_EQ( base->GetScore(), jvalue.at( U( "score" ) ).as_double() );
-    ASSERT_TRUE( base->IsValid() == jvalue.at( U( "is_valid" ) ).as_bool() );
+    ASSERT_DOUBLE_EQ(base->GetScore(), jvalue.at(U("score")).as_double());
+    ASSERT_TRUE(base->IsValid() == jvalue.at(U("is_valid")).as_bool());
 }
 
-TEST_F( DeserializeDrivedClassTest, DrivedTest )
+TEST_F(DeserializeDrivedClassTest, DrivedTest)
 {
-    json::value jvalue = Json::ToJson( drived );
+    json::value jvalue = Json::ToJson(drived);
 
-    ASSERT_TRUE( jvalue.is_object() );
-    ASSERT_DOUBLE_EQ( drived->GetId(), jvalue.at( U( "id" ) ).as_integer() );
-    ASSERT_TRUE( 0 == jvalue.at( U( "name" ) ).as_string().compare( drived->GetName() ) );
-    ASSERT_DOUBLE_EQ( drived->GetScore(), jvalue.at( U( "score" ) ).as_double() );
-    ASSERT_TRUE( drived->IsValid() == jvalue.at( U( "is_valid" ) ).as_bool() );
+    ASSERT_TRUE(jvalue.is_object());
+    ASSERT_DOUBLE_EQ(drived->GetId(), jvalue.at(U("id")).as_integer());
+    ASSERT_TRUE(0 == jvalue.at(U("name")).as_string().compare(drived->GetName()));
+    ASSERT_DOUBLE_EQ(drived->GetScore(), jvalue.at(U("score")).as_double());
+    ASSERT_TRUE(drived->IsValid() == jvalue.at(U("is_valid")).as_bool());
     cout << jvalue.serialize() << endl;
 
     drived->Clear();
-    Json::FromJson( drived, jvalue );
+    Json::FromJson(drived, jvalue);
 
-    ASSERT_DOUBLE_EQ( drived->GetId(), jvalue.at( U( "id" ) ).as_integer() );
-    ASSERT_TRUE( 0 == jvalue.at( U( "name" ) ).as_string().compare( drived->GetName() ) );
-    ASSERT_DOUBLE_EQ( drived->GetScore(), jvalue.at( U( "score" ) ).as_double() );
-    ASSERT_TRUE( drived->IsValid() == jvalue.at( U( "is_valid" ) ).as_bool() );
+    ASSERT_DOUBLE_EQ(drived->GetId(), jvalue.at(U("id")).as_integer());
+    ASSERT_TRUE(0 == jvalue.at(U("name")).as_string().compare(drived->GetName()));
+    ASSERT_DOUBLE_EQ(drived->GetScore(), jvalue.at(U("score")).as_double());
+    ASSERT_TRUE(drived->IsValid() == jvalue.at(U("is_valid")).as_bool());
 }
 
-TEST_F( DeserializeDrivedClassTest, DrivedTest2 )
+TEST_F(DeserializeDrivedClassTest, DrivedTest2)
 {
-    json::value jvalue = Json::ToJson( drived2 );
+    json::value jvalue = Json::ToJson(drived2);
 
-    ASSERT_TRUE( jvalue.is_object() );
-    ASSERT_EQ( drived2->GetCode(), jvalue.at( U( "code" ) ).as_integer() );
-    ASSERT_DOUBLE_EQ( drived2->GetId(), jvalue.at( U( "id" ) ).as_integer() );
-    ASSERT_TRUE( 0 == jvalue.at( U( "name" ) ).as_string().compare( drived2->GetName() ) );
-    ASSERT_DOUBLE_EQ( drived2->GetScore(), jvalue.at( U( "score" ) ).as_double() );
-    ASSERT_TRUE( drived2->IsValid() == jvalue.at( U( "is_valid" ) ).as_bool() );
+    ASSERT_TRUE(jvalue.is_object());
+    ASSERT_EQ(drived2->GetCode(), jvalue.at(U("code")).as_integer());
+    ASSERT_DOUBLE_EQ(drived2->GetId(), jvalue.at(U("id")).as_integer());
+    ASSERT_TRUE(0 == jvalue.at(U("name")).as_string().compare(drived2->GetName()));
+    ASSERT_DOUBLE_EQ(drived2->GetScore(), jvalue.at(U("score")).as_double());
+    ASSERT_TRUE(drived2->IsValid() == jvalue.at(U("is_valid")).as_bool());
     cout << jvalue.serialize() << endl;
 
     drived2->Clear();
-    Json::FromJson( drived2, jvalue );
+    Json::FromJson(drived2, jvalue);
 
-    ASSERT_EQ( drived2->GetCode(), jvalue.at( U( "code" ) ).as_integer() );
-    ASSERT_DOUBLE_EQ( drived2->GetId(), jvalue.at( U( "id" ) ).as_integer() );
-    ASSERT_TRUE( 0 == jvalue.at( U( "name" ) ).as_string().compare( drived2->GetName() ) );
-    ASSERT_DOUBLE_EQ( drived2->GetScore(), jvalue.at( U( "score" ) ).as_double() );
-    ASSERT_TRUE( drived2->IsValid() == jvalue.at( U( "is_valid" ) ).as_bool() );
+    ASSERT_EQ(drived2->GetCode(), jvalue.at(U("code")).as_integer());
+    ASSERT_DOUBLE_EQ(drived2->GetId(), jvalue.at(U("id")).as_integer());
+    ASSERT_TRUE(0 == jvalue.at(U("name")).as_string().compare(drived2->GetName()));
+    ASSERT_DOUBLE_EQ(drived2->GetScore(), jvalue.at(U("score")).as_double());
+    ASSERT_TRUE(drived2->IsValid() == jvalue.at(U("is_valid")).as_bool());
 }
 
 } //namespace TestSerializer

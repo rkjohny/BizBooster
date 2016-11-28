@@ -11,19 +11,18 @@
 #include <string>
 
 namespace Common {
-using namespace std;
+    using namespace std;
 
-class DateTimeUtils
-{
-private:
-    DateTimeUtils() = delete;
-    DateTimeUtils( const DateTimeUtils& ) = delete;
-    DateTimeUtils& operator =( DateTimeUtils& ) = delete;
-    ~DateTimeUtils() = delete;
+    class DateTimeUtils {
+    private:
+        DateTimeUtils() = delete;
+        DateTimeUtils(const DateTimeUtils&) = delete;
+        DateTimeUtils& operator=(DateTimeUtils&) = delete;
+        ~DateTimeUtils() = delete;
 
-public:
-    static string GetTimeStamp();
-};
+    public:
+        static string GetTimeStamp();
+    };
 
 } /* namespace Common */
 

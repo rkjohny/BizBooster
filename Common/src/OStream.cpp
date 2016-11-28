@@ -7,11 +7,10 @@
 
 #include "OStream.h"
 
-namespace Common
-{
+namespace Common {
 
 OStream::OStream() :
-    m_is_open( false )
+m_is_open(false)
 {
 }
 

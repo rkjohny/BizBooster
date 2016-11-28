@@ -14,17 +14,15 @@
 
 #include <cpprest/json.h>
 
-namespace Server
-{
+namespace Server {
 
-class ApiExecutor
-{
-public:
-    static web::json::value ExecuteSingleApi(const web::json::value &jrequest);
+    class ApiExecutor {
+    public:
+        static web::json::value ExecuteSingleApi(const web::json::value &jrequest);
 
-//     template<Api::ApiCode api_code>
-//     static web::json::value ExecuteApi( Api::BaseInput* binput, const web::json::value& jdata );
-};
+        //     template<Api::ApiCode api_code>
+        //     static web::json::value ExecuteApi( Api::BaseInput* binput, const web::json::value& jdata );
+    };
 
 
 } // namespace Server

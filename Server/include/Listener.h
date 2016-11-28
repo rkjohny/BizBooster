@@ -6,28 +6,25 @@
 #include <pplx/pplxtasks.h>
 
 
-namespace Server
-{
+namespace Server {
+
+    class Listener {
+    public:
+        Listener(utility::string_t serverAddress);
+        pplx::task<void> Run();
+        pplx::task<void> ShutDown();
 
 
-class Listener
-{
-public:
-    Listener( utility::string_t serverAddress );
-    pplx::task<void> Run();
-    pplx::task<void> ShutDown();
+    private:
+        void HandleGet(web::http::http_request request);
+        void HandlePut(web::http::http_request request);
+        void HandlePost(web::http::http_request request);
+        void HandleDelete(web::http::http_request request);
 
 
-private:
-    void HandleGet( web::http::http_request request );
-    void HandlePut( web::http::http_request request );
-    void HandlePost( web::http::http_request request );
-    void HandleDelete( web::http::http_request request );
-
-
-    web::http::experimental::listener::http_listener m_listener;
-    RequestHandler m_requestHandler;
-};
+        web::http::experimental::listener::http_listener m_listener;
+        RequestHandler m_requestHandler;
+    };
 
 
 } // namespace Server

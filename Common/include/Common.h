@@ -2,8 +2,7 @@
 #define LIB_COMMON_H
 
 
-namespace Common
-{
+namespace Common {
     void LoadLibrary();
 }
 

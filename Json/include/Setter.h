@@ -14,25 +14,24 @@
 #ifndef SETTER_H
 #define SETTER_H
 
-namespace Json
-{
+namespace Json {
 
-template<class ClassT, class ArgT >
-class Setter
-{
-public:
-    using Class = ClassT;
-    using Type = ArgT;
+    template<class ClassT, class ArgT >
+    class Setter {
+    public:
+        using Class = ClassT;
+        using Type = ArgT;
 
-    typedef void ( Class::*SetterPtr )( ArgT );
-    SetterPtr fp;
-    const char *name;
+        typedef void ( Class::*SetterPtr)(ArgT);
+        SetterPtr fp;
+        const char *name;
 
-    constexpr Setter( SetterPtr fp, const char* name ) :
-        fp { fp }, name { name }
-    {}
+        constexpr Setter(SetterPtr fp, const char* name) :
+        fp{fp}, name{ name}
+        {
+        }
 
-}; //Class Setter
+    }; //Class Setter
 
 } // namespace Json
 
