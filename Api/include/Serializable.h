@@ -13,7 +13,7 @@
 #include <cpprest/json.h>
 #include "Json.h"
 
-namespace Json {
+namespace Api {
 using namespace std;
 
 class Serializable

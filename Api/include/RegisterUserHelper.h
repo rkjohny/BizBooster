@@ -10,6 +10,7 @@
 #define REGISTERUSERHELPER_H_
 
 #include "AbstractHelper.h"
+#include "RegisterUserInput.h"
 
 namespace Api
 {
@@ -22,6 +23,8 @@ class RegisterUserHelper: public AbstractHelper
 private:
     RegisterUserHelper( const RegisterUserHelper& helper ) = delete;
     RegisterUserHelper& operator =( const RegisterUserHelper& ) = delete;
+    
+    RegisterUserInput *m_input;
 
 public:
     RegisterUserHelper();

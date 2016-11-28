@@ -12,8 +12,7 @@ Listener::Listener( utility::string_t url ) : m_listener ( web::http::uri( url )
 
 void Listener::HandleGet( web::http::http_request request )
 {
-
-m_requestHandler.HandleGetRequest( request );
+    m_requestHandler.HandleGetRequest( request );
 }
 
 void Listener::HandlePut( web::http::http_request request )

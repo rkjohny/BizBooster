@@ -27,6 +27,8 @@ class Deserializer
 private:
     Deserializer() = delete;
 
+    //TODO:: add support for rvalue reference
+    
     /**
      * calls the setter method with value type argument
      */
@@ -88,6 +90,7 @@ private:
         ( object->*SetterPtr )( var );
     }
 
+    //TODO:: make both first and second level constant. i.e const ArgT* const*
     /**
      * calls the setter method with constant pointer type argument
      */

@@ -18,7 +18,7 @@
 #include "Serializable.h"
 
 
-namespace Json
+namespace Api
 {
 using namespace std;
 using namespace Json;

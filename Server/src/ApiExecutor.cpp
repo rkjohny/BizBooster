@@ -46,7 +46,7 @@ web::json::value ApiExecutor::ExecuteSingleApi(const web::json::value &jrequest)
 
     if (japi.is_string() && jdata.is_object())
     {
-        Json::Serializable* obj = Json::SOFactory::CreateObject( std::move(apiName) );
+        Api::Serializable* obj = Api::SOFactory::CreateObject( std::move(apiName) );
 
         if (obj)
         {

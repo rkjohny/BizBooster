@@ -9,6 +9,7 @@
 #include "RegisterUserHelper.h"
 #include "RegisterUserInput.h"
 #include "RegisterUserOutput.h"
+#include "User.h"
 
 namespace Api
 {
@@ -41,8 +42,14 @@ void RegisterUserHelper::CheckPermission()
 
 void RegisterUserHelper::ExecuteHelper()
 {
-     //this must be deleted by caller of execute method
-     this->m_output = new RegisterUserOutput();
+    //this must be deleted by caller of execute method
+    User user;
+    user.SetEmail(m_input->GetEmail());
+    user.SetName(m_input->GetName());
+    user.SetRoles(m_input->GetRoles());
+    
+    this->m_output = new RegisterUserOutput();
+    dynamic_cast<RegisterUserOutput*>(m_output)->SetUser(user);
 }
 
 } /* namespace Api */

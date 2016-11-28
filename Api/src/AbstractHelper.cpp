@@ -7,7 +7,6 @@
  */
 
 #include "AbstractHelper.h"
-#include "BaseInput.h"
 #include "BaseOutput.h"
 #include "AppException.h"
 #include "AppFactory.h"
@@ -16,17 +15,12 @@ namespace Api
 {
 using namespace Common;
 
-AbstractHelper::AbstractHelper() :
-    m_output( nullptr ), m_input( nullptr )
+AbstractHelper::AbstractHelper() : m_output( nullptr )
 {
 }
 
 AbstractHelper::~AbstractHelper()
 {
-    if ( m_input )
-    {
-        delete m_input;
-    }
 }
 
 BaseOutput* AbstractHelper::Execute()

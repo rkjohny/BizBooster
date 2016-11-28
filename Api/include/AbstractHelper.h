@@ -24,7 +24,6 @@ private:
 
 protected:
     BaseOutput* m_output;
-    BaseInput* m_input;
 
 public:
     AbstractHelper();
