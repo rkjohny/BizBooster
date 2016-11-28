@@ -5,14 +5,14 @@ message("Executing SERVER::CMakeLists.txt")
 project(${SERVER} CXX)
 
 
-if(TARGET ${PROJECT_NAME})
+if (TARGET ${PROJECT_NAME})
     message("server is already defined")
-else()
+else ()
     message("Biulding server...")
 
     # stting the heared and source files path required by libcommon target
-    set (PROJECT_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
-    set (PROJECT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
+    set(PROJECT_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
+    set(PROJECT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
     # including heared files
     include_directories(${PROJECT_INCLUDE_DIR})
@@ -52,4 +52,4 @@ else()
 
     configure_file(Server.ini ${EXECUTABLE_OUTPUT_PATH}/ COPYONLY UNIX)
 
-endif()
+endif ()

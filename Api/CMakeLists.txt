@@ -5,8 +5,8 @@ message("Executing API::CMakeLists.txt")
 project(${LIB_API} CXX)
 
 # stting the heared and source files path required by libcommon target
-set (PROJECT_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
-set (PROJECT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
+set(PROJECT_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
+set(PROJECT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 
 # exposing the header location to beincluded by other targets
@@ -15,9 +15,9 @@ set(LIB_API_INCLUDE_DIR ${LIB_API_INCLUDE_DIR} PARENT_SCOPE)
 
 message("LIB_API_INCLUDE_DIR = ${LIB_API_INCLUDE_DIR}")
 
-if(TARGET ${PROJECT_NAME})
+if (TARGET ${PROJECT_NAME})
     message("libapi is already defined")
-else()
+else ()
     message("Biulding libapi...")
     # including heared files
     include_directories(${LIB_API_INCLUDE_DIR})
@@ -35,4 +35,4 @@ else()
 
     #creating target libJson
     add_library(${PROJECT_NAME} STATIC ${LIB_API_SOURCES} ${LIB_API_HEADERS})
-endif()
+endif ()

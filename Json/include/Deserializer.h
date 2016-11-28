@@ -25,7 +25,35 @@ namespace Json {
     private:
         Deserializer() = delete;
 
-        //TODO:: add support for rvalue reference
+
+        /**
+         * calls the setter method with rvalue reference type argument
+         */
+        template<class T, class B, class ArgT>
+        static void SetData(T *object, void ( B::*SetterPtr)(ArgT&&), const json::value &jvalue) {
+            std::cout << "Setdata : void (T::*SetterPtr)(ArgT&&)" << std::endl;
+
+            using Type = typename Remove_CVR<ArgT>::Type;
+
+            Type var;
+            FromJson(var, jvalue);
+            (object->*SetterPtr)(std::move(var));
+        }
+
+
+        /**
+         * calls the setter method with rvalue reference type argument
+         */
+        template<class T, class B, class ArgT>
+        static void SetData(T *object, void ( B::*SetterPtr)(const ArgT&&), const json::value &jvalue) {
+            std::cout << "Setdata : void (T::*SetterPtr)(const ArgT&&)" << std::endl;
+
+            using Type = typename Remove_CVR<ArgT>::Type;
+
+            Type var;
+            FromJson(var, jvalue);
+            (object->*SetterPtr)(std::move(var));
+        }
 
         /**
          * calls the setter method with value type argument
@@ -83,8 +111,6 @@ namespace Json {
             (object->*SetterPtr)(var);
         }
 
-        //TODO:: make both first and second level constant. i.e const ArgT* const*
-
         /**
          * calls the setter method with constant pointer type argument
          */
@@ -118,7 +144,7 @@ namespace Json {
          * TODO: make first level const, i.e const ArgT* const*
          */
         template<class T, class B, class ArgT>
-        static void SetData(T *object, void ( B::*SetterPtr)(const ArgT**), const json::value &jvalue) {
+        static void SetData(T *object, void ( B::*SetterPtr)(const ArgT* const*), const json::value &jvalue) {
             std::cout << "Setdata : void (T::*SetterPtr)(const ArgT**)" << std::endl;
 
             using Type = typename Remove_CVR<ArgT>::Type;

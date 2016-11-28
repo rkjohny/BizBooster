@@ -49,7 +49,7 @@ namespace Json {
         }
 
         template<class T>
-        static void SetData(const T **object, json::value &jvalue, const char*name) {
+        static void SetData(const T * const *object, json::value &jvalue, const char*name) {
             if (object && *object) {
                 jvalue[utility::string_t(U(name))] = ToJson(object);
             } else {
