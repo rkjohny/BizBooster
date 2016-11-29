@@ -10,12 +10,13 @@
 #ifndef SOBJECTFACTORY_H_
 #define SOBJECTFACTORY_H_
 
-#include "StringUtils.h"
+#include "StringUtility.h"
 #include <string>
 #include <map>
 #include <mutex>
 #include <vector>
 #include "Serializable.h"
+#include <memory>
 
 
 namespace Api {
@@ -23,31 +24,35 @@ namespace Api {
     using namespace Json;
 
 #define REGISTER_CLASS(TYPE, NAME) \
-SOFactory::Register<TYPE>(string(NAME));
+    Api::SOFactory::Register<TYPE>(NAME);
 
 #define REGISTER_CLASS_DEF(TYPE, KEY, ID) \
-private: static Json::ClassRegistrar<TYPE> _class_registrar_##ID;
+    private: static Api::ClassRegistrar<TYPE> _class_registrar_##ID;
 
 #define REGISTER_CLASS_DEC(TYPE, KEY, ID) \
-Json::ClassRegistrar<TYPE> \
-TYPE::_class_registrar_##ID = Json::ClassRegistrar<TYPE>( string(KEY) );
+    Api::ClassRegistrar<TYPE> \
+        TYPE::_class_registrar_##ID = Json::ClassRegistrar<TYPE>( string(KEY) );
 
     class SOFactory {
     public:
 
         static void Load();
 
-        static Serializable* CreateObject(string &&key);
-        static vector< Serializable* >* CreateObjectArray(string &&key, const size_t size);
+        static std::unique_ptr<Serializable>CreateObject(string &&key);
+        static std::vector<std::unique_ptr<Serializable>> CreateObjectArray(string &&key, const size_t size);
 
         template< class T >
-        static void Register(string key) {
+        static void Register(const string &key) {
+            SOFactory::Register<T>(string(key));
+        }
+
+        template< class T >
+        static void Register(string &&key) {
             static_assert(std::is_base_of< Serializable, T >::value, "T must be derived from Serializable");
-            Common::StringUtils::ToLower(key);
+            Common::StringUtility::ToLower(key);
 
             cm_mutex.lock();
             cm_objectCreators[ key ] = &Create< T >;
-            //cm_objectCreators.insert(std::pair<string, FunPtr>(key, &Create< T >));
             cm_mutex.unlock();
 
             cm_mutexArr.lock();
@@ -61,24 +66,22 @@ TYPE::_class_registrar_##ID = Json::ClassRegistrar<TYPE>( string(KEY) );
     protected:
         SOFactory() = default;
 
-        typedef Serializable* (*FunPtr)(void);
+        typedef std::unique_ptr<Serializable> (*FunPtr)(void);
         typedef map< string, FunPtr > ListCreators;
 
-        typedef vector< Serializable* >* (*FunPtrArr)(const size_t);
+        typedef std::vector<std::unique_ptr<Serializable>> (*FunPtrArr)(const size_t);
         typedef map< string, FunPtrArr > ListCreatorsArr;
 
         template< class T >
-        static Serializable* Create() {
-            Serializable* p = reinterpret_cast<Serializable*> (new T());
-            return p;
+        static std::unique_ptr<Serializable> Create() {
+            return std::make_unique<T>();
         }
 
         template< class T >
-        static vector< Serializable* >* CreateArrary(const size_t size) {
-            vector< Serializable* >* v = new vector< Serializable * >();
+        static std::vector< std::unique_ptr<Serializable>> CreateArrary(const size_t size) {
+            std::vector< std::unique_ptr<Serializable>> v;
             for (size_t i = 0; i < size; i++) {
-                Serializable* p = reinterpret_cast<Serializable*> (new T());
-                v->push_back(p);
+                v.push_back(std::make_unique<T>());
             }
             return v;
         }
@@ -94,9 +97,14 @@ TYPE::_class_registrar_##ID = Json::ClassRegistrar<TYPE>( string(KEY) );
     class ClassRegistrar : public SOFactory {
     public:
 
-        ClassRegistrar(string key) {
-            SOFactory::Register< T >(key);
+        ClassRegistrar(string &&key) {
+            SOFactory::Register< T >( std::move(key) );
         }
+
+        ClassRegistrar(const string &key) {
+            SOFactory::Register< T >(std::string(key));
+        }
+
 
     protected:
         ClassRegistrar() = default;

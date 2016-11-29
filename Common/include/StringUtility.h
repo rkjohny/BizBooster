@@ -16,12 +16,12 @@
 namespace Common {
     using namespace std;
 
-    class StringUtils {
+    class StringUtility {
     private:
-        StringUtils() = delete;
-        StringUtils(const StringUtils&) = delete;
-        StringUtils& operator=(const StringUtils&) = delete;
-        ~StringUtils() = delete;
+        StringUtility() = delete;
+        StringUtility(const StringUtility&) = delete;
+        StringUtility& operator=(const StringUtility&) = delete;
+        ~StringUtility() = delete;
 
         static string cm_newLineStr;
         static string cm_tabStr;

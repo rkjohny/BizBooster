@@ -7,7 +7,7 @@
 
 #include <fstream>
 #include "BaseConfigReader.h"
-#include "StringUtils.h"
+#include "StringUtility.h"
 #include "AppConstant.h"
 
 namespace Common {
@@ -57,7 +57,7 @@ void BaseConfigReader::LoadFile(const string& filename) throw ( AppException)
 
         try {
             while (getline(infs, line)) {
-                line = StringUtils::Trim(line);
+                line = StringUtility::Trim(line);
                 if (line.length() == 0 || line.at(0) == '#') {
                     continue;
                 }
@@ -66,7 +66,7 @@ void BaseConfigReader::LoadFile(const string& filename) throw ( AppException)
                 //pos must be valid index and cannot be the first and last index
                 if (pos > 0 && pos < line.size() - 1) {
                     vector< string > listValue = vector< string >();
-                    StringUtils::Tokenize(listValue, line, PAIR_SEPERATOR, 2);
+                    StringUtility::Tokenize(listValue, line, PAIR_SEPERATOR, 2);
                     if (listValue.size() >= 2) {
                         m_properties[ listValue[ 0 ] ] = listValue[ 1 ];
                     }

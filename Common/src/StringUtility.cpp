@@ -5,7 +5,7 @@
  *      Author: rezaul
  */
 
-#include "StringUtils.h"
+#include "StringUtility.h"
 
 #define USE_C_FUNCTION 1
 
@@ -26,35 +26,35 @@ namespace Common {
 //creation of static variable,
 //note that cm_newLineStr and cm_tabStr should be created before cm_initializer, the order is important
 //because the constructor of cm_initializer will use these two variables
-string StringUtils::cm_newLineStr;
-string StringUtils::cm_tabStr;
-StringUtils::Initializer StringUtils::cm_initializer;
+string StringUtility::cm_newLineStr;
+string StringUtility::cm_tabStr;
+StringUtility::Initializer StringUtility::cm_initializer;
 
-StringUtils::Initializer::Initializer()
+StringUtility::Initializer::Initializer()
 {
     //crates new line string
     m_ss << m_ss.widen('\n');
-    StringUtils::cm_newLineStr = m_ss.str();
+    StringUtility::cm_newLineStr = m_ss.str();
 
     //clear the buffer
     m_ss.str("");
 
     //create tab string
     m_ss << m_ss.widen('\t');
-    StringUtils::cm_tabStr = m_ss.str();
+    StringUtility::cm_tabStr = m_ss.str();
 }
 
-string StringUtils::GetNewLineStr()
+string StringUtility::GetNewLineStr()
 {
     return cm_newLineStr;
 }
 
-string StringUtils::GetTabLineStr()
+string StringUtility::GetTabLineStr()
 {
     return cm_tabStr;
 }
 
-string StringUtils::Trim(const string& str)
+string StringUtility::Trim(const string& str)
 {
     const char* p = str.c_str();
     size_t front = 0, rear = str.length();
@@ -70,7 +70,7 @@ string StringUtils::Trim(const string& str)
     return str.substr(front, rear - front);
 }
 
-string StringUtils::ToStr(int n)
+string StringUtility::ToStr(int n)
 {
     char s[ 50 ];
 #ifdef WINT_M32
@@ -84,12 +84,12 @@ string StringUtils::ToStr(int n)
     return s;
 }
 
-int StringUtils::ToInt(const string& s) throw ( invalid_argument)
+int StringUtility::ToInt(const string& s) throw ( invalid_argument)
 {
     return stoi(s, 0, 10);
 }
 
-void StringUtils::Tokenize(vector< string >& v, const string& str, const string& token, int n)
+void StringUtility::Tokenize(vector< string >& v, const string& str, const string& token, int n)
 {
     size_t len = str.length();
 
@@ -136,16 +136,16 @@ void StringUtils::Tokenize(vector< string >& v, const string& str, const string&
     }
 }
 
-void StringUtils::ToLower(string& str)
+void StringUtility::ToLower(string& str)
 {
     transform(str.begin(), str.end(), str.begin(), ::tolower);
 }
 
-int StringUtils::Compare(std::string first, std::string second, bool ignore_case)
+int StringUtility::Compare(std::string first, std::string second, bool ignore_case)
 {
     if (ignore_case) {
-        StringUtils::ToLower(first);
-        StringUtils::ToLower(second);
+        StringUtility::ToLower(first);
+        StringUtility::ToLower(second);
     }
     return first.compare(second);
 }

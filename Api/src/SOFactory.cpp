@@ -8,7 +8,7 @@
  */
 
 #include "SOFactory.h"
-#include "StringUtils.h"
+#include "StringUtility.h"
 
 
 namespace Api {
@@ -25,10 +25,10 @@ void SOFactory::Load()
     //needed just to initialize the static variables
 }
 
-Serializable* SOFactory::CreateObject(string &&key)
+std::unique_ptr<Serializable> SOFactory::CreateObject(string &&key)
 {
-    Serializable* p = nullptr;
-    StringUtils::ToLower(key);
+    std::unique_ptr<Serializable> p = nullptr;
+    StringUtility::ToLower(key);
 
     cout << cm_objectCreators.size() << endl;
     cout << cm_objectArrayCreators.size() << endl;
@@ -36,22 +36,23 @@ Serializable* SOFactory::CreateObject(string &&key)
     cm_mutex.lock();
     ListCreators::iterator itr = cm_objectCreators.find(std::move(key));
     if (itr != cm_objectCreators.end()) {
-        p = itr->second();
+        p = std::move( itr->second() );
     }
     cm_mutex.unlock();
 
     return p;
 }
 
-vector< Serializable* >* SOFactory::CreateObjectArray(string &&key, const size_t size)
+
+std::vector< std::unique_ptr<Serializable>> SOFactory::CreateObjectArray(string &&key, const size_t size)
 {
-    vector< Serializable* >* v = nullptr;
-    StringUtils::ToLower(key);
+    std::vector< std::unique_ptr<Serializable>> v;
+    StringUtility::ToLower(key);
 
     cm_mutexArr.lock();
     ListCreatorsArr::iterator itr = cm_objectArrayCreators.find(std::move(key));
     if (itr != cm_objectArrayCreators.end()) {
-        v = itr->second(size);
+        v =  std::move( itr->second(size) );
     }
     cm_mutexArr.unlock();
     return v;

@@ -7,33 +7,15 @@
  */
 
 #include "ApiExecutor.h"
-#include "AppConstant.h"
 #include "SOFactory.h"
-#include "Serializable.h"
-//#include "BaseInput.h"
 #include "BaseOutput.h"
-//#include "ApiCode.h"
 #include "RegisterUserInput.h"
 #include "RegisterUserOutput.h"
+#include <Converter.h>
+#include <ServiceFacade.h>
 
-#include "Json.h"
-#include <string>
-#include <cpprest/asyncrt_utils.h>
-
-#include <iostream>
 
 namespace Server {
-
-// template<>
-// web::json::value
-// ApiExecutor::ExecuteApi<Api::ApiCode::REGISTER_USER>(Api::BaseInput* binput, const web::json::value &jdata)
-// {
-//     Api::RegisterUserInput *input = dynamic_cast<Api::RegisterUserInput*>(binput);
-//     Json::FromJson<Api::RegisterUserInput>(input, jdata);
-//     Api::BaseOutput *boutput = input->Process();
-//     Api::RegisterUserOutput *output = dynamic_cast<Api::RegisterUserOutput*>(boutput);
-//     return Json::ToJson(output);
-// }
 
 web::json::value ApiExecutor::ExecuteSingleApi(const web::json::value &jrequest)
 {
@@ -43,10 +25,13 @@ web::json::value ApiExecutor::ExecuteSingleApi(const web::json::value &jrequest)
     std::string apiName = utility::conversions::to_utf8string(japi.as_string());
 
     if (japi.is_string() && jdata.is_object()) {
-        Api::Serializable* obj = Api::SOFactory::CreateObject(std::move(apiName));
+        //std::vector<std::unique_ptr<Api::Serializable>> vec = Api::SOFactory::CreateObjectArray(std::move(apiName), 1);
+        //std::unique_ptr<Api::Serializable> obj =  std::move( vec.at(0) );
 
+        std::unique_ptr<Api::Serializable> obj =  Api::SOFactory::CreateObject(std::move(apiName));
         if (obj) {
-            Api::BaseInput *input = dynamic_cast<Api::BaseInput*> (obj);
+            std::unique_ptr<Api::BaseInput> input =
+                    Common::Converter::StaticDownCast<Api::BaseInput, Api::Serializable>(std::move(obj));
 
             std::cout << "DATA:" << std::endl << jdata.serialize() << std::endl;
 
@@ -60,6 +45,7 @@ web::json::value ApiExecutor::ExecuteSingleApi(const web::json::value &jrequest)
             jresponse = output->Serialize();
 
             std::cout << "OUTPUT:" << std::endl << jresponse.serialize() << std::endl;
+
         } else {
             //TODO: handle bad request
         }

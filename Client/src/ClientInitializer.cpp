@@ -1,6 +1,6 @@
 #include "ClientInitializer.h"
 #include "ClientConstant.h"
-#include "StringUtils.h"
+#include "StringUtility.h"
 #include "AppFactory.h"
 #include "OFStream.h"
 #include "OSTDStream.h"
@@ -32,7 +32,7 @@ void ClientInitializer::Initialize()
     logger->AddStream(filename, stream);
     string loglevel = CONFIG_VALUE(CLIENT_LOG_LEVEL_STR);
     try {
-        logger->SetLogLevel(StringUtils::ToInt(loglevel));
+        logger->SetLogLevel(StringUtility::ToInt(loglevel));
     } catch (...) {
     }
 

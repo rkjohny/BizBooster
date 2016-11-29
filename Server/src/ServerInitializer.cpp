@@ -1,6 +1,6 @@
 #include "ServerInitializer.h"
 #include "ServerConstant.h"
-#include "StringUtils.h"
+#include "StringUtility.h"
 #include "OFStream.h"
 #include "OSTDStream.h"
 #include "AppFactory.h"
@@ -38,7 +38,7 @@ void ServerInitializer::Initialize()
 
     string loglevelStr = configReader->GetValueOf(SERVER_LOG_LEVEL_STR);
     try {
-        logger->SetLogLevel(StringUtils::ToInt(loglevelStr));
+        logger->SetLogLevel(StringUtility::ToInt(loglevelStr));
     } catch (...) {
     }
 

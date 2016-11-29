@@ -6,14 +6,14 @@
  */
 
 #include "FileUtility.h"
-#include "StringUtils.h"
+#include "StringUtility.h"
 #include "AppConstant.h"
 
 namespace Common {
 
 void FileUtility::SplitPath(vector< string >& listPath, const string& absulateFileName)
 {
-    StringUtils::Tokenize(listPath, absulateFileName, PATH_SEPARATOR);
+    StringUtility::Tokenize(listPath, absulateFileName, PATH_SEPARATOR);
 }
 
 string FileUtility::GetNameWithoutType(const string& absulateFileName)
@@ -21,13 +21,13 @@ string FileUtility::GetNameWithoutType(const string& absulateFileName)
     string file = "";
     auto listPath = vector< string >();
 
-    StringUtils::Tokenize(listPath, absulateFileName, PATH_SEPARATOR);
+    StringUtility::Tokenize(listPath, absulateFileName, PATH_SEPARATOR);
     if (listPath.size() > 0) {
         file = listPath[ listPath.size() - 1 ];
     }
 
     listPath.clear();
-    StringUtils::Tokenize(listPath, string(file), FILE_TYPE_SEPERATOR);
+    StringUtility::Tokenize(listPath, string(file), FILE_TYPE_SEPERATOR);
 
     if (listPath.size() > 1) {
         file = "";
