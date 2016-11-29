@@ -8,7 +8,6 @@
  */
 
 #include "SOFactory.h"
-#include "StringUtility.h"
 
 
 namespace Api {
@@ -20,10 +19,6 @@ SOFactory::ListCreators SOFactory::cm_objectCreators;
 mutex SOFactory::cm_mutexArr;
 SOFactory::ListCreatorsArr SOFactory::cm_objectArrayCreators;
 
-void SOFactory::Load()
-{
-    //needed just to initialize the static variables
-}
 
 std::unique_ptr<Serializable> SOFactory::CreateObject(string &&key)
 {

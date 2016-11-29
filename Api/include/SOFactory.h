@@ -36,15 +36,8 @@ namespace Api {
     class SOFactory {
     public:
 
-        static void Load();
-
         static std::unique_ptr<Serializable>CreateObject(string &&key);
         static std::vector<std::unique_ptr<Serializable>> CreateObjectArray(string &&key, const size_t size);
-
-        template< class T >
-        static void Register(const string &key) {
-            SOFactory::Register<T>(string(key));
-        }
 
         template< class T >
         static void Register(string &&key) {
@@ -94,17 +87,12 @@ namespace Api {
     };
 
     template< class T >
-    class ClassRegistrar : public SOFactory {
+    class ClassRegistrar {
     public:
 
         ClassRegistrar(string &&key) {
             SOFactory::Register< T >( std::move(key) );
         }
-
-        ClassRegistrar(const string &key) {
-            SOFactory::Register< T >(std::string(key));
-        }
-
 
     protected:
         ClassRegistrar() = default;

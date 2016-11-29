@@ -16,13 +16,6 @@ void LoadLibrary()
         Common::LoadLibrary();
         Json::LoadLibrary();
 
-        Api::ClassRegistrar<RegisterUserInput> r( "key" );
-        std::string s ="key2";
-        std::string s3 ="key3";
-        Api::ClassRegistrar<RegisterUserInput> r2( std::move(s) );
-        Api::ClassRegistrar<RegisterUserInput> r3( s3 );
-
-        SOFactory::Load();
         REGISTER_CLASS(RegisterUserInput, "register_user");
         REGISTER_CLASS(RegisterUserInput, "RegisterUserInput");
         REGISTER_CLASS(RegisterUserOutput, "RegisterUserOutput");
