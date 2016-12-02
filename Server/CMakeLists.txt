@@ -24,6 +24,9 @@ else ()
     # including libjson include directory
     include_directories(${LIB_JSON_INCLUDE_DIR})
 
+    # including libjson include directory
+    include_directories(${LIB_DBO_INCLUDE_DIR})
+
     # including libapi include directory
     include_directories(${LIB_API_INCLUDE_DIR})
 
@@ -36,6 +39,9 @@ else ()
 
     # linking libapi library as dependencies
     target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_API})
+
+    # linking libjson library as dependencies
+    target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_DBO})
 
     # linking libjson library as dependencies
     target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_JSON})

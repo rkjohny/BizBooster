@@ -20,6 +20,7 @@ set(APP_NAME bizbooster)
 set(LIB_COMMON common)
 set(LIB_JSON json)
 set(LIB_JSON_TEST jsontester)
+set(LIB_DBO dbo)
 set(LIB_API api)
 set(SERVER server)
 set(CLIENT client)
@@ -112,11 +113,13 @@ if (NOT LIB_CRYPT)
     message(FATAL_ERROR "libcrypt librray not found.")
 endif()
 
-# add common, Json and Api first beacuse they will export the librray header locations which will be used by JsonTest, Server and Client
+
+# add common, Json, Dbo, and Api first beacuse they will export the librray header locations which will be used by JsonTest, Server and Client
 #include Common first, before Json
 add_subdirectory(Common)
 add_subdirectory(Json)
 add_subdirectory(JsonTest)
+add_subdirectory(Dbo)
 add_subdirectory(Api)
 add_subdirectory(Server)
 add_subdirectory(Client)
