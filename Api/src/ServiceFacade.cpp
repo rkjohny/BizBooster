@@ -8,7 +8,7 @@
 
 #include "ServiceFacade.h"
 #include "RegisterUserHelper.h"
-#include "RegisterUserOutput.h"
+
 
 namespace Api {
 

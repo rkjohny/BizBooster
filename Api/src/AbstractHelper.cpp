@@ -7,7 +7,6 @@
  */
 
 #include "AbstractHelper.h"
-#include "BaseOutput.h"
 #include "AppException.h"
 #include "AppFactory.h"
 

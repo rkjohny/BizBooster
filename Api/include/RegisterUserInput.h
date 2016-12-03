@@ -9,9 +9,6 @@
 #ifndef REGISTERUSERINPUT_H_
 #define REGISTERUSERINPUT_H_
 
-//Note: do not include BaseOutpu.h it has been forward declared in BaseInput
-// and do not forward declare Serializable class it is base class
-
 #include <string>
 #include "SOFactory.h"
 #include "BaseInput.h"

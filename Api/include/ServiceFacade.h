@@ -6,15 +6,15 @@
  * Copyright (C) 2016 Rezaul Karim, rkjohny@gmail.com. All rights reserved.
  */
 
-#ifndef SERVICEFACADE_H_
-#define SERVICEFACADE_H_
+#ifndef _SERVICE_FACADE_H_
+#define _SERVICE_FACADE_H_
 
 #include "RegisterUserOutput.h"
+#include "RegisterUserInput.h"
 
 namespace Api {
 
-    //TODO: Forward declaration
-    class RegisterUserInput;
+    //TODO: Use forward declaration for class RegisterUserInput if needed
 
     class ServiceFacade {
     public:

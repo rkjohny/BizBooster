@@ -6,18 +6,19 @@
  * Copyright (C) 2016 Rezaul Karim, rkjohny@gmail.com. All rights reserved.
  */
 
-#ifndef BASEINPUT_H_
-#define BASEINPUT_H_
+#ifndef _BASE_INPUT_H_
+#define _BASE_INPUT_H_
 
 #include <string>
 #include "Serializable.h"
 #include "Json.h"
+#include "BaseOutput.h"
 
 namespace Api {
     using namespace std;
     using namespace Json;
 
-    class BaseOutput;
+    // TODO: use forward declaration for class BaseOutput if nedded.
 
     class BaseInput : public Serializable {
     public:

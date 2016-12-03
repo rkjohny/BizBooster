@@ -6,14 +6,14 @@
  * Copyright (C) 2016 Rezaul Karim, rkjohny@gmail.com. All rights reserved.
  */
 
-#ifndef ABSTRACTHELPER_H_
-#define ABSTRACTHELPER_H_
+#ifndef _ABSTRACT_HELPER_H_
+#define _ABSTRACT_HELPER_H_
+#include "BaseInput.h"
+#include "BaseOutput.h"
 
 namespace Api {
 
-    //TODO: Forward declaration
-    class BaseOutput;
-    class BaseInput;
+    //TODO: Use Forward declaration class BaseInput and BaseOutput if needed.
 
     class AbstractHelper {
     private:

@@ -11,11 +11,11 @@
 
 #include "AbstractHelper.h"
 #include "RegisterUserInput.h"
+#include "RegisterUserOutput.h"
 
 namespace Api {
 
-    //TODO: FOrward declaration
-    class RegisterUserInput;
+    //TODO: Use forrward declaration of class RegisterUserInput if needed.
 
     class RegisterUserHelper : public AbstractHelper {
     private:

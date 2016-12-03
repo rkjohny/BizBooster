@@ -7,9 +7,6 @@
  */
 
 #include "RegisterUserHelper.h"
-#include "RegisterUserInput.h"
-#include "RegisterUserOutput.h"
-#include "User.h"
 
 namespace Api {
 
