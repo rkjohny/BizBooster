@@ -19,20 +19,13 @@ public:
 
     void SetId(long id);
 
-
-    REGISTER_GETTER_START
-    BASE_GETTER(Json::Serializable)
-    OWN_GETTER_START
+    REGISTER_GETTER_INCLUDING_BASE_START(Json::Serializable)
     GETTER(BaseEntity, long, "id", &BaseEntity::GetId)
-    OWN_GETTER_END
-    REGISTER_GETTER_END
+    REGISTER_GETTER_INCLUDING_BASE_END
 
-    REGISTER_SETTER_START
-    BASE_SETTER(Json::Serializable)
-    OWN_SETTER_START
+    REGISTER_SETTER_INCLUDING_BASE_START(Json::Serializable)
     SETTER(BaseEntity, long, "id", &BaseEntity::SetId)
-    OWN_SETTER_END
-    REGISTER_SETTER_END
+    REGISTER_SETTER_INCLUDING_BASE_END
 };
 
 

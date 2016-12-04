@@ -32,9 +32,9 @@ public:
         return m_names;
     }
 
-    REGISTER_OWN_GETTER_START
+    REGISTER_GETTER_START
     GETTER(DoubolePointerTestBase, std::vector<string**>**, "names", &DoubolePointerTestBase::GetNames)
-    REGISTER_OWN_GETTER_END
+    REGISTER_GETTER_END
 };
 
 class DoublePointerTestDrived {
@@ -52,10 +52,10 @@ public:
         return m_base;
     }
 
-    REGISTER_OWN_GETTER_START
+    REGISTER_GETTER_START
     GETTER(DoublePointerTestDrived, int**, "id", &DoublePointerTestDrived::GetId),
     GETTER(DoublePointerTestDrived, DoubolePointerTestBase**, "base", &DoublePointerTestDrived::GetBase)
-    REGISTER_OWN_GETTER_END
+    REGISTER_GETTER_END
 };
 
 TEST(DoubolePointerTest, TestDoublePointer)

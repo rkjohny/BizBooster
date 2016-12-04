@@ -25,17 +25,11 @@ namespace Dal {
         }
 
 
-        REGISTER_GETTER_START
-        BASE_GETTER(AuditableEntity)
-        OWN_GETTER_START
-                OWN_GETTER_END
-        REGISTER_GETTER_END
+        REGISTER_GETTER_INCLUDING_BASE_START(AuditableEntity)
+        REGISTER_GETTER_INCLUDING_BASE_END
 
-        REGISTER_SETTER_START
-        BASE_SETTER(AuditableEntity)
-        OWN_SETTER_START
-                OWN_SETTER_END
-        REGISTER_SETTER_END
+        REGISTER_SETTER_INCLUDING_BASE_START(AuditableEntity)
+        REGISTER_SETTER_INCLUDING_BASE_END
     };
 }
 

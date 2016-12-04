@@ -72,7 +72,7 @@ public:
         m_emails = e;
     }
 
-    REGISTER_OWN_SETTER_START
+    REGISTER_SETTER_START
     SETTER(POD1, long, "id", &POD1::SetId),
     SETTER(POD1, const string&, "name", &POD1::SetName),
     SETTER(POD1, const string*, "address", &POD1::SetAddr),
@@ -81,7 +81,7 @@ public:
     SETTER(POD1, const char*, "city", &POD1::SetCity),
     SETTER(POD1, bool, "valid", &POD1::SetValid),
     SETTER(POD1, string**, "emails", &POD1::SetEmails)
-    REGISTER_OWN_SETTER_END
+    REGISTER_SETTER_END
 };
 
 json::value CreatePOD1()

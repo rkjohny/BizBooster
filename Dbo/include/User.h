@@ -26,23 +26,17 @@ public:
     void SetName(std::string name);
     void SetRoles(std::string roles);
 
-    REGISTER_GETTER_START
-    BASE_GETTER(SerializableEntity<User>)
-    OWN_GETTER_START
+    REGISTER_GETTER_INCLUDING_BASE_START(SerializableEntity<User>)
     GETTER(User, const std::string&, "email", &User::GetEmail),
     GETTER(User, const std::string&, "name", &User::GetName),
     GETTER(User, const std::string&, "roles", &User::GetRoles)
-    OWN_GETTER_END
-    REGISTER_GETTER_END
+    REGISTER_GETTER_INCLUDING_BASE_END
 
-    REGISTER_SETTER_START
-    BASE_SETTER(SerializableEntity<User>)
-    OWN_SETTER_START
+    REGISTER_SETTER_INCLUDING_BASE_START(SerializableEntity<User>)
     SETTER(User, std::string, "email", &User::SetEmail),
     SETTER(User, std::string, "name", &User::SetName),
     SETTER(User, std::string, "roles", &User::SetRoles)
-    OWN_SETTER_END
-    REGISTER_SETTER_END
+    REGISTER_SETTER_INCLUDING_BASE_END
 
     template<class Action>
     void persist(Action &a)

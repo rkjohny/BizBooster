@@ -42,10 +42,10 @@ public:
         return is_valid;
     }
 
-    REGISTER_OWN_GETTER_START
+    REGISTER_GETTER_START
     GETTER(BaseClass, double, "score", &BaseClass::GetScore),
     GETTER(BaseClass, bool, "is_valid", &BaseClass::IsValid)
-    REGISTER_OWN_GETTER_END
+    REGISTER_GETTER_END
 };
 
 class DrivedClass : public BaseClass {
@@ -67,22 +67,10 @@ public:
         return name;
     }
 
-    //     static constexpr auto getters = std::tuple_cat(
-    //         std::make_tuple(
-    //             Json::Getter<DrivedClass, long>(&DrivedClass::GetId, "id"),
-    //             Json::Getter<DrivedClass, string>(&DrivedClass::GetName, "name")
-    //         ),
-    //         BaseClass::getters
-    //     );
-
-    REGISTER_GETTER_START
-    BASE_GETTER(BaseClass)
-    OWN_GETTER_START
+    REGISTER_GETTER_INCLUDING_BASE_START(BaseClass)
     GETTER(DrivedClass, long, "id", &DrivedClass::GetId),
     GETTER(DrivedClass, string, "name", &DrivedClass::GetName)
-    OWN_GETTER_END
-    REGISTER_GETTER_END
-
+    REGISTER_GETTER_INCLUDING_BASE_END
 };
 
 class DrivedClass2 : public DrivedClass {
@@ -98,12 +86,9 @@ public:
         return code;
     }
 
-    REGISTER_GETTER_START
-    BASE_GETTER(DrivedClass)
-    OWN_GETTER_START
+    REGISTER_GETTER_INCLUDING_BASE_START(DrivedClass)
     GETTER(DrivedClass2, int, "code", &DrivedClass2::GetCode)
-    OWN_GETTER_END
-    REGISTER_GETTER_END
+    REGISTER_GETTER_INCLUDING_BASE_END
 };
 
 class SerializeDrivedClassTest : public ::testing::Test {

@@ -29,20 +29,13 @@ namespace Api {
     private:
         User m_user;
 
-
-        REGISTER_GETTER_START
-        BASE_GETTER(ApiOutput<RegisterUserOutput>)
-        OWN_GETTER_START
+        REGISTER_GETTER_INCLUDING_BASE_START(ApiOutput<RegisterUserOutput>)
         GETTER(RegisterUserOutput, const User&, "user", &RegisterUserOutput::GetUser)
-        OWN_GETTER_END
-        REGISTER_GETTER_END
+        REGISTER_GETTER_INCLUDING_BASE_END
 
-        REGISTER_SETTER_START
-        BASE_SETTER(ApiOutput<RegisterUserOutput>)
-        OWN_SETTER_START
+        REGISTER_SETTER_INCLUDING_BASE_START(ApiOutput<RegisterUserOutput>)
         SETTER(RegisterUserOutput, const User&, "user", &RegisterUserOutput::SetUser)
-        OWN_SETTER_END
-        REGISTER_SETTER_END
+        REGISTER_SETTER_INCLUDING_BASE_END
     };
 
 } /* namespace Api */

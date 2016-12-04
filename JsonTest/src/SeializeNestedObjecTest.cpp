@@ -69,10 +69,10 @@ public:
         return name;
     }
 
-    REGISTER_OWN_GETTER_START
+    REGISTER_GETTER_START
     GETTER(ClassA, int, "id", &ClassA::GetId),
     GETTER(ClassA, const string&, "name", &ClassA::GetName)
-    REGISTER_OWN_GETTER_END
+    REGISTER_GETTER_END
 };
 
 class ClassB : public Json::TestSerializableBase {
@@ -143,25 +143,14 @@ public:
         return nullptr;
     }
 
-
-    REGISTER_GETTER_START
-    BASE_GETTER(TestSerializableBase)
-    OWN_GETTER_START
+    REGISTER_GETTER_INCLUDING_BASE_START(TestSerializableBase)
     GETTER(ClassB, const ClassA&, "object", &ClassB::GetObject),
     GETTER(ClassB, const ClassA*, "object_ptr", &ClassB::GetObjectPtr),
     GETTER(ClassB, const vector<ClassA>&, "vector", &ClassB::GetVector),
     GETTER(ClassB, const vector<ClassA*>*, "vector_ptr", &ClassB::GetVectorPtr),
     GETTER(ClassB, const ClassA*, "null_objec_ptr", &ClassB::GetNullPtrObject),
     GETTER(ClassB, const int*, "null_int_ptr", &ClassB::GetNullPtrInt)
-    OWN_GETTER_END
-    REGISTER_GETTER_END
-
-    //    REGISTER_GETER_START
-    //    GETTER (ClassB, const ClassA&, "object", &ClassB::GetObject),
-    //    GETTER (ClassB, const ClassA*, "object_ptr", &ClassB::GetObjectPtr),
-    //    GETTER (ClassB, const vector<ClassA>&, "vector", &ClassB::GetVector),
-    //    GETTER (ClassB, const vector<ClassA*>*, "vector_ptr", &ClassB::GetVectorPtr)
-    //    REGISTER_OWN_GETTER_END
+    REGISTER_GETTER_INCLUDING_BASE_END
 };
 
 class ClassC : public TestSerializableBase {
@@ -190,9 +179,9 @@ public:
         return objectB;
     }
 
-    REGISTER_OWN_GETTER_START
+    REGISTER_GETTER_START
     GETTER(ClassC, const ClassB*, "object", &ClassC::GetObject)
-    REGISTER_OWN_GETTER_END
+    REGISTER_GETTER_END
 };
 
 class SerializeNestedObjectTest : public ::testing::Test {

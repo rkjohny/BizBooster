@@ -25,11 +25,11 @@ namespace Json {
         virtual void Deserialize(const web::json::value&) = 0;
 
 
-        REGISTER_OWN_GETTER_START
-        REGISTER_OWN_GETTER_END
+        REGISTER_GETTER_START
+        REGISTER_GETTER_END
 
-        REGISTER_OWN_SETTER_START
-        REGISTER_OWN_SETTER_END
+        REGISTER_SETTER_START
+        REGISTER_SETTER_END
     };
 
 } /* namespace Api */
