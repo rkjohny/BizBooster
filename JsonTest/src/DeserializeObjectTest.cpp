@@ -42,10 +42,10 @@ public:
         id = 0;
     }
 
-    REGISTER_SETTER_START
+    REGISTER_OWN_SETTER_START
     SETTER(SimpleClass1, const int, "id", &SimpleClass1::SetId),
     SETTER(SimpleClass1, std::vector<int>, "score", &SimpleClass1::SetScore)
-    REGISTER_SETTER_END
+    REGISTER_OWN_SETTER_END
 };
 
 
@@ -78,13 +78,13 @@ public:
     }
 
 
-    REGISTER_ALL_SETTER_START
+    REGISTER_SETTER_START
     BASE_SETTER(Json::TestSerializableBase)
     OWN_SETTER_START
     SETTER(SimpleClass2, int&, "id", &SimpleClass2::SetId),
     SETTER(SimpleClass2, const std::vector<int>&, "score", &SimpleClass2::SetScore)
     OWN_SETTER_END
-    REGISTER_ALL_SETTER_END
+    REGISTER_SETTER_END
 };
 
 // all getters take pointer (without const) type arguments

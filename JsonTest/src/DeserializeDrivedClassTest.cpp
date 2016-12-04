@@ -62,15 +62,15 @@ public:
         is_valid = false;
     }
 
-    REGISTER_GETTER_START
+    REGISTER_OWN_GETTER_START
     GETTER(BaseClass, double, "score", &BaseClass::GetScore),
     GETTER(BaseClass, bool, "is_valid", &BaseClass::IsValid)
-    REGISTER_GETTER_END
+    REGISTER_OWN_GETTER_END
 
-    REGISTER_SETTER_START
+    REGISTER_OWN_SETTER_START
     SETTER(BaseClass, double, "score", &BaseClass::SetScore),
     SETTER(BaseClass, bool, "is_valid", &BaseClass::SetValid)
-    REGISTER_SETTER_END
+    REGISTER_OWN_SETTER_END
 };
 
 class DrivedClass : public BaseClass {
@@ -111,21 +111,21 @@ public:
         name = "";
     }
 
-    REGISTER_ALL_GETTER_START
+    REGISTER_GETTER_START
     BASE_GETTER(BaseClass)
     OWN_GETTER_START
     GETTER(DrivedClass, long, "id", &DrivedClass::GetId),
     GETTER(DrivedClass, string, "name", &DrivedClass::GetName)
     OWN_GETTER_END
-    REGISTER_ALL_GETTER_END
+    REGISTER_GETTER_END
 
-    REGISTER_ALL_SETTER_START
+    REGISTER_SETTER_START
     BASE_SETTER(BaseClass)
     OWN_SETTER_START
     SETTER(DrivedClass, long, "id", &DrivedClass::SetId),
     SETTER(DrivedClass, string, "name", &DrivedClass::SetName)
     OWN_SETTER_END
-    REGISTER_ALL_SETTER_END
+    REGISTER_SETTER_END
 
 };
 
@@ -153,19 +153,19 @@ public:
         DrivedClass::Clear();
     }
 
-    REGISTER_ALL_GETTER_START
+    REGISTER_GETTER_START
     BASE_GETTER(DrivedClass)
     OWN_GETTER_START
     GETTER(DrivedClass2, int, "code", &DrivedClass2::GetCode)
     OWN_GETTER_END
-    REGISTER_ALL_GETTER_END
+    REGISTER_GETTER_END
 
-    REGISTER_ALL_SETTER_START
+    REGISTER_SETTER_START
     BASE_SETTER(DrivedClass)
     OWN_SETTER_START
     SETTER(DrivedClass2, int, "code", &DrivedClass2::SetCode)
     OWN_SETTER_END
-    REGISTER_ALL_SETTER_END
+    REGISTER_SETTER_END
 };
 
 class DeserializeDrivedClassTest : public ::testing::Test {

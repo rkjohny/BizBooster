@@ -27,17 +27,17 @@ namespace Api {
     private:
         ApiError m_error;
 
-        REGISTER_ALL_GETTER_START
+        REGISTER_GETTER_START
         BASE_GETTER(Serializable)
         OWN_GETTER_START
         OWN_GETTER_END
-        REGISTER_ALL_GETTER_END
+        REGISTER_GETTER_END
 
-        REGISTER_ALL_SETTER_START
+        REGISTER_SETTER_START
         BASE_SETTER(Serializable)
         OWN_SETTER_START
         OWN_SETTER_END
-        REGISTER_ALL_SETTER_END
+        REGISTER_SETTER_END
     };
 
     template <class T>
@@ -54,17 +54,17 @@ namespace Api {
             Json::FromJson<T>(dynamic_cast<T*> (this), jvalue);
         }
 
-        REGISTER_ALL_GETTER_START
+        REGISTER_GETTER_START
         BASE_GETTER(Serializable)
         OWN_GETTER_START
         OWN_GETTER_END
-        REGISTER_ALL_GETTER_END
+        REGISTER_GETTER_END
 
-        REGISTER_ALL_SETTER_START
+        REGISTER_SETTER_START
         BASE_SETTER(Serializable)
         OWN_SETTER_START
         OWN_SETTER_END
-        REGISTER_ALL_SETTER_END
+        REGISTER_SETTER_END
     };
 
 } /* namespace Api */

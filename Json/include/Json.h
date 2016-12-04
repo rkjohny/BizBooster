@@ -24,32 +24,32 @@
 
 namespace Json {
 
-#define REGISTER_GETTER_START public:\
+#define REGISTER_OWN_GETTER_START public:\
     static constexpr auto getters = std::make_tuple(
 #define GETTER(CLASS, RETURN_TYPE, NAME, FP) \
     Json::Getter<CLASS, RETURN_TYPE>(FP, NAME)
-#define REGISTER_GETTER_END );
+#define REGISTER_OWN_GETTER_END );
 
-#define REGISTER_ALL_GETTER_START public:\
+#define REGISTER_GETTER_START public:\
     static constexpr auto getters = std::tuple_cat(
 #define BASE_GETTER(BASE_CLASS) BASE_CLASS::getters,
 #define OWN_GETTER_START  std::make_tuple (
 #define OWN_GETTER_END )
-#define REGISTER_ALL_GETTER_END REGISTER_GETTER_END
+#define REGISTER_GETTER_END REGISTER_OWN_GETTER_END
 
 
-#define REGISTER_SETTER_START public:\
+#define REGISTER_OWN_SETTER_START public:\
     static constexpr auto setters = std::make_tuple(
 #define SETTER(CLASS, ARG_TYPE, NAME, FP) \
     Json::Setter<CLASS, ARG_TYPE>(FP, NAME)
-#define REGISTER_SETTER_END );
+#define REGISTER_OWN_SETTER_END );
 
-#define REGISTER_ALL_SETTER_START public:\
+#define REGISTER_SETTER_START public:\
     static constexpr auto setters = std::tuple_cat(
 #define BASE_SETTER(BASE_CLASS) BASE_CLASS::setters,
 #define OWN_SETTER_START  std::make_tuple (
 #define OWN_SETTER_END )
-#define REGISTER_ALL_SETTER_END REGISTER_SETTER_END
+#define REGISTER_SETTER_END REGISTER_OWN_SETTER_END
 
 
     /************* Load Librray **************************/

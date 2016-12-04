@@ -25,11 +25,11 @@ namespace Json {
 
         virtual const char* GetClassName() const = 0;
 
-        REGISTER_GETTER_START
-        REGISTER_GETTER_END
+        REGISTER_OWN_GETTER_START
+        REGISTER_OWN_GETTER_END
 
-        REGISTER_SETTER_START
-        REGISTER_SETTER_END
+        REGISTER_OWN_SETTER_START
+        REGISTER_OWN_SETTER_END
     };
 
 } // namespace Json

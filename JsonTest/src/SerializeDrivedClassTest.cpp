@@ -42,10 +42,10 @@ public:
         return is_valid;
     }
 
-    REGISTER_GETTER_START
+    REGISTER_OWN_GETTER_START
     GETTER(BaseClass, double, "score", &BaseClass::GetScore),
     GETTER(BaseClass, bool, "is_valid", &BaseClass::IsValid)
-    REGISTER_GETTER_END
+    REGISTER_OWN_GETTER_END
 };
 
 class DrivedClass : public BaseClass {
@@ -75,13 +75,13 @@ public:
     //         BaseClass::getters
     //     );
 
-    REGISTER_ALL_GETTER_START
+    REGISTER_GETTER_START
     BASE_GETTER(BaseClass)
     OWN_GETTER_START
     GETTER(DrivedClass, long, "id", &DrivedClass::GetId),
     GETTER(DrivedClass, string, "name", &DrivedClass::GetName)
     OWN_GETTER_END
-    REGISTER_ALL_GETTER_END
+    REGISTER_GETTER_END
 
 };
 
@@ -98,12 +98,12 @@ public:
         return code;
     }
 
-    REGISTER_ALL_GETTER_START
+    REGISTER_GETTER_START
     BASE_GETTER(DrivedClass)
     OWN_GETTER_START
     GETTER(DrivedClass2, int, "code", &DrivedClass2::GetCode)
     OWN_GETTER_END
-    REGISTER_ALL_GETTER_END
+    REGISTER_GETTER_END
 };
 
 class SerializeDrivedClassTest : public ::testing::Test {

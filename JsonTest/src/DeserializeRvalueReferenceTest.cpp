@@ -25,10 +25,10 @@ namespace JsonTest {
                 this->name = name;
             }
 
-        REGISTER_SETTER_START
+        REGISTER_OWN_SETTER_START
             SETTER(RvalueReference, int &&, "id", &RvalueReference::SetId),
             SETTER(RvalueReference, const std::string&&, "name", &RvalueReference::SetName)
-            REGISTER_SETTER_END
+            REGISTER_OWN_SETTER_END
         };
 
         TEST(RvalueReferenceTest, TestDeserialize)
