@@ -26,5 +26,5 @@ else()
     file(GLOB LIB_COMMON_SOURCES ${PROJECT_SOURCE_DIR}/*.cpp)
 
     #creating target libJson
-    add_library(${PROJECT_NAME} STATIC ${LIB_COMMON_SOURCES} ${LIB_COMMON_HEADERS} src/Converter.cpp include/Converter.h)
+    add_library(${PROJECT_NAME} STATIC ${LIB_COMMON_SOURCES} ${LIB_COMMON_HEADERS})
 endif()

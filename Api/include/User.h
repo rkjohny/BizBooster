@@ -10,12 +10,13 @@
 
 #include <string>
 #include "Json.h"
+#include "SerializableT.h"
 #include "BaseOutput.h"
 
 namespace Api {
     using namespace Json;
 
-    class User : public ApiOutput<User> {
+    class User : public SerializableT<User> {
     public:
         User();
         virtual ~User();
