@@ -14,7 +14,6 @@
 #define _TINY_JSON_H_
 
 #include <tuple>
-
 #include <cpprest/json.h>
 #include "Getter.h"
 #include "Setter.h"

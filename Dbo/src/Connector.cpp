@@ -3,7 +3,7 @@
 
 #include "DboConstant.h"
 
-namespace Dbo {
+namespace Dal {
 
 Connector::Connector()
 {}

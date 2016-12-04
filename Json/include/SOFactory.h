@@ -19,18 +19,17 @@
 #include <memory>
 
 
-namespace Api {
+namespace Json {
     using namespace std;
-    using namespace Json;
 
 #define REGISTER_CLASS(TYPE, NAME) \
-    Api::SOFactory::Register<TYPE>(NAME);
+    Json::SOFactory::Register<TYPE>(NAME);
 
 #define REGISTER_CLASS_DEF(TYPE, KEY, ID) \
-    private: static Api::ClassRegistrar<TYPE> _class_registrar_##ID;
+    private: static Json::ClassRegistrar<TYPE> _class_registrar_##ID;
 
 #define REGISTER_CLASS_DEC(TYPE, KEY, ID) \
-    Api::ClassRegistrar<TYPE> \
+    Json::ClassRegistrar<TYPE> \
         TYPE::_class_registrar_##ID = Json::ClassRegistrar<TYPE>( string(KEY) );
 
     class SOFactory {
@@ -99,7 +98,7 @@ namespace Api {
     };
 
 
-} /* namespace Api */
+} /* namespace Json */
 
 #endif /* SOBJECTFACTORY_H_ */
 

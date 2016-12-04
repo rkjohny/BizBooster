@@ -4,7 +4,7 @@
 
 #include "Dao.h"
 
-namespace Dbo {
+namespace Dal {
 class PGSqlDaoImp : public Dao {
     friend class Dao;
 

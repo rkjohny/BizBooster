@@ -5,6 +5,7 @@
 #include "RegisterUserInput.h"
 #include "RegisterUserOutput.h"
 #include "Common.h"
+#include "Dal.h"
 
 namespace Api {
 
@@ -16,10 +17,11 @@ void LoadLibrary()
         Common::LoadLibrary();
         Json::LoadLibrary();
 
+        Dal::LoadLibrary();
+
         REGISTER_CLASS(RegisterUserInput, "register_user");
         REGISTER_CLASS(RegisterUserInput, "RegisterUserInput");
         REGISTER_CLASS(RegisterUserOutput, "RegisterUserOutput");
-        REGISTER_CLASS(User, "User");
 
         loaded = true;
     }

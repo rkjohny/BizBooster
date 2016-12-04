@@ -1,6 +1,6 @@
 #include "PGSqlConnector.h"
 
-namespace Dbo {
+namespace Dal {
 
 PGSqlConnector::PGSqlConnector()
 {

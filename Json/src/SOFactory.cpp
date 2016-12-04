@@ -9,9 +9,7 @@
 
 #include "SOFactory.h"
 
-
-namespace Api {
-using namespace Common;
+namespace Json {
 
 mutex SOFactory::cm_mutex;
 SOFactory::ListCreators SOFactory::cm_objectCreators;
@@ -23,7 +21,7 @@ SOFactory::ListCreatorsArr SOFactory::cm_objectArrayCreators;
 std::unique_ptr<Serializable> SOFactory::CreateObject(string &&key)
 {
     std::unique_ptr<Serializable> p = nullptr;
-    StringUtility::ToLower(key);
+    Common::StringUtility::ToLower(key);
 
     cout << cm_objectCreators.size() << endl;
     cout << cm_objectArrayCreators.size() << endl;
@@ -42,7 +40,7 @@ std::unique_ptr<Serializable> SOFactory::CreateObject(string &&key)
 std::vector< std::unique_ptr<Serializable>> SOFactory::CreateObjectArray(string &&key, const size_t size)
 {
     std::vector< std::unique_ptr<Serializable>> v;
-    StringUtility::ToLower(key);
+    Common::StringUtility::ToLower(key);
 
     cm_mutexArr.lock();
     ListCreatorsArr::iterator itr = cm_objectArrayCreators.find(std::move(key));

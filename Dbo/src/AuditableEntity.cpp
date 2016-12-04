@@ -1,3 +1,3 @@
 #include "AuditableEntity.h"
 
-using namespace Dbo;
+using namespace Dal;

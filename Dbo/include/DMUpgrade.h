@@ -2,7 +2,7 @@
 #define _DM_UPGRADE_H
 
 
-namespace Dbo {
+namespace Dal {
 class DMUpgrade {
 public:
 

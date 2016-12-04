@@ -8,7 +8,7 @@
 
 #include <string>
 
-namespace Dbo {
+namespace Dal {
 
 void DMUpgrade::DMUpgrade_1()
 {

@@ -114,11 +114,11 @@ if (NOT LIB_CRYPT)
 endif()
 
 
-# add common, Json, Dbo, and Api first beacuse they will export the librray header locations which will be used by JsonTest, Server and Client
+# add common, Json, Dal, and Api first beacuse they will export the librray header locations which will be used by JsonTest, Server and Client
 #include Common first, before Json
 add_subdirectory(Common)
 add_subdirectory(Json)
-#add_subdirectory(JsonTest)
+add_subdirectory(JsonTest)
 add_subdirectory(Dbo)
 add_subdirectory(Api)
 add_subdirectory(Server)

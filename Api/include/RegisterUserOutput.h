@@ -16,6 +16,7 @@
 namespace Api {
     using namespace std;
     using namespace Json;
+    using namespace Dal;
 
     class RegisterUserOutput : public ApiOutput<RegisterUserOutput> {
     public:

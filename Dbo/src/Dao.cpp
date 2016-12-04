@@ -2,7 +2,7 @@
 #include "DboConstant.h"
 #include "PGSqlDaoImp.h"
 
-namespace Dbo {
+namespace Dal {
 
 Dao::Dao()
 {}

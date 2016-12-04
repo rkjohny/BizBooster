@@ -1,6 +1,6 @@
 #include "PGSqlDaoImp.h"
 
-namespace Dbo {
+namespace Dal {
 
 PGSqlDaoImp::PGSqlDaoImp()
 {}

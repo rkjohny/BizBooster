@@ -13,7 +13,7 @@ using namespace Wt::Dbo;
 using namespace Wt::Dbo::backend;
 using namespace std;
 
-namespace Dbo {
+namespace Dal {
 class PGSqlConnector : public Connector {
     friend class Connector;
 

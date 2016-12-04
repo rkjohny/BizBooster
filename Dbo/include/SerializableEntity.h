@@ -2,18 +2,19 @@
 // Created by rezaul on 12/4/16.
 //
 
-#ifndef BIZBOOSTER_SERIALIZABLET_H
-#define BIZBOOSTER_SERIALIZABLET_H
+#ifndef BIZBOOSTER_SERIALIZABLEENTITY_H
+#define BIZBOOSTER_SERIALIZABLEENTITY_H
 
-#include "Serializable.h"
+#include "AuditableEntity.h"
+#include "Json.h"
 
-namespace Json {
+namespace Dal {
 
     template <class T>
-    class SerializableT : public Serializable {
+    class SerializableEntity : public AuditableEntity {
     public:
-        SerializableT() = default;
-        virtual ~SerializableT() = default;
+        SerializableEntity() = default;
+        virtual ~SerializableEntity() = default;
 
         web::json::value Serialize() override {
             return Json::ToJson<T>(dynamic_cast<T*> (this));
@@ -25,18 +26,18 @@ namespace Json {
 
 
         REGISTER_ALL_GETTER_START
-        BASE_GETTER(Serializable)
+        BASE_GETTER(AuditableEntity)
         OWN_GETTER_START
-        OWN_GETTER_END
+                OWN_GETTER_END
         REGISTER_ALL_GETTER_END
 
         REGISTER_ALL_SETTER_START
-        BASE_SETTER(Serializable)
+        BASE_SETTER(AuditableEntity)
         OWN_SETTER_START
-        OWN_SETTER_END
+                OWN_SETTER_END
         REGISTER_ALL_SETTER_END
     };
 }
 
 
-#endif //BIZBOOSTER_SERIALIZABLET_H
+#endif //BIZBOOSTER_SERIALIZABLEENTITY_H

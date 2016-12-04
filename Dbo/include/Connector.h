@@ -3,7 +3,7 @@
 
 #include <string>
 
-namespace Dbo {
+namespace Dal {
 class Connector {
 
 protected:

@@ -6,7 +6,7 @@
 #include "User.h"
 
 
-namespace Dbo {
+namespace Dal {
 class Dao {
 
 protected:
