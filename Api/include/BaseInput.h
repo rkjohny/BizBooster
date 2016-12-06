@@ -25,7 +25,7 @@ namespace Api {
         BaseInput();
         virtual ~BaseInput();
 
-        virtual BaseOutput* Process() = 0;
+        virtual web::json::value Process() = 0;
 
         REGISTER_GETTER_INCLUDING_BASE_START(Serializable)
         REGISTER_GETTER_INCLUDING_BASE_END

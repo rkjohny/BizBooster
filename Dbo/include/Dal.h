@@ -5,10 +5,14 @@
 #ifndef BIZBOOSTER_DBO_H
 #define BIZBOOSTER_DBO_H
 
+#include "Dao.h"
+#include <memory>
 
 namespace Dal {
 
     void LoadLibrary();
+
+    std::shared_ptr<Dao> GetDao();
 };
 
 

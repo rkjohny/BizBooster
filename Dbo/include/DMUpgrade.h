@@ -3,12 +3,15 @@
 
 
 namespace Dal {
+
 class DMUpgrade {
 public:
+    constexpr DMUpgrade() = default;
+    virtual ~DMUpgrade() = default;
 
-private:
-    void DMUpgrade_1();
+    virtual void Execute() = 0;
 };
+
 }
 
 

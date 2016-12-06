@@ -35,7 +35,7 @@ namespace Api {
 
         virtual void ExecuteHelper() = 0;
 
-        BaseOutput* Execute();
+        web::json::value Execute();
     };
 
 } /* namespace Api */

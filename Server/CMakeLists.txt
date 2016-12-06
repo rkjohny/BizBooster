@@ -56,6 +56,10 @@ else ()
     target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_CRYPTO})
     target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_CRYPT})
 
+    target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_WITTY_PG_SQL})
+    target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_WITTY_DBO})
+    target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_WITTY_PG_SQL})
+
     configure_file(Server.ini ${EXECUTABLE_OUTPUT_PATH}/ COPYONLY UNIX)
 
 endif ()

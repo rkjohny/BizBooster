@@ -18,7 +18,7 @@ namespace Api {
 
     class ServiceFacade {
     public:
-        static RegisterUserOutput* RegisterUser(RegisterUserInput* input);
+        static web::json::value RegisterUser(RegisterUserInput* input);
 
     private:
         ServiceFacade() = delete;

@@ -36,6 +36,8 @@ set(CRYPT crypt)
 set(WITTY wt)
 set(WITTY_HTTP wthttp)
 set(WITTY_FCGI wtfcgi)
+set(WITTY_DBO wtdbo)
+set(WITTY_PG_SQL wtdbopostgres)
 
 # setting search path for librraies
 link_directories(${PROJECT_BINARY_DIR})
@@ -49,24 +51,32 @@ find_package(${GTEST} REQUIRED)
 message("GTEST_LIBRARIES= ${GTEST_LIBRARIES}")
 message("GTEST_INCLUDE_DIRS = ${GTEST_INCLUDE_DIRS}")
 
-# find_package(Boost REQUIRED)
-# message("cpprest_LIBRARIES= ${Boost_LIBRARIES}")
-# message("cpprest_INCLUDE_DIRS = ${Boost_INCLUDE_DIRS}")
-
-
 # Locate witty
-find_library(LIB_WITTY ${WITTY} REQUIRED)
-message ("LIB_WITTY = ${LIB_WITTY}")
-if (NOT LIB_WITTY)
-    message(FATAL_ERROR "witty library not found.")
-endif()
-
+#find_library(LIB_WITTY ${WITTY} REQUIRED)
+#message ("LIB_WITTY = ${LIB_WITTY}")
+#if (NOT LIB_WITTY)
+#    message(FATAL_ERROR "libwt not found.")
+#endif()
 
 # Locate witty http
-find_library(LIB_WITTY_HTTP ${WITTY_HTTP} REQUIRED)
-message ("LIB_WITTY_HTTP = ${LIB_WITTY_HTTP}")
-if (NOT LIB_WITTY_HTTP)
-    message(FATAL_ERROR "wthttp library not found.")
+#find_library(LIB_WITTY_HTTP ${WITTY_HTTP} REQUIRED)
+#message ("LIB_WITTY_HTTP = ${LIB_WITTY_HTTP}")
+#if (NOT LIB_WITTY_HTTP)
+#    message(FATAL_ERROR "libwthttp library not found.")
+#endif()
+
+# Locate witty dbo
+find_library(LIB_WITTY_DBO ${WITTY_DBO} REQUIRED)
+message ("LIB_WITTY_DBO = ${LIB_WITTY_DBO}")
+if (NOT LIB_WITTY_DBO)
+    message(FATAL_ERROR "libwtdbo library not found.")
+endif()
+
+# Locate witty dbo
+find_library(LIB_WITTY_PG_SQL ${WITTY_PG_SQL} REQUIRED)
+message ("LIB_WITTY_PG_SQL = ${LIB_WITTY_PG_SQL}")
+if (NOT LIB_WITTY_PG_SQL)
+    message(FATAL_ERROR "libwtdbopostgres library not found.")
 endif()
 
 
@@ -118,7 +128,7 @@ endif()
 #include Common first, before Json
 add_subdirectory(Common)
 add_subdirectory(Json)
-add_subdirectory(JsonTest)
+#add_subdirectory(JsonTest)
 add_subdirectory(Dbo)
 add_subdirectory(Api)
 add_subdirectory(Server)

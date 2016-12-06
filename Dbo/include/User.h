@@ -21,21 +21,25 @@ public:
     const std::string& GetEmail() const;
     const std::string& GetName() const;
     const std::string& GetRoles() const;
+    const std::string& GetPassword() const;
 
     void SetEmail(std::string email);
     void SetName(std::string name);
     void SetRoles(std::string roles);
+    void SetPassword(std::string password);
 
     REGISTER_GETTER_INCLUDING_BASE_START(SerializableEntity<User>)
     GETTER(User, const std::string&, "email", &User::GetEmail),
     GETTER(User, const std::string&, "name", &User::GetName),
-    GETTER(User, const std::string&, "roles", &User::GetRoles)
+    GETTER(User, const std::string&, "roles", &User::GetRoles),
+    GETTER(User, const std::string&, "password", &User::GetPassword)
     REGISTER_GETTER_INCLUDING_BASE_END
 
     REGISTER_SETTER_INCLUDING_BASE_START(SerializableEntity<User>)
     SETTER(User, std::string, "email", &User::SetEmail),
     SETTER(User, std::string, "name", &User::SetName),
-    SETTER(User, std::string, "roles", &User::SetRoles)
+    SETTER(User, std::string, "roles", &User::SetRoles),
+    SETTER(User, std::string, "password", &User::SetPassword)
     REGISTER_SETTER_INCLUDING_BASE_END
 
     template<class Action>

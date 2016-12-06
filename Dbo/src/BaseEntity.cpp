@@ -3,9 +3,20 @@
 using namespace Dal;
 
 long BaseEntity::GetId() const {
-    return id;
+    return m_id;
 }
 
 void BaseEntity::SetId(long id) {
-    this->id = id;
+    this->m_id = id;
 }
+
+int BaseEntity::GetVersion() const
+{
+    return m_version;
+}
+
+void BaseEntity::SetVersion(int v)
+{
+    m_version = v;
+}
+

@@ -2,26 +2,33 @@
 #define ABSTRACT_DAO_H
 
 #include <string>
-#include "Connector.h"
 #include "User.h"
 
 
 namespace Dal {
+
+class PGSqlDaoImp;
+
 class Dao {
 
+private:
+    Dao(Dao &) = delete;
+
+    Dao &operator=(Dao &) = delete;
+
 protected:
-    Dao();
-
-    Dao(Dao &);
-
-    virtual ~Dao();
+    Dao() = default;
 
 public:
-    static Dao *GetInstance();
+    virtual ~Dao()= default;
 
-    virtual void RegisterUser(Connector &connector, User &loggedUser, User &newUser) = 0;
+    virtual void CreateTables() = 0;
 
-    virtual User *GetUser(Connector &connector, User &loggedUser, std::string email) = 0;
+    virtual Wt::Dbo::Transaction BeginTransaction() = 0;
+
+    virtual Wt::Dbo::ptr<User> RegisterUser(User &loggedUser, User *user) = 0;
+
+    virtual User *GetUser(User &loggedUser, std::string email) = 0;
 
 };
 }

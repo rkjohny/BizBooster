@@ -22,7 +22,7 @@ RegisterUserInput::~RegisterUserInput()
 {
 }
 
-BaseOutput* RegisterUserInput::Process()
+web::json::value RegisterUserInput::Process()
 {
     return ServiceFacade::RegisterUser(this);
 }
@@ -56,6 +56,27 @@ void RegisterUserInput::SetRoles(std::string roles)
 {
     m_roles = std::move(roles);
 }
+
+int RegisterUserInput::GetVersion() const
+{
+    return m_version;
+}
+
+void RegisterUserInput::SetVersion(int version)
+{
+    m_version = version;
+}
+
+const std::string& RegisterUserInput::GetPassword() const
+{
+    return m_password;
+}
+
+void RegisterUserInput::SetPassword(std::string password)
+{
+    m_password = std::move(password);
+}
+
 
 } /* namespace Api */
 

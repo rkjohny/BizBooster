@@ -2,32 +2,54 @@
 
 namespace Dal {
 
-PGSqlDaoImp::PGSqlDaoImp()
-{}
+std::shared_ptr<PGSqlDaoImp>  PGSqlDaoImp::m_instance = nullptr;
 
-PGSqlDaoImp::PGSqlDaoImp(PGSqlDaoImp &d)
-{}
+PGSqlDaoImp::PGSqlDaoImp() //:m_postgres("host=127.0.0.1 user=postgres password=1234 port=5432 dbname=biz_booster_db")
+{
+    m_postgres.connect("host=127.0.0.1 user=postgres password=1234 port=5432 dbname=biz_booster_db");
+    m_postgres.setProperty("show-queries", "true");
+    m_session.setConnection(m_postgres);
+}
 
 PGSqlDaoImp::~PGSqlDaoImp()
-{}
-
-PGSqlDaoImp *PGSqlDaoImp::GetInstance()
 {
-    if (m_instance == NULL) {
-        m_instance = new PGSqlDaoImp();
+    //TODO: commit/rollback if pending, close the connection
+    m_session.flush();
+}
+
+std::shared_ptr<PGSqlDaoImp> PGSqlDaoImp::GetInstance()
+{
+    if (PGSqlDaoImp::m_instance == nullptr) {
+        PGSqlDaoImp::m_instance = std::shared_ptr<PGSqlDaoImp>(new PGSqlDaoImp());
     }
-    return m_instance;
+    return PGSqlDaoImp::m_instance;
 }
 
-void PGSqlDaoImp::RegisterUser(Connector &connector, User &loggedUser, User &newUser)
+void PGSqlDaoImp::CreateTables()
 {
-
+    m_session.mapClass<Dal::User>("user");
+    m_session.createTables();
 }
 
-User *PGSqlDaoImp::GetUser(Connector &connector, User &loggedUser, std::string email)
+Wt::Dbo::Transaction PGSqlDaoImp::BeginTransaction()
+{
+    return Wt::Dbo::Transaction(m_session);
+}
+
+Wt::Dbo::ptr<User> PGSqlDaoImp::RegisterUser(User &loggedUser, User *user)
+{
+    Wt::Dbo::ptr<User> newUser = m_session.add(user);
+    return newUser;
+}
+
+User *PGSqlDaoImp::GetUser(User &loggedUser, std::string email)
 {
     return nullptr;
 }
 
 
+
+
 }
+
+
