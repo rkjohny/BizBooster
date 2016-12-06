@@ -40,18 +40,20 @@ void RegisterUserHelper::CheckPermission()
 
 void RegisterUserHelper::ExecuteHelper()
 {
-    //this must be deleted by caller of execute method
     User *user = new User();
     user->SetEmail(m_input->GetEmail());
     user->SetName(m_input->GetName());
     user->SetRoles(m_input->GetRoles());
     user->SetVersion(m_input->GetVersion());
+    user->SetPassword(m_input->GetPassword());
 
     User loggedUser = User();
     Wt::Dbo::ptr<User> userAdded = Dal::GetDao()->RegisterUser(loggedUser, user);
 
-    this->m_output = new RegisterUserOutput();
-    dynamic_cast<RegisterUserOutput *> (m_output)->SetUser(*userAdded);
+    std::unique_ptr<RegisterUserOutput> output = std::make_unique<RegisterUserOutput>();
+    output->SetUser(*userAdded);
+
+    m_output = std::move(output);
 }
 
 } /* namespace Api */

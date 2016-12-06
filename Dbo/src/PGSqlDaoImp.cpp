@@ -9,6 +9,8 @@ PGSqlDaoImp::PGSqlDaoImp() //:m_postgres("host=127.0.0.1 user=postgres password=
     m_postgres.connect("host=127.0.0.1 user=postgres password=1234 port=5432 dbname=biz_booster_db");
     m_postgres.setProperty("show-queries", "true");
     m_session.setConnection(m_postgres);
+
+    m_session.mapClass<Dal::User>("user");
 }
 
 PGSqlDaoImp::~PGSqlDaoImp()
@@ -27,7 +29,6 @@ std::shared_ptr<PGSqlDaoImp> PGSqlDaoImp::GetInstance()
 
 void PGSqlDaoImp::CreateTables()
 {
-    m_session.mapClass<Dal::User>("user");
     m_session.createTables();
 }
 

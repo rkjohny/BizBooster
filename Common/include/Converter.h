@@ -19,7 +19,7 @@ namespace Common {
         template<typename Derived, typename Base>
         std::unique_ptr<Derived> static StaticDownCast(std::unique_ptr<Base> &&p)
         {
-            static_assert(std::is_base_of< Base, Derived >::value, "Derived must be derived from Base");
+            static_assert(std::is_base_of< Base, Derived >::value, "Incompatible types");
             auto d = static_cast<Derived *>(p.release());
             return std::unique_ptr<Derived>(d);
         }
@@ -27,12 +27,25 @@ namespace Common {
         template<typename Derived, typename Base>
         std::unique_ptr<Derived> static DynamicDownCast(std::unique_ptr<Base> &&p)
         {
-            static_assert(std::is_base_of< Base, Derived >::value, "Derived must be derived from Base");
+            static_assert(std::is_base_of< Base, Derived >::value, "Incompatible types");
             if(Derived *result = dynamic_cast<Derived *>(p.get())) {
                 p.release();
                 return std::unique_ptr<Derived>(result);
             }
             return std::unique_ptr<Derived>(nullptr);
+        }
+
+        template<typename Derived, typename Base>
+        std::unique_ptr<Base> static DynamicUpCast(std::unique_ptr<Derived> &&p)
+        {
+            static_assert(std::is_base_of< Base, Derived >::value, "Incompatible types");
+
+            if(Base *result = dynamic_cast<Base *>(p.get())) {
+                p.release();
+                return std::unique_ptr<Base>(result);
+            }
+
+            return std::unique_ptr<Base>(nullptr);
         }
     };
 }

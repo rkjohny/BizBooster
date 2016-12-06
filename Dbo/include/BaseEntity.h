@@ -16,7 +16,6 @@ public:
     int m_version;
 
     long GetId() const;
-
     void SetId(long id);
 
     int GetVersion() const;

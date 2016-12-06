@@ -10,6 +10,7 @@
 #define _ABSTRACT_HELPER_H_
 #include "BaseInput.h"
 #include "BaseOutput.h"
+#include <memory>
 
 namespace Api {
 
@@ -21,7 +22,7 @@ namespace Api {
         AbstractHelper& operator=(const AbstractHelper&) = delete;
 
     protected:
-        BaseOutput* m_output;
+        std::unique_ptr<BaseOutput> m_output;
 
     public:
         AbstractHelper();
