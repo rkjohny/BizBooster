@@ -28,7 +28,8 @@ web::json::value AbstractHelper::Execute()
 {
     web::json::value response;
     try {
-        Wt::Dbo::Transaction transaction = Dal::GetDao()->BeginTransaction();
+        auto dao = Dal::GetDao();
+        auto transaction = dao->BeginTransaction();
 
         ValidateInput();
         Initialize();
@@ -36,7 +37,8 @@ web::json::value AbstractHelper::Execute()
         ExecuteHelper();
 
         response = m_output->Serialize();
-        bool succeeded = transaction.commit();
+        //TODO: what to do  if commit failes
+        bool succeeded = dao->CommitTransaction(transaction);
 
     } catch (AppException& e) {
         //         LOG_ERROR(std::string("API: ") + m_input->ApiName() +

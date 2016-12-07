@@ -14,10 +14,8 @@ private:
     std::vector<std::unique_ptr<DMUpgrade>> dmUpgradeList;
 
 public:
-    DataModelManager()
-    {
-        dmUpgradeList.push_back(std::make_unique<DMUpgrade_1>());
-    }
+    DataModelManager();
+
     void Run();
 };
 

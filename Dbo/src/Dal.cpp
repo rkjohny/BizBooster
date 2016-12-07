@@ -5,7 +5,7 @@
 
 #include "Dal.h"
 #include "SOFactory.h"
-#include "DboConstant.h"
+#include "DboConfig.h"
 #include "PGSqlDaoImp.h"
 #include "DataModelManager.h"
 

@@ -25,27 +25,22 @@ web::json::value ApiExecutor::ExecuteSingleApi(const web::json::value &jrequest)
     std::string apiName = utility::conversions::to_utf8string(japi.as_string());
 
     if (japi.is_string() && jdata.is_object()) {
-        //std::vector<std::unique_ptr<Api::Serializable>> vec = Api::SOFactory::CreateObjectArray(std::move(apiName), 1);
-        //std::unique_ptr<Api::Serializable> obj =  std::move( vec.at(0) );
-
         std::unique_ptr<Api::Serializable> obj =  Api::SOFactory::CreateObject(std::move(apiName));
         if (obj) {
             std::unique_ptr<Api::BaseInput> input =
-                    Common::Converter::StaticDownCast<Api::BaseInput, Api::Serializable>(std::move(obj));
+                    Common::Converter::DynamicDownCast<Api::BaseInput, Api::Serializable>(std::move(obj));
 
             std::cout << "DATA:" << std::endl << jdata.serialize() << std::endl;
 
             input->Deserialize(jdata);
 
             web::json::value temp = input->Serialize();
-            std::cout << "INPUT:" << std::endl << temp.serialize() << std::endl;
+            std::cout << "Added new request:" << std::endl << temp.serialize() << std::endl;
 
-            //Api::BaseOutput *output = input->Process();
-            //jresponse = output->Serialize();
 
             jresponse = input->Process();
 
-            std::cout << "OUTPUT:" << std::endl << jresponse.serialize() << std::endl;
+            std::cout << "Response:" << std::endl << jresponse.serialize() << std::endl;
 
         } else {
             //TODO: handle bad request

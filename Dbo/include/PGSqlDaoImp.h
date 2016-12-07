@@ -3,6 +3,7 @@
 
 
 #include "Dao.h"
+#include "AppSetting.h"
 #include <string>
 #include <memory>
 #include <Wt/Dbo/Dbo>
@@ -37,7 +38,15 @@ public:
 
     void CreateTables() override;
 
+    int GetNextDmVersion() override;
+
+    void UpdateAppSetting(AppSetting &&setting) override;
+
     Wt::Dbo::Transaction BeginTransaction() override;
+
+    bool TableExists(std::string table_name) override;
+
+    virtual bool CommitTransaction(Wt::Dbo::Transaction&) override;
 
     Wt::Dbo::ptr<User> RegisterUser(User &loggedUser, User *newUser) override;
 

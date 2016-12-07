@@ -6,9 +6,8 @@
 
 #define PGSQL
 
-#define CURRENT_DM_VERSION_IN_PRODUCTION 0
-
 #define DB_NAME "biz_booster_db"
 
+#define NEXT_DM_VERSION_KEY "next.dm.version"
 
 #endif

@@ -3,6 +3,7 @@
 
 #include <string>
 #include "User.h"
+#include "AppSetting.h"
 
 
 namespace Dal {
@@ -24,7 +25,15 @@ public:
 
     virtual void CreateTables() = 0;
 
+    virtual int GetNextDmVersion() = 0;
+
     virtual Wt::Dbo::Transaction BeginTransaction() = 0;
+
+    virtual bool CommitTransaction(Wt::Dbo::Transaction&) = 0;
+
+    virtual bool TableExists(std::string table_name) = 0;
+
+    virtual void UpdateAppSetting(AppSetting &&setting) = 0;
 
     virtual Wt::Dbo::ptr<User> RegisterUser(User &loggedUser, User *user) = 0;
 
