@@ -6,8 +6,8 @@
 #define BIZBOOSTER_UTILS_H
 
 #include <memory>
-#include <stdint.h>
-#include <stdio.h>
+#include <string>
+#include <stdexcept>
 
 namespace Common {
 
@@ -49,9 +49,9 @@ namespace Common {
             return std::unique_ptr<Base>(nullptr);
         }
 
-        static int32_t ToInt32(std::string&& num);
+        static int64_t ToInt32(std::string&& num, int8_t base = 10) throw (std::invalid_argument, std::out_of_range);
 
-        static std::string ToStr(int32_t n);
+        static std::string ToStr(int32_t n, int8_t base = 10);
 
     };
 }

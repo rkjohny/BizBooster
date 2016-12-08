@@ -1,12 +1,6 @@
-/*
- * TradeXException.cpp
- *
- *  Created on: Oct 12, 2016
- *      Author: rezaul
- */
 
+#include <Converter.h>
 #include "AppException.h"
-#include "StringUtility.h"
 
 namespace Common {
 
@@ -68,7 +62,7 @@ string AppException::GetMessage() const
 
 string AppException::ToString() const
 {
-    string c = StringUtility::ToStr(static_cast<int> (m_code));
+    string c = Converter::ToStr(static_cast<int> (m_code));
     string s = "ErrorCode: " + c + " ErrorMessage: " + m_message;
     return s;
 }

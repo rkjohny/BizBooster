@@ -8,7 +8,6 @@
 #include "CilentConfig.h"
 #include "ClientInitializer.h"
 #include "AppFactory.h"
-#include "AppException.h"
 
 using namespace Common;
 using namespace Client;

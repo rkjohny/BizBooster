@@ -1,9 +1,3 @@
-/*
- * StringUtils.h
- *
- *  Created on: Oct 12, 2016
- *      Author: rezaul
- */
 
 #ifndef STRING_UTILS_H_
 #define STRING_UTILS_H_
@@ -37,10 +31,6 @@ namespace Common {
 
     public:
         static string Trim(const string& str);
-
-        static string ToStr(int n);
-
-        static int ToInt(const string& s) throw (invalid_argument);
 
         static void Tokenize(vector< string >& v, const string& str, const string& token, int n = 0);
 

@@ -14,6 +14,7 @@
 #define JSON_API U("@api")
 #define JSON_DATA U("@data")
 
+#define USE_C_FUNCTION 1
 
 #define FL __FILE__
 #define LN __LINE__

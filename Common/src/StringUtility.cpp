@@ -6,20 +6,12 @@
  */
 
 #include "StringUtility.h"
-
-#define USE_C_FUNCTION 1
+#include "AppConfig.h"
+#include <algorithm>
 
 #if USE_C_FUNCTION
 #include <string.h>
-#else
-#ifndef WIN32
-#include <cstdio>
-#include <cstring>
 #endif
-#endif
-
-#include <algorithm>
-#include <ctype.h>
 
 namespace Common {
 
@@ -70,24 +62,6 @@ string StringUtility::Trim(const string& str)
     return str.substr(front, rear - front);
 }
 
-string StringUtility::ToStr(int n)
-{
-    char s[ 50 ];
-#ifdef WINT_M32
-
-    sprintf_s(s, sizeof ( s), "%d", n);
-#else
-
-    snprintf(s, sizeof ( s), "%d", n);
-#endif
-
-    return s;
-}
-
-int StringUtility::ToInt(const string& s) throw ( invalid_argument)
-{
-    return stoi(s, 0, 10);
-}
 
 void StringUtility::Tokenize(vector< string >& v, const string& str, const string& token, int n)
 {
