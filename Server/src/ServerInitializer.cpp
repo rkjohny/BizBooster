@@ -16,11 +16,6 @@ using namespace Api;
 
 void ServerInitializer::Initialize()
 {
-    // Load all libraries
-    Common::LoadLibrary();
-    Json::LoadLibrary();
-    Api::LoadLibrary();
-
     // Initializing config reader and reading server config file
     auto server_config_reader = AppFactory::CreateConfigReader(SERVER_CONFIG_FILE_NAME, Common::ConFigFileType::PROPERTY_FILE);
     server_config_reader->SetFile(SERVER_CONFIG_FILE_NAME);
@@ -43,4 +38,10 @@ void ServerInitializer::Initialize()
     // Adding standard output (console) stream
     OSTDStream *ostdStream = new OSTDStream();
     logger->AddStream("standard_output_stram", ostdStream);
+
+    // Load all libraries
+    Common::LoadLibrary();
+    Json::LoadLibrary();
+    Api::LoadLibrary();
+
 }

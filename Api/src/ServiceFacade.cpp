@@ -12,7 +12,7 @@
 
 namespace Api {
 
-web::json::value ServiceFacade::RegisterUser(RegisterUserInput* input)
+web::json::value ServiceFacade::RegisterUser(RegisterUserInput *input)
 {
     RegisterUserHelper helper(input);
     //RegisterUserOutput* output = dynamic_cast<RegisterUserOutput*> (helper.Execute());

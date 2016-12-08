@@ -3,8 +3,9 @@
 #include "Dal.h"
 #include "DboConfig.h"
 #include "Converter.h"
+#include "AppFactory.h"
+#include "Converter.h"
 
-#include <iostream>
 
 namespace Dal {
 
@@ -26,9 +27,9 @@ void DataModelManager::Run()
         nextDmVersion = dao->GetNextDmVersion();
     }
 
-    int i = nextDmVersion;
-    std::cout << "nextDmVersion=" << nextDmVersion << std::endl;
+    LOG_DEBUG("Running Data Model Manager... pending upgrade count: " + Common::Converter::ToStr(dmUpgradeList.size() - nextDmVersion));
 
+    int i = nextDmVersion;
     for (; i<dmUpgradeList.size(); ++i) {
         dmUpgradeList.at(i)->Execute();
     }

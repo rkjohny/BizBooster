@@ -26,7 +26,7 @@ namespace Api {
 
     public:
         RegisterUserHelper();
-        explicit RegisterUserHelper(RegisterUserInput* input);
+        explicit RegisterUserHelper(RegisterUserInput *input);
 
         void SetInput(RegisterUserInput* in);
 

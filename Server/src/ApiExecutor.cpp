@@ -56,8 +56,6 @@ web::json::value ApiExecutor::ExecuteSingleApi(const web::json::value &jrequest)
 
             input->Deserialize(jdata);
 
-            LOG_DEBUG("Input: " + input->Serialize().serialize());
-
             jresponse = input->Process();
 
         } else {

@@ -68,7 +68,7 @@ int PGSqlDaoImp::GetNextDmVersion()
         std::cout << e.what() << std::endl;
         nextDmVersion = 0;
     }
-    //this->CommitTransaction(transaction);
+    this->CommitTransaction(transaction);
 
     return nextDmVersion;
 }
