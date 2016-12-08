@@ -8,14 +8,38 @@
 
 #include "ApiExecutor.h"
 #include "SOFactory.h"
-#include "BaseOutput.h"
 #include "RegisterUserInput.h"
 #include "RegisterUserOutput.h"
 #include <Converter.h>
 #include <ServiceFacade.h>
-
+#include "AppFactory.h"
 
 namespace Server {
+
+web::json::value ApiExecutor::UnknownErrorResponse()
+{
+    web::json::value jresponse;
+    jresponse[U("error")] = web::json::value::number(Api::ApiReturnCode::UN_KNOWN_ERROR);
+    jresponse[U("message")] = web::json::value::string(U(UN_KNOWN_ERROR_STR));
+    return jresponse;
+}
+
+web::json::value ApiExecutor::BadRequestResponse()
+{
+    web::json::value jresponse;
+    jresponse[U("error")] = web::json::value::number(Api::ApiReturnCode::BAD_REQUEST);
+    jresponse[U("message")] = web::json::value::string(U(BAD_REQUEST_STR));
+    return jresponse;
+}
+
+web::json::value ApiExecutor::InternalServerErrorResponse()
+{
+    web::json::value jresponse;
+    jresponse[U("error")] = web::json::value::number(Api::ApiReturnCode::INTERNAL_SERVER_ERROR);
+    jresponse[U("message")] = web::json::value::string(U(INTERNAL_SERVER_ERROR_STR));
+    return jresponse;
+}
+
 
 web::json::value ApiExecutor::ExecuteSingleApi(const web::json::value &jrequest)
 {
@@ -30,26 +54,30 @@ web::json::value ApiExecutor::ExecuteSingleApi(const web::json::value &jrequest)
             std::unique_ptr<Api::BaseInput> input =
                     Common::Converter::DynamicDownCast<Api::BaseInput, Api::Serializable>(std::move(obj));
 
-            std::cout << "DATA:" << std::endl << jdata.serialize() << std::endl;
-
             input->Deserialize(jdata);
 
-            web::json::value temp = input->Serialize();
-            std::cout << "Added new request:" << std::endl << temp.serialize() << std::endl;
-
+            LOG_DEBUG("Input: " + input->Serialize().serialize());
 
             jresponse = input->Process();
 
-            std::cout << "Response:" << std::endl << jresponse.serialize() << std::endl;
-
         } else {
-            //TODO: handle bad request
+            return BadRequestResponse();
         }
     } else {
-        //TODO: handle bad request
+        return BadRequestResponse();
     }
 
     return jresponse;
+}
+
+web::json::value ApiExecutor::ExecuteMultipleApi(const web::json::value &jrequests)
+{
+    web::json::value responses = web::json::value::array();
+    int index = 0;
+    for(auto &request : jrequests.as_array()) {
+        responses[index++] = ExecuteSingleApi(request);
+    }
+    return responses;
 }
 
 

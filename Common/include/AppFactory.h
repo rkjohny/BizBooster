@@ -9,7 +9,9 @@
 #define APPFACTORY_H_
 
 #include "BaseLogger.h"
-#include "BaseConfigReader.h"
+#include "BasePropertyReader.h"
+#include <memory>
+
 
 #define LOG_DEBUG(message) Common::AppFactory::GetLogger()->Debug(__FILE__,message);
 #define LOG_INFO(message) Common::AppFactory::GetLogger()->Info(__FILE__,message);
@@ -31,21 +33,29 @@ namespace Common {
             ~Logger() = default;
         };
 
-        class ConfigReader : public BaseConfigReader {
+        class PropertyReader : public BasePropertyReader {
             friend class AppFactory;
+
+        public:
+            ~PropertyReader() = default;
+
         protected:
-            ConfigReader() = default;
-            ~ConfigReader() = default;
+            PropertyReader() = default;
+
+            NON_COPY_NON_ASSIGN_ABLE(PropertyReader);
         };
 
         static void Dispose();
 
         static Logger* GetLogger();
         static void DisposeLogger();
-        static ConfigReader* GetConfigReader();
+        static PropertyReader* GetConfigReader();
         static void DisposeConfigReader();
-        static ConfigReader* GetPropertyReader();
+        static PropertyReader* GetPropertyReader();
         static void DisposePropertyReader();
+
+        static std::shared_ptr<ConfigReader> GetDboConfigReader();
+        static void DisposeDboConfigReader();
 
     private:
         AppFactory() = delete;
@@ -54,8 +64,10 @@ namespace Common {
         ~AppFactory() = delete;
 
         static Logger* cm_logger;
-        static ConfigReader* cm_configReader;
-        static ConfigReader* cm_propertyReader;
+        static PropertyReader* cm_configReader;
+        static PropertyReader* cm_propertyReader;
+
+        static std::shared_ptr<PropertyReader> cm_dboConfigReader;
     };
 
 } /* namespace Common */

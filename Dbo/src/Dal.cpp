@@ -3,11 +3,14 @@
 //
 
 
+#include <AppFactory.h>
 #include "Dal.h"
 #include "SOFactory.h"
 #include "DboConfig.h"
 #include "PGSqlDaoImp.h"
 #include "DataModelManager.h"
+#include "AppFactory.h"
+
 
 namespace Dal {
 
@@ -19,6 +22,9 @@ namespace Dal {
             Json::LoadLibrary();
 
             REGISTER_CLASS(User, "user");
+
+            auto config_reader = Common::AppFactory::GetDboConfigReader();
+            config_reader->SetFile(DBO_CONFIG_FILE_NAME);
 
             DataModelManager().Run();
 

@@ -38,6 +38,7 @@ set(WITTY_HTTP wthttp)
 set(WITTY_FCGI wtfcgi)
 set(WITTY_DBO wtdbo)
 set(WITTY_PG_SQL wtdbopostgres)
+set(WITTY_EXT wtext)
 
 # setting search path for librraies
 link_directories(${PROJECT_BINARY_DIR})
@@ -52,67 +53,76 @@ message("GTEST_LIBRARIES= ${GTEST_LIBRARIES}")
 message("GTEST_INCLUDE_DIRS = ${GTEST_INCLUDE_DIRS}")
 
 # Locate witty
-#find_library(LIB_WITTY ${WITTY} REQUIRED)
-#message ("LIB_WITTY = ${LIB_WITTY}")
-#if (NOT LIB_WITTY)
-#    message(FATAL_ERROR "libwt not found.")
-#endif()
+find_library(LIB_WITTY ${WITTY} REQUIRED)
+message ("LIB_WITTY = ${LIB_WITTY}")
+if (NOT LIB_WITTY)
+    message(FATAL_ERROR "libwt not found.")
+endif()
 
 # Locate witty http
-#find_library(LIB_WITTY_HTTP ${WITTY_HTTP} REQUIRED)
-#message ("LIB_WITTY_HTTP = ${LIB_WITTY_HTTP}")
-#if (NOT LIB_WITTY_HTTP)
-#    message(FATAL_ERROR "libwthttp library not found.")
-#endif()
+find_library(LIB_WITTY_HTTP ${WITTY_HTTP} REQUIRED)
+message ("LIB_WITTY_HTTP = ${LIB_WITTY_HTTP}")
+if (NOT LIB_WITTY_HTTP)
+    message(FATAL_ERROR "libwthttp not found.")
+endif()
 
 # Locate witty dbo
 find_library(LIB_WITTY_DBO ${WITTY_DBO} REQUIRED)
 message ("LIB_WITTY_DBO = ${LIB_WITTY_DBO}")
 if (NOT LIB_WITTY_DBO)
-    message(FATAL_ERROR "libwtdbo library not found.")
+    message(FATAL_ERROR "libwtdbo not found.")
 endif()
 
 # Locate witty dbo
 find_library(LIB_WITTY_PG_SQL ${WITTY_PG_SQL} REQUIRED)
 message ("LIB_WITTY_PG_SQL = ${LIB_WITTY_PG_SQL}")
 if (NOT LIB_WITTY_PG_SQL)
-    message(FATAL_ERROR "libwtdbopostgres library not found.")
+    message(FATAL_ERROR "libwtdbopostgres not found.")
+endif()
+
+# Locate witty fcgi
+find_library(LIB_WITTY_FCGI ${WITTY_FCGI} REQUIRED)
+message ("LIB_WITTY_FCGI = ${LIB_WITTY_FCGI}")
+if (NOT LIB_WITTY_FCGI)
+ message(FATAL_ERROR "libwtfcgi found.")
+endif()
+
+# Locate witty fcgi
+find_library(LIB_WITTY_EXT ${WITTY_EXT} REQUIRED)
+message ("LIB_WITTY_EXT = ${LIB_WITTY_EXT}")
+if (NOT LIB_WITTY_EXT)
+    message(FATAL_ERROR "libwtext not found.")
 endif()
 
 
-# Locate witty fcgi
-# find_library(LIB_WITTY_FCGI ${WITTY_FCGI} REQUIRED)
-# message ("LIB_WITTY_FCGI = ${LIB_WITTY_FCGI}")
-# if (NOT LIB_WITTY_FCGI)
-#     message(FATAL_ERROR "wtfcgi library not found.")
-# endif()
+
 
 # Locate cpprest
 find_library(LIB_CPP_REST ${CPPREST} REQUIRED)
 message ("LIB_CPP_REST = ${LIB_CPP_REST}")
 if (NOT LIB_CPP_REST)
-    message(FATAL_ERROR "cpprest library not found.")
+    message(FATAL_ERROR "libcpprest not found.")
 endif()
 
 # Locate libboost_system
 find_library(LIB_BOOST ${BOOST} REQUIRED)
 message ("LIB_BOOST = ${LIB_BOOST}")
 if (NOT LIB_BOOST)
-    message(FATAL_ERROR "boost librray not found.")
+    message(FATAL_ERROR "libboost not found.")
 endif()
 
 # Locate libssl
 find_library(LIB_SSL ${SSL} REQUIRED)
 message ("LIB_SSL = ${LIB_SSL}")
 if (NOT LIB_SSL)
-    message(FATAL_ERROR "libssl librray not found.")
+    message(FATAL_ERROR "libssl not found.")
 endif()
 
 # Locate libcrypyo
 find_library(LIB_CRYPTO ${CRYPTO} REQUIRED)
 message ("LIB_CRYPTO = ${LIB_CRYPTO}")
 if (NOT LIB_CRYPTO)
-    message(FATAL_ERROR "libcrypto librray not found.")
+    message(FATAL_ERROR "libcrypto not found.")
 endif()
 
 
@@ -120,7 +130,7 @@ endif()
 find_library(LIB_CRYPT ${CRYPT} REQUIRED)
 message ("LIB_CRYPT = ${LIB_CRYPT}")
 if (NOT LIB_CRYPT)
-    message(FATAL_ERROR "libcrypt librray not found.")
+    message(FATAL_ERROR "libcrypt not found.")
 endif()
 
 

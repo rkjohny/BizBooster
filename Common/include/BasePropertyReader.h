@@ -13,31 +13,32 @@
 #include "SharedObject.h"
 #include "Disposable.h"
 #include "AppException.h"
+#include "CommonTraits.h"
+#include "ConfigReader.h"
 
 namespace Common {
     using namespace std;
 
-    class BaseConfigReader : public SharedObject, public Disposable {
+    class BasePropertyReader : public ConfigReader {
     public:
-        string GetValueOf(const string& key);
+        string GetValueOf(const string& key) override;
 
-        void ReloadFile() throw (AppException);
-        void SetFile(const string& fileName) throw (AppException);
+        void ReloadFile() throw (AppException) override;
+
+        void SetFile(const string& fileName) throw (AppException) override;
 
     protected:
-        BaseConfigReader();
-        ~BaseConfigReader();
+        BasePropertyReader();
+        virtual ~BasePropertyReader();
 
-        void Dispose() override;
         void LoadFile(const string& fileName) throw (AppException);
+        void Dispose() override;
 
     private:
-
         map< string, string > m_properties;
         string m_fileName;
 
-        BaseConfigReader(BaseConfigReader&) = delete;
-        BaseConfigReader& operator=(BaseConfigReader&) = delete;
+        NON_COPY_NON_ASSIGN_ABLE(BasePropertyReader);
     };
 
 } /* namespace Common */

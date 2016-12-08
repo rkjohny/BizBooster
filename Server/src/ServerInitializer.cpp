@@ -23,7 +23,7 @@ void ServerInitializer::Initialize()
     Api::LoadLibrary();
 
     // Initializing config reader and reading server config file
-    AppFactory::ConfigReader* configReader = AppFactory::GetConfigReader();
+    AppFactory::PropertyReader* configReader = AppFactory::GetConfigReader();
     configReader->SetFile(SERVER_CONFIG_FILE_NAME);
 
     // creating server logger

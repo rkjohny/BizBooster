@@ -2,7 +2,7 @@
 #include "DboConfig.h"
 #include "Converter.h"
 #include <exception>
-
+#include <AppFactory.h>
 
 
 namespace Dal {
@@ -11,7 +11,18 @@ std::shared_ptr<PGSqlDaoImp>  PGSqlDaoImp::m_instance = nullptr;
 
 PGSqlDaoImp::PGSqlDaoImp() //:m_postgres("host=127.0.0.1 user=postgres password=1234 port=5432 dbname=biz_booster_db")
 {
-    m_postgres.connect("host=127.0.0.1 user=postgres password=1234 port=5432 dbname=biz_booster_db");
+    auto config_reader = Common::AppFactory::GetDboConfigReader();
+    std::string db_host = config_reader->GetValueOf(DB_HOST);
+    std::string db_name = config_reader->GetValueOf(DB_NAME);
+    std::string db_user_name = config_reader->GetValueOf(DB_USER_NAME);
+    std::string db_user_pass = config_reader->GetValueOf(DB_USER_PASSWORD);
+
+    std::string conn_string = "host=" + db_host + " user=" + db_user_name +
+            " password=" + db_user_pass + " dbname=" + db_name;
+
+    std::cout << conn_string << std::endl;
+
+    m_postgres.connect(conn_string);
     m_postgres.setProperty("show-queries", "true");
     m_session.setConnection(m_postgres);
 

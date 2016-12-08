@@ -25,7 +25,7 @@ TradeXClient::TradeXClient(const WEnvironment& env)
     logger->Debug(__FILE__, "Starting TradexClient  application");
 
     try {
-        AppFactory::ConfigReader* propertyReader = AppFactory::GetPropertyReader();
+        AppFactory::PropertyReader* propertyReader = AppFactory::GetPropertyReader();
         string apptitle = PROPERTY_VALUE(CLIENT_PROP_APPLICATION_TITLE) + " - v" + CLIENT_VERSION;
         apptitle = propertyReader->GetValueOf(CLIENT_PROP_APPLICATION_TITLE) + " - v" + CLIENT_VERSION;
         setTitle(WString(apptitle));

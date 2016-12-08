@@ -10,8 +10,9 @@
 namespace Common {
 
 AppFactory::Logger* AppFactory::cm_logger = nullptr;
-AppFactory::ConfigReader* AppFactory::cm_configReader = nullptr;
-AppFactory::ConfigReader* AppFactory::cm_propertyReader = nullptr;
+AppFactory::PropertyReader* AppFactory::cm_configReader = nullptr;
+AppFactory::PropertyReader* AppFactory::cm_propertyReader = nullptr;
+std::shared_ptr<AppFactory::PropertyReader> AppFactory::cm_dboConfigReader = nullptr;
 
 AppFactory::Logger* AppFactory::GetLogger()
 {
@@ -28,10 +29,10 @@ void AppFactory::DisposeLogger()
     }
 }
 
-AppFactory::ConfigReader* AppFactory::GetConfigReader()
+AppFactory::PropertyReader* AppFactory::GetConfigReader()
 {
     if (!cm_configReader) {
-        cm_configReader = new AppFactory::ConfigReader();
+        cm_configReader = new AppFactory::PropertyReader();
     }
     return cm_configReader;
 }
@@ -43,10 +44,10 @@ void AppFactory::DisposeConfigReader()
     }
 }
 
-AppFactory::ConfigReader* AppFactory::GetPropertyReader()
+AppFactory::PropertyReader* AppFactory::GetPropertyReader()
 {
     if (!cm_propertyReader) {
-        cm_propertyReader = new AppFactory::ConfigReader();
+        cm_propertyReader = new AppFactory::PropertyReader();
     }
     return cm_propertyReader;
 }
@@ -63,6 +64,22 @@ void AppFactory::Dispose()
     DisposeLogger();
     DisposeConfigReader();
     DisposePropertyReader();
+}
+
+
+std::shared_ptr<ConfigReader> AppFactory::GetDboConfigReader()
+{
+    if (!cm_dboConfigReader) {
+        cm_dboConfigReader = std::shared_ptr<AppFactory::PropertyReader>(new AppFactory::PropertyReader());
+    }
+    return cm_dboConfigReader;
+}
+
+void AppFactory::DisposeDboConfigReader()
+{
+    if(cm_dboConfigReader) {
+        cm_dboConfigReader->Dispose();
+    }
 }
 
 } /* namespace Common */

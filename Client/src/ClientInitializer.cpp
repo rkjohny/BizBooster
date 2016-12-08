@@ -15,11 +15,11 @@ using namespace Common;
 void ClientInitializer::Initialize()
 {
     // Initializing property reader and reading server config file
-    AppFactory::ConfigReader* propertyReader = AppFactory::GetPropertyReader();
+    AppFactory::PropertyReader* propertyReader = AppFactory::GetPropertyReader();
     propertyReader->SetFile(CLIENT_PROP_FILE_NAME);
 
     // Initializing config reader and reading server config file
-    AppFactory::ConfigReader* configReader = AppFactory::GetConfigReader();
+    AppFactory::PropertyReader* configReader = AppFactory::GetConfigReader();
     configReader->SetFile(CLIENT_CONFIG_FILE_NAME);
 
     // creating client logger

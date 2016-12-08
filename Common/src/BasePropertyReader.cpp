@@ -1,27 +1,21 @@
-/*
- * TradexConfigReader.cpp
- *
- *  Created on: Oct 12, 2016
- *      Author: rezaul
- */
 
 #include <fstream>
-#include "BaseConfigReader.h"
+#include "BasePropertyReader.h"
 #include "StringUtility.h"
 #include "AppConstant.h"
 
 namespace Common {
 
-BaseConfigReader::BaseConfigReader()
+BasePropertyReader::BasePropertyReader()
 {
 }
 
-BaseConfigReader::~BaseConfigReader()
+BasePropertyReader::~BasePropertyReader()
 {
-    BaseConfigReader::Dispose();
+    BasePropertyReader::Dispose();
 }
 
-void BaseConfigReader::Dispose()
+void BasePropertyReader::Dispose()
 {
     m_mutex.lock();
     if (!m_isDosposed) {
@@ -31,7 +25,7 @@ void BaseConfigReader::Dispose()
     m_mutex.unlock();
 }
 
-void BaseConfigReader::SetFile(const string& filename) throw ( AppException)
+void BasePropertyReader::SetFile(const string& filename) throw ( AppException)
 {
     m_mutex.lock();
     m_fileName = filename;
@@ -40,7 +34,7 @@ void BaseConfigReader::SetFile(const string& filename) throw ( AppException)
     m_mutex.unlock();
 }
 
-void BaseConfigReader::ReloadFile() throw ( AppException)
+void BasePropertyReader::ReloadFile() throw ( AppException)
 {
     m_mutex.lock();
     LoadFile(m_fileName);
@@ -48,7 +42,7 @@ void BaseConfigReader::ReloadFile() throw ( AppException)
     m_mutex.unlock();
 }
 
-void BaseConfigReader::LoadFile(const string& filename) throw ( AppException)
+void BasePropertyReader::LoadFile(const string& filename) throw ( AppException)
 {
     try {
         ifstream infs(filename.c_str());
@@ -84,7 +78,7 @@ void BaseConfigReader::LoadFile(const string& filename) throw ( AppException)
     }
 }
 
-string BaseConfigReader::GetValueOf(const string& key)
+string BasePropertyReader::GetValueOf(const string& key)
 {
     string value = "";
     m_mutex.lock();

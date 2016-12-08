@@ -1,14 +1,7 @@
 #include "RequestHandler.h"
 #include "ApiExecutor.h"
-#include "AppConstant.h"
 #include "AppFactory.h"
 
-#include <cpprest/json.h>
-#include <cpprest/http_msg.h>
-#include <pplx/pplxtasks.h>
-#include <AppConstant.h>
-
-#include <iostream>
 
 using namespace Server;
 
@@ -33,21 +26,23 @@ void RequestHandler::HandlePostRequest(web::http::http_request& request)
                 try {
                     web::json::value jrequest = task.get();
 
+                    LOG_DEBUG("Added new request: " + jrequest.serialize());
 
                     if (jrequest.is_object()) {
                         jresponse = ApiExecutor::ExecuteSingleApi(jrequest);
                     } else if (jrequest.is_array()) {
-                        // TODO: handle agregate api
+                        jresponse = ApiExecutor::ExecuteMultipleApi(jrequest);
                     } else {
-                        //TODO: handle bad request
+                        jresponse = ApiExecutor::BadRequestResponse();
                     }
                 } catch (std::exception e) {
                     LOG_ERROR(e.what());
+                    jresponse = ApiExecutor::InternalServerErrorResponse();
                 }
             })
     .wait();
 
-    std::cout << "Sending Response: " << jresponse.serialize() << std::endl;
+    LOG_DEBUG("Response: " + jresponse.serialize());
 
     request.reply(web::http::status_codes::OK, jresponse);
 }

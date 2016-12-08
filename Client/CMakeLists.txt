@@ -32,11 +32,14 @@ else()
     target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_COMMON})
 
     # linking third party library dependencies
-    target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_WITTY})
+    #target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_WITTY})
     target_link_libraries(${PROJECT_NAME} PUBLIC ${WITTY_HTTP})
-    #target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_WITTY_FCGI})
+    target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_WITTY_FCGI})
+    target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_WITTY})
+
     target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_BOOST})
 
-    configure_file(Client.ini ${EXECUTABLE_OUTPUT_PATH}/ COPYONLY UNIX)
+
+    configure_file(client.properties ${EXECUTABLE_OUTPUT_PATH}/ COPYONLY UNIX)
     configure_file(lang.en_US.properties ${EXECUTABLE_OUTPUT_PATH}/ COPYONLY UNIX)
 endif()

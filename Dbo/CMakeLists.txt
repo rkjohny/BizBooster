@@ -34,4 +34,6 @@ else ()
 
     #creating target libJson
     add_library(${PROJECT_NAME} STATIC ${LIB_DBO_SOURCES} ${LIB_DBO_HEADERS})
+
+    configure_file(dbo.properties ${EXECUTABLE_OUTPUT_PATH}/ COPYONLY UNIX)
 endif ()
