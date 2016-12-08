@@ -1,10 +1,12 @@
 #include "ServerDisposer.h"
 #include "AppFactory.h"
 
-using namespace Common;
-using namespace Server;
+
+namespace Server {
 
 void ServerDisposer::Dispose()
 {
-    AppFactory::Dispose();
+    Common::AppFactory::Dispose();
+}
+
 }

@@ -7,7 +7,7 @@
 
 #include "FileUtility.h"
 #include "StringUtility.h"
-#include "AppConstant.h"
+#include "AppConfig.h"
 
 namespace Common {
 
@@ -27,7 +27,7 @@ string FileUtility::GetNameWithoutType(const string& absulateFileName)
     }
 
     listPath.clear();
-    StringUtility::Tokenize(listPath, string(file), FILE_TYPE_SEPERATOR);
+    StringUtility::Tokenize(listPath, file, FILE_TYPE_SEPERATOR);
 
     if (listPath.size() > 1) {
         file = "";

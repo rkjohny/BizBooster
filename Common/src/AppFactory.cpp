@@ -5,19 +5,49 @@
  *      Author: rezaul
  */
 
+#include "FileUtility.h"
 #include "AppFactory.h"
+#include "Converter.h"
 
 namespace Common {
 
-AppFactory::Logger* AppFactory::cm_logger = nullptr;
-AppFactory::PropertyReader* AppFactory::cm_configReader = nullptr;
-AppFactory::PropertyReader* AppFactory::cm_propertyReader = nullptr;
-std::shared_ptr<AppFactory::PropertyReader> AppFactory::cm_dboConfigReader = nullptr;
+std::shared_ptr<AppFactory::Logger> AppFactory::cm_logger = nullptr;
+std::map<std::string, std::shared_ptr<ConfigReader>> AppFactory::cm_configReaderList;
 
-AppFactory::Logger* AppFactory::GetLogger()
+
+void AppFactory::Logger::Debug(const char *fname, int line, const string &&message)
+{
+    BaseLogger::Debug(FileUtility::GetNameWithoutType(fname)+ ":" + Converter::ToStr(line), std::move(message));
+}
+
+
+void AppFactory::Logger::Info(const char *fname, int line, const string &&message)
+{
+    BaseLogger::Info(FileUtility::GetNameWithoutType(fname)+ ":" + Converter::ToStr(line), std::move(message));
+}
+
+void AppFactory::Logger::Warning(const char *fname, int line, const string &&message)
+{
+    BaseLogger::Warning(FileUtility::GetNameWithoutType(fname)+ ":" + Converter::ToStr(line), std::move(message));
+}
+
+void AppFactory::Logger::Error(const char *fname, int line, const string &&message)
+{
+    BaseLogger::Error(FileUtility::GetNameWithoutType(fname)+ ":" + Converter::ToStr(line), std::move(message));
+}
+
+
+void AppFactory::Dispose()
+{
+    DisposeLogger();
+    DisposeConfigReader();
+}
+
+
+std::shared_ptr<AppFactory::Logger> AppFactory::GetLogger()
 {
     if (!cm_logger) {
-        cm_logger = new AppFactory::Logger();
+        cm_logger = std::shared_ptr<Logger>(new AppFactory::Logger());
     }
     return cm_logger;
 }
@@ -29,56 +59,46 @@ void AppFactory::DisposeLogger()
     }
 }
 
-AppFactory::PropertyReader* AppFactory::GetConfigReader()
+std::shared_ptr<ConfigReader> AppFactory::CreateConfigReader(std::string &&key, ConFigFileType type)
 {
-    if (!cm_configReader) {
-        cm_configReader = new AppFactory::PropertyReader();
+    std::shared_ptr<ConfigReader> reader;
+
+    switch (type) {
+        case PROPERTY_FILE:
+            reader = std::shared_ptr<PropertyReader>(new PropertyReader());
+            break;
+
+        case XML_FILE:
+            throw runtime_error("Support of ConFigFileType::XML_FILE not implemented");
     }
-    return cm_configReader;
+    cm_configReaderList[std::move(key)] = reader;
+
+    return reader;
+}
+
+std::shared_ptr<ConfigReader> AppFactory::GetConfigReader(std::string &&key)
+{
+    auto itr = cm_configReaderList.find(std::move(key));
+    if (itr != cm_configReaderList.end()) {
+        return itr->second;
+    }
+    return nullptr;
+}
+
+bool AppFactory::DisposeConfigReader(std::string &key)
+{
+    auto itr = cm_configReaderList.find(key);
+    if (itr != cm_configReaderList.end()) {
+        itr->second->Dispose();
+        return true;
+    }
+    return false;
 }
 
 void AppFactory::DisposeConfigReader()
 {
-    if (cm_configReader) {
-        cm_configReader->Dispose();
-    }
-}
-
-AppFactory::PropertyReader* AppFactory::GetPropertyReader()
-{
-    if (!cm_propertyReader) {
-        cm_propertyReader = new AppFactory::PropertyReader();
-    }
-    return cm_propertyReader;
-}
-
-void AppFactory::DisposePropertyReader()
-{
-    if (cm_propertyReader) {
-        cm_propertyReader->Dispose();
-    }
-}
-
-void AppFactory::Dispose()
-{
-    DisposeLogger();
-    DisposeConfigReader();
-    DisposePropertyReader();
-}
-
-
-std::shared_ptr<ConfigReader> AppFactory::GetDboConfigReader()
-{
-    if (!cm_dboConfigReader) {
-        cm_dboConfigReader = std::shared_ptr<AppFactory::PropertyReader>(new AppFactory::PropertyReader());
-    }
-    return cm_dboConfigReader;
-}
-
-void AppFactory::DisposeDboConfigReader()
-{
-    if(cm_dboConfigReader) {
-        cm_dboConfigReader->Dispose();
+    for (auto &reader : cm_configReaderList) {
+        reader.second->Dispose();
     }
 }
 

@@ -2,7 +2,7 @@
 #include <fstream>
 #include "BasePropertyReader.h"
 #include "StringUtility.h"
-#include "AppConstant.h"
+#include "AppConfig.h"
 
 namespace Common {
 

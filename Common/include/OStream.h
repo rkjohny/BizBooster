@@ -26,7 +26,7 @@ namespace Common {
         virtual void Open() = 0;
         virtual void Flush() = 0;
 
-        virtual void Write(const string& message) = 0;
+        virtual void Write(const string&& message) = 0;
         virtual void Close() = 0;
     };
 

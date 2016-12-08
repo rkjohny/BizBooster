@@ -1,14 +1,14 @@
 #include "ServerInitializer.h"
-#include "ServerConstant.h"
 #include "StringUtility.h"
 #include "OFStream.h"
 #include "OSTDStream.h"
 #include "AppFactory.h"
-#include "AppConstant.h"
 #include "Api.h"
 #include "Json.h"
 #include "Common.h"
-#include <string>
+#include "AppConfig.h"
+#include "ServerConfig.h"
+#include "Converter.h"
 
 using namespace std;
 using namespace Server;
@@ -23,26 +23,25 @@ void ServerInitializer::Initialize()
     Api::LoadLibrary();
 
     // Initializing config reader and reading server config file
-    AppFactory::PropertyReader* configReader = AppFactory::GetConfigReader();
-    configReader->SetFile(SERVER_CONFIG_FILE_NAME);
+    auto server_config_reader = AppFactory::CreateConfigReader(SERVER_CONFIG_FILE_NAME, Common::ConFigFileType::PROPERTY_FILE);
+    server_config_reader->SetFile(SERVER_CONFIG_FILE_NAME);
 
     // creating server logger
-    AppFactory::Logger* logger = AppFactory::GetLogger();
+    auto logger = AppFactory::GetLogger();
 
     // Adding file stream to logger
-    string filename = CONFIG_VALUE(SERVER_LOG_FILE_PATH_STR) + PATH_SEPARATOR + SERVER_LOG_FILE_NAME;
-    filename = AppFactory::GetConfigReader()->GetValueOf(SERVER_LOG_FILE_PATH_STR) + PATH_SEPARATOR + SERVER_LOG_FILE_NAME;
+    string filename = server_config_reader->GetValueOf(SERVER_LOG_FILE_PATH_STR) + PATH_SEPARATOR + SERVER_LOG_FILE_NAME;
     OFStream* ofStream = new OFStream();
-    ofStream->SetFile(filename);
-    logger->AddStream(filename, ofStream);
+    ofStream->SetFile(std::string(filename));
+    logger->AddStream(std::move(filename), ofStream);
 
-    string loglevelStr = configReader->GetValueOf(SERVER_LOG_LEVEL_STR);
+    string loglevelStr = server_config_reader->GetValueOf(SERVER_LOG_LEVEL_STR);
     try {
-        logger->SetLogLevel(StringUtility::ToInt(loglevelStr));
+        logger->SetLogLevel(Converter::ToInt32(std::move(loglevelStr)));
     } catch (...) {
     }
 
     // Adding standard output (console) stream
-    OSTDStream *ostdStram = new OSTDStream();
-    logger->AddStream("standard_output_stram", ostdStram);
+    OSTDStream *ostdStream = new OSTDStream();
+    logger->AddStream("standard_output_stram", ostdStream);
 }

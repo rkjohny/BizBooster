@@ -7,7 +7,7 @@
 #endif
 
 #include "Server.h"
-#include "AppConstant.h"
+#include "ServerConfig.h"
 #include "AppFactory.h"
 #include "ServerInitializer.h"
 #include "ServerDisposer.h"

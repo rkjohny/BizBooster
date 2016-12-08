@@ -13,7 +13,7 @@
 #include "SharedObject.h"
 #include "Disposable.h"
 #include "AppException.h"
-#include "CommonTraits.h"
+#include "AppDef.h"
 #include "ConfigReader.h"
 
 namespace Common {

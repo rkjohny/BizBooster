@@ -5,7 +5,7 @@
 #ifndef CONFIG_READER_H
 #define CONFIG_READER_H
 
-#include "CommonTraits.h"
+#include "AppDef.h"
 
 namespace Common {
 

@@ -14,7 +14,7 @@ OStream()
 {
 }
 
-OFStream::OFStream(const string& filename) :
+OFStream::OFStream(const string&& filename) :
 m_ofs(filename, ios_base::app)
 {
     m_is_open = m_ofs.is_open();
@@ -25,7 +25,7 @@ OFStream::~OFStream()
     OFStream::Close();
 }
 
-void OFStream::SetFile(const string& filename)
+void OFStream::SetFile(const string&&filename)
 {
     m_mutex.lock();
     try {
@@ -67,13 +67,13 @@ void OFStream::Flush()
     m_mutex.unlock();
 }
 
-void OFStream::Write(const string& message)
+void OFStream::Write(const string&& message)
 {
     m_mutex.lock();
     if (m_is_open) {
         try {
             // endl will flush stream
-            m_ofs << message << endl;
+            m_ofs << std::move(message) << endl;
             //m_ofs.flush();
         } catch (...) {
         }

@@ -5,7 +5,7 @@
  */
 
 #include "Client.h"
-#include "ClientConstant.h"
+#include "CilentConfig.h"
 #include "ClientInitializer.h"
 #include "AppFactory.h"
 #include "AppException.h"
@@ -19,16 +19,15 @@ TradeXClient::TradeXClient(const WEnvironment& env)
 
     ClientInitializer::Initialize();
 
-    AppFactory::Logger* logger = AppFactory::GetLogger();
+    auto logger = AppFactory::GetLogger();
 
     LOG_DEBUG("Inside TradeXClient, writing to log file a debug message");
     logger->Debug(__FILE__, "Starting TradexClient  application");
 
     try {
-        AppFactory::PropertyReader* propertyReader = AppFactory::GetPropertyReader();
-        string apptitle = PROPERTY_VALUE(CLIENT_PROP_APPLICATION_TITLE) + " - v" + CLIENT_VERSION;
-        apptitle = propertyReader->GetValueOf(CLIENT_PROP_APPLICATION_TITLE) + " - v" + CLIENT_VERSION;
-        setTitle(WString(apptitle));
+        auto propertyReader = AppFactory::GetConfigReader(LANG_PROP_FILE_NAME);
+        string apptitle = propertyReader->GetValueOf(LANG_PROP_KEY_APP_TITLE) + " - v" + CLIENT_VERSION;
+        setTitle(WString(std::move(apptitle)));
     } catch (AppException e) {
         LOG_ERROR(e.GetMessage());
     }

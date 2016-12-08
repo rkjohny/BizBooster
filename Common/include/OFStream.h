@@ -22,14 +22,14 @@ namespace Common {
 
     public:
         OFStream();
-        explicit OFStream(const string& filename);
+        explicit OFStream(const string&& filename);
         virtual ~OFStream();
 
-        void SetFile(const string& filename);
+        void SetFile(const string&& filename);
 
         void Open() override;
         void Flush() override;
-        void Write(const string& message) override;
+        void Write(const string&& message) override;
         void Close() override;
     };
 

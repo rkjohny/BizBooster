@@ -14,32 +14,33 @@
 
 namespace Dal {
 
-    static bool loaded = false;
+static bool loaded = false;
 
-    void LoadLibrary()
-    {
-        if (!loaded) {
-            Json::LoadLibrary();
+void LoadLibrary()
+{
+    if (!loaded) {
+        Json::LoadLibrary();
 
-            REGISTER_CLASS(User, "user");
+        REGISTER_CLASS(User, "user");
 
-            auto config_reader = Common::AppFactory::GetDboConfigReader();
-            config_reader->SetFile(DBO_CONFIG_FILE_NAME);
+        auto config_reader = Common::AppFactory::CreateConfigReader(DBO_CONFIG_FILE_NAME,
+                                                                    Common::ConFigFileType::PROPERTY_FILE);
+        config_reader->SetFile(DBO_CONFIG_FILE_NAME);
 
-            DataModelManager().Run();
+        DataModelManager().Run();
 
-            loaded = true;
-        }
+        loaded = true;
     }
+}
 
 
-    std::shared_ptr<Dao> GetDao()
-    {
+std::shared_ptr<Dao> GetDao()
+{
 #ifdef PGSQL
-        return PGSqlDaoImp::GetInstance();
+    return PGSqlDaoImp::GetInstance();
 #else
-        return nullptr;
+    return nullptr;
 #endif
-    }
+}
 
 }

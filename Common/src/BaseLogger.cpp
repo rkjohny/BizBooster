@@ -47,10 +47,10 @@ void BaseLogger::SetLogLevel(int level)
     }
 }
 
-void BaseLogger::AddStream(const string& key, OStream* ostram)
+void BaseLogger::AddStream(const string&& key, OStream* ostram)
 {
     m_mutex.lock();
-    auto itr = m_streamList.find(key);
+    auto itr = m_streamList.find(std::move(key));
     if (itr != m_streamList.end()) {
         // deleting, otherwise caller will not be able to delete it
         // since we are not returning itr->second
@@ -64,10 +64,10 @@ void BaseLogger::AddStream(const string& key, OStream* ostram)
     m_mutex.unlock();
 }
 
-void BaseLogger::RemoveStream(const string& key)
+void BaseLogger::RemoveStream(const string&& key)
 {
     m_mutex.lock();
-    auto itr = m_streamList.find(key);
+    auto itr = m_streamList.find(std::move(key));
     if (itr != m_streamList.end()) {
         // deleting, otherwise caller will not be able to delete it
         // since we are not returning itr->second
@@ -82,48 +82,41 @@ void BaseLogger::RemoveStream(const string& key)
     m_mutex.unlock();
 }
 
-void BaseLogger::Debug(const string& fname, const string& message)
+void BaseLogger::Debug(const string&& prefix, const string&& message)
 {
     if (m_logLevel >= LOG_LEVEL_DEBUG) {
-        Write(FileUtility::GetNameWithoutType(fname) + " "
-                + DateTimeUtils::GetTimeStamp() + " DEBUG - "
-                + message);
+        Write(prefix + " " + DateTimeUtils::GetTimeStamp() + " DEBUG - " + std::move(message));
     }
 }
 
-void BaseLogger::Info(const string& fname, const string& message)
+void BaseLogger::Info(const string&& prefix, const string&& message)
 {
     if (m_logLevel >= LOG_LEVEL_INFO) {
-        Write(FileUtility::GetNameWithoutType(fname) + " "
-                + DateTimeUtils::GetTimeStamp() + " INFO - " + message);
+        Write(prefix + " " + DateTimeUtils::GetTimeStamp() + " INFO - " + std::move(message));
     }
 }
 
-void BaseLogger::Warning(const string& fname, const string& message)
+void BaseLogger::Warning(const string&& prefix, const string&& message)
 {
     if (m_logLevel >= LOG_LEVEL_WARNING) {
-        Write(FileUtility::GetNameWithoutType(fname) + " "
-                + DateTimeUtils::GetTimeStamp() + " WARNING - "
-                + message);
+        Write(prefix + " " + DateTimeUtils::GetTimeStamp() + " WARNING - " + std::move(message));
     }
 }
 
-void BaseLogger::Error(const string& fname, const string& message)
+void BaseLogger::Error(const string&& prefix, const string&& message)
 {
     if (m_logLevel >= LOG_LVEL_ERROR) {
-        Write(FileUtility::GetNameWithoutType(fname) + " "
-                + DateTimeUtils::GetTimeStamp() + " ERROE - "
-                + message);
+        Write(prefix + " " + DateTimeUtils::GetTimeStamp() + " ERROE - " + std::move(message));
     }
 }
 
-void BaseLogger::Write(const string& message)
+void BaseLogger::Write(const string&& message)
 {
     m_mutex.lock();
     try {
         if (!m_isDosposed) {
             for (auto& stream : m_streamList) {
-                stream.second->Write(message);
+                stream.second->Write(std::move(message));
             }
         }
     } catch (...) {

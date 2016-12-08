@@ -10,7 +10,7 @@
 
 #include <string>
 #include <stdexcept>
-#include "AppConstant.h"
+#include "AppConfig.h"
 
 namespace Common {
     using namespace std;

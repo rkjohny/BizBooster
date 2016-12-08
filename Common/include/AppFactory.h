@@ -1,9 +1,3 @@
-/*
- * AppFactory.h
- *
- *  Created on: Oct 11, 2016
- *      Author: rezaul
- */
 
 #ifndef APPFACTORY_H_
 #define APPFACTORY_H_
@@ -11,26 +5,43 @@
 #include "BaseLogger.h"
 #include "BasePropertyReader.h"
 #include <memory>
+#include <map>
 
+#define LOG_DEBUG(message) Common::AppFactory::GetLogger()->Debug(__FILE__, __LINE__, message);
+#define LOG_INFO(message) Common::AppFactory::GetLogger()->Info(__FILE__, __LINE__, message);
+#define LOG_WARNING(message) Common::AppFactory::GetLogger()->Warning(__FILE__, __LINE__, message);
+#define LOG_ERROR(message) Common::AppFactory::GetLogger()->Error(__FILE__, __LINE__, message);
 
-#define LOG_DEBUG(message) Common::AppFactory::GetLogger()->Debug(__FILE__,message);
-#define LOG_INFO(message) Common::AppFactory::GetLogger()->Info(__FILE__,message);
-#define LOG_WARNING(message) Common::AppFactory::GetLogger()->Warning(__FILE__,message);
-#define LOG_ERROR(message) Common::AppFactory::GetLogger()->Error(__FILE__,message);
-
-#define CONFIG_VALUE(key) Common::AppFactory::GetConfigReader()->GetValueOf(key)
-#define PROPERTY_VALUE(key) Common::AppFactory::GetPropertyReader()->GetValueOf(key)
 
 namespace Common {
+
+    enum ConFigFileType
+    {
+        PROPERTY_FILE,
+        XML_FILE
+    };
 
     class AppFactory {
     public:
 
         class Logger : public BaseLogger {
             friend class AppFactory;
+        public:
+            ~Logger() = default;
+
+            void Debug(const char *fname, int line, const string &&message);
+
+            void Info(const char *fname, int line, const string &&message);
+
+            void Warning(const char *fname, int line, const string &&message);
+
+            void Error(const char *fname, int line, const string &&message);
+
         protected:
             Logger() = default;
-            ~Logger() = default;
+
+        private:
+            NON_COPY_NON_ASSIGN_ABLE(Logger);
         };
 
         class PropertyReader : public BasePropertyReader {
@@ -47,27 +58,24 @@ namespace Common {
 
         static void Dispose();
 
-        static Logger* GetLogger();
+        static std::shared_ptr<Logger> GetLogger();
         static void DisposeLogger();
-        static PropertyReader* GetConfigReader();
-        static void DisposeConfigReader();
-        static PropertyReader* GetPropertyReader();
-        static void DisposePropertyReader();
 
-        static std::shared_ptr<ConfigReader> GetDboConfigReader();
-        static void DisposeDboConfigReader();
+        static std::shared_ptr<ConfigReader> CreateConfigReader(std::string &&key, ConFigFileType type);
+        static std::shared_ptr<ConfigReader> GetConfigReader(std::string &&key);
+        static bool DisposeConfigReader(std::string &key);
+        static void DisposeConfigReader();
 
     private:
         AppFactory() = delete;
-        AppFactory(const AppFactory&) = delete;
-        AppFactory& operator=(const AppFactory&) = delete;
         ~AppFactory() = delete;
 
-        static Logger* cm_logger;
-        static PropertyReader* cm_configReader;
-        static PropertyReader* cm_propertyReader;
+        NON_COPY_NON_ASSIGN_ABLE(AppFactory);
 
-        static std::shared_ptr<PropertyReader> cm_dboConfigReader;
+
+        static std::shared_ptr<Logger> cm_logger;
+
+        static std::map<std::string, std::shared_ptr<ConfigReader>> cm_configReaderList;
     };
 
 } /* namespace Common */

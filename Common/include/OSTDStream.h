@@ -23,7 +23,7 @@ namespace Common {
 
         void Flush() override;
 
-        void Write(const string& message) override;
+        void Write(const string&& message) override;
 
         void Close() override;
     };

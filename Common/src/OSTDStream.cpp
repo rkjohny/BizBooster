@@ -26,7 +26,7 @@ void OSTDStream::Flush()
 {
 }
 
-void OSTDStream::Write(const string& message)
+void OSTDStream::Write(const string&& message)
 {
     m_mutex.lock();
     cout << message << endl;
