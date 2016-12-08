@@ -29,12 +29,19 @@ string FileUtility::GetNameWithoutType(const string&& absulateFileName)
     listPath.clear();
     StringUtility::Tokenize(listPath, file, FILE_TYPE_SEPERATOR);
 
-    if (listPath.size() > 1) {
+#if 0
+    //eliminating extension
+    int ln = listPath.size();
+    if (ln > 1) {
         file = "";
-        for (auto& str : listPath) {
-            file += str;
+        for (int i = 0; i < (ln - 1); ++i) {
+            if (i > 0) {
+                file += FILE_TYPE_SEPERATOR;
+            }
+            file += listPath[i];
         }
     }
+#endif
     return file;
 }
 

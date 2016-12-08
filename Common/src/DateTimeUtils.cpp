@@ -25,7 +25,8 @@ string DateTimeUtils::GetTimeStamp()
 #endif
 
     // Reference: http://en.cppreference.com/w/cpp/chrono/c/strftime
-    strftime(buf, sizeof (buf), "%Y-%m-%d %I:%M:%S %p", &tstruct);
+    //strftime(buf, sizeof (buf), "%Y-%m-%d %I:%M:%S %p", &tstruct);
+    strftime(buf, sizeof (buf), "%Y-%m-%d %H:%M:%S", &tstruct);
 
     return string(buf);
 }
