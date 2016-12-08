@@ -19,16 +19,19 @@ namespace Api {
 
     class RegisterUserHelper : public AbstractHelper {
     private:
-        RegisterUserHelper(const RegisterUserHelper& helper) = delete;
-        RegisterUserHelper& operator=(const RegisterUserHelper&) = delete;
+        NON_COPY_NON_ASSIGN_ABLE(RegisterUserHelper);
 
         RegisterUserInput *m_input;
 
     public:
         RegisterUserHelper();
-        explicit RegisterUserHelper(RegisterUserInput *input);
+        RegisterUserHelper(RegisterUserInput *input);
 
-        void SetInput(RegisterUserInput* in);
+        void SetInput(RegisterUserInput *in);
+
+        RegisterUserHelper(RegisterUserInput &input);
+
+        void SetInput(RegisterUserInput &in);
 
         void ValidateInput() override;
 

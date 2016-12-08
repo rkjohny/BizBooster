@@ -18,8 +18,7 @@ namespace Api {
 
     class AbstractHelper {
     private:
-        AbstractHelper(const AbstractHelper& helper) = delete;
-        AbstractHelper& operator=(const AbstractHelper&) = delete;
+        NON_COPY_NON_ASSIGN_ABLE(AbstractHelper);
 
     protected:
         std::unique_ptr<BaseOutput> m_output;

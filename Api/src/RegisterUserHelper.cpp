@@ -27,6 +27,16 @@ void RegisterUserHelper::SetInput(RegisterUserInput *input)
     this->m_input = input;
 }
 
+RegisterUserHelper::RegisterUserHelper(RegisterUserInput &input)
+{
+    this->m_input = &input;
+}
+
+void RegisterUserHelper::SetInput(RegisterUserInput &input)
+{
+    this->m_input = &input;
+}
+
 void RegisterUserHelper::ValidateInput()
 {
 }
