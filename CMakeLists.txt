@@ -81,18 +81,18 @@ if (NOT LIB_WITTY_PG_SQL)
 endif()
 
 # Locate witty fcgi
-find_library(LIB_WITTY_FCGI ${WITTY_FCGI} REQUIRED)
-message ("LIB_WITTY_FCGI = ${LIB_WITTY_FCGI}")
-if (NOT LIB_WITTY_FCGI)
- message(FATAL_ERROR "libwtfcgi found.")
-endif()
+#find_library(LIB_WITTY_FCGI ${WITTY_FCGI} REQUIRED)
+#message ("LIB_WITTY_FCGI = ${LIB_WITTY_FCGI}")
+#if (NOT LIB_WITTY_FCGI)
+# message(FATAL_ERROR "libwtfcgi found.")
+#endif()
 
-# Locate witty fcgi
-find_library(LIB_WITTY_EXT ${WITTY_EXT} REQUIRED)
-message ("LIB_WITTY_EXT = ${LIB_WITTY_EXT}")
-if (NOT LIB_WITTY_EXT)
-    message(FATAL_ERROR "libwtext not found.")
-endif()
+## Locate witty fcgi
+#find_library(LIB_WITTY_EXT ${WITTY_EXT} REQUIRED)
+#message ("LIB_WITTY_EXT = ${LIB_WITTY_EXT}")
+#if (NOT LIB_WITTY_EXT)
+#    message(FATAL_ERROR "libwtext not found.")
+#endif()
 
 
 

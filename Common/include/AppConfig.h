@@ -15,6 +15,24 @@
 #define JSON_DATA U("@data")
 
 
+#define FL __FILE__
+#define LN __LINE__
+
+
+#define NON_COPY_ABLE(TYPE) \
+        TYPE(TYPE&) = delete; \
+        TYPE(TYPE&&) = delete; \
+
+#define NON_ASSIGN_ABLE(TYPE) \
+        TYPE& operator=(TYPE&) = delete; \
+        TYPE& operator=(TYPE&&) = delete;
+
+#define NON_COPY_NON_ASSIGN_ABLE(TYPE) \
+        TYPE(TYPE&) = delete; \
+        TYPE& operator=(TYPE&) = delete; \
+        TYPE(TYPE&&) = delete; \
+        TYPE& operator=(TYPE&&) = delete;
+
 #define UNKNOWN_ERROR -0x1000
 
 enum AppErrorCode {

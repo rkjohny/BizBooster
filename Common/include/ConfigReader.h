@@ -1,11 +1,8 @@
-//
-// Created by rezaul on 12/8/16.
-//
 
 #ifndef CONFIG_READER_H
 #define CONFIG_READER_H
 
-#include "AppDef.h"
+#include "AppConfig.h"
 
 namespace Common {
 

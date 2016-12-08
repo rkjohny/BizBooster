@@ -13,7 +13,7 @@
 #include "SharedObject.h"
 #include "Disposable.h"
 #include "OStream.h"
-#include "AppDef.h"
+#include "AppConfig.h"
 
 namespace Common {
 using namespace std;

@@ -22,7 +22,7 @@ TradeXClient::TradeXClient(const WEnvironment& env)
     auto logger = AppFactory::GetLogger();
 
     LOG_DEBUG("Inside TradeXClient, writing to log file a debug message");
-    logger->Debug(__FILE__, "Starting TradexClient  application");
+    logger->Debug(FL, LN, "Starting TradexClient  application");
 
     try {
         auto propertyReader = AppFactory::GetConfigReader(LANG_PROP_FILE_NAME);

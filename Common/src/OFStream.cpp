@@ -14,8 +14,7 @@ OStream()
 {
 }
 
-OFStream::OFStream(const string&& filename) :
-m_ofs(filename, ios_base::app)
+OFStream::OFStream(const string&& filename) : m_ofs(std::move(filename), ios_base::app)
 {
     m_is_open = m_ofs.is_open();
 }
@@ -34,7 +33,7 @@ void OFStream::SetFile(const string&&filename)
             m_ofs.flush();
             m_ofs.close();
         }
-        this->m_fileName = filename;
+        this->m_fileName = std::move(filename);
         m_ofs.open(m_fileName, ios_base::out | ios_base::app);
         m_is_open = m_ofs.is_open();
     } catch (...) {
