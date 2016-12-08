@@ -20,12 +20,6 @@ using namespace std;
 
 class BaseLogger : public SharedObject, public Disposable {
 private:
-    enum LogLevel {
-        LOG_LVEL_ERROR = 0,
-        LOG_LEVEL_WARNING = 1,
-        LOG_LEVEL_INFO = 2,
-        LOG_LEVEL_DEBUG = 3
-    };
 
     map<string, OStream *> m_streamList;
     int m_logLevel;
@@ -38,6 +32,14 @@ protected:
     virtual ~BaseLogger();
 
 public:
+
+    enum LogLevel {
+        LOG_LEVEL_ERROR = 0,
+        LOG_LEVEL_WARNING = 1,
+        LOG_LEVEL_INFO = 2,
+        LOG_LEVEL_DEBUG = 3
+    };
+
 
     void Dispose() override;
 
@@ -56,6 +58,8 @@ public:
     void Error(const string &&prefix, const string &&message);
 
     void Write(const string &&message);
+
+    int GetLogLevel();
 };
 
 } /* namespace Common */

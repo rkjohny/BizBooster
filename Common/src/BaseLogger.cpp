@@ -42,7 +42,7 @@ void BaseLogger::Dispose()
 
 void BaseLogger::SetLogLevel(int level)
 {
-    if (level >= LOG_LVEL_ERROR && level <= LOG_LEVEL_DEBUG) {
+    if (level >= LOG_LEVEL_ERROR && level <= LOG_LEVEL_DEBUG) {
         m_logLevel = level;
     }
 }
@@ -105,7 +105,7 @@ void BaseLogger::Warning(const string&& prefix, const string&& message)
 
 void BaseLogger::Error(const string&& prefix, const string&& message)
 {
-    if (m_logLevel >= LOG_LVEL_ERROR) {
+    if (m_logLevel >= LOG_LEVEL_ERROR) {
         Write(prefix + " " + DateTimeUtils::GetTimeStamp() + " ERROE - " + std::move(message));
     }
 }
@@ -122,6 +122,11 @@ void BaseLogger::Write(const string&& message)
     } catch (...) {
     }
     m_mutex.unlock();
+}
+
+int BaseLogger::GetLogLevel()
+{
+    return m_logLevel;
 }
 
 } /* namespace Common */

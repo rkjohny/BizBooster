@@ -7,10 +7,21 @@
 #include <memory>
 #include <map>
 
-#define LOG_DEBUG(message) Common::AppFactory::GetLogger()->Debug(__FILE__, __LINE__, message);
-#define LOG_INFO(message) Common::AppFactory::GetLogger()->Info(__FILE__, __LINE__, message);
-#define LOG_WARNING(message) Common::AppFactory::GetLogger()->Warning(__FILE__, __LINE__, message);
-#define LOG_ERROR(message) Common::AppFactory::GetLogger()->Error(__FILE__, __LINE__, message);
+#define LOG_DEBUG(message) \
+    if (Common::AppFactory::GetLogger()->GetLogLevel() >= Common::BaseLogger::LogLevel::LOG_LEVEL_DEBUG) \
+        Common::AppFactory::GetLogger()->Debug(__FILE__, __LINE__, message);
+
+#define LOG_INFO(message) \
+    if (Common::AppFactory::GetLogger()->GetLogLevel() >= Common::BaseLogger::LogLevel::LOG_LEVEL_INFO) \
+        Common::AppFactory::GetLogger()->info(__FILE__, __LINE__, message);
+
+#define LOG_WARNING(message) \
+    if (Common::AppFactory::GetLogger()->GetLogLevel() >= Common::BaseLogger::LogLevel::LOG_LEVEL_WARNING) \
+        Common::AppFactory::GetLogger()->Warning(__FILE__, __LINE__, message);
+
+#define LOG_ERROR(message) \
+    if (Common::AppFactory::GetLogger()->GetLogLevel() >= Common::BaseLogger::LogLevel::LOG_LEVEL_ERROR) \
+        Common::AppFactory::GetLogger()->Error(__FILE__, __LINE__, message);
 
 
 namespace Common {
