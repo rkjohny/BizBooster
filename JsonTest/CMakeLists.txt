@@ -37,7 +37,8 @@ set(JSON_TEST_SRCS
         ${PROJECT_SOURCE_DIR}/DeserializeVectorTest.cpp
         ${PROJECT_SOURCE_DIR}/DeserializeDrivedClassTest.cpp
         ${PROJECT_SOURCE_DIR}/SerializeDoublePointerTest.cpp
-        ${PROJECT_SOURCE_DIR}/DeserializeRvalueReferenceTest.cpp)
+        ${PROJECT_SOURCE_DIR}/DeserializeRvalueReferenceTest.cpp
+        ${PROJECT_SOURCE_DIR}/EnumTest.cpp)
 
 
 # creating JonTest target
