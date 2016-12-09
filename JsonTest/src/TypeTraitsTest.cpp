@@ -53,7 +53,7 @@ TEST(TepeTraitsTest, BoolTest)
     ATRUE(bool, Is_Premitive); //true
     AFALSE(bool, Is_String);
     AFALSE(bool, Is_Vector);
-    AFALSE(bool, Is_Object);
+    AFALSE(bool, Is_Class);
 }
 
 TEST(TepeTraitsTest, CharTest)
@@ -77,7 +77,7 @@ TEST(TepeTraitsTest, CharTest)
     ATRUE(char, Is_Premitive); //true
     AFALSE(char, Is_String);
     AFALSE(char, Is_Vector);
-    AFALSE(char, Is_Object);
+    AFALSE(char, Is_Class);
 }
 
 TEST(TepeTraitsTest, Int8Test)
@@ -101,7 +101,7 @@ TEST(TepeTraitsTest, Int8Test)
     ATRUE(int8_t, Is_Premitive); //true
     AFALSE(int8_t, Is_String);
     AFALSE(int8_t, Is_Vector);
-    AFALSE(int8_t, Is_Object);
+    AFALSE(int8_t, Is_Class);
 
     //type: unsigned char = uint8_t
     AFALSE(uint8_t, Is_Char);
@@ -122,7 +122,7 @@ TEST(TepeTraitsTest, Int8Test)
     ATRUE(uint8_t, Is_Premitive); //true
     AFALSE(uint8_t, Is_String);
     AFALSE(uint8_t, Is_Vector);
-    AFALSE(uint8_t, Is_Object);
+    AFALSE(uint8_t, Is_Class);
 }
 
 TEST(TepeTraitsTest, Int16Test)
@@ -146,7 +146,7 @@ TEST(TepeTraitsTest, Int16Test)
     ATRUE(int16_t, Is_Premitive); //true
     AFALSE(int16_t, Is_String);
     AFALSE(int16_t, Is_Vector);
-    AFALSE(int16_t, Is_Object);
+    AFALSE(int16_t, Is_Class);
 
     //type: unsigned short int = uint16_t
     AFALSE(uint16_t, Is_Char);
@@ -167,7 +167,7 @@ TEST(TepeTraitsTest, Int16Test)
     ATRUE(uint16_t, Is_Premitive); //true
     AFALSE(uint16_t, Is_String);
     AFALSE(uint16_t, Is_Vector);
-    AFALSE(uint16_t, Is_Object);
+    AFALSE(uint16_t, Is_Class);
 }
 
 TEST(TepeTraitsTest, Int32Test)
@@ -191,7 +191,7 @@ TEST(TepeTraitsTest, Int32Test)
     ATRUE(int32_t, Is_Premitive); //true
     AFALSE(int32_t, Is_String);
     AFALSE(int32_t, Is_Vector);
-    AFALSE(int32_t, Is_Object);
+    AFALSE(int32_t, Is_Class);
 
     //type: unsigned int = uint32_t
     AFALSE(uint32_t, Is_Char);
@@ -212,7 +212,7 @@ TEST(TepeTraitsTest, Int32Test)
     ATRUE(uint32_t, Is_Premitive); //true
     AFALSE(uint32_t, Is_String);
     AFALSE(uint32_t, Is_Vector);
-    AFALSE(uint32_t, Is_Object);
+    AFALSE(uint32_t, Is_Class);
 }
 
 TEST(TepeTraitsTest, Int64Test)
@@ -239,7 +239,7 @@ TEST(TepeTraitsTest, Int64Test)
     ATRUE(int64_t, Is_Premitive); //true
     AFALSE(int64_t, Is_String);
     AFALSE(int64_t, Is_Vector);
-    AFALSE(int64_t, Is_Object);
+    AFALSE(int64_t, Is_Class);
 
     /**
      * type: in 64 bit WORD SIZE unsigned long int = uint64_t
@@ -263,7 +263,7 @@ TEST(TepeTraitsTest, Int64Test)
     ATRUE(uint64_t, Is_Premitive); //true
     AFALSE(uint64_t, Is_String);
     AFALSE(uint64_t, Is_Vector);
-    AFALSE(uint64_t, Is_Object);
+    AFALSE(uint64_t, Is_Class);
 }
 
 TEST(TypeTraitsTest, LongTest)
@@ -292,7 +292,7 @@ TEST(TypeTraitsTest, LongTest)
     ATRUE(long long, Is_Premitive); //true
     AFALSE(long long, Is_String);
     AFALSE(long long, Is_Vector);
-    AFALSE(long long, Is_Object);
+    AFALSE(long long, Is_Class);
 
 
     AFALSE(unsigned long long, Is_Char);
@@ -313,7 +313,7 @@ TEST(TypeTraitsTest, LongTest)
     ATRUE(unsigned long long, Is_Premitive); //true
     AFALSE(unsigned long long, Is_String);
     AFALSE(unsigned long long, Is_Vector);
-    AFALSE(unsigned long long, Is_Object);
+    AFALSE(unsigned long long, Is_Class);
 
 #elif __WORDSIZE == 32
 
@@ -335,7 +335,7 @@ TEST(TypeTraitsTest, LongTest)
     ATRUE(long, Is_Premitive); //true
     AFALSE(long, Is_String);
     AFALSE(long, Is_Vector);
-    AFALSE(long, Is_Object);
+    AFALSE(long, Is_Class);
 
     AFALSE(unsigned long, Is_Char);
     AFALSE(unsigned long, Is_Bool);
@@ -355,7 +355,7 @@ TEST(TypeTraitsTest, LongTest)
     ATRUE(unsigned long, Is_Premitive); //true
     AFALSE(unsigned long, Is_String);
     AFALSE(unsigned long, Is_Vector);
-    AFALSE(unsigned long long, Is_Object);
+    AFALSE(unsigned long long, Is_Class);
 
 #endif
 }
@@ -381,7 +381,7 @@ TEST(TypeTraitsTest, FloatTest)
     ATRUE(float, Is_Premitive); //true
     AFALSE(float, Is_String);
     AFALSE(float, Is_Vector);
-    AFALSE(float, Is_Object);
+    AFALSE(float, Is_Class);
 }
 
 TEST(TypeTraitsTest, DoubleTest)
@@ -405,7 +405,7 @@ TEST(TypeTraitsTest, DoubleTest)
     ATRUE(double, Is_Premitive); //true
     AFALSE(double, Is_String);
     AFALSE(double, Is_Vector);
-    AFALSE(double, Is_Object);
+    AFALSE(double, Is_Class);
 }
 
 TEST(TypeTraitsTest, LongDoubleTest)
@@ -429,7 +429,7 @@ TEST(TypeTraitsTest, LongDoubleTest)
     ATRUE(long double, Is_Premitive); //true
     AFALSE(long double, Is_String);
     AFALSE(long double, Is_Vector);
-    AFALSE(long double, Is_Object);
+    AFALSE(long double, Is_Class);
 }
 
 TEST(TypeTraitsTest, StringTest)
@@ -453,7 +453,7 @@ TEST(TypeTraitsTest, StringTest)
     ATRUE(std::string, Is_Premitive); //true
     ATRUE(std::string, Is_String); //true
     AFALSE(std::string, Is_Vector);
-    AFALSE(std::string, Is_Object); //false since std::string has been treaded as primitive
+    AFALSE(std::string, Is_Class); //false since std::string has been treaded as primitive
 }
 
 TEST(TypeTraitsTest, VectorTest)

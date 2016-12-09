@@ -104,6 +104,37 @@ namespace Json {
             static_assert(true, "Serialization of array is not supported.");
         }
 
+
+        //////////////////////////////// Enum ///////////////////
+
+        template <class T>
+        typename std::enable_if<std::is_enum<T>::value, json::value>::type
+        static ToJson(const T &&object) {
+            cout << "Serializing object: type = enum&&, value = " << object << endl;
+            return json::value(static_cast<int>(object));
+        }
+
+        template <class T>
+        typename std::enable_if<std::is_enum<T>::value, json::value>::type
+        static ToJson(const T &object) {
+            cout << "Serializing object: type = enum&, value = " << object << endl;
+            return json::value(static_cast<int>(object));
+        }
+
+        template <class T>
+        typename std::enable_if<std::is_enum<T>::value, json::value>::type
+        static ToJson(const T *object) {
+            cout << "Serializing object: type = enum*, value = " << object << endl;
+            return json::value(static_cast<int>(*object));
+        }
+
+        template <class T>
+        typename std::enable_if<std::is_enum<T>::value, json::value>::type
+        static ToJson(const T* const *object) {
+            cout << "Serializing object: type = enum**, value = " << object << endl;
+            return json::value(static_cast<int>(**object));
+        }
+
         //////////////////////////////// bool ///////////////////
 
         template <class T>
@@ -263,7 +294,7 @@ namespace Json {
         //////////////////  custom object ////////////////////////
 
         template <class T>
-        typename std::enable_if<Json::Is_Object<T>::Value, json::value>::type
+        typename std::enable_if<Json::Is_Class<T>::Value, json::value>::type
         static ToJson(const T &&object) {
             cout << "Serializing object: type = class{}&&" << endl;
             json::value jvalue = json::value::object();
@@ -278,7 +309,7 @@ namespace Json {
         }
 
         template <class T>
-        typename std::enable_if<Json::Is_Object<T>::Value, json::value>::type
+        typename std::enable_if<Json::Is_Class<T>::Value, json::value>::type
         static ToJson(const T &object) {
             cout << "Serializing object: type = class{}&" << endl;
             json::value jvalue = json::value::object();
@@ -293,14 +324,14 @@ namespace Json {
         }
 
         template <class T>
-        typename std::enable_if<Json::Is_Object<T>::Value, json::value>::type
+        typename std::enable_if<Json::Is_Class<T>::Value, json::value>::type
         static ToJson(const T *object) {
             cout << "Serializing object: type = class{}*" << endl;
             return ToJson(*object);
         }
 
         template <class T>
-        typename std::enable_if<Json::Is_Object<T>::Value, json::value>::type
+        typename std::enable_if<Json::Is_Class<T>::Value, json::value>::type
         static ToJson(const T * const * object) {
             cout << "Serializing object: type = class{}**" << endl;
             return ToJson(**object);

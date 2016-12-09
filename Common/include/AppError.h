@@ -5,7 +5,7 @@
 #ifndef APP_ERROR_H
 #define APP_ERROR_H
 
-
+#define SUCCESS_STR "Success"
 #define BAD_REQUEST_STR "Bad request."
 #define UN_KNOWN_ERROR_STR "Unknown error."
 #define INTERNAL_SERVER_ERROR_STR "Internal server error."

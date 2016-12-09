@@ -245,6 +245,38 @@ namespace Json {
             static_assert(true, "Deserialization of array is not supported.");
         }
 
+        /********************************************************************************
+         * object type: enum
+         ********************************************************************************/
+        template<class T>
+        typename std::enable_if<std::is_enum<T>::value, void>::type
+        static FromJson(T &object, const json::value &jvalue) {
+            object = static_cast<T>(jvalue.as_integer());
+            std::cout << "Deserializing object: type = Enum&, value = " << object << std::endl;
+        }
+
+        /********************************************************************************
+         * object type: enum*
+         ********************************************************************************/
+        template<class T>
+        typename std::enable_if<std::is_enum<T>::value, void>::type
+        static FromJson(T *object, const json::value &jvalue) {
+            *object = static_cast<T>(jvalue.as_integer());
+            std::cout << "Deserializing object: type = Enum*, value = " << *object << std::endl;
+        }
+
+        /********************************************************************************
+         * object type: enum**
+         ********************************************************************************/
+        template<class T>
+        typename std::enable_if<std::is_enum<T>::value, void>::type
+        static FromJson(T **object, const json::value &jvalue) {
+            //*object = static_cast<T>(jvalue.as_integer());
+            *object = new T (static_cast<T>(jvalue.as_integer()));
+            std::cout << "Deserializing object: type = Enum*, value = " << *object << std::endl;
+        }
+
+
         /*********************************************************************************
          * object type: bool
          *********************************************************************************/
@@ -536,7 +568,7 @@ namespace Json {
          * object type: userdefined class{}*
          ***********************************************************************************/
         template<class T>
-        typename std::enable_if<Is_Object<T>::Value, void>::type
+        typename std::enable_if<Is_Class<T>::Value, void>::type
         static FromJson(T *object, const json::value &jvalue) {
             std::cout << "Deserializing object: type = class{}*" << std::endl;
 
@@ -552,7 +584,7 @@ namespace Json {
          * object type: userdefined class{}&
          ***********************************************************************************/
         template<class T>
-        typename std::enable_if<Is_Object<T>::Value, void>::type
+        typename std::enable_if<Is_Class<T>::Value, void>::type
         static FromJson(T &object, const json::value &jvalue) {
             std::cout << "Deserializing object: type = class{}&" << std::endl;
 
@@ -563,7 +595,7 @@ namespace Json {
          * object type: userdefined class{}**
          ***********************************************************************************/
         template<class T>
-        typename std::enable_if<Is_Object<T>::Value, void>::type
+        typename std::enable_if<Is_Class<T>::Value, void>::type
         static FromJson(T **object, const json::value &jvalue) {
             std::cout << "Deserializing object: type = class{}**" << std::endl;
 

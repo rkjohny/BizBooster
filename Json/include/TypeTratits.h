@@ -479,18 +479,33 @@ namespace Json {
     /**
      * Checks if T is a custom defined type
      */
+//    template<class T>
+//    struct Is_Class {
+//    private:
+//        typedef typename Remove_CVR<T>::Type U;
+//
+//    public:
+//        static constexpr bool Value = (
+//                !(Is_Premitive<U>::Value) &&
+//                !(Is_Vector<U>::Value) &&
+//                !(std::is_pointer<U>::value) &&
+//                !(std::is_enum<U>::value) &&
+//                (std::is_object<U>::value)
+//                );
+//    };
+
     template<class T>
-    struct Is_Object {
+    struct Is_Class {
     private:
         typedef typename Remove_CVR<T>::Type U;
 
     public:
         static constexpr bool Value = (
-                !(Is_Premitive<U>::Value) &&
-                !(Is_Vector<U>::Value) &&
-                !(std::is_pointer<U>::value) &&
-                (std::is_object<U>::value)
-                );
+                (!Is_Vector<U>::Value) &&
+                (!Is_String<U>::Value) &&
+                //(!std::is_enum<U>::value) &&
+                (std::is_class<U>::value)
+        );
     };
 
 

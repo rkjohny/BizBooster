@@ -10,13 +10,15 @@
 
 namespace Api {
 
-ApiError::ApiError()
+ApiError::ApiError() : m_code {AppErrorCode::SUCCESS} , m_message (SUCCESS_STR)
 {
-    //m_code = ApiReturnCode::SUCCESS;
-    //m_message = "Success";
 }
 
-void ApiError::SetCode(int code)
+ApiError::ApiError(AppErrorCode code, const std::string &message) : m_code {code} , m_message {message}
+{
+}
+
+void ApiError::SetCode(AppErrorCode code)
 {
     m_code = code;
 }
@@ -26,7 +28,7 @@ void ApiError::SetMessage(const string& message)
     m_message = message;
 }
 
-int ApiError::GetCode() const
+AppErrorCode ApiError::GetCode() const
 {
     return m_code;
 }
