@@ -22,7 +22,7 @@ RegisterUserInput::~RegisterUserInput()
 {
 }
 
-const char* RegisterUserInput::ClassName()
+string RegisterUserInput::ToString()
 {
     return "RegisterUserInput";
 }

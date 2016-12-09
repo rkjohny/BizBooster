@@ -25,7 +25,7 @@ namespace Api {
 
         web::json::value Process() override;
 
-        const char* ClassName() override ;
+        string ToString() override ;
 
         const std::string& GetEmail() const;
         void SetEmail(std::string email);
