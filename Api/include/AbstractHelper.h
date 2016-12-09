@@ -23,6 +23,7 @@ namespace Api {
 
     protected:
         std::unique_ptr<BaseOutput> m_output;
+        BaseInput *m_input;
 
     public:
         AbstractHelper();

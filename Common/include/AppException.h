@@ -34,7 +34,7 @@ namespace Common {
 
         AppErrorCode GetCode() const;
 
-        string GetMessage() const;
+        const string& GetMessage() const;
 
         string ToString() const;
 

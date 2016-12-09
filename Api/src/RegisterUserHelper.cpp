@@ -53,12 +53,14 @@ void RegisterUserHelper::ExecuteHelper()
 {
     LOG_DEBUG("Api input: " + m_input->Serialize().serialize());
 
+    RegisterUserInput *input = dynamic_cast<RegisterUserInput*>(m_input);
+
     User *user = new User();
-    user->SetEmail(m_input->GetEmail());
-    user->SetName(m_input->GetName());
-    user->SetRoles(m_input->GetRoles());
-    user->SetVersion(m_input->GetVersion());
-    user->SetPassword(m_input->GetPassword());
+    user->SetEmail(input->GetEmail());
+    user->SetName(input->GetName());
+    user->SetRoles(input->GetRoles());
+    user->SetVersion(input->GetVersion());
+    user->SetPassword(input->GetPassword());
 
     User loggedUser = User();
     Wt::Dbo::ptr<User> userAdded = Dal::GetDao()->RegisterUser(loggedUser, user);

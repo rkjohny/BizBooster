@@ -22,6 +22,11 @@ RegisterUserInput::~RegisterUserInput()
 {
 }
 
+const char* RegisterUserInput::ClassName()
+{
+    return "RegisterUserInput";
+}
+
 web::json::value RegisterUserInput::Process()
 {
     return ServiceFacade::RegisterUser(this);

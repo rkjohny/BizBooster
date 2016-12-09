@@ -12,6 +12,8 @@
 #include "Dao.h"
 #include "Dal.h"
 #include "AppException.h"
+#include "AppFactory.h"
+#include "ApiUtils.h"
 
 namespace Api {
 using namespace Common;
@@ -27,10 +29,9 @@ AbstractHelper::~AbstractHelper()
 web::json::value AbstractHelper::Execute()
 {
     web::json::value response;
+    auto dao = Dal::GetDao();
+    auto transaction = dao->BeginTransaction();
     try {
-        auto dao = Dal::GetDao();
-        auto transaction = dao->BeginTransaction();
-
         ValidateInput();
         Initialize();
         CheckPermission();
@@ -40,16 +41,19 @@ web::json::value AbstractHelper::Execute()
         //TODO: what to do  if commit failes
         bool succeeded = dao->CommitTransaction(transaction);
 
-    } catch (AppException& e) {
-        //         LOG_ERROR(std::string("API: ") + m_input->ApiName() +
-        //                    " failed with with error: [" + e.ToString() + "]" );
-    } catch (exception& e) {
-        //         LOG_ERROR(std::string("API: ") + m_input->ApiName() + " failed with with error: [" +
-        //                    AppException( e ).ToString() + "]" );
+    } catch (AppException &e) {
+        dao->RollbackTransaction(transaction);
+        response = ApiUtils::ErrorResponse(e.GetCode(), e.GetMessage());
+        LOG_ERROR(std::string("Input: ") + m_input->ClassName() +
+                            " failed with with error: [" + e.ToString() + "]" );
+    } catch (exception &e) {
+        dao->RollbackTransaction(transaction);
+        AppException ex = AppException( e );
+        response = ApiUtils::ErrorResponse(ex.GetCode(), ex.GetMessage());
+        LOG_ERROR(std::string("API: ") + m_input->ClassName() +
+                          " failed with with error: [" +  ex.ToString() + "]" );
     }
 
-    // the output must be deleted by caller
-    //return m_output;
     return response;
 }
 

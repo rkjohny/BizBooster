@@ -1,7 +1,8 @@
 #include "RequestHandler.h"
 #include "ApiExecutor.h"
 #include "AppFactory.h"
-
+#include "AppException.h"
+#include "ApiUtils.h"
 
 using namespace Server;
 
@@ -33,11 +34,15 @@ void RequestHandler::HandlePostRequest(web::http::http_request& request)
                     } else if (jrequest.is_array()) {
                         jresponse = ApiExecutor::ExecuteMultipleApi(jrequest);
                     } else {
-                        jresponse = ApiExecutor::BadRequestResponse();
+                        jresponse = Api::ApiUtils::BadRequestResponse();
                     }
-                } catch (std::exception e) {
-                    LOG_ERROR(e.what());
-                    jresponse = ApiExecutor::InternalServerErrorResponse();
+                } catch (Common::AppException &e) {
+                    LOG_ERROR("Failed to handle request with error:" + e.ToString());
+                    jresponse = Api::ApiUtils::ErrorResponse(e.GetCode(), e.GetMessage());
+                } catch (std::exception &e) {
+                    Common::AppException ex = Common::AppException(e);
+                    LOG_ERROR("Failed to handle request with error:" + ex.ToString());
+                    jresponse = Api::ApiUtils::ErrorResponse(ex.GetCode(), ex.GetMessage());
                 }
             })
     .wait();

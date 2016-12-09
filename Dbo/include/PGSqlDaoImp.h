@@ -46,7 +46,9 @@ public:
 
     bool TableExists(std::string table_name) override;
 
-    virtual bool CommitTransaction(Wt::Dbo::Transaction&) override;
+    bool CommitTransaction(Wt::Dbo::Transaction&) override;
+
+    void RollbackTransaction(Wt::Dbo::Transaction&) override;
 
     Wt::Dbo::ptr<User> RegisterUser(User &loggedUser, User *newUser) override;
 

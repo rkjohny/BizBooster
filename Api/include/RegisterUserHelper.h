@@ -21,8 +21,6 @@ namespace Api {
     private:
         NON_COPY_NON_ASSIGN_ABLE(RegisterUserHelper);
 
-        RegisterUserInput *m_input;
-
     public:
         RegisterUserHelper();
         RegisterUserHelper(RegisterUserInput *input);

@@ -13,33 +13,9 @@
 #include "Converter.h"
 #include "ServiceFacade.h"
 #include "AppFactory.h"
-
+#include "ApiUtils.h"
 
 namespace Server {
-
-web::json::value ApiExecutor::UnknownErrorResponse()
-{
-    web::json::value jresponse;
-    jresponse[U("error")] = web::json::value::number(AppErrorCode::UN_KNOWN_ERROR);
-    jresponse[U("message")] = web::json::value::string(U(UN_KNOWN_ERROR_STR));
-    return jresponse;
-}
-
-web::json::value ApiExecutor::BadRequestResponse()
-{
-    web::json::value jresponse;
-    jresponse[U("error")] = web::json::value::number(AppErrorCode::BAD_REQUEST);
-    jresponse[U("message")] = web::json::value::string(U(BAD_REQUEST_STR));
-    return jresponse;
-}
-
-web::json::value ApiExecutor::InternalServerErrorResponse()
-{
-    web::json::value jresponse;
-    jresponse[U("error")] = web::json::value::number(AppErrorCode::INTERNAL_SERVER_ERROR);
-    jresponse[U("message")] = web::json::value::string(U(INTERNAL_SERVER_ERROR_STR));
-    return jresponse;
-}
 
 
 web::json::value ApiExecutor::ExecuteSingleApi(const web::json::value &jrequest)
@@ -60,10 +36,10 @@ web::json::value ApiExecutor::ExecuteSingleApi(const web::json::value &jrequest)
             jresponse = input->Process();
 
         } else {
-            return BadRequestResponse();
+            return Api::ApiUtils::BadRequestResponse();
         }
     } else {
-        return BadRequestResponse();
+        return Api::ApiUtils::BadRequestResponse();
     }
 
     return jresponse;

@@ -27,8 +27,8 @@ TradeXClient::TradeXClient(const WEnvironment& env)
         auto propertyReader = AppFactory::GetConfigReader(LANG_PROP_FILE_NAME);
         string apptitle = propertyReader->GetValueOf(LANG_PROP_KEY_APP_TITLE) + " - v" + CLIENT_VERSION;
         setTitle(WString(std::move(apptitle)));
-    } catch (AppException e) {
-        LOG_ERROR(e.GetMessage());
+    } catch (AppException &e) {
+        LOG_ERROR(std::move(e.GetMessage()));
     }
 
     root()->addWidget(new WText("Your name, please ? ")); // show some text

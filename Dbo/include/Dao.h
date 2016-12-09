@@ -31,6 +31,8 @@ public:
 
     virtual bool CommitTransaction(Wt::Dbo::Transaction&) = 0;
 
+    virtual void RollbackTransaction(Wt::Dbo::Transaction&) = 0;
+
     virtual bool TableExists(std::string table_name) = 0;
 
     virtual void UpdateAppSetting(AppSetting &&setting) = 0;

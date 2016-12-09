@@ -29,7 +29,7 @@ void ServerInitializer::Initialize()
     ofStream->SetFile(std::string(filename));
     logger->AddStream(std::move(filename), ofStream);
 
-    string loglevelStr = server_config_reader->GetValueOf(SERVER_LOG_LEVEL_STR);
+    string&& loglevelStr = server_config_reader->GetValueOf(SERVER_LOG_LEVEL_STR);
     try {
         logger->SetLogLevel(Converter::ToInt32(std::move(loglevelStr)));
     } catch (...) {

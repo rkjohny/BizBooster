@@ -20,12 +20,6 @@ namespace Server {
         static web::json::value ExecuteSingleApi(const web::json::value &jrequest);
 
         static web::json::value ExecuteMultipleApi(const web::json::value &jrequests);
-
-        static web::json::value BadRequestResponse();
-
-        static web::json::value UnknownErrorResponse();
-
-        static web::json::value InternalServerErrorResponse();
     };
 
 

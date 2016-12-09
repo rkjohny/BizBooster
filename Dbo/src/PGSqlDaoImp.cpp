@@ -86,6 +86,11 @@ bool PGSqlDaoImp::CommitTransaction(Wt::Dbo::Transaction &transaction)
     return commited;
 }
 
+void PGSqlDaoImp::RollbackTransaction(Wt::Dbo::Transaction& transaction)
+{
+   transaction.rollback();
+}
+
 bool PGSqlDaoImp::TableExists(std::string table_name)
 {
     auto transaction = this->BeginTransaction();

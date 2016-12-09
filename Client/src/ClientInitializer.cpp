@@ -1,9 +1,12 @@
+#include <Converter.h>
 #include "ClientInitializer.h"
 #include "StringUtility.h"
 #include "AppFactory.h"
 #include "OFStream.h"
 #include "OSTDStream.h"
 #include "CilentConfig.h"
+#include "Converter.h"
+
 
 using namespace std;
 using namespace Client;
@@ -27,9 +30,9 @@ void ClientInitializer::Initialize()
     OFStream *stream = new OFStream();
     stream->SetFile(std::string(filename));
     logger->AddStream(std::move(filename), stream);
-    string loglevel = configReader->GetValueOf(CLIENT_LOG_LEVEL_STR);
+    string &&loglevel = configReader->GetValueOf(CLIENT_LOG_LEVEL_STR);
     try {
-        logger->SetLogLevel(StringUtility::ToInt(loglevel));
+        logger->SetLogLevel(Common::Converter::ToInt32(std::move(loglevel)));
     } catch (...) {
     }
 

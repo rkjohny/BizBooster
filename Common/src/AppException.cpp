@@ -56,7 +56,7 @@ AppErrorCode AppException::GetCode() const
     return m_code;
 }
 
-string AppException::GetMessage() const
+const string& AppException::GetMessage() const
 {
     return m_message;
 }
