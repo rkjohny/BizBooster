@@ -9,7 +9,6 @@
 #ifndef API_EXECUTOR_H
 #define API_EXECUTOR_H
 
-#include "ApiCode.h"
 #include "BaseInput.h"
 
 #include <cpprest/json.h>

@@ -48,10 +48,10 @@ namespace Api {
             Json::FromJson<T>(dynamic_cast<T*> (this), jvalue);
         }
 
-        REGISTER_GETTER_INCLUDING_BASE_START(Serializable)
+        REGISTER_GETTER_INCLUDING_BASE_START(BaseInput)
         REGISTER_GETTER_INCLUDING_BASE_END
 
-        REGISTER_SETTER_INCLUDING_BASE_START(Serializable)
+        REGISTER_SETTER_INCLUDING_BASE_START(BaseInput)
         REGISTER_SETTER_INCLUDING_BASE_END
     };
 

@@ -10,16 +10,17 @@
 #include "SOFactory.h"
 #include "RegisterUserInput.h"
 #include "RegisterUserOutput.h"
-#include <Converter.h>
-#include <ServiceFacade.h>
+#include "Converter.h"
+#include "ServiceFacade.h"
 #include "AppFactory.h"
+
 
 namespace Server {
 
 web::json::value ApiExecutor::UnknownErrorResponse()
 {
     web::json::value jresponse;
-    jresponse[U("error")] = web::json::value::number(Api::ApiReturnCode::UN_KNOWN_ERROR);
+    jresponse[U("error")] = web::json::value::number(AppErrorCode::UN_KNOWN_ERROR);
     jresponse[U("message")] = web::json::value::string(U(UN_KNOWN_ERROR_STR));
     return jresponse;
 }
@@ -27,7 +28,7 @@ web::json::value ApiExecutor::UnknownErrorResponse()
 web::json::value ApiExecutor::BadRequestResponse()
 {
     web::json::value jresponse;
-    jresponse[U("error")] = web::json::value::number(Api::ApiReturnCode::BAD_REQUEST);
+    jresponse[U("error")] = web::json::value::number(AppErrorCode::BAD_REQUEST);
     jresponse[U("message")] = web::json::value::string(U(BAD_REQUEST_STR));
     return jresponse;
 }
@@ -35,7 +36,7 @@ web::json::value ApiExecutor::BadRequestResponse()
 web::json::value ApiExecutor::InternalServerErrorResponse()
 {
     web::json::value jresponse;
-    jresponse[U("error")] = web::json::value::number(Api::ApiReturnCode::INTERNAL_SERVER_ERROR);
+    jresponse[U("error")] = web::json::value::number(AppErrorCode::INTERNAL_SERVER_ERROR);
     jresponse[U("message")] = web::json::value::string(U(INTERNAL_SERVER_ERROR_STR));
     return jresponse;
 }

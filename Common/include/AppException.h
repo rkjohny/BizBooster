@@ -10,7 +10,7 @@
 
 #include <string>
 #include <stdexcept>
-#include "AppConfig.h"
+#include "AppError.h"
 
 namespace Common {
     using namespace std;
@@ -20,14 +20,13 @@ namespace Common {
 
         explicit AppException(const string& message = "Unknown");
 
-        explicit AppException(const AppErrorCode& code, const string& message = "Unknown");
+        explicit AppException(AppErrorCode code, const string& message = "Unknown");
 
         AppException(const AppException &e);
 
         explicit AppException(const exception& e, const string& message = "Unknown");
 
-        explicit AppException(const exception& e, const AppErrorCode& code,
-                const string& message = "Unknown");
+        explicit AppException(const exception& e, AppErrorCode code, const string& message = "Unknown");
 
         virtual ~AppException();
 

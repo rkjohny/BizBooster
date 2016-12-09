@@ -10,6 +10,7 @@
 #define _ABSTRACT_HELPER_H_
 #include "BaseInput.h"
 #include "BaseOutput.h"
+#include "AppConfig.h"
 #include <memory>
 
 namespace Api {

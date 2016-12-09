@@ -10,22 +10,34 @@
 #define APIERROR_H_
 
 #include <string>
-#include "ApiCode.h"
+#include "Json.h"
+#include "SerializableT.h"
 
 namespace Api {
     using namespace std;
 
-    class ApiError {
+    class ApiError : public Json::SerializableT<ApiError> {
     public:
         ApiError();
 
-        void SetCode(const ApiReturnCode& code);
+        void SetCode(int code);
         void SetMessage(const string& message);
-        ApiReturnCode GetCode() const;
-        string GetMessage() const;
+        int GetCode() const;
+        const string& GetMessage() const;
+
+        REGISTER_GETTER_INCLUDING_BASE_START(Json::SerializableT<ApiError>)
+        GETTER(ApiError, int, "code", &ApiError::GetCode),
+        GETTER(ApiError, const string&, "message", &ApiError::GetMessage)
+        REGISTER_GETTER_INCLUDING_BASE_END
+
+
+        REGISTER_SETTER_INCLUDING_BASE_START(Json::SerializableT<ApiError>)
+        SETTER(ApiError, int, "code", &ApiError::SetCode),
+        SETTER(ApiError, const string&, "message", &ApiError::SetMessage)
+        REGISTER_SETTER_INCLUDING_BASE_END
 
     private:
-        ApiReturnCode m_code;
+        int m_code;
         string m_message;
     };
 

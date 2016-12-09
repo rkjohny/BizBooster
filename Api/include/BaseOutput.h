@@ -28,9 +28,11 @@ namespace Api {
         ApiError m_error;
 
         REGISTER_GETTER_INCLUDING_BASE_START(Serializable)
+        GETTER(BaseOutput, ApiError, "error", &BaseOutput::GetError)
         REGISTER_GETTER_INCLUDING_BASE_END
 
         REGISTER_SETTER_INCLUDING_BASE_START(Serializable)
+        SETTER(BaseOutput, const ApiError&, "error", &BaseOutput::SetError)
         REGISTER_SETTER_INCLUDING_BASE_END
     };
 
@@ -48,10 +50,10 @@ namespace Api {
             Json::FromJson<T>(dynamic_cast<T*> (this), jvalue);
         }
 
-        REGISTER_GETTER_INCLUDING_BASE_START(Serializable)
+        REGISTER_GETTER_INCLUDING_BASE_START(BaseOutput)
         REGISTER_GETTER_INCLUDING_BASE_END
 
-        REGISTER_SETTER_INCLUDING_BASE_START(Serializable)
+        REGISTER_SETTER_INCLUDING_BASE_START(BaseOutput)
         REGISTER_SETTER_INCLUDING_BASE_END
     };
 

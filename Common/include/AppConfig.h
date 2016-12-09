@@ -34,13 +34,5 @@
         TYPE(TYPE&&) = delete; \
         TYPE& operator=(TYPE&&) = delete;
 
-#define UNKNOWN_ERROR -0x1000
-
-enum AppErrorCode {
-    UN_KNOWN = UNKNOWN_ERROR,
-    NOT_IMPLEMENTED = -0x1001,
-    COULD_NOT_OPEN_FILE = -0x1002,
-    INVALID_ARGUMENT = -0x1003
-};
 
 #endif

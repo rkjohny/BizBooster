@@ -2,16 +2,17 @@
 #include <Converter.h>
 #include "AppException.h"
 
+
 namespace Common {
 
 AppException::AppException(const string& message) :
 runtime_error(message.c_str())
 {
-    m_code = AppErrorCode::UN_KNOWN;
+    m_code = AppErrorCode::UN_KNOWN_ERROR;
     m_message = message;
 }
 
-AppException::AppException(const AppErrorCode& code, const string& message) :
+AppException::AppException(AppErrorCode code, const string& message) :
 runtime_error(message.c_str())
 {
     m_code = code;
@@ -28,11 +29,11 @@ runtime_error(e.GetMessage().c_str())
 AppException::AppException(const exception& e, const string& message) :
 runtime_error(e.what() ? e.what() : message.c_str())
 {
-    m_code = AppErrorCode::UN_KNOWN;
+    m_code = AppErrorCode::UN_KNOWN_ERROR;
     SetMessage(e, message);
 }
 
-AppException::AppException(const exception& e, const AppErrorCode& code, const string& message) :
+AppException::AppException(const exception& e, AppErrorCode code, const string& message) :
 runtime_error(e.what() ? e.what() : message.c_str())
 {
     m_code = code;
