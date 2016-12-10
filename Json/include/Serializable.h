@@ -1,14 +1,17 @@
 /**
- * Serializable.h
+ * Author: Rezaul Karim
+ * Email: rkjohny@gmail.com
  *
- *      Author: rezaul
+ * Copyright (C) 20016 Rezaul Karim (rkjohny@gmail.com) all rights reserved.
  *
- * Copyright (C) 2016 Rezaul Karim, rkjohny@gmail.com. All rights reserved.
- * Nobody should use this file without taking written permission from the author.
+ * The information contained here-in is the property of Rezaul Karim and is not to be
+ * disclosed or used without prior written permission of Rezaul Karim. This copyright
+ * extends to all media in which this information may be preserved including
+ * magnetic storage, computer print-out or visual display.
  */
 
-#ifndef SERIALIZEABLE_H_
-#define SERIALIZEABLE_H_
+#ifndef TINY_JSON_SERIALIZEABLE_H
+#define TINY_JSON_SERIALIZEABLE_H
 
 #include <cpprest/json.h>
 #include "Json.h"
@@ -34,4 +37,4 @@ namespace Json {
 
 } /* namespace Api */
 
-#endif /* SERIALIZEABLE_H_ */
+#endif /* TINY_JSON_SERIALIZEABLE_H */

@@ -1,13 +1,19 @@
 /**
  * AbstractHelper.h
  *
- *      Author: rezaul
+ * Author: Rezaul Karim
+ * Email: rkjohny@gmail.com
  *
- * Copyright (C) 2016 Rezaul Karim, rkjohny@gmail.com. All rights reserved.
+ * Copyright (C) 20016 Rezaul Karim (rkjohny@gmail.com) all rights reserved.
+ *
+ * The information contained here-in is the property of Rezaul Karim and is not to be
+ * disclosed or used without prior written permission of Rezaul Karim. This copyright
+ * extends to all media in which this information may be preserved including
+ * magnetic storage, computer print-out or visual display.
  */
+#ifndef ABSTRACT_HELPER_H
+#define ABSTRACT_HELPER_H
 
-#ifndef _ABSTRACT_HELPER_H_
-#define _ABSTRACT_HELPER_H_
 #include "BaseInput.h"
 #include "BaseOutput.h"
 #include "AppConfig.h"
@@ -42,4 +48,4 @@ namespace Api {
 
 } /* namespace Api */
 
-#endif /* ABSTRACTHELPER_H_ */
+#endif /* ABSTRACT_HELPER_H */

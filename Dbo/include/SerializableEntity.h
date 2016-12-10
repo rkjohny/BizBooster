@@ -1,9 +1,17 @@
-//
-// Created by rezaul on 12/4/16.
-//
+/**
+ * Author: Rezaul Karim
+ * Email: rkjohny@gmail.com
+ *
+ * Copyright (C) 20016 Rezaul Karim (rkjohny@gmail.com) all rights reserved.
+ *
+ * The information contained here-in is the property of Rezaul Karim and is not to be
+ * disclosed or used without prior written permission of Rezaul Karim. This copyright
+ * extends to all media in which this information may be preserved including
+ * magnetic storage, computer print-out or visual display.
+ */
 
-#ifndef BIZBOOSTER_SERIALIZABLEENTITY_H
-#define BIZBOOSTER_SERIALIZABLEENTITY_H
+#ifndef SERIALIZABLE_ENTITY_H
+#define SERIALIZABLE_ENTITY_H
 
 #include "AuditableEntity.h"
 #include "Json.h"
@@ -34,4 +42,4 @@ namespace Dal {
 }
 
 
-#endif //BIZBOOSTER_SERIALIZABLEENTITY_H
+#endif //SERIALIZABLE_ENTITY_H

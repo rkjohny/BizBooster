@@ -1,12 +1,17 @@
-/*
- * FileUtility.h
+/**
+ * Author: Rezaul Karim
+ * Email: rkjohny@gmail.com
  *
- *  Created on: Oct 11, 2016
- *      Author: rezaul
+ * Copyright (C) 20016 Rezaul Karim (rkjohny@gmail.com) all rights reserved.
+ *
+ * The information contained here-in is the property of Rezaul Karim and is not to be
+ * disclosed or used without prior written permission of Rezaul Karim. This copyright
+ * extends to all media in which this information may be preserved including
+ * magnetic storage, computer print-out or visual display.
  */
 
-#ifndef FILEUTILITY_H_
-#define FILEUTILITY_H_
+#ifndef FILE_UTILITY_H
+#define FILE_UTILITY_H
 
 #include <string>
 #include <vector>
@@ -28,4 +33,4 @@ namespace Common {
 
 } /* namespace Common */
 
-#endif /* FILEUTILITY_H_ */
+#endif /* FILE_UTILITY_H */

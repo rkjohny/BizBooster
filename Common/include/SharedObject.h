@@ -1,12 +1,17 @@
-/*
- * SharedObject.h
+/**
+ * Author: Rezaul Karim
+ * Email: rkjohny@gmail.com
  *
- *  Created on: Oct 12, 2016
- *      Author: rezaul
+ * Copyright (C) 20016 Rezaul Karim (rkjohny@gmail.com) all rights reserved.
+ *
+ * The information contained here-in is the property of Rezaul Karim and is not to be
+ * disclosed or used without prior written permission of Rezaul Karim. This copyright
+ * extends to all media in which this information may be preserved including
+ * magnetic storage, computer print-out or visual display.
  */
 
-#ifndef SHAREDOBJECT_H_
-#define SHAREDOBJECT_H_
+#ifndef SHARED_OBJECT_H
+#define SHARED_OBJECT_H
 
 #include <mutex>
 
@@ -23,4 +28,4 @@ namespace Common {
 
 } /* namespace Common */
 
-#endif /* SHAREDOBJECT_H_ */
+#endif /* SHARED_OBJECT_H */

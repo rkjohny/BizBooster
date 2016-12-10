@@ -1,9 +1,17 @@
-//
-// Created by rezaul on 12/4/16.
-//
+/**
+ * Author: Rezaul Karim
+ * Email: rkjohny@gmail.com
+ *
+ * Copyright (C) 20016 Rezaul Karim (rkjohny@gmail.com) all rights reserved.
+ *
+ * The information contained here-in is the property of Rezaul Karim and is not to be
+ * disclosed or used without prior written permission of Rezaul Karim. This copyright
+ * extends to all media in which this information may be preserved including
+ * magnetic storage, computer print-out or visual display.
+ */
 
-#ifndef BIZBOOSTER_SERIALIZABLET_H
-#define BIZBOOSTER_SERIALIZABLET_H
+#ifndef TINY_JSON_SERIALIZABLE_T_H
+#define TINY_JSON_SERIALIZABLE_T_H
 
 #include "Serializable.h"
 
@@ -32,4 +40,4 @@ namespace Json {
 }
 
 
-#endif //BIZBOOSTER_SERIALIZABLET_H
+#endif //TINY_JSON_SERIALIZABLE_T_H

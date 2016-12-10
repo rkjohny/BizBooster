@@ -1,12 +1,17 @@
-/*
- * TradeXLogger.h
+/**
+ * Author: Rezaul Karim
+ * Email: rkjohny@gmail.com
  *
- *  Created on: Oct 12, 2016
- *      Author: rezaul
+ * Copyright (C) 20016 Rezaul Karim (rkjohny@gmail.com) all rights reserved.
+ *
+ * The information contained here-in is the property of Rezaul Karim and is not to be
+ * disclosed or used without prior written permission of Rezaul Karim. This copyright
+ * extends to all media in which this information may be preserved including
+ * magnetic storage, computer print-out or visual display.
  */
 
-#ifndef BASELOGGER_H_
-#define BASELOGGER_H_
+#ifndef BASE_LOGGER_H
+#define BASE_LOGGER_H
 
 #include <map>
 #include <string>
@@ -64,4 +69,4 @@ public:
 
 } /* namespace Common */
 
-#endif /* BASELOGGER_H_ */
+#endif /* BASE_LOGGER_H */

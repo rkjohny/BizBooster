@@ -1,12 +1,17 @@
-/*
- * TradexConfigReader.h
+/**
+ * Author: Rezaul Karim
+ * Email: rkjohny@gmail.com
  *
- *  Created on: Oct 12, 2016
- *      Author: rezaul
+ * Copyright (C) 20016 Rezaul Karim (rkjohny@gmail.com) all rights reserved.
+ *
+ * The information contained here-in is the property of Rezaul Karim and is not to be
+ * disclosed or used without prior written permission of Rezaul Karim. This copyright
+ * extends to all media in which this information may be preserved including
+ * magnetic storage, computer print-out or visual display.
  */
 
-#ifndef BASECONFIGREADER_H_
-#define BASECONFIGREADER_H_
+#ifndef BASE_PROPERTY_READER_H
+#define BASE_PROPERTY_READER_H
 
 #include <map>
 #include <string>
@@ -43,4 +48,4 @@ namespace Common {
 
 } /* namespace Common */
 
-#endif /* BASECONFIGREADER_H_ */
+#endif /* BASE_PROPERTY_READER_H */

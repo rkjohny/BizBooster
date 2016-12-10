@@ -1,12 +1,17 @@
-/*
- * OFStream.h
+/**
+ * Author: Rezaul Karim
+ * Email: rkjohny@gmail.com
  *
- *  Created on: Oct 11, 2016
- *      Author: rezaul
+ * Copyright (C) 20016 Rezaul Karim (rkjohny@gmail.com) all rights reserved.
+ *
+ * The information contained here-in is the property of Rezaul Karim and is not to be
+ * disclosed or used without prior written permission of Rezaul Karim. This copyright
+ * extends to all media in which this information may be preserved including
+ * magnetic storage, computer print-out or visual display.
  */
 
-#ifndef OFSTREAM_H_
-#define OFSTREAM_H_
+#ifndef OF_STREAM_H
+#define OF_STREAM_H
 
 #include <fstream>
 #include <string>
@@ -35,4 +40,4 @@ namespace Common {
 
 } /* namespace Common */
 
-#endif /* OFSTREAM_H_ */
+#endif /* OF_STREAM_H */

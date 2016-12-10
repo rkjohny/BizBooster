@@ -1,5 +1,17 @@
-#ifndef APPCONOSTANT_H
-#define APPCONOSTANT_H
+/**
+ * Author: Rezaul Karim
+ * Email: rkjohny@gmail.com
+ *
+ * Copyright (C) 20016 Rezaul Karim (rkjohny@gmail.com) all rights reserved.
+ *
+ * The information contained here-in is the property of Rezaul Karim and is not to be
+ * disclosed or used without prior written permission of Rezaul Karim. This copyright
+ * extends to all media in which this information may be preserved including
+ * magnetic storage, computer print-out or visual display.
+ */
+
+#ifndef APP_CONGIF_H
+#define APP_CONGIF_H
 
 #if defined(WIN32) || defined(_WIN32) || defined (__CYGWIN__)
 #define PATH_SEPARATOR "\\"
@@ -35,4 +47,4 @@
         TYPE& operator=(TYPE&&) = delete;
 
 
-#endif
+#endif //APP_CONGIF_H

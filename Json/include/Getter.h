@@ -1,18 +1,18 @@
-/*
- * Author: Rezaul Karm
+/**
+ * Author: Rezaul Karim
  * Email: rkjohny@gmail.com
  *
- * Copyright (C) 2016 Rezaul Karim (rkjohny@gmail.com)
- *     The information contained here-in is the property of Rezaul Karim and
- *     is not to be disclosed or used without prior written permission of Rezaul Karim.
- *     This copyright extends to all media in which this information may be preserved
- *     including magnetic storage, computer print-out or visual display.
- *     Please refer to License.txt file for more details.
+ * Copyright (C) 20016 Rezaul Karim (rkjohny@gmail.com) all rights reserved.
+ *
+ * The information contained here-in is the property of Rezaul Karim and is not to be
+ * disclosed or used without prior written permission of Rezaul Karim. This copyright
+ * extends to all media in which this information may be preserved including
+ * magnetic storage, computer print-out or visual display.
  */
 
 
-#ifndef GETTER_H
-#define GETTER_H
+#ifndef TINY_JSON_GETTER_H
+#define TINY_JSON_GETTER_H
 
 namespace Json {
 

@@ -1,13 +1,17 @@
 /**
- * RegisterUserInput.h
+ * Author: Rezaul Karim
+ * Email: rkjohny@gmail.com
  *
- *      Author: rezaul
+ * Copyright (C) 20016 Rezaul Karim (rkjohny@gmail.com) all rights reserved.
  *
- * Copyright (C) 2016 Rezaul Karim, rkjohny@gmail.com. All rights reserved.
+ * The information contained here-in is the property of Rezaul Karim and is not to be
+ * disclosed or used without prior written permission of Rezaul Karim. This copyright
+ * extends to all media in which this information may be preserved including
+ * magnetic storage, computer print-out or visual display.
  */
 
-#ifndef REGISTERUSERINPUT_H_
-#define REGISTERUSERINPUT_H_
+#ifndef REGISTER_USER_INPUT_H
+#define REGISTER_USER_INPUT_H
 
 #include <string>
 #include "SOFactory.h"
@@ -72,4 +76,4 @@ namespace Api {
 
 } /* namespace Api */
 
-#endif /* REGISTERUSERINPUT_H_ */
+#endif /* REGISTER_USER_INPUT_H */

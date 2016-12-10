@@ -1,6 +1,17 @@
+/**
+ * Author: Rezaul Karim
+ * Email: rkjohny@gmail.com
+ *
+ * Copyright (C) 20016 Rezaul Karim (rkjohny@gmail.com) all rights reserved.
+ *
+ * The information contained here-in is the property of Rezaul Karim and is not to be
+ * disclosed or used without prior written permission of Rezaul Karim. This copyright
+ * extends to all media in which this information may be preserved including
+ * magnetic storage, computer print-out or visual display.
+ */
 
-#ifndef _APP_SETTIGNS_H_
-#define _APP_SETTIGNS_H_
+#ifndef APP_SETTING_H
+#define APP_SETTING_H
 
 #include <string>
 #include <Wt/Dbo/Dbo>
@@ -73,4 +84,4 @@ struct dbo_traits<Dal::AppSetting> : public dbo_default_traits {
 }
 }
 
-#endif //_APP_SETTIGNS_H_
+#endif //APP_SETTING_H

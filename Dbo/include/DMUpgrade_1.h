@@ -1,5 +1,18 @@
-#ifndef _DMUPGRADE_1_H
-#define _DMUPGRADE_1_H
+/**
+ * Author: Rezaul Karim
+ * Email: rkjohny@gmail.com
+ *
+ * Copyright (C) 20016 Rezaul Karim (rkjohny@gmail.com) all rights reserved.
+ *
+ * The information contained here-in is the property of Rezaul Karim and is not to be
+ * disclosed or used without prior written permission of Rezaul Karim. This copyright
+ * extends to all media in which this information may be preserved including
+ * magnetic storage, computer print-out or visual display.
+ */
+
+
+#ifndef DMUPGRADE_1_H
+#define DMUPGRADE_1_H
 
 
 #include "DMUpgrade.h"
@@ -16,4 +29,4 @@ public:
 }
 
 
-#endif //BIZBOOSTER_DMUPGRADE_1_H
+#endif //DMUPGRADE_1_H

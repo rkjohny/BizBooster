@@ -1,9 +1,17 @@
-//
-// Created by rezaul on 11/29/16.
-//
+/**
+ * Author: Rezaul Karim
+ * Email: rkjohny@gmail.com
+ *
+ * Copyright (C) 20016 Rezaul Karim (rkjohny@gmail.com) all rights reserved.
+ *
+ * The information contained here-in is the property of Rezaul Karim and is not to be
+ * disclosed or used without prior written permission of Rezaul Karim. This copyright
+ * extends to all media in which this information may be preserved including
+ * magnetic storage, computer print-out or visual display.
+ */
 
-#ifndef BIZBOOSTER_UTILS_H
-#define BIZBOOSTER_UTILS_H
+#ifndef CONVERTER_H
+#define CONVERTER_H
 
 #include <memory>
 #include <string>
@@ -48,4 +56,4 @@ namespace Common {
     };
 }
 
-#endif //BIZBOOSTER_UTILS_H
+#endif //CONVERTER_H

@@ -1,13 +1,17 @@
 /**
- * @file    TradeXClient.h
+ * Author: Rezaul Karim
+ * Email: rkjohny@gmail.com
  *
- * @brief   Declares the TradeXClient class.
+ * Copyright (C) 20016 Rezaul Karim (rkjohny@gmail.com) all rights reserved.
  *
- * Copyright (C) 2016 ABC Corporation.
+ * The information contained here-in is the property of Rezaul Karim and is not to be
+ * disclosed or used without prior written permission of Rezaul Karim. This copyright
+ * extends to all media in which this information may be preserved including
+ * magnetic storage, computer print-out or visual display.
  */
 
-#ifndef TRADE_X_CLIENT_H
-#define TRADE_X_CLIENT_H
+#ifndef CLIENT_H
+#define CLIENT_H
 
 
 #include <Wt/WApplication>
@@ -54,4 +58,4 @@ namespace Client {
 
 
 }
-#endif
+#endif //CLIENT_H

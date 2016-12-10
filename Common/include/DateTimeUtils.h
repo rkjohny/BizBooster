@@ -1,12 +1,17 @@
-/*
- * DateTimeUtils.h
+/**
+ * Author: Rezaul Karim
+ * Email: rkjohny@gmail.com
  *
- *  Created on: Oct 11, 2016
- *      Author: rezaul
+ * Copyright (C) 20016 Rezaul Karim (rkjohny@gmail.com) all rights reserved.
+ *
+ * The information contained here-in is the property of Rezaul Karim and is not to be
+ * disclosed or used without prior written permission of Rezaul Karim. This copyright
+ * extends to all media in which this information may be preserved including
+ * magnetic storage, computer print-out or visual display.
  */
 
-#ifndef DATETIMEUTILS_H_
-#define DATETIMEUTILS_H_
+#ifndef DATE_TIME_UTILS_H
+#define DATE_TIME_UTILS_H
 
 #include <string>
 
@@ -26,4 +31,4 @@ namespace Common {
 
 } /* namespace Common */
 
-#endif /* DATETIMEUTILS_H_ */
+#endif /* DATE_TIME_UTILS_H */
