@@ -14,7 +14,6 @@
 #include "RequestHandler.h"
 #include "ApiExecutor.h"
 #include "AppFactory.h"
-#include "AppException.h"
 #include "ApiUtils.h"
 
 using namespace Server;

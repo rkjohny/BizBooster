@@ -12,4 +12,28 @@
 
 #include "AuditableEntity.h"
 
-using namespace Dal;
+namespace Dal {
+
+void AuditableEntity::SetDateCreated(Wt::WDateTime &dt)
+{
+    m_dateCreated = dt;
+}
+
+const Wt::WDateTime &AuditableEntity::GetDateCreated() const
+{
+    return m_dateCreated;
+}
+
+
+void AuditableEntity::SetDateLastUpdated(Wt::WDateTime &dt)
+{
+    m_dateLastUpdated = dt;
+}
+
+const Wt::WDateTime& AuditableEntity::GetDateLastUpdated() const
+{
+    return m_dateLastUpdated;
+}
+
+
+}

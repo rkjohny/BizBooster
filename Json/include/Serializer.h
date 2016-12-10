@@ -21,6 +21,7 @@
 #include <cpprest/asyncrt_utils.h>
 
 #include <iostream>
+#include <Wt/WDateTime>
 
 namespace Json {
     using namespace web;
@@ -104,6 +105,39 @@ namespace Json {
             static_assert(true, "Serialization of array is not supported.");
         }
 
+        /////////////////////////////// wWt::WDatetime ///////////////////////////////
+        template <class T>
+        typename std::enable_if<Is_DateTime<T>::Value, json::value>::type
+        static ToJson(const T &&object) {
+            Wt::WString wstr = object.toString(); // TODO: default format used
+            std::string str = wstr.toUTF8(); // TODO: UTF8 encoding used
+            cout << "Serializing object: type = Wt::WDate&&, value = " << str << endl;
+            return json::value(str);
+        }
+        template <class T>
+        typename std::enable_if<Is_DateTime<T>::Value, json::value>::type
+        static ToJson(const T &object) {
+            Wt::WString wstr = object.toString(); // TODO: default format used
+            std::string str = wstr.toUTF8(); // TODO: UTF8 encoding used
+            cout << "Serializing object: type = Wt::WDate&, value = " << str << endl;
+            return json::value(str);
+        }
+        template <class T>
+        typename std::enable_if<Is_DateTime<T>::Value, json::value>::type
+        static ToJson(const T *object) {
+            Wt::WString wstr = object->toString(); // TODO: default format used
+            std::string str = wstr.toUTF8(); // TODO: UTF8 encoding used
+            cout << "Serializing object: type = Wt::WDate*, value = " << str << endl;
+            return json::value(str);
+        }
+        template <class T>
+        typename std::enable_if<Is_DateTime<T>::Value, json::value>::type
+        static ToJson(const T **object) {
+            Wt::WString wstr = (*object)->toString(); // TODO: default format used
+            std::string str = wstr.toUTF8(); // TODO: UTF8 encoding used
+            cout << "Serializing object: type = Wt::WDate**, value = " << str << endl;
+            return json::value(str);
+        }
 
         //////////////////////////////// Enum ///////////////////
 

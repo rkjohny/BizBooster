@@ -62,8 +62,8 @@ public:
         Wt::Dbo::field(a, m_name, "name");
         Wt::Dbo::field(a, m_password, "password");
         Wt::Dbo::field(a, m_roles, "roles");
-        //dbo::field(a, dateCreated,     "date_created");
-        //dbo::field(a, dateLastUpdated,     "date_last_updated");
+        Wt::Dbo::field(a, m_dateCreated, "date_created");
+        Wt::Dbo::field(a, m_dateLastUpdated, "date_last_updated");
     }
 };
 }

@@ -33,7 +33,19 @@ protected:
     Dao() = default;
 
 public:
-    virtual ~Dao()= default;
+    virtual ~Dao() = default;
+
+//    template<class C>
+//    typename std::enable_if<std::is_base_of<Dal::AuditableEntity, C>::value, void >::type
+//    PGSqlDaoImp::CheckAuditable(C *entity) {};
+//
+//    template<class C>
+//    typename std::enable_if<!std::is_base_of<Dal::AuditableEntity, C>::value, void >::type
+//    PGSqlDaoImp::CheckAuditable(BaseEntity *entity) {};
+//
+//    template<class C>
+//    typename std::enable_if<std::is_base_of<Dal::BaseEntity, C>::value, Wt::Dbo::ptr<C> >::type
+//    PGSqlDaoImp::AddEnitity(C *entity) {};
 
     virtual void CreateTables() = 0;
 

@@ -17,6 +17,7 @@
 #include "TypeTratits.h"
 
 #include <iostream>
+#include <Wt/WDateTime>
 
 namespace Json {
     using namespace web;
@@ -245,6 +246,43 @@ namespace Json {
             static_assert(true, "Deserialization of array is not supported.");
         }
 
+
+        /********************************************************************************
+         * object type: Wt::WDateTime
+         ********************************************************************************/
+        template<class T>
+        typename std::enable_if<Is_DateTime<T>::Value, void>::type
+        static FromJson(T &object, const json::value &jvalue) {
+            std::string dateTimeStr = jvalue.as_string();
+            Wt::WString dateTimeWStr = Wt::WString(dateTimeStr); //TODO: default encoding used
+            object = Wt::WDateTime::fromString(dateTimeStr); //TODO:: default format used
+            std::cout << "Deserializing object: type = Wt::WDateTime&, value = " << dateTimeStr << std::endl;
+        }
+
+        /********************************************************************************
+         * object type: Wt::WDateTime*
+         ********************************************************************************/
+        template<class T>
+        typename std::enable_if<Is_DateTime<T>::Value, void>::type
+        static FromJson(T *object, const json::value &jvalue) {
+            std::string dateTimeStr = jvalue.as_string();
+            Wt::WString dateTimeWStr = Wt::WString(dateTimeStr); //TODO: default encoding used
+            *object = Wt::WDateTime::fromString(dateTimeStr); //TODO:: default format used
+            std::cout << "Deserializing object: type = Wt::WDateTime*, value = " << dateTimeStr << std::endl;
+        }
+
+        /********************************************************************************
+         * object type: Wt::WDateTime**
+         ********************************************************************************/
+        template<class T>
+        typename std::enable_if<Is_DateTime<T>::Value, void>::type
+        static FromJson(T **object, const json::value &jvalue) {
+            std::string dateTimeStr = jvalue.as_string();
+            Wt::WString dateTimeWStr = Wt::WString(dateTimeStr); //TODO: default encoding used
+            **object = Wt::WDateTime::fromString(dateTimeStr); //TODO:: default format used
+            std::cout << "Deserializing object: type = Wt::WDateTime**, value = " << dateTimeStr << std::endl;
+        }
+
         /********************************************************************************
          * object type: enum
          ********************************************************************************/
@@ -275,7 +313,6 @@ namespace Json {
             *object = new T (static_cast<T>(jvalue.as_integer()));
             std::cout << "Deserializing object: type = Enum*, value = " << *object << std::endl;
         }
-
 
         /*********************************************************************************
          * object type: bool

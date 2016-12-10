@@ -13,11 +13,12 @@
 #ifndef AUDITABLE_ENTITY_H
 #define AUDITABLE_ENTITY_H
 
+#include <Wt/WDateTime>
 #include "BaseEntity.h"
 #include "Json.h"
 
 
-//#include <Wt/Dal/WtSqlTraits>
+#include <Wt/Dbo/WtSqlTraits>
 
 
 namespace Dal {
@@ -27,16 +28,28 @@ public:
     AuditableEntity() = default;
     virtual ~AuditableEntity() = default;
 
-    //WDateTime dateCreated;
-    //WDateTime dateLastUpdated;
+    void SetDateCreated(Wt::WDateTime &dt);
+    const Wt::WDateTime& GetDateCreated() const;
 
+    void SetDateLastUpdated(Wt::WDateTime &dt);
+    const Wt::WDateTime& GetDateLastUpdated() const;
+
+
+protected:
+    Wt::WDateTime m_dateCreated;
+    Wt::WDateTime m_dateLastUpdated;
 
     REGISTER_GETTER_INCLUDING_BASE_START(BaseEntity)
+    GETTER(AuditableEntity, const Wt::WDateTime& , "date_created", &AuditableEntity::GetDateCreated),
+    GETTER(AuditableEntity, const Wt::WDateTime& , "date_last_updated", &AuditableEntity::GetDateLastUpdated)
     REGISTER_GETTER_INCLUDING_BASE_END
 
     REGISTER_SETTER_INCLUDING_BASE_START(BaseEntity)
+    SETTER(AuditableEntity, Wt::WDateTime&, "date_created", &AuditableEntity::SetDateCreated),
+    SETTER(AuditableEntity, Wt::WDateTime&, "date_last_updated", &AuditableEntity::SetDateLastUpdated)
     REGISTER_SETTER_INCLUDING_BASE_END
 };
+
 }
 
 #endif //AUDITABLE_ENTITY_H

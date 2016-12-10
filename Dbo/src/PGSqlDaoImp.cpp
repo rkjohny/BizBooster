@@ -13,8 +13,7 @@
 #include "PGSqlDaoImp.h"
 #include "DboConfig.h"
 #include "Converter.h"
-#include <exception>
-#include <AppFactory.h>
+#include "AppFactory.h"
 
 
 namespace Dal {
@@ -125,8 +124,9 @@ void PGSqlDaoImp::UpdateAppSetting(AppSetting &&setting)
 
 Wt::Dbo::ptr<User> PGSqlDaoImp::RegisterUser(User &loggedUser, User *user)
 {
-    Wt::Dbo::ptr<User> newUser = m_session.add(user);
-    return newUser;
+    //Wt::Dbo::ptr<User> newUser = m_session.add(user);
+    //return newUser;
+    return this->AddEnitity(user);
 }
 
 User *PGSqlDaoImp::GetUser(User &loggedUser, std::string email)

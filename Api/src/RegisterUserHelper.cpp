@@ -72,14 +72,18 @@ void RegisterUserHelper::ExecuteHelper()
         User loggedUser = User();
         Wt::Dbo::ptr<User> userAdded = Dal::GetDao()->RegisterUser(loggedUser, user);
 
-        LOG_DEBUG("New user registered successfully");
+        if (userAdded) {
+            LOG_DEBUG("New user registered successfully");
 
-        std::unique_ptr<RegisterUserOutput> output = std::make_unique<RegisterUserOutput>();
-        output->SetUser(*userAdded);
+            std::unique_ptr<RegisterUserOutput> output = std::make_unique<RegisterUserOutput>();
+            output->SetUser(*userAdded);
 
-        m_output = std::move(output);
+            m_output = std::move(output);
 
-        LOG_DEBUG("Api output: " + m_output->Serialize().serialize());
+            LOG_DEBUG("Api output: " + m_output->Serialize().serialize());
+        } else {
+            LOG_ERROR("Database operation of adding new user failed");
+        }
 
     } else {
         throw Common::AppException(AppErrorCode::INTERNAL_SERVER_ERROR, ""

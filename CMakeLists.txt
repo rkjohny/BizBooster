@@ -138,7 +138,7 @@ endif()
 #include Common first, before Json
 add_subdirectory(Common)
 add_subdirectory(Json)
-add_subdirectory(JsonTest)
+#add_subdirectory(JsonTest)
 add_subdirectory(Dbo)
 add_subdirectory(Api)
 add_subdirectory(Server)
