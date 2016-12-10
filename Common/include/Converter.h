@@ -18,14 +18,6 @@ namespace Common {
     public:
 
         template<typename Derived, typename Base>
-        std::unique_ptr<Derived> static StaticDownCast(std::unique_ptr<Base> &&p)
-        {
-            static_assert(std::is_base_of< Base, Derived >::value, "Incompatible types");
-            auto d = static_cast<Derived *>(p.release());
-            return std::unique_ptr<Derived>(d);
-        }
-
-        template<typename Derived, typename Base>
         std::unique_ptr<Derived> static DynamicDownCast(std::unique_ptr<Base> &&p)
         {
             static_assert(std::is_base_of< Base, Derived >::value, "Incompatible types");
@@ -45,9 +37,9 @@ namespace Common {
                 p.release();
                 return std::unique_ptr<Base>(result);
             }
-
             return std::unique_ptr<Base>(nullptr);
         }
+
 
         static int64_t ToInt32(std::string&& num, int8_t base = 10) throw (std::invalid_argument, std::out_of_range);
 

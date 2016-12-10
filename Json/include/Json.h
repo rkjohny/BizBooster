@@ -50,22 +50,22 @@ namespace Json {
 
     /************************** Serializing *************************/
     template <class T>
-    json::value ToJson(T &&object) {
+    json::value ToJson(const T &&object) {
         return Serializer::ToJson(std::move(object));
     }
 
     template <class T>
-    json::value ToJson(T &object) {
+    json::value ToJson(const T &object) {
         return Serializer::ToJson(object);
     }
 
     template <class T>
-    json::value ToJson(T *object) {
+    json::value ToJson(const T *object) {
         return Serializer::ToJson(object);
     }
 
     template <class T>
-    json::value ToJson(T **object) {
+    json::value ToJson(const T* const *object) {
         return Serializer::ToJson(object);
     }
 

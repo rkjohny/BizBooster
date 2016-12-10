@@ -18,9 +18,9 @@ mutex SOFactory::cm_mutexArr;
 SOFactory::ListCreatorsArr SOFactory::cm_objectArrayCreators;
 
 
-std::unique_ptr<Serializable> SOFactory::CreateObject(string &&key)
+std::shared_ptr<Serializable> SOFactory::CreateObject(string &&key)
 {
-    std::unique_ptr<Serializable> p = nullptr;
+    std::shared_ptr<Serializable> p = nullptr;
     Common::StringUtility::ToLower(key);
 
     cout << cm_objectCreators.size() << endl;
@@ -37,9 +37,9 @@ std::unique_ptr<Serializable> SOFactory::CreateObject(string &&key)
 }
 
 
-std::vector< std::unique_ptr<Serializable>> SOFactory::CreateObjectArray(string &&key, const size_t size)
+std::vector< std::shared_ptr<Serializable>> SOFactory::CreateObjectArray(string &&key, const size_t size)
 {
-    std::vector< std::unique_ptr<Serializable>> v;
+    std::vector< std::shared_ptr<Serializable>> v;
     Common::StringUtility::ToLower(key);
 
     cm_mutexArr.lock();

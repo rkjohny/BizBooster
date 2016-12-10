@@ -30,6 +30,7 @@ void RegisterUserOutput::SetUser(const User& user)
     m_user.SetEmail(user.GetEmail());
     m_user.SetName(user.GetName());
     m_user.SetRoles(user.GetRoles());
+    m_user.SetPassword(user.GetPassword());
 }
 
 

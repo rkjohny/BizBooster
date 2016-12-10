@@ -21,7 +21,7 @@ namespace Json {
         Serializable();
         virtual ~Serializable();
 
-        virtual web::json::value Serialize() = 0;
+        virtual web::json::value Serialize() const = 0;
         virtual void Deserialize(const web::json::value&) = 0;
 
 

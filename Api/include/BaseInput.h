@@ -42,12 +42,12 @@ namespace Api {
         ApiInput() = default;
         virtual ~ApiInput() = default;
 
-        web::json::value Serialize() override {
-            return Json::ToJson<T>(dynamic_cast<T*> (this));
+        web::json::value Serialize() const override {
+            return Json::ToJson<T>(reinterpret_cast<const T*>(this));
         }
 
         void Deserialize(const web::json::value& jvalue) override {
-            Json::FromJson<T>(dynamic_cast<T*> (this), jvalue);
+            Json::FromJson<T>(reinterpret_cast<T*> (this), jvalue);
         }
 
         REGISTER_GETTER_INCLUDING_BASE_START(BaseInput)

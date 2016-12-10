@@ -35,8 +35,8 @@ namespace Json {
     class SOFactory {
     public:
 
-        static std::unique_ptr<Serializable>CreateObject(string &&key);
-        static std::vector<std::unique_ptr<Serializable>> CreateObjectArray(string &&key, const size_t size);
+        static std::shared_ptr<Serializable>CreateObject(string &&key);
+        static std::vector<std::shared_ptr<Serializable>> CreateObjectArray(string &&key, const size_t size);
 
         template< class T >
         static void Register(string &&key) {
@@ -58,22 +58,22 @@ namespace Json {
     protected:
         SOFactory() = default;
 
-        typedef std::unique_ptr<Serializable> (*FunPtr)(void);
+        typedef std::shared_ptr<Serializable> (*FunPtr)(void);
         typedef map< string, FunPtr > ListCreators;
 
-        typedef std::vector<std::unique_ptr<Serializable>> (*FunPtrArr)(const size_t);
+        typedef std::vector<std::shared_ptr<Serializable>> (*FunPtrArr)(const size_t);
         typedef map< string, FunPtrArr > ListCreatorsArr;
 
         template< class T >
-        static std::unique_ptr<Serializable> Create() {
-            return std::make_unique<T>();
+        static std::shared_ptr<Serializable> Create() {
+            return std::make_shared<T>();
         }
 
         template< class T >
-        static std::vector< std::unique_ptr<Serializable>> CreateArrary(const size_t size) {
-            std::vector< std::unique_ptr<Serializable>> v;
+        static std::vector< std::shared_ptr<Serializable>> CreateArrary(const size_t size) {
+            std::vector< std::shared_ptr<Serializable>> v;
             for (size_t i = 0; i < size; i++) {
-                v.push_back(std::make_unique<T>());
+                v.push_back(std::make_shared<T>());
             }
             return v;
         }

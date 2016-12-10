@@ -10,13 +10,13 @@
 #include "SOFactory.h"
 #include "RegisterUserInput.h"
 #include "RegisterUserOutput.h"
-#include "Converter.h"
 #include "ServiceFacade.h"
 #include "AppFactory.h"
 #include "ApiUtils.h"
 
-namespace Server {
 
+
+namespace Server {
 
 web::json::value ApiExecutor::ExecuteSingleApi(const web::json::value &jrequest)
 {
@@ -26,15 +26,18 @@ web::json::value ApiExecutor::ExecuteSingleApi(const web::json::value &jrequest)
     std::string apiName = utility::conversions::to_utf8string(japi.as_string());
 
     if (japi.is_string() && jdata.is_object()) {
-        std::unique_ptr<Api::Serializable> obj =  Api::SOFactory::CreateObject(std::move(apiName));
+        std::shared_ptr<Api::Serializable> obj = std::move(Api::SOFactory::CreateObject(std::move(apiName)));
         if (obj) {
-            std::unique_ptr<Api::BaseInput> input =
-                    Common::Converter::DynamicDownCast<Api::BaseInput, Api::Serializable>(std::move(obj));
+            std::shared_ptr<Api::BaseInput> input = std::dynamic_pointer_cast<Api::BaseInput, Api::Serializable>(obj);
 
-            input->Deserialize(jdata);
+            if (input) {
+                input->Deserialize(jdata);
 
-            jresponse = input->Process();
-
+                jresponse = input->Process();
+            } else {
+                return Api::ApiUtils::ErrorResponse(AppErrorCode::INTERNAL_SERVER_ERROR,
+                                                    "Could not cast shared pointer of Serializable to BaseInput");
+            }
         } else {
             return Api::ApiUtils::BadRequestResponse();
         }
