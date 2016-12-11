@@ -16,6 +16,7 @@
 
 #include "Serializable.h"
 #include "Json.h"
+#include "DboConfig.h"
 
 
 namespace Dal {
@@ -25,23 +26,23 @@ public:
     BaseEntity() = default;
     virtual ~BaseEntity() = default;
 
-    long m_id;
+    int64_t m_id;
     int m_version;
 
-    long GetId() const;
-    void SetId(long id);
+    int64_t GetId() const;
+    void SetId(int64_t id);
 
     int GetVersion() const;
     void SetVersion(int v);
 
     REGISTER_GETTER_INCLUDING_BASE_START(Json::Serializable)
-    GETTER(BaseEntity, long, "id", &BaseEntity::GetId),
-    GETTER(BaseEntity, int, "version", &BaseEntity::GetVersion)
+    GETTER(BaseEntity, int64_t, COLUMN_ID , &BaseEntity::GetId),
+    GETTER(BaseEntity, int, COLUMN_VERSION, &BaseEntity::GetVersion)
     REGISTER_GETTER_INCLUDING_BASE_END
 
     REGISTER_SETTER_INCLUDING_BASE_START(Json::Serializable)
-    SETTER(BaseEntity, long, "id", &BaseEntity::SetId),
-    SETTER(BaseEntity, int, "version", &BaseEntity::SetVersion)
+    SETTER(BaseEntity, long, COLUMN_ID, &BaseEntity::SetId),
+    SETTER(BaseEntity, int, COLUMN_VERSION, &BaseEntity::SetVersion)
     REGISTER_SETTER_INCLUDING_BASE_END
 };
 

@@ -44,7 +44,7 @@ void DataModelManager::Run()
         dmUpgradeList.at(i)->Execute();
     }
     if (i != nextDmVersion) {
-        dao->UpdateAppSetting(AppSetting(NEXT_DM_VERSION_KEY, Common::Converter::ToStr(i)));
+        dao->AddOrUpdateAppSetting(AppSetting(NEXT_DM_VERSION_KEY, Common::Converter::ToStr(i)));
     }
 }
 

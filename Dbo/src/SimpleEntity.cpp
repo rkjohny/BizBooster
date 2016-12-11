@@ -10,25 +10,20 @@
  * magnetic storage, computer print-out or visual display.
  */
 
-#include "BaseEntity.h"
+#include "SimpleEntity.h"
 
-using namespace Dal;
+namespace Dal {
 
-long BaseEntity::GetId() const {
-    return m_id;
-}
 
-void BaseEntity::SetId(int64_t id) {
-    this->m_id = id;
-}
-
-int BaseEntity::GetVersion() const
+Status SimpleEntity::GetStatus() const
 {
-    return m_version;
+    return m_status;
 }
 
-void BaseEntity::SetVersion(int v)
+void SimpleEntity::SetStatus(Status m_status)
 {
-    m_version = v;
+    m_status = m_status;
 }
 
+
+}

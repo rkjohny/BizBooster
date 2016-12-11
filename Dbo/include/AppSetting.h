@@ -15,13 +15,13 @@
 
 #include <string>
 #include <Wt/Dbo/Dbo>
-#include "SerializableEntity.h"
+#include "SerializableAuditableEntity.h"
 
 
 
 namespace Dal {
 
-class AppSetting : public SerializableEntity<AppSetting> {
+class AppSetting : public SerializableAuditableEntity<AppSetting> {
 private:
     std::string m_name;
     std::string m_value;
@@ -49,15 +49,15 @@ public:
         Wt::Dbo::field(a, m_value, "value");
     }
 
-    REGISTER_GETTER_INCLUDING_BASE_START(SerializableEntity < AppSetting >)
+    REGISTER_GETTER_START
     GETTER(AppSetting, const std::string&, "name", &AppSetting::GetName),
     GETTER(AppSetting, const std::string&, "value", &AppSetting::GetValue)
-    REGISTER_GETTER_INCLUDING_BASE_END
+    REGISTER_GETTER_END
 
-    REGISTER_SETTER_INCLUDING_BASE_START(SerializableEntity < AppSetting >)
+    REGISTER_SETTER_START
     SETTER(AppSetting, std::string, "name", &AppSetting::SetName),
     SETTER(AppSetting, std::string, "value", &AppSetting::SetValue)
-    REGISTER_SETTER_INCLUDING_BASE_END
+    REGISTER_SETTER_END
 };
 
 }

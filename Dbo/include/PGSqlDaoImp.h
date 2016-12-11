@@ -49,23 +49,28 @@ public:
     virtual ~PGSqlDaoImp();
 
     template<class C>
-    typename std::enable_if<std::is_base_of<Dal::AuditableEntity, C>::value == true, void >::type
-    CheckAuditable(C *entity)
+    typename std::enable_if<(std::is_base_of<Dal::AuditableEntity, C>::value == true ||
+            std::is_base_of<Dal::User, C>::value == true), void >::type
+    OnSave(C *entity)
     {
         std::time_t tm;
         std::localtime(&tm);
         Wt::WDateTime wDateTime;
         wDateTime.setTime_t(tm);
 
-        if(entity->GetDateCreated().isNull()) {
+        if(entity->GetDateCreated().isNull() || !entity->GetCreatedBy()) {
             entity->SetDateCreated(wDateTime);
+            //TODO: this should be requester.getUser(),
+            //entity->SetCreatedBy(Wt::Dbo::ptr<C>(entity));
         }
         entity->SetDateLastUpdated(wDateTime);
+        //TODO: this should be requester.getUser(),
+        //entity->SetLastUpdatedBy(Wt::Dbo::ptr<C>(entity));
     }
 
     template<class C>
     typename std::enable_if<std::is_base_of<Dal::AuditableEntity, C>::value == false, void >::type
-    CheckAuditable(BaseEntity *entity)
+    OnSave(BaseEntity *entity)
     {
     }
 
@@ -73,7 +78,7 @@ public:
     typename std::enable_if<std::is_base_of<Dal::BaseEntity, C>::value == true, Wt::Dbo::ptr<C> >::type
     AddEnitity(C *entity)
     {
-        this->CheckAuditable(entity);
+        this->OnSave(entity);
         Wt::Dbo::ptr<C> newEntity = m_session.add(entity);
         return newEntity;
     }
@@ -92,7 +97,7 @@ public:
 
     int GetNextDmVersion() override;
 
-    void UpdateAppSetting(AppSetting &&setting) override;
+    void AddOrUpdateAppSetting(AppSetting &&setting) override;
 
     Wt::Dbo::Transaction BeginTransaction() override;
 

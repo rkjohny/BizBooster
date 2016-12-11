@@ -10,25 +10,17 @@
  * magnetic storage, computer print-out or visual display.
  */
 
-#include "BaseEntity.h"
+#ifndef BASE_REQUESTER_H
+#define BASE_REQUESTER_H
 
-using namespace Dal;
+namespace Dal {
 
-long BaseEntity::GetId() const {
-    return m_id;
+class BaseRequester {
+public:
+    virtual const User &GetUser() = 0;
+    virtual bool HasRole(std::string &&) = 0;
+};
+
 }
 
-void BaseEntity::SetId(int64_t id) {
-    this->m_id = id;
-}
-
-int BaseEntity::GetVersion() const
-{
-    return m_version;
-}
-
-void BaseEntity::SetVersion(int v)
-{
-    m_version = v;
-}
-
+#endif //BASE_REQUESTER_H

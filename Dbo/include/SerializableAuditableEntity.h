@@ -19,10 +19,10 @@
 namespace Dal {
 
     template <class T>
-    class SerializableEntity : public AuditableEntity {
+    class SerializableAuditableEntity : public AuditableEntity {
     public:
-        SerializableEntity() = default;
-        virtual ~SerializableEntity() = default;
+        SerializableAuditableEntity() = default;
+        virtual ~SerializableAuditableEntity() = default;
 
         web::json::value Serialize() const override {
             return Json::ToJson<T>(reinterpret_cast<const T*>(this));

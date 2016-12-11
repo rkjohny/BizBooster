@@ -425,6 +425,37 @@ namespace Json {
             cout << "Serializing object: type = std::vector<>**" << endl;
             return ToJson(**object);
         }
+
+
+        ///////////////////// Wt::Dbo::ptr<T> ///////////////////////////////////
+        template <class T>
+        static json::value ToJson(const Wt::Dbo::ptr<T> &&object)
+        {
+            cout << "Serializing object: type = Wt::Dbo::ptr&&" << endl;
+            return ToJson(*object);
+        }
+
+        ///////////////////// Wt::Dbo::ptr<T> ///////////////////////////////////
+        template <class T>
+        static json::value ToJson(const Wt::Dbo::ptr<T> &object)
+        {
+            cout << "Serializing object: type = Wt::Dbo::ptr&" << endl;
+            return ToJson(*object);
+        }
+        ///////////////////// Wt::Dbo::ptr<T> ///////////////////////////////////
+        template <class T>
+        static json::value ToJson(const Wt::Dbo::ptr<T> *object)
+        {
+            cout << "Serializing object: type = Wt::Dbo::ptr*" << endl;
+            return ToJson(**object);
+        }
+        ///////////////////// Wt::Dbo::ptr<T> ///////////////////////////////////
+        template <class T>
+        static json::value ToJson(const Wt::Dbo::ptr<T> **object)
+        {
+            cout << "Serializing object: type = Wt::Dbo::ptr**" << endl;
+            return ToJson(***object);
+        }
     };
 
 } // namespace Json

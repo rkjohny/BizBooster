@@ -110,7 +110,7 @@ bool PGSqlDaoImp::TableExists(std::string table_name)
     return (count > 0) ? true : false;
 }
 
-void PGSqlDaoImp::UpdateAppSetting(AppSetting &&setting)
+void PGSqlDaoImp::AddOrUpdateAppSetting(AppSetting &&setting)
 {
     Wt::Dbo::Transaction transaction = this->BeginTransaction();
     Wt::Dbo::ptr<Dal::AppSetting> obj =

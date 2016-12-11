@@ -25,4 +25,12 @@
 #define NEXT_DM_VERSION_KEY "next.dm.version"
 
 
+#define COLUMN_ID "id"
+#define COLUMN_VERSION "version"
+#define COLUMN_STATUS "status"
+#define COLUMN_DATE_CREATED "date_created"
+#define COLUMN_DATE_LAST_UPDATED "date_last_updated"
+#define COLUMN_CREATED_BY "created_by"
+#define COLUMN_LAST_UPDATED_BY "last_updated_by"
+
 #endif

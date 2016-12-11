@@ -11,6 +11,8 @@
  */
 
 #include "AuditableEntity.h"
+//#include "User.h"
+
 
 namespace Dal {
 
@@ -33,6 +35,26 @@ void AuditableEntity::SetDateLastUpdated(Wt::WDateTime &dt)
 const Wt::WDateTime& AuditableEntity::GetDateLastUpdated() const
 {
     return m_dateLastUpdated;
+}
+
+void AuditableEntity::SetCreatedBy(Wt::Dbo::ptr<Dal::User> &user)
+{
+    m_createdBy = user;
+}
+
+Wt::Dbo::ptr<Dal::User> AuditableEntity::GetCreatedBy() const
+{
+    return m_createdBy;
+}
+
+void AuditableEntity::SetLastUpdatedBy(Wt::Dbo::ptr<Dal::User> &user)
+{
+    m_lastUpdatedBy = user;
+}
+
+Wt::Dbo::ptr<Dal::User> AuditableEntity::GetLastUpdatedBy() const
+{
+    return m_lastUpdatedBy;
 }
 
 

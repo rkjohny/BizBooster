@@ -37,11 +37,11 @@ public:
 
 //    template<class C>
 //    typename std::enable_if<std::is_base_of<Dal::AuditableEntity, C>::value, void >::type
-//    PGSqlDaoImp::CheckAuditable(C *entity) {};
+//    PGSqlDaoImp::OnSave(C *entity) {};
 //
 //    template<class C>
 //    typename std::enable_if<!std::is_base_of<Dal::AuditableEntity, C>::value, void >::type
-//    PGSqlDaoImp::CheckAuditable(BaseEntity *entity) {};
+//    PGSqlDaoImp::OnSave(BaseEntity *entity) {};
 //
 //    template<class C>
 //    typename std::enable_if<std::is_base_of<Dal::BaseEntity, C>::value, Wt::Dbo::ptr<C> >::type
@@ -59,7 +59,7 @@ public:
 
     virtual bool TableExists(std::string table_name) = 0;
 
-    virtual void UpdateAppSetting(AppSetting &&setting) = 0;
+    virtual void AddOrUpdateAppSetting(AppSetting &&setting) = 0;
 
     virtual Wt::Dbo::ptr<User> RegisterUser(User &loggedUser, User *user) = 0;
 

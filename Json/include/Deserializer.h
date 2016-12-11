@@ -722,6 +722,55 @@ namespace Json {
 
             FromJson(*object, jvalue);
         }
+
+        /***********************************************************************************
+        * object type: Wt::Dbo::ptr<T>
+        ***********************************************************************************/
+        template<class T>
+        static void FromJson(Wt::Dbo::ptr<T> &object, const json::value &jvalue) {
+            std::cout << "Deserializing object: type = Wt::Dbo::ptr<T> &" << std::endl;
+            FromJson(const_cast<T*>(object.get()), jvalue);
+        }
+        /***********************************************************************************
+        * object type: Wt::Dbo::ptr<T>
+        ***********************************************************************************/
+        template<class T>
+        static void FromJson(Wt::Dbo::ptr<T> *object, const json::value &jvalue) {
+            std::cout << "Deserializing object: type = Wt::Dbo::ptr<T> *" << std::endl;
+            FromJson(const_cast<T*>(object.get()), jvalue);
+        }
+        /***********************************************************************************
+        * object type: Wt::Dbo::ptr<T>
+        ***********************************************************************************/
+        template<class T>
+        static void FromJson(Wt::Dbo::ptr<T> **object, const json::value &jvalue) {
+            std::cout << "Deserializing object: type = Wt::Dbo::ptr<T> ** "<< std::endl;
+            FromJson(const_cast<T*>((*object)->get()), jvalue);
+        }
+        /***********************************************************************************
+        * object type: Wt::Dbo::ptr<T>
+        ***********************************************************************************/
+        template<class T>
+        static void FromJson(Wt::Dbo::ptr<T*> &object, const json::value &jvalue) {
+            std::cout << "Deserializing object: type = Wt::Dbo::ptr<T*> &" << std::endl;
+            FromJson(const_cast<T**>(object.get()), jvalue);
+        }
+        /***********************************************************************************
+        * object type: Wt::Dbo::ptr<T>
+        ***********************************************************************************/
+        template<class T>
+        static void FromJson(Wt::Dbo::ptr<T*> *object, const json::value &jvalue) {
+            std::cout << "Deserializing object: type = Wt::Dbo::ptr<T*> *" << std::endl;
+            FromJson(const_cast<T**>(object->get()), jvalue);
+        }
+        /***********************************************************************************
+        * object type: Wt::Dbo::ptr<T>
+        ***********************************************************************************/
+        template<class T>
+        static void FromJson(Wt::Dbo::ptr<T*> **object, const json::value &jvalue) {
+            std::cout << "Deserializing object: type = Wt::Dbo::ptr<T*> **" << std::endl;
+            FromJson(const_cast<T**>((*object)->get()), jvalue);
+        }
     };
 
 } //namspace Json

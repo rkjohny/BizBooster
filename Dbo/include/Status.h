@@ -10,25 +10,16 @@
  * magnetic storage, computer print-out or visual display.
  */
 
-#include "BaseEntity.h"
+#ifndef ENTITY_STATUS_H
+#define ENTITY_STATUS_H
 
-using namespace Dal;
+#define STATUS_V_STR "V"
+#define STATUS_D_STR "D"
 
-long BaseEntity::GetId() const {
-    return m_id;
-}
-
-void BaseEntity::SetId(int64_t id) {
-    this->m_id = id;
-}
-
-int BaseEntity::GetVersion() const
+enum Status
 {
-    return m_version;
-}
+    V = 0, //valid
+    D  //deleted
+};
 
-void BaseEntity::SetVersion(int v)
-{
-    m_version = v;
-}
-
+#endif //ENTITY_STATUS_H

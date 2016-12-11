@@ -14,16 +14,17 @@
 #define AUDITABLE_ENTITY_H
 
 #include <Wt/WDateTime>
-#include "BaseEntity.h"
+#include "SimpleEntity.h"
+#include "User.h"
 #include "Json.h"
-
 
 #include <Wt/Dbo/WtSqlTraits>
 
 
 namespace Dal {
-//using namespace Wt::Dal;
-class AuditableEntity : public BaseEntity {
+
+
+class AuditableEntity : public SimpleEntity {
 public:
     AuditableEntity() = default;
     virtual ~AuditableEntity() = default;
@@ -34,19 +35,31 @@ public:
     void SetDateLastUpdated(Wt::WDateTime &dt);
     const Wt::WDateTime& GetDateLastUpdated() const;
 
+    void SetCreatedBy(Wt::Dbo::ptr<Dal::User> &user);
+    Wt::Dbo::ptr<Dal::User> GetCreatedBy() const;
+
+    void SetLastUpdatedBy(Wt::Dbo::ptr<Dal::User> &user);
+    Wt::Dbo::ptr<Dal::User> GetLastUpdatedBy() const;
+
 
 protected:
     Wt::WDateTime m_dateCreated;
     Wt::WDateTime m_dateLastUpdated;
+    Wt::Dbo::ptr<Dal::User> m_createdBy;
+    Wt::Dbo::ptr<Dal::User> m_lastUpdatedBy;
 
-    REGISTER_GETTER_INCLUDING_BASE_START(BaseEntity)
-    GETTER(AuditableEntity, const Wt::WDateTime& , "date_created", &AuditableEntity::GetDateCreated),
-    GETTER(AuditableEntity, const Wt::WDateTime& , "date_last_updated", &AuditableEntity::GetDateLastUpdated)
+    REGISTER_GETTER_INCLUDING_BASE_START(SimpleEntity)
+    GETTER(AuditableEntity, const Wt::WDateTime& , COLUMN_DATE_CREATED, &AuditableEntity::GetDateCreated),
+    GETTER(AuditableEntity, const Wt::WDateTime& , COLUMN_DATE_LAST_UPDATED, &AuditableEntity::GetDateLastUpdated),
+    GETTER(AuditableEntity, Wt::Dbo::ptr<Dal::User>, COLUMN_CREATED_BY, &AuditableEntity::GetCreatedBy),
+    GETTER(AuditableEntity, Wt::Dbo::ptr<Dal::User>, COLUMN_LAST_UPDATED_BY, &AuditableEntity::GetLastUpdatedBy)
     REGISTER_GETTER_INCLUDING_BASE_END
 
-    REGISTER_SETTER_INCLUDING_BASE_START(BaseEntity)
-    SETTER(AuditableEntity, Wt::WDateTime&, "date_created", &AuditableEntity::SetDateCreated),
-    SETTER(AuditableEntity, Wt::WDateTime&, "date_last_updated", &AuditableEntity::SetDateLastUpdated)
+    REGISTER_SETTER_INCLUDING_BASE_START(SimpleEntity)
+    SETTER(AuditableEntity, Wt::WDateTime&, COLUMN_DATE_CREATED, &AuditableEntity::SetDateCreated),
+    SETTER(AuditableEntity, Wt::WDateTime&, COLUMN_DATE_LAST_UPDATED, &AuditableEntity::SetDateLastUpdated),
+    SETTER(AuditableEntity, Wt::Dbo::ptr<Dal::User>&, COLUMN_CREATED_BY, &AuditableEntity::SetCreatedBy),
+    SETTER(AuditableEntity, Wt::Dbo::ptr<Dal::User>&, COLUMN_LAST_UPDATED_BY, &AuditableEntity::SetLastUpdatedBy)
     REGISTER_SETTER_INCLUDING_BASE_END
 };
 
