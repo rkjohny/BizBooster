@@ -24,7 +24,6 @@
 #include <Wt/Dbo/WtSqlTraits>
 #include <Wt/Dbo/backend/Postgres>
 
-
 namespace Dal {
 
 class PGSqlDaoImp : public Dao {
@@ -53,10 +52,11 @@ public:
             std::is_base_of<Dal::User, C>::value == true), void >::type
     OnSave(C *entity)
     {
-        std::time_t tm;
-        std::localtime(&tm);
+        std::time_t curTime = std::time(nullptr);
+        //std::tm *tm_local = std::localtime(&curTime);
+
         Wt::WDateTime wDateTime;
-        wDateTime.setTime_t(tm);
+        wDateTime.setTime_t(curTime);
 
         if(entity->GetDateCreated().isNull() || !entity->GetCreatedBy()) {
             entity->SetDateCreated(wDateTime);
