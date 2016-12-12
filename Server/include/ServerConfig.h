@@ -15,15 +15,17 @@
 
 namespace Server {
 
-#define SERVER_ADDRESS "http://localhost"
-#define SERVER_PORT "8088"
-
-
 #define SERVER_CONFIG_FILE_NAME "server.properties"
 #define SERVER_LOG_FILE_NAME "server.log"
 
 #define SERVER_LOG_FILE_PATH_STR "server.logfile.path"
 #define SERVER_LOG_LEVEL_STR "server.log.level"
+
+#define SERVER_HOST_PROTOCOL "server.host.protocol"
+#define SERVER_HOST_NAME "server.host.name"
+#define SERVER_HOST_PORT "server.host.port"
+#define SERVER_APP_PATH "server.app.path"
+
 
 }
 

@@ -36,12 +36,30 @@ namespace Json {
         Serializer() = delete;
 
         template<class T>
-        static void SetData(const T &object, json::value &jvalue, const char*name) {
+        static void GetData(const Wt::WDateTime &object, json::value &jvalue, const char*name) {
+            if (!object.isNull()) {
+                jvalue[utility::string_t(U(name))] = ToJson(object);
+            } else {
+                cout << "value is null and will be ignored." << endl;
+            }
+        }
+
+        template<class T>
+        static void GetData(const Wt::Dbo::ptr<T> &object, json::value &jvalue, const char*name) {
+            if (object.get()) {
+                jvalue[utility::string_t(U(name))] = ToJson(object);
+            } else {
+                cout << "value is null and will be ignored." << endl;
+            }
+        }
+
+        template<class T>
+        static void GetData(const T &object, json::value &jvalue, const char*name) {
             jvalue[utility::string_t(U(name))] = ToJson(object);
         }
 
         template<class T>
-        static void SetData(const T *object, json::value &jvalue, const char*name) {
+        static void GetData(const T *object, json::value &jvalue, const char*name) {
             if (object) {
                 jvalue[utility::string_t(U(name))] = ToJson(object);
             } else {
@@ -50,7 +68,7 @@ namespace Json {
         }
 
         template<class T>
-        static void SetData(const T * const *object, json::value &jvalue, const char*name) {
+        static void GetData(const T * const *object, json::value &jvalue, const char*name) {
             if (object && *object) {
                 jvalue[utility::string_t(U(name))] = ToJson(object);
             } else {
@@ -70,7 +88,7 @@ namespace Json {
 
             cout << "Found a getter with name: " << getterName << std::endl;
 
-            SetData(getterReturnedObject, jvalue, getterName);
+            GetData(getterReturnedObject, jvalue, getterName);
         }
 
         template<std::size_t iteration, class T>
@@ -105,39 +123,6 @@ namespace Json {
             static_assert(true, "Serialization of array is not supported.");
         }
 
-        /////////////////////////////// wWt::WDatetime ///////////////////////////////
-        template <class T>
-        typename std::enable_if<Is_DateTime<T>::Value, json::value>::type
-        static ToJson(const T &&object) {
-            Wt::WString wstr = object.toString(); // TODO: default format used
-            std::string str = wstr.toUTF8(); // TODO: UTF8 encoding used
-            cout << "Serializing object: type = Wt::WDate&&, value = " << str << endl;
-            return json::value(str);
-        }
-        template <class T>
-        typename std::enable_if<Is_DateTime<T>::Value, json::value>::type
-        static ToJson(const T &object) {
-            Wt::WString wstr = object.toString(); // TODO: default format used
-            std::string str = wstr.toUTF8(); // TODO: UTF8 encoding used
-            cout << "Serializing object: type = Wt::WDate&, value = " << str << endl;
-            return json::value(str);
-        }
-        template <class T>
-        typename std::enable_if<Is_DateTime<T>::Value, json::value>::type
-        static ToJson(const T *object) {
-            Wt::WString wstr = object->toString(); // TODO: default format used
-            std::string str = wstr.toUTF8(); // TODO: UTF8 encoding used
-            cout << "Serializing object: type = Wt::WDate*, value = " << str << endl;
-            return json::value(str);
-        }
-        template <class T>
-        typename std::enable_if<Is_DateTime<T>::Value, json::value>::type
-        static ToJson(const T **object) {
-            Wt::WString wstr = (*object)->toString(); // TODO: default format used
-            std::string str = wstr.toUTF8(); // TODO: UTF8 encoding used
-            cout << "Serializing object: type = Wt::WDate**, value = " << str << endl;
-            return json::value(str);
-        }
 
         //////////////////////////////// Enum ///////////////////
 
@@ -434,27 +419,29 @@ namespace Json {
             cout << "Serializing object: type = Wt::Dbo::ptr&&" << endl;
             return ToJson(*object);
         }
-
-        ///////////////////// Wt::Dbo::ptr<T> ///////////////////////////////////
         template <class T>
         static json::value ToJson(const Wt::Dbo::ptr<T> &object)
         {
             cout << "Serializing object: type = Wt::Dbo::ptr&" << endl;
             return ToJson(*object);
         }
-        ///////////////////// Wt::Dbo::ptr<T> ///////////////////////////////////
+
+        /////////////////////////////// wWt::WDatetime ///////////////////////////////
         template <class T>
-        static json::value ToJson(const Wt::Dbo::ptr<T> *object)
-        {
-            cout << "Serializing object: type = Wt::Dbo::ptr*" << endl;
-            return ToJson(**object);
+        typename std::enable_if<Is_DateTime<T>::Value, json::value>::type
+        static ToJson(const T &&object) {
+            Wt::WString wstr = object.toString(); // TODO: default format used
+            std::string str = wstr.toUTF8(); // TODO: UTF8 encoding used
+            cout << "Serializing object: type = Wt::WDate&&, value = " << str << endl;
+            return json::value(str);
         }
-        ///////////////////// Wt::Dbo::ptr<T> ///////////////////////////////////
         template <class T>
-        static json::value ToJson(const Wt::Dbo::ptr<T> **object)
-        {
-            cout << "Serializing object: type = Wt::Dbo::ptr**" << endl;
-            return ToJson(***object);
+        typename std::enable_if<Is_DateTime<T>::Value, json::value>::type
+        static ToJson(const T &object) {
+            Wt::WString wstr = object.toString(); // TODO: default format used
+            std::string str = wstr.toUTF8(); // TODO: UTF8 encoding used
+            cout << "Serializing object: type = Wt::WDate&, value = " << str << endl;
+            return json::value(str);
         }
     };
 

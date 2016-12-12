@@ -21,6 +21,28 @@
 #include "SerializableSimpleEntity.h"
 #include "DboConfig.h"
 
+
+
+namespace Dal {
+class User;
+}
+
+namespace Wt {
+namespace Dbo {
+
+template<>
+struct dbo_traits<Dal::User> : public dbo_default_traits {
+
+    static const char *versionField()
+    {
+        return 0;
+    }
+};
+
+}
+}
+
+
 namespace Dal {
 
 class User : public SerializableSimpleEntity<User> {
@@ -74,9 +96,6 @@ public:
     GETTER(User, const Wt::WDateTime& , COLUMN_DATE_CREATED, &User::GetDateCreated),
     GETTER(User, const Wt::WDateTime& , COLUMN_DATE_LAST_UPDATED, &User::GetDateLastUpdated),
 
-    GETTER(User, Wt::Dbo::ptr<Dal::User>, COLUMN_CREATED_BY, &User::GetCreatedBy),
-    GETTER(User, Wt::Dbo::ptr<Dal::User>, COLUMN_LAST_UPDATED_BY, &User::GetLastUpdatedBy),
-
     GETTER(User, const std::string&, "email", &User::GetEmail),
     GETTER(User, const std::string&, "name", &User::GetName),
     GETTER(User, const std::string&, "roles", &User::GetRoles),
@@ -87,9 +106,6 @@ public:
     REGISTER_SETTER_INCLUDING_BASE_START(SerializableSimpleEntity<User>)
     SETTER(User, Wt::WDateTime&, COLUMN_DATE_CREATED, &User::SetDateCreated),
     SETTER(User, Wt::WDateTime&, COLUMN_DATE_LAST_UPDATED, &User::SetDateLastUpdated),
-
-    SETTER(User, Wt::Dbo::ptr<Dal::User>&&, COLUMN_CREATED_BY, &User::SetCreatedBy),
-    SETTER(User, Wt::Dbo::ptr<Dal::User>&&, COLUMN_LAST_UPDATED_BY, &User::SetLastUpdatedBy),
 
     SETTER(User, std::string, "email", &User::SetEmail),
     SETTER(User, std::string, "name", &User::SetName),
@@ -105,8 +121,8 @@ public:
         Wt::Dbo::field(a, m_dateCreated, COLUMN_DATE_CREATED);
         Wt::Dbo::field(a, m_dateLastUpdated, COLUMN_DATE_LAST_UPDATED);
 
-        Wt::Dbo::belongsTo(a, m_createdBy, "created_by");
-        Wt::Dbo::belongsTo(a, m_lastUpdatedBy, "last_updated_by");
+        //Wt::Dbo::belongsTo(a, m_createdBy, "created_by");
+        //Wt::Dbo::belongsTo(a, m_lastUpdatedBy, "last_updated_by");
 
         Wt::Dbo::field(a, m_email, "email");
         Wt::Dbo::field(a, m_name, "name");
@@ -117,20 +133,6 @@ public:
 
 }
 
-//namespace Wt {
-//namespace Dbo {
-//
-//template<>
-//struct dbo_traits<Dal::User> : public dbo_default_traits {
-//
-//    static const char *versionField()
-//    {
-//        return 0;
-//    }
-//};
-//
-//}
-//}
 
 
 #endif //ENTYRY_USER_H

@@ -28,6 +28,20 @@ namespace Json {
 
 
         /**
+         * calls the setter method with type = Wt::Dbo::ptr<T>
+         */
+        template<class T, class B, class ArgT>
+        static void SetData(T *object, void (B::*SetterPtr)(const Wt::Dbo::ptr<ArgT> &), const json::value &jvalue) {
+            std::cout << "Setdata : void (T::*SetterPtr)(const ArgT)" << std::endl;
+
+            using Type = typename Remove_CVR<ArgT>::Type;
+
+            Wt::Dbo::ptr<Type> var = Wt::Dbo::ptr<Type>(new Type());
+            FromJson(var, jvalue);
+            (object->*SetterPtr)(var);
+        }
+
+        /**
          * calls the setter method with rvalue reference type argument
          */
         template<class T, class B, class ArgT>
@@ -247,41 +261,6 @@ namespace Json {
         }
 
 
-        /********************************************************************************
-         * object type: Wt::WDateTime
-         ********************************************************************************/
-        template<class T>
-        typename std::enable_if<Is_DateTime<T>::Value, void>::type
-        static FromJson(T &object, const json::value &jvalue) {
-            std::string dateTimeStr = jvalue.as_string();
-            Wt::WString dateTimeWStr = Wt::WString(dateTimeStr); //TODO: default encoding used
-            object = Wt::WDateTime::fromString(dateTimeStr); //TODO:: default format used
-            std::cout << "Deserializing object: type = Wt::WDateTime&, value = " << dateTimeStr << std::endl;
-        }
-
-        /********************************************************************************
-         * object type: Wt::WDateTime*
-         ********************************************************************************/
-        template<class T>
-        typename std::enable_if<Is_DateTime<T>::Value, void>::type
-        static FromJson(T *object, const json::value &jvalue) {
-            std::string dateTimeStr = jvalue.as_string();
-            Wt::WString dateTimeWStr = Wt::WString(dateTimeStr); //TODO: default encoding used
-            *object = Wt::WDateTime::fromString(dateTimeStr); //TODO:: default format used
-            std::cout << "Deserializing object: type = Wt::WDateTime*, value = " << dateTimeStr << std::endl;
-        }
-
-        /********************************************************************************
-         * object type: Wt::WDateTime**
-         ********************************************************************************/
-        template<class T>
-        typename std::enable_if<Is_DateTime<T>::Value, void>::type
-        static FromJson(T **object, const json::value &jvalue) {
-            std::string dateTimeStr = jvalue.as_string();
-            Wt::WString dateTimeWStr = Wt::WString(dateTimeStr); //TODO: default encoding used
-            **object = Wt::WDateTime::fromString(dateTimeStr); //TODO:: default format used
-            std::cout << "Deserializing object: type = Wt::WDateTime**, value = " << dateTimeStr << std::endl;
-        }
 
         /********************************************************************************
          * object type: enum
@@ -731,45 +710,17 @@ namespace Json {
             std::cout << "Deserializing object: type = Wt::Dbo::ptr<T> &" << std::endl;
             FromJson(const_cast<T*>(object.get()), jvalue);
         }
-        /***********************************************************************************
-        * object type: Wt::Dbo::ptr<T>
-        ***********************************************************************************/
+
+        /********************************************************************************
+         * object type: Wt::WDateTime
+         ********************************************************************************/
         template<class T>
-        static void FromJson(Wt::Dbo::ptr<T> *object, const json::value &jvalue) {
-            std::cout << "Deserializing object: type = Wt::Dbo::ptr<T> *" << std::endl;
-            FromJson(const_cast<T*>(object.get()), jvalue);
-        }
-        /***********************************************************************************
-        * object type: Wt::Dbo::ptr<T>
-        ***********************************************************************************/
-        template<class T>
-        static void FromJson(Wt::Dbo::ptr<T> **object, const json::value &jvalue) {
-            std::cout << "Deserializing object: type = Wt::Dbo::ptr<T> ** "<< std::endl;
-            FromJson(const_cast<T*>((*object)->get()), jvalue);
-        }
-        /***********************************************************************************
-        * object type: Wt::Dbo::ptr<T>
-        ***********************************************************************************/
-        template<class T>
-        static void FromJson(Wt::Dbo::ptr<T*> &object, const json::value &jvalue) {
-            std::cout << "Deserializing object: type = Wt::Dbo::ptr<T*> &" << std::endl;
-            FromJson(const_cast<T**>(object.get()), jvalue);
-        }
-        /***********************************************************************************
-        * object type: Wt::Dbo::ptr<T>
-        ***********************************************************************************/
-        template<class T>
-        static void FromJson(Wt::Dbo::ptr<T*> *object, const json::value &jvalue) {
-            std::cout << "Deserializing object: type = Wt::Dbo::ptr<T*> *" << std::endl;
-            FromJson(const_cast<T**>(object->get()), jvalue);
-        }
-        /***********************************************************************************
-        * object type: Wt::Dbo::ptr<T>
-        ***********************************************************************************/
-        template<class T>
-        static void FromJson(Wt::Dbo::ptr<T*> **object, const json::value &jvalue) {
-            std::cout << "Deserializing object: type = Wt::Dbo::ptr<T*> **" << std::endl;
-            FromJson(const_cast<T**>((*object)->get()), jvalue);
+        typename std::enable_if<Is_DateTime<T>::Value, void>::type
+        static FromJson(T &object, const json::value &jvalue) {
+            std::string dateTimeStr = jvalue.as_string();
+            Wt::WString dateTimeWStr = Wt::WString(dateTimeStr); //TODO: default encoding used
+            object = Wt::WDateTime::fromString(dateTimeStr); //TODO:: default format used
+            std::cout << "Deserializing object: type = Wt::WDateTime&, value = " << dateTimeStr << std::endl;
         }
     };
 

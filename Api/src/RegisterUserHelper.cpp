@@ -81,12 +81,13 @@ void RegisterUserHelper::ExecuteHelper()
             m_output = std::move(output);
 
             LOG_DEBUG("Api output: " + m_output->Serialize().serialize());
-        } else {
-            LOG_ERROR("Database operation of adding new user failed");
-        }
 
+        } else {
+            throw Common::AppException(AppErrorCode::DB_OPERATION_FAILED,
+                    "Database operation of adding new user failed");
+        }
     } else {
-        throw Common::AppException(AppErrorCode::INTERNAL_SERVER_ERROR, ""
+        throw Common::AppException(AppErrorCode::INTERNAL_SERVER_ERROR,
                 "Could not cast pointer of BaseInput to RegisterUserInput");
     }
 }

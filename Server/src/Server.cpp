@@ -36,15 +36,30 @@ using namespace utility;
 
 AppServer::AppServer()
 {
-    utility::string_t address = U(SERVER_ADDRESS);
-    address.append(U(":"));
-    address.append(U(SERVER_PORT));
+    //First thing to initialize server
+    ServerInitializer::Initialize();
 
-    uri_builder uri(address);
-    //uri.append_path(U("http://localhost:8088/tradex"));
-    auto addr = uri.to_uri().to_string();
-    this->address = U("http://localhost:8088/tradex");
+    auto server_config_reader = AppFactory::GetConfigReader(SERVER_CONFIG_FILE_NAME);
+    
+    utility::string_t protocol = server_config_reader->GetValueOf(SERVER_HOST_PROTOCOL);
+    utility::string_t host_name = server_config_reader->GetValueOf(SERVER_HOST_NAME);
+    utility::string_t port = server_config_reader->GetValueOf(SERVER_HOST_PORT);
+    utility::string_t path = server_config_reader->GetValueOf(SERVER_APP_PATH);
+
+    utility::string_t addr = U("");
+    addr.append(protocol);
+    addr.append(U("://"));
+    addr.append(host_name);
+    addr.append(U(":"));
+    addr.append(port);
+    
+    uri_builder uri(addr);
+    uri.append_path(path);
+
+    this->address = uri.to_uri().to_string();
     this->uri = uri;
+    //this->address = U("http://localhost:8088/tradex");
+    
     m_listener = unique_ptr<Listener> (new Listener(this->address));
 }
 
@@ -52,8 +67,7 @@ void AppServer::Run()
 {
     m_listener->Run().then([]()
     {
-        //Logger::getLogger(SERVER).debug("Server listening....");
-        LOG_DEBUG("listening............");
+        LOG_DEBUG("Server listening ...");
     }).wait();
 }
 
@@ -65,12 +79,12 @@ void AppServer::ShutDown()
 int main(int argc, char** argv)
 {
     AppServer server;
-    ServerInitializer::Initialize();
-    LOG_DEBUG("Starting TradeXServer...");
+
+    LOG_DEBUG("Starting Server ...");
 
     server.Run();
 
-    LOG_DEBUG("TradeXServer started.");
+    LOG_DEBUG("Server started.");
     while (1) {
         std::string input;
         LOG_DEBUG("Please enter EXIT to exit.");
@@ -86,7 +100,7 @@ int main(int argc, char** argv)
 #endif
     }
 
-    LOG_DEBUG("TradeXServer is shutting down ...");
+    LOG_DEBUG("Server is shutting down ...");
 
     server.ShutDown();
     ServerDisposer::Dispose();

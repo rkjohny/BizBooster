@@ -17,29 +17,25 @@
 
 namespace Common {
 
-AppException::AppException(const string& message) :
-runtime_error(message.c_str())
+AppException::AppException(const string& message) : runtime_error(message.c_str())
 {
     m_code = AppErrorCode::UN_KNOWN_ERROR;
     m_message = message;
 }
 
-AppException::AppException(AppErrorCode code, const string& message) :
-runtime_error(message.c_str())
+AppException::AppException(AppErrorCode code, const string& message) : runtime_error(message.c_str())
 {
     m_code = code;
     m_message = message;
 }
 
-AppException::AppException(const AppException &e) :
-runtime_error(e.GetMessage().c_str())
+AppException::AppException(const AppException &e) : runtime_error(e.GetMessage().c_str())
 {
     m_code = e.GetCode();
     m_message = e.GetMessage();
 }
 
-AppException::AppException(const exception& e, const string& message) :
-runtime_error(e.what() ? e.what() : message.c_str())
+AppException::AppException(const exception& e, const string& message) : runtime_error(e.what() ? e.what() : message.c_str())
 {
     m_code = AppErrorCode::UN_KNOWN_ERROR;
     SetMessage(e, message);
@@ -73,22 +69,34 @@ const string& AppException::GetMessage() const
     return m_message;
 }
 
+web::json::value AppException::Serialize() const
+{
+    web::json::value response = web::json::value::object();
+    web::json::value error = web::json::value::object();
+    error[U("code")] = web::json::value::number(static_cast<int> (m_code));
+    error[U("message")] = web::json::value::string(m_message);
+    response[U("error")] = error;
+    return response;
+}
+
 string AppException::ToString() const
 {
-    string c = Converter::ToStr(static_cast<int> (m_code));
-    string s = "ErrorCode: " + c + " ErrorMessage: " + m_message;
-    return s;
+    return Serialize().serialize();
 }
 
 void AppException::SetMessage(const exception& e, const string &message)
 {
     if (message.compare("Unknown") != 0) {
         if (e.what()) {
-            m_message = message + " Error: [" + e.what() + "]";
+            m_message = message + " - root cause: [" + e.what() + "]";
+        } else {
+            m_message = message;
         }
     } else {
         if (e.what()) {
             m_message = e.what();
+        } else {
+            m_message = message;
         }
     }
 }

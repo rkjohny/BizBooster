@@ -16,6 +16,7 @@
 #include <string>
 #include <stdexcept>
 #include "AppError.h"
+#include <cpprest/json.h>
 
 namespace Common {
     using namespace std;
@@ -40,6 +41,8 @@ namespace Common {
         AppErrorCode GetCode() const;
 
         const string& GetMessage() const;
+
+        web::json::value Serialize() const;
 
         string ToString() const;
 

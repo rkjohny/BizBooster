@@ -47,14 +47,16 @@ web::json::value AbstractHelper::Execute()
 
     } catch (AppException &e) {
         dao->RollbackTransaction(transaction);
-        response = ApiUtils::ErrorResponse(e.GetCode(), e.GetMessage());
+        response = e.Serialize();
+        //response = ApiUtils::ErrorResponse(e.GetCode(), e.GetMessage());
         LOG_ERROR(std::string("Input: ") + m_input->ToString() +
                             " failed with with error: [" + e.ToString() + "]" );
     } catch (exception &e) {
         dao->RollbackTransaction(transaction);
         AppException ex = AppException( e );
-        response = ApiUtils::ErrorResponse(ex.GetCode(), ex.GetMessage());
-        LOG_ERROR(std::string("API: ") + m_input->ToString() +
+        response = ex.Serialize();
+        //response = ApiUtils::ErrorResponse(ex.GetCode(), ex.GetMessage());
+        LOG_ERROR(std::string("Input: ") + m_input->ToString() +
                           " failed with with error: [" +  ex.ToString() + "]" );
     }
 

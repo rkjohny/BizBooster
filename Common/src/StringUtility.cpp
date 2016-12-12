@@ -56,11 +56,11 @@ string StringUtility::Trim(const string& str)
     const char* p = str.c_str();
     size_t front = 0, rear = str.length();
 
-    while (front < rear && p[ front ] == ' ') {
+    while (front < rear && (p[ front ] == ' '|| p[ front ] == '\r' || p[ front ] == '\n' || p[ front ] == '\t')) {
         ++front;
     }
 
-    while (front < rear && p[ rear - 1 ] == ' ') {
+    while (front < rear && (p[ rear - 1 ] == ' ' || p[ rear - 1 ] == '\r' || p[ rear - 1 ] == '\n' || p[ rear - 1 ] == '\t')) {
         --rear;
     }
 
