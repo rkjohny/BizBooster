@@ -63,27 +63,6 @@ void PGSqlDaoImp::CreateTables()
     m_session.createTables();
 }
 
-int PGSqlDaoImp::GetNextDmVersion()
-{
-    int nextDmVersion = 0;
-
-    auto transaction = this->BeginTransaction();
-    try {
-        Wt::Dbo::ptr<Dal::AppSetting> obj =
-                m_session.find<Dal::AppSetting>().where("name = ?").bind(NEXT_DM_VERSION_KEY);
-        if (obj) {
-            std::string value = obj->GetValue();
-            nextDmVersion = Common::Converter::ToInt32(std::move(value));
-        }
-    } catch (std::exception &e) {
-        std::cout << e.what() << std::endl;
-        nextDmVersion = 0;
-    }
-    this->CommitTransaction(transaction);
-
-    return nextDmVersion;
-}
-
 Wt::Dbo::Transaction PGSqlDaoImp::BeginTransaction()
 {
     return Wt::Dbo::Transaction(m_session);
@@ -106,8 +85,30 @@ bool PGSqlDaoImp::TableExists(std::string table_name)
 {
     auto transaction = this->BeginTransaction();
     int count = m_session.query<int>("SELECT count(1) FROM PG_CLASS").where("RELNAME = ?").bind(table_name);
-
+    this->CommitTransaction(transaction);
+    
     return (count > 0) ? true : false;
+}
+
+int PGSqlDaoImp::GetNextDmVersion()
+{
+    int nextDmVersion = 0;
+
+    auto transaction = this->BeginTransaction();
+    try {
+        Wt::Dbo::ptr<Dal::AppSetting> obj =
+                m_session.find<Dal::AppSetting>().where("name = ?").bind(NEXT_DM_VERSION_KEY);
+        if (obj) {
+            std::string value = obj->GetValue();
+            nextDmVersion = Common::Converter::ToInt32(std::move(value));
+        }
+    } catch (std::exception &e) {
+        std::cout << e.what() << std::endl;
+        nextDmVersion = 0;
+    }
+    this->CommitTransaction(transaction);
+
+    return nextDmVersion;
 }
 
 void PGSqlDaoImp::AddOrUpdateAppSetting(AppSetting &&setting)
@@ -124,14 +125,14 @@ void PGSqlDaoImp::AddOrUpdateAppSetting(AppSetting &&setting)
 
 Wt::Dbo::ptr<User> PGSqlDaoImp::RegisterUser(User &loggedUser, User *user)
 {
-    //Wt::Dbo::ptr<User> newUser = m_session.add(user);
-    //return newUser;
     return this->AddEnitity(user);
 }
 
-User *PGSqlDaoImp::GetUser(User &loggedUser, std::string email)
+Wt::Dbo::ptr<User> PGSqlDaoImp::GetUser(User &loggedUser, std::string email)
 {
-    return nullptr;
+    Wt::Dbo::ptr<User> user;
+    user = m_session.find<Dal::User>().where("email = ? and status = ?").bind(email).bind(Status::V);
+    return user;
 }
 
 

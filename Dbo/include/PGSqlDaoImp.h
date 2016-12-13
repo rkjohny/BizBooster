@@ -83,14 +83,6 @@ public:
         return newEntity;
     }
 
-//    template<class C>
-//    typename std::enable_if<std::is_base_of<Dal::BaseEntity, C>::value == false, Wt::Dbo::ptr<C> >::type
-//    AddEnitity(C *entity)
-//    {
-//        //return Wt::Dbo::ptr<C>(entity);
-//        return nullptr;
-//    }
-
     static std::shared_ptr<PGSqlDaoImp> GetInstance();
 
     void CreateTables() override;
@@ -107,9 +99,10 @@ public:
 
     void RollbackTransaction(Wt::Dbo::Transaction&) override;
 
+    
     Wt::Dbo::ptr<User> RegisterUser(User &loggedUser, User *newUser) override;
 
-    User *GetUser(User &loggedUser, std::string email) override;
+    Wt::Dbo::ptr<User> GetUser(User &loggedUser, std::string email) override;
 };
 }
 

@@ -43,6 +43,14 @@ void RegisterUserHelper::SetInput(RegisterUserInput &input)
 
 void RegisterUserHelper::ValidateInput()
 {
+    RegisterUserInput *input = dynamic_cast<RegisterUserInput*>(m_input);
+    User loggedUser = User();
+    Wt::Dbo::ptr<Dal::User> user = Dal::GetDao()->GetUser(loggedUser, input->GetEmail());
+    
+    if (user) {
+        throw Common::AppException(AppErrorCode::DUPLICATE_USER, 
+                           "User with the email already exists");
+    }
 }
 
 void RegisterUserHelper::Initialize()

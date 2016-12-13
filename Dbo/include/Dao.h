@@ -63,7 +63,7 @@ public:
 
     virtual Wt::Dbo::ptr<User> RegisterUser(User &loggedUser, User *user) = 0;
 
-    virtual User *GetUser(User &loggedUser, std::string email) = 0;
+    virtual Wt::Dbo::ptr<User> GetUser(User &loggedUser, std::string email) = 0;
 
 };
 }

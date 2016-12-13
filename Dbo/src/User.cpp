@@ -24,6 +24,7 @@ void User::copyFrom(const User& user)
     m_password = user.m_password;
     m_email = user.m_email;
     m_roles = user.m_roles;
+    m_status = user.m_status;
 }
 
 void User::copyFrom(User&& user)
@@ -36,8 +37,13 @@ void User::copyFrom(User&& user)
     m_password = std::move(user.m_password);
     m_email = std::move(user.m_email);
     m_roles = std::move(user.m_roles);
+    m_status = user.m_status;
 }
 
+User::User()
+{
+    m_status = Status::V;
+}
 
 User::User(const User &user)
 {

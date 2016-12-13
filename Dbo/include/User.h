@@ -59,7 +59,7 @@ private:
     Wt::Dbo::ptr<Dal::User> m_lastUpdatedBy;
 
 public:
-    User() = default;
+    User();
     User(const User&);
     User(User&&);
     User& operator=(const User&);
