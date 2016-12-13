@@ -36,6 +36,8 @@ else()
     target_link_libraries(${PROJECT_NAME} PUBLIC ${WITTY_HTTP})
     #target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_WITTY_FCGI})
     #target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_WITTY})
+    
+    target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_CPP_REST})
 
     target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_BOOST})
 
