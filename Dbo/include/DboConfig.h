@@ -13,7 +13,7 @@
 #ifndef DBO_CONSTANT_H_PP
 #define DBO_CONSTANT_H_PP
 
-#define PGSQL
+#define WT_DBO
 
 #define DBO_CONFIG_FILE_NAME "dbo.properties"
 #define DB_HOST "db.host"

@@ -10,7 +10,7 @@
  * magnetic storage, computer print-out or visual display.
  */
 
-#include "PGSqlDaoImp.h"
+#include "WtDaoImp.h"
 #include "DboConfig.h"
 #include "Converter.h"
 #include "AppFactory.h"
@@ -18,10 +18,11 @@
 
 namespace Dal {
 
-std::shared_ptr<PGSqlDaoImp>  PGSqlDaoImp::m_instance = nullptr;
+std::shared_ptr<WtDaoImp>  WtDaoImp::m_instance = nullptr;
 
-PGSqlDaoImp::PGSqlDaoImp() //:m_postgres("host=127.0.0.1 user=postgres password=1234 port=5432 dbname=biz_booster_db")
+WtDaoImp::WtDaoImp() //:m_postgres("host=127.0.0.1 user=postgres password=1234 port=5432 dbname=biz_booster_db")
 {
+    /*
     auto config_reader = Common::AppFactory::CreateConfigReader(
             DBO_CONFIG_FILE_NAME, Common::ConFigFileType::PROPERTY_FILE);
     config_reader->SetFile(DBO_CONFIG_FILE_NAME);
@@ -42,33 +43,34 @@ PGSqlDaoImp::PGSqlDaoImp() //:m_postgres("host=127.0.0.1 user=postgres password=
 
     m_session.mapClass<Dal::AppSetting>("t_setting");
     m_session.mapClass<Dal::User>("t_user");
+    */
 }
 
-PGSqlDaoImp::~PGSqlDaoImp()
+WtDaoImp::~WtDaoImp()
 {
     //TODO: commit/rollback if pending, close the connection
     m_session.flush();
 }
 
-std::shared_ptr<PGSqlDaoImp> PGSqlDaoImp::GetInstance()
+std::shared_ptr<WtDaoImp> WtDaoImp::GetInstance()
 {
-    if (PGSqlDaoImp::m_instance == nullptr) {
-        PGSqlDaoImp::m_instance = std::shared_ptr<PGSqlDaoImp>(new PGSqlDaoImp());
+    if (WtDaoImp::m_instance == nullptr) {
+        WtDaoImp::m_instance = std::shared_ptr<WtDaoImp>(new WtDaoImp());
     }
-    return PGSqlDaoImp::m_instance;
+    return WtDaoImp::m_instance;
 }
 
-void PGSqlDaoImp::CreateTables()
+void WtDaoImp::CreateTables()
 {
     m_session.createTables();
 }
 
-Wt::Dbo::Transaction PGSqlDaoImp::BeginTransaction()
+Wt::Dbo::Transaction WtDaoImp::BeginTransaction()
 {
     return Wt::Dbo::Transaction(m_session);
 }
 
-bool PGSqlDaoImp::CommitTransaction(Wt::Dbo::Transaction &transaction)
+bool WtDaoImp::CommitTransaction(Wt::Dbo::Transaction &transaction)
 {
     //TODO: what will happen if this transaction is not the most recent transaction in the session?
     //      i.e, if commit returns false;
@@ -76,12 +78,12 @@ bool PGSqlDaoImp::CommitTransaction(Wt::Dbo::Transaction &transaction)
     return commited;
 }
 
-void PGSqlDaoImp::RollbackTransaction(Wt::Dbo::Transaction& transaction)
+void WtDaoImp::RollbackTransaction(Wt::Dbo::Transaction& transaction)
 {
    transaction.rollback();
 }
 
-bool PGSqlDaoImp::TableExists(std::string table_name)
+bool WtDaoImp::TableExists(std::string table_name)
 {
     auto transaction = this->BeginTransaction();
     int count = m_session.query<int>("SELECT count(1) FROM PG_CLASS").where("RELNAME = ?").bind(table_name);
@@ -90,7 +92,7 @@ bool PGSqlDaoImp::TableExists(std::string table_name)
     return (count > 0) ? true : false;
 }
 
-int PGSqlDaoImp::GetNextDmVersion()
+int WtDaoImp::GetNextDmVersion()
 {
     int nextDmVersion = 0;
 
@@ -111,7 +113,7 @@ int PGSqlDaoImp::GetNextDmVersion()
     return nextDmVersion;
 }
 
-void PGSqlDaoImp::AddOrUpdateAppSetting(AppSetting &&setting)
+void WtDaoImp::AddOrUpdateAppSetting(AppSetting &&setting)
 {
     Wt::Dbo::Transaction transaction = this->BeginTransaction();
     Wt::Dbo::ptr<Dal::AppSetting> obj =
@@ -123,12 +125,12 @@ void PGSqlDaoImp::AddOrUpdateAppSetting(AppSetting &&setting)
     this->CommitTransaction(transaction);
 }
 
-Wt::Dbo::ptr<User> PGSqlDaoImp::RegisterUser(User &loggedUser, User *user)
+Wt::Dbo::ptr<User> WtDaoImp::RegisterUser(User &loggedUser, User *user)
 {
     return this->AddEnitity(user);
 }
 
-Wt::Dbo::ptr<User> PGSqlDaoImp::GetUser(User &loggedUser, std::string email)
+Wt::Dbo::ptr<User> WtDaoImp::GetUser(User &loggedUser, std::string email)
 {
     Wt::Dbo::ptr<User> user;
     user = m_session.find<Dal::User>().where("email = ? and status = ?").bind(email).bind(Status::V);

@@ -18,6 +18,8 @@
 #include "AppSetting.h"
 #include "BaseEntity.h"
 #include "AuditableEntity.h"
+#include "WtSession.h"
+#include "WtPgConnection.h"
 #include <string>
 #include <memory>
 #include <Wt/Dbo/Dbo>
@@ -26,26 +28,25 @@
 
 namespace Dal {
 
-class PGSqlDaoImp : public Dao {
+class WtDaoImp : public Dao {
 private:
-    PGSqlDaoImp(PGSqlDaoImp &&) = delete;
+    WtDaoImp(WtDaoImp &&) = delete;
 
-    PGSqlDaoImp &operator=(PGSqlDaoImp &&) = delete;
+    WtDaoImp &operator=(WtDaoImp &&) = delete;
 
-    PGSqlDaoImp(PGSqlDaoImp &) = delete;
+    WtDaoImp(WtDaoImp &) = delete;
 
-    PGSqlDaoImp &operator=(PGSqlDaoImp &) = delete;
-
-    Wt::Dbo::backend::Postgres m_postgres;
-    Wt::Dbo::Session m_session;
-    std::string m_connectionString;
-    static std::shared_ptr<PGSqlDaoImp> m_instance;
+    WtDaoImp &operator=(WtDaoImp &) = delete;
+    
+    static std::shared_ptr<WtDaoImp> m_instance;
+    
+    Dal::WtSession<Dal::WtPgConnection> m_session;
 
 protected:
-    PGSqlDaoImp();
+    WtDaoImp();
 
 public:
-    virtual ~PGSqlDaoImp();
+    virtual ~WtDaoImp();
 
     template<class C>
     typename std::enable_if<(std::is_base_of<Dal::AuditableEntity, C>::value == true ||
@@ -83,7 +84,7 @@ public:
         return newEntity;
     }
 
-    static std::shared_ptr<PGSqlDaoImp> GetInstance();
+    static std::shared_ptr<WtDaoImp> GetInstance();
 
     void CreateTables() override;
 

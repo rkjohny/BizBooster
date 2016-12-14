@@ -20,7 +20,7 @@
 
 namespace Dal {
 
-class PGSqlDaoImp;
+class WtDaoImp;
 
 class Dao {
 

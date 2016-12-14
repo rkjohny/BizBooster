@@ -15,7 +15,7 @@
 #include "Dal.h"
 #include "SOFactory.h"
 #include "DboConfig.h"
-#include "PGSqlDaoImp.h"
+#include "WtDaoImp.h"
 #include "DataModelManager.h"
 
 
@@ -43,8 +43,8 @@ void LoadLibrary()
 
 std::shared_ptr<Dao> GetDao()
 {
-#ifdef PGSQL
-    return PGSqlDaoImp::GetInstance();
+#ifdef WT_DBO
+    return WtDaoImp::GetInstance();
 #else
     return nullptr;
 #endif
