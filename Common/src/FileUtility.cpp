@@ -12,7 +12,7 @@
 
 #include "FileUtility.h"
 #include "StringUtility.h"
-#include "AppConfig.h"
+#include "AppDef.h"
 
 namespace Common {
 

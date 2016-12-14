@@ -22,7 +22,7 @@ set(LIB_JSON json)
 set(LIB_JSON_TEST jsontester)
 set(LIB_DBO dbo)
 set(LIB_API api)
-set(SERVER server)
+set(SERVICE service)
 set(CLIENT client)
 
 
@@ -141,7 +141,7 @@ add_subdirectory(Json)
 #add_subdirectory(JsonTest)
 add_subdirectory(Dbo)
 add_subdirectory(Api)
-add_subdirectory(Server)
+add_subdirectory(Service)
 add_subdirectory(Client)
 
 

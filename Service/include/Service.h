@@ -10,23 +10,31 @@
  * magnetic storage, computer print-out or visual display.
  */
 
-#ifndef API_EXECUTOR_H
-#define API_EXECUTOR_H
+#ifndef SERVER_H
+#define SERVER_H
 
-#include "BaseInput.h"
+#include <memory>
+#include <cpprest/uri.h>
+#include <cpprest/details/basic_types.h>
+#include "Listener.h"
 
-#include <cpprest/json.h>
 
-namespace Server {
 
-    class ApiExecutor {
+namespace Rest {
+
+    class Service {
     public:
-        static web::json::value ExecuteSingleApi(const web::json::value &jrequest);
+        Service();
+        void Run();
+        void ShutDown();
 
-        static web::json::value ExecuteMultipleApi(const web::json::value &jrequests);
+    private:
+        web::uri_builder uri;
+        utility::string_t address;
+        std::unique_ptr<Listener> m_listener;
     };
 
 
-} // namespace Server
+} //namespace Server
 
-#endif // API_EXECUTOR_H
+#endif

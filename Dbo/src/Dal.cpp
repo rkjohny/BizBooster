@@ -14,7 +14,7 @@
 #include <AppFactory.h>
 #include "Dal.h"
 #include "SOFactory.h"
-#include "DboConfig.h"
+#include "DboDef.h"
 #include "WtDaoImp.h"
 #include "DataModelManager.h"
 

@@ -2,13 +2,13 @@ cmake_minimum_required(VERSION 2.6)
 
 message("Executing SERVER::CMakeLists.txt")
 
-project(${SERVER} CXX)
+project(${SERVICE} CXX)
 
 
 if (TARGET ${PROJECT_NAME})
-    message("server is already defined")
+    message("Rest service is already defined")
 else ()
-    message("Biulding server...")
+    message("Biulding rest service...")
 
     # stting the heared and source files path required by libcommon target
     set(PROJECT_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
@@ -56,10 +56,11 @@ else ()
     target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_CRYPTO})
     target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_CRYPT})
 
+    # linking witty for databse ORM
     target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_WITTY})
     target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_WITTY_DBO})
     target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_WITTY_PG_SQL})
 
-    configure_file(server.properties ${EXECUTABLE_OUTPUT_PATH}/ COPYONLY UNIX)
+    configure_file(service.properties ${EXECUTABLE_OUTPUT_PATH}/ COPYONLY UNIX)
 
 endif ()

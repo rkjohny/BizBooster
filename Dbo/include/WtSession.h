@@ -14,7 +14,7 @@
 #define SESSION_H
 
 #include "AppFactory.h"
-#include "DboConfig.h"
+#include "DboDef.h"
 #include "AppSetting.h"
 
 #include <Wt/Dbo/Dbo>

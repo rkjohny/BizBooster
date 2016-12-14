@@ -11,7 +11,7 @@
  */
 
 #include "Client.h"
-#include "CilentConfig.h"
+#include "CilentDef.h"
 #include "ClientInitializer.h"
 #include "AppFactory.h"
 

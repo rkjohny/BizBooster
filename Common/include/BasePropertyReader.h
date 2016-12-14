@@ -18,7 +18,7 @@
 #include "SharedObject.h"
 #include "Disposable.h"
 #include "AppException.h"
-#include "AppConfig.h"
+#include "AppDef.h"
 #include "ConfigReader.h"
 
 namespace Common {

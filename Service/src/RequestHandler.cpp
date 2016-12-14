@@ -16,7 +16,7 @@
 #include "AppFactory.h"
 #include "ApiUtils.h"
 
-using namespace Server;
+using namespace Rest;
 
 void RequestHandler::HandleGetRequest(web::http::http_request& request)
 {

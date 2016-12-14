@@ -11,7 +11,7 @@
  */
 
 #include "StringUtility.h"
-#include "AppConfig.h"
+#include "AppDef.h"
 #include <algorithm>
 
 #if USE_C_FUNCTION

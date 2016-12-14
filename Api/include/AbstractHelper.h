@@ -16,7 +16,7 @@
 
 #include "BaseInput.h"
 #include "BaseOutput.h"
-#include "AppConfig.h"
+#include "AppDef.h"
 #include <memory>
 
 namespace Api {

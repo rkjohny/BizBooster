@@ -16,7 +16,7 @@
 #include "AppFactory.h"
 #include "OFStream.h"
 #include "OSTDStream.h"
-#include "CilentConfig.h"
+#include "CilentDef.h"
 #include "Converter.h"
 
 

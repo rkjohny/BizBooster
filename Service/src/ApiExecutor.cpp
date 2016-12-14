@@ -21,7 +21,7 @@
 
 
 
-namespace Server {
+namespace Rest {
 
 web::json::value ApiExecutor::ExecuteSingleApi(const web::json::value &jrequest)
 {

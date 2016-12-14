@@ -11,7 +11,7 @@
  */
 
 #include "WtDaoImp.h"
-#include "DboConfig.h"
+#include "DboDef.h"
 #include "Converter.h"
 #include "AppFactory.h"
 

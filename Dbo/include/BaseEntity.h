@@ -16,7 +16,7 @@
 
 #include "Serializable.h"
 #include "Json.h"
-#include "DboConfig.h"
+#include "DboDef.h"
 
 
 namespace Dal {
