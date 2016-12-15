@@ -1,14 +1,26 @@
+#WT_ADD_EXAMPLE(auth2.wt
+#        Auth2.C
+#	AuthWidget.C
+#	RegistrationView.C
+#	model/Session.C
+#	model/User.C
+#	model/UserDetailsModel.C
+#)
+#TARGET_LINK_LIBRARIES(auth2.wt wtdbo wtdbosqlite3)
+#INCLUDE_DIRECTORIES(${WT_SOURCE_DIR}/src)
+
+
 cmake_minimum_required(VERSION 2.6)
 
-message("Executing SERVICE::CMakeLists.txt")
+message("Executing SERVER::CMakeLists.txt")
 
-project(${SERVICE} CXX)
+project(${SERVER} CXX)
 
 
 if (TARGET ${PROJECT_NAME})
-    message("Rest service is already defined")
+    message("Server is already defined")
 else ()
-    message("Biulding rest service...")
+    message("Biulding server...")
 
     # stting the heared and source files path required by libcommon target
     set(PROJECT_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
@@ -31,11 +43,11 @@ else ()
     include_directories(${LIB_API_INCLUDE_DIR})
 
 
-    file(GLOB SERVICE_HEADERS ${PROJECT_INCLUDE_DIR}/*.h)
-    file(GLOB SERVICE_SOURCES ${PROJECT_SOURCE_DIR}/*.cpp)
+    file(GLOB SERVER_HEADERS ${PROJECT_INCLUDE_DIR}/*.h)
+    file(GLOB SERVER_SOURCES ${PROJECT_SOURCE_DIR}/*.cpp)
 
-    #creating target service
-    add_executable(${PROJECT_NAME} ${SERVICE_SOURCES} ${SERVICE_HEADERS})
+    #creating target server
+    add_executable(${PROJECT_NAME} ${SERVER_SOURCES} ${SERVER_HEADERS})
 
     # linking libapi library as dependencies
     target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_API})
@@ -60,7 +72,8 @@ else ()
     target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_WITTY})
     target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_WITTY_DBO})
     target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_WITTY_PG_SQL})
+    target_link_libraries(${PROJECT_NAME} PUBLIC ${WITTY_HTTP})
 
-    configure_file(service.properties ${EXECUTABLE_OUTPUT_PATH}/ COPYONLY UNIX)
+    configure_file(server.properties ${EXECUTABLE_OUTPUT_PATH}/ COPYONLY UNIX)
 
 endif ()

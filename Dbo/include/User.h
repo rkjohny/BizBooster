@@ -21,7 +21,8 @@
 #include "SerializableSimpleEntity.h"
 #include "DboDef.h"
 
-
+#include <Wt/Dbo/Impl>
+#include <Wt/Auth/Dbo/AuthInfo>
 
 namespace Dal {
 class User;
@@ -42,6 +43,7 @@ struct dbo_traits<Dal::User> : public dbo_default_traits {
 }
 }
 
+typedef Wt::Auth::Dbo::AuthInfo<Dal::User> AuthInfo;
 
 namespace Dal {
 
@@ -57,6 +59,8 @@ private:
 
     Wt::Dbo::ptr<Dal::User> m_createdBy;
     Wt::Dbo::ptr<Dal::User> m_lastUpdatedBy;
+
+    Wt::Dbo::weak_ptr<AuthInfo> authInfo;
 
 public:
     User();
@@ -133,6 +137,6 @@ public:
 
 }
 
-
+DBO_EXTERN_TEMPLATES(Dal::User);
 
 #endif //ENTYRY_USER_H

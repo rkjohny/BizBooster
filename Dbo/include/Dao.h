@@ -16,7 +16,7 @@
 #include <string>
 #include "User.h"
 #include "AppSetting.h"
-
+#include "WtSession.h"
 
 namespace Dal {
 
@@ -46,6 +46,10 @@ public:
 //    template<class C>
 //    typename std::enable_if<std::is_base_of<Dal::BaseEntity, C>::value, Wt::Dbo::ptr<C> >::type
 //    PGSqlDaoImp::AddEnitity(C *entity) {};
+
+
+    virtual Wt::Dbo::ptr<Dal::User> GetUser(const Wt::Auth::User& authUser) = 0;
+    virtual Wt::Auth::AbstractUserDatabase& GetUserDB() = 0;
 
     virtual void CreateTables() = 0;
 

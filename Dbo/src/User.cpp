@@ -12,6 +12,8 @@
 
 #include "User.h"
 
+DBO_INSTANTIATE_TEMPLATES(Dal::User);
+
 namespace Dal {
 
 void User::copyFrom(const User& user)

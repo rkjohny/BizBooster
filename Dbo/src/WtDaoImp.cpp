@@ -15,6 +15,7 @@
 #include "Converter.h"
 #include "AppFactory.h"
 
+#include "Wt/Auth/Dbo/UserDatabase"
 
 namespace Dal {
 
@@ -44,12 +45,16 @@ WtDaoImp::WtDaoImp() //:m_postgres("host=127.0.0.1 user=postgres password=1234 p
     m_session.mapClass<Dal::AppSetting>("t_setting");
     m_session.mapClass<Dal::User>("t_user");
     */
+
+    m_users = new UserDatabase(m_session);
 }
 
 WtDaoImp::~WtDaoImp()
 {
     //TODO: commit/rollback if pending, close the connection
     m_session.flush();
+
+    delete m_users;
 }
 
 std::shared_ptr<WtDaoImp> WtDaoImp::GetInstance()
@@ -59,6 +64,31 @@ std::shared_ptr<WtDaoImp> WtDaoImp::GetInstance()
     }
     return WtDaoImp::m_instance;
 }
+
+/************** Auth **********************************/
+Wt::Auth::AbstractUserDatabase& WtDaoImp::GetUserDB()
+{
+    return *m_users;
+}
+
+Wt::Dbo::ptr<Dal::User> WtDaoImp::GetUser(const Wt::Auth::User& authUser)
+{
+    auto trans = BeginTransaction();
+    Wt::Dbo::ptr<AuthInfo> authInfo = m_users->find(authUser);
+
+    Wt::Dbo::ptr<Dal::User> user = authInfo->user();
+
+    if (!user) {
+        Dal::User loggedUser;
+        user = RegisterUser(loggedUser, new Dal::User());
+        //user = m_session.add(new User());
+        authInfo.modify()->setUser(user);
+    }
+    CommitTransaction(trans);
+
+    return user;
+}
+/************** Auth **********************************/
 
 void WtDaoImp::CreateTables()
 {

@@ -19,13 +19,14 @@
 
 namespace Dal {
 
-class WtPgConnection : public Wt::Dbo::backend::Postgres {
+template <class Conn>
+class WtConnection : public Conn {
 public:
-    WtPgConnection() = default;
-    virtual ~WtPgConnection() = default;
+    WtConnection() = default;
+    virtual ~WtConnection() = default;
     
 private:
-    WtPgConnection(const WtPgConnection& orig);
+    WtConnection(const WtConnection& orig);
 };
 
 }

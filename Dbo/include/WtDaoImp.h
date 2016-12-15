@@ -19,12 +19,17 @@
 #include "BaseEntity.h"
 #include "AuditableEntity.h"
 #include "WtSession.h"
-#include "WtPgConnection.h"
+#include "WtConnection.h"
 #include <string>
 #include <memory>
 #include <Wt/Dbo/Dbo>
 #include <Wt/Dbo/WtSqlTraits>
 #include <Wt/Dbo/backend/Postgres>
+
+#include "User.h"
+
+
+typedef Wt::Auth::Dbo::UserDatabase<AuthInfo> UserDatabase;
 
 namespace Dal {
 
@@ -40,10 +45,12 @@ private:
     
     static std::shared_ptr<WtDaoImp> m_instance;
     
-    Dal::WtSession<Dal::WtPgConnection> m_session;
+    Dal::WtSession m_session;
 
 protected:
     WtDaoImp();
+
+    UserDatabase *m_users;
 
 public:
     virtual ~WtDaoImp();
@@ -100,7 +107,10 @@ public:
 
     void RollbackTransaction(Wt::Dbo::Transaction&) override;
 
-    
+
+    Wt::Dbo::ptr<Dal::User> GetUser(const Wt::Auth::User& authUser) override;
+    Wt::Auth::AbstractUserDatabase& GetUserDB() override;
+
     Wt::Dbo::ptr<User> RegisterUser(User &loggedUser, User *newUser) override;
 
     Wt::Dbo::ptr<User> GetUser(User &loggedUser, std::string email) override;

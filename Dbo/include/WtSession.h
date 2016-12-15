@@ -16,12 +16,12 @@
 #include "AppFactory.h"
 #include "DboDef.h"
 #include "AppSetting.h"
+#include "WtConnection.h"
 
 #include <Wt/Dbo/Dbo>
 
 namespace Dal {
 
-template <class Conn>
 class WtSession : public Wt::Dbo::Session {
 public:
     WtSession() 
@@ -47,16 +47,19 @@ public:
 
         mapClass<Dal::AppSetting>("t_setting");
         mapClass<Dal::User>("t_user");
+        mapClass<AuthInfo>("t_auth_info");
+        mapClass<AuthInfo::AuthIdentityType>("t_auth_identity");
+        mapClass<AuthInfo::AuthTokenType>("t_auth_token");
     }
     
     virtual ~WtSession()
     {
         
     }
-    
+
 private:
-    Conn m_connection;
-    
+    WtConnection<Wt::Dbo::backend::Postgres> m_connection;
+
     WtSession(const WtSession& orig);
 };
 
