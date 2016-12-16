@@ -75,6 +75,8 @@ int main(int argc, char **argv)
 
         AuthService::configureAuth();
 
+        Dal::LoadLibrary();
+
         server.run();
 
     } catch (Wt::WServer::Exception &e) {
