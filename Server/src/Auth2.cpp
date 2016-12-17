@@ -11,6 +11,8 @@
 #include <Wt/Auth/AuthWidget>
 #include <Wt/Auth/PasswordService>
 
+#include <Wt/WBootstrapTheme>
+
 #include "AuthWidget.h"
 
 #include "AuthService.h"
@@ -25,7 +27,12 @@ public:
     {
         m_auth_service.login().changed().connect(this, &AuthApplication::authEvent);
 
+                
+        setTheme(new Wt::WBootstrapTheme());
+        root()->addStyleClass("container");
+        
         useStyleSheet("css/style.css");
+        
         messageResourceBundle().use("strings");
         messageResourceBundle().use("templates");
 
@@ -38,6 +45,7 @@ public:
         authWidget->processEnvironment();
 
         root()->addWidget(authWidget);
+
     }
 
     void authEvent()
