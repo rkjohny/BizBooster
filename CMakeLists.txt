@@ -16,14 +16,13 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
 
 # list of all projects
-set(APP_NAME bizbooster)
 set(LIB_COMMON common)
 set(LIB_JSON json)
 set(LIB_JSON_TEST jsontester)
 set(LIB_DBO dbo)
 set(LIB_API api)
 set(SERVICE service)
-set(SERVER server)
+set(WEB_APP bizbooster)
 set(CLIENT client)
 
 
@@ -143,7 +142,7 @@ add_subdirectory(Json)
 add_subdirectory(Dbo)
 add_subdirectory(Api)
 add_subdirectory(Service)
-add_subdirectory(Server)
+add_subdirectory(App)
 add_subdirectory(Client)
 
 

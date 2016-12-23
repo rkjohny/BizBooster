@@ -14,7 +14,7 @@ cmake_minimum_required(VERSION 2.6)
 
 message("Executing SERVER::CMakeLists.txt")
 
-project(${SERVER} CXX)
+project(${WEB_APP} CXX)
 
 
 if (TARGET ${PROJECT_NAME})
@@ -74,6 +74,6 @@ else ()
     target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_WITTY_PG_SQL})
     target_link_libraries(${PROJECT_NAME} PUBLIC ${WITTY_HTTP})
 
-    configure_file(server.properties ${EXECUTABLE_OUTPUT_PATH}/ COPYONLY UNIX)
+    configure_file(app.properties ${EXECUTABLE_OUTPUT_PATH}/ COPYONLY UNIX)
 
 endif ()
