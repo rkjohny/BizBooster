@@ -20,36 +20,15 @@
 
 namespace Dal {
 
-class WtDaoImp;
-
 class Dao {
-
-private:
-    Dao(Dao &) = delete;
-
-    Dao &operator=(Dao &) = delete;
+private:    
+    NON_COPY_NON_MOVE_ABLE(Dao);
 
 protected:
     Dao() = default;
 
 public:
     virtual ~Dao() = default;
-
-//    template<class C>
-//    typename std::enable_if<std::is_base_of<Dal::AuditableEntity, C>::value, void >::type
-//    PGSqlDaoImp::OnSave(C *entity) {};
-//
-//    template<class C>
-//    typename std::enable_if<!std::is_base_of<Dal::AuditableEntity, C>::value, void >::type
-//    PGSqlDaoImp::OnSave(BaseEntity *entity) {};
-//
-//    template<class C>
-//    typename std::enable_if<std::is_base_of<Dal::BaseEntity, C>::value, Wt::Dbo::ptr<C> >::type
-//    PGSqlDaoImp::AddEnitity(C *entity) {};
-
-
-    virtual Wt::Dbo::ptr<Dal::User> GetUser(const Wt::Auth::User& authUser) = 0;
-    virtual Wt::Auth::AbstractUserDatabase& GetUserDB() = 0;
 
     virtual void CreateTables() = 0;
 

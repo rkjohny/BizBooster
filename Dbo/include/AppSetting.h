@@ -28,7 +28,9 @@ private:
 
 public:
     AppSetting() = default;
-
+    
+    AppSetting(const std::string &name);
+        
     AppSetting(const std::string &&name);
 
     AppSetting(const std::string &&name, const std::string &&value);

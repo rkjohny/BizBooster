@@ -142,7 +142,7 @@ add_subdirectory(Json)
 add_subdirectory(Dbo)
 add_subdirectory(Api)
 add_subdirectory(Service)
-add_subdirectory(App)
+#add_subdirectory(App)
 add_subdirectory(Client)
 
 

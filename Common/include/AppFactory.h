@@ -25,7 +25,7 @@
 
 #define LOG_INFO(message) \
     if (Common::AppFactory::GetLogger()->GetLogLevel() >= Common::BaseLogger::LogLevel::LOG_LEVEL_INFO) \
-        Common::AppFactory::GetLogger()->info(__FILE__, __LINE__, message);
+        Common::AppFactory::GetLogger()->Info(__FILE__, __LINE__, message);
 
 #define LOG_WARNING(message) \
     if (Common::AppFactory::GetLogger()->GetLogLevel() >= Common::BaseLogger::LogLevel::LOG_LEVEL_WARNING) \
@@ -64,7 +64,7 @@ namespace Common {
             Logger() = default;
 
         private:
-            NON_COPY_NON_ASSIGN_ABLE(Logger);
+            NON_COPY_NON_MOVE_ABLE(Logger);
         };
 
         class PropertyReader : public BasePropertyReader {
@@ -76,7 +76,7 @@ namespace Common {
         protected:
             PropertyReader() = default;
 
-            NON_COPY_NON_ASSIGN_ABLE(PropertyReader);
+            NON_COPY_NON_MOVE_ABLE(PropertyReader);
         };
 
         static void Dispose();
@@ -93,7 +93,7 @@ namespace Common {
         AppFactory() = delete;
         ~AppFactory() = delete;
 
-        NON_COPY_NON_ASSIGN_ABLE(AppFactory);
+        NON_COPY_NON_MOVE_ABLE(AppFactory);
 
 
         static std::shared_ptr<Logger> cm_logger;

@@ -29,17 +29,17 @@ public:
     AuditableEntity() = default;
     virtual ~AuditableEntity() = default;
 
-    void SetDateCreated(Wt::WDateTime &dt);
-    const Wt::WDateTime& GetDateCreated() const;
+    virtual void SetDateCreated(Wt::WDateTime &dt);
+    virtual const Wt::WDateTime& GetDateCreated() const;
 
-    void SetDateLastUpdated(Wt::WDateTime &dt);
-    const Wt::WDateTime& GetDateLastUpdated() const;
+    virtual void SetDateLastUpdated(Wt::WDateTime &dt);
+    virtual const Wt::WDateTime& GetDateLastUpdated() const;
 
-    void SetCreatedBy(Wt::Dbo::ptr<Dal::User> &user);
-    Wt::Dbo::ptr<Dal::User> GetCreatedBy() const;
+    virtual void SetCreatedBy(Wt::Dbo::ptr<Dal::User> &user);
+    virtual Wt::Dbo::ptr<Dal::User> GetCreatedBy() const;
 
-    void SetLastUpdatedBy(Wt::Dbo::ptr<Dal::User> &user);
-    Wt::Dbo::ptr<Dal::User> GetLastUpdatedBy() const;
+    virtual void SetLastUpdatedBy(Wt::Dbo::ptr<Dal::User> &user);
+    virtual Wt::Dbo::ptr<Dal::User> GetLastUpdatedBy() const;
 
 
 protected:

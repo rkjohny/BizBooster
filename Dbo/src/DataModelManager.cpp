@@ -31,13 +31,19 @@ void DataModelManager::Run()
     auto dao = Dal::GetDao();
     int nextDmVersion = 0;
 
-    //TODO: checking only one table?
-    bool tableExists = dao->TableExists("t_setting");
-    if (tableExists) {
-        nextDmVersion = dao->GetNextDmVersion();
-    }
+    dao->CreateTables();
+    
+    auto transaction = dao->BeginTransaction();
+    
+    nextDmVersion = dao->GetNextDmVersion();
 
-    LOG_DEBUG("Running Data Model Manager... pending upgrade count: " + Common::Converter::ToStr(dmUpgradeList.size() - nextDmVersion));
+//    bool tableExists = dao->TableExists("t_setting");
+//    if (tableExists) {
+//        nextDmVersion = dao->GetNextDmVersion();
+//    }
+
+    LOG_DEBUG("Running Data Model Manager... pending upgrade count: " + 
+            Common::Converter::ToStr(dmUpgradeList.size() - nextDmVersion));
 
     int i = nextDmVersion;
     for (; i<dmUpgradeList.size(); ++i) {
@@ -46,6 +52,8 @@ void DataModelManager::Run()
     if (i != nextDmVersion) {
         dao->AddOrUpdateAppSetting(AppSetting(NEXT_DM_VERSION_KEY, Common::Converter::ToStr(i)));
     }
+    
+    dao->CommitTransaction(transaction);
 }
 
 }

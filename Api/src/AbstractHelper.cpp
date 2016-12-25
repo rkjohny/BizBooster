@@ -36,8 +36,7 @@ web::json::value AbstractHelper::Execute()
     auto dao = Dal::GetDao();
     auto transaction = dao->BeginTransaction();
     try {
-        ValidateInput();
-        Initialize();
+        InitAndValidate();
         CheckPermission();
         ExecuteHelper();
 

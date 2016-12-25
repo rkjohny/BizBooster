@@ -27,6 +27,8 @@ namespace Api {
     class RegisterUserOutput : public ApiOutput<RegisterUserOutput> {
     public:
         RegisterUserOutput();
+        RegisterUserOutput(const RegisterUserOutput &orig);
+        RegisterUserOutput(RegisterUserOutput &&orig);
         ~RegisterUserOutput();
 
         const User& GetUser() const;

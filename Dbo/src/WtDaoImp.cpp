@@ -21,40 +21,14 @@ namespace Dal {
 
 std::shared_ptr<WtDaoImp>  WtDaoImp::m_instance = nullptr;
 
-WtDaoImp::WtDaoImp() //:m_postgres("host=127.0.0.1 user=postgres password=1234 port=5432 dbname=biz_booster_db")
+WtDaoImp::WtDaoImp()
 {
-    /*
-    auto config_reader = Common::AppFactory::CreateConfigReader(
-            DBO_CONFIG_FILE_NAME, Common::ConFigFileType::PROPERTY_FILE);
-    config_reader->SetFile(DBO_CONFIG_FILE_NAME);
-
-    std::string db_host = config_reader->GetValueOf(DB_HOST);
-    std::string db_name = config_reader->GetValueOf(DB_NAME);
-    std::string db_user_name = config_reader->GetValueOf(DB_USER_NAME);
-    std::string db_user_pass = config_reader->GetValueOf(DB_USER_PASSWORD);
-
-    std::string conn_string = "host=" + db_host + " user=" + db_user_name +
-                              " password=" + db_user_pass + " dbname=" + db_name;
-
-    std::cout << conn_string << std::endl;
-
-    m_postgres.connect(conn_string);
-    m_postgres.setProperty("show-queries", "true");
-    m_session.setConnection(m_postgres);
-
-    m_session.mapClass<Dal::AppSetting>("t_setting");
-    m_session.mapClass<Dal::User>("t_user");
-    */
-
-    m_users = new UserDatabase(m_session);
 }
 
 WtDaoImp::~WtDaoImp()
 {
     //TODO: commit/rollback if pending, close the connection
     m_session.flush();
-
-    delete m_users;
 }
 
 std::shared_ptr<WtDaoImp> WtDaoImp::GetInstance()
@@ -65,34 +39,15 @@ std::shared_ptr<WtDaoImp> WtDaoImp::GetInstance()
     return WtDaoImp::m_instance;
 }
 
-/************** Auth **********************************/
-Wt::Auth::AbstractUserDatabase& WtDaoImp::GetUserDB()
-{
-    return *m_users;
-}
-
-Wt::Dbo::ptr<Dal::User> WtDaoImp::GetUser(const Wt::Auth::User& authUser)
-{
-    auto trans = BeginTransaction();
-    Wt::Dbo::ptr<AuthInfo> authInfo = m_users->find(authUser);
-
-    Wt::Dbo::ptr<Dal::User> user = authInfo->user();
-
-    if (!user) {
-        Dal::User loggedUser;
-        user = RegisterUser(loggedUser, new Dal::User());
-        //user = m_session.add(new User());
-        authInfo.modify()->setUser(user);
-    }
-    CommitTransaction(trans);
-
-    return user;
-}
-/************** Auth **********************************/
-
 void WtDaoImp::CreateTables()
 {
-    m_session.createTables();
+    try {
+        LOG_INFO("Creating Tables...");
+        m_session.createTables();
+    } catch(std::exception &e) {
+        LOG_DEBUG(std::string("error:") + e.what())
+        LOG_INFO("Table already exists and will not be created.");
+    }
 }
 
 Wt::Dbo::Transaction WtDaoImp::BeginTransaction()
@@ -115,10 +70,7 @@ void WtDaoImp::RollbackTransaction(Wt::Dbo::Transaction& transaction)
 
 bool WtDaoImp::TableExists(std::string table_name)
 {
-    auto transaction = this->BeginTransaction();
-    int count = m_session.query<int>("SELECT count(1) FROM PG_CLASS").where("RELNAME = ?").bind(table_name);
-    this->CommitTransaction(transaction);
-    
+    int count = m_session.query<int>("SELECT count(1) FROM PG_CLASS").where("RELNAME = ?").bind(table_name);    
     return (count > 0) ? true : false;
 }
 
@@ -126,7 +78,6 @@ int WtDaoImp::GetNextDmVersion()
 {
     int nextDmVersion = 0;
 
-    auto transaction = this->BeginTransaction();
     try {
         Wt::Dbo::ptr<Dal::AppSetting> obj =
                 m_session.find<Dal::AppSetting>().where("name = ?").bind(NEXT_DM_VERSION_KEY);
@@ -138,21 +89,17 @@ int WtDaoImp::GetNextDmVersion()
         std::cout << e.what() << std::endl;
         nextDmVersion = 0;
     }
-    this->CommitTransaction(transaction);
-
     return nextDmVersion;
 }
 
 void WtDaoImp::AddOrUpdateAppSetting(AppSetting &&setting)
 {
-    Wt::Dbo::Transaction transaction = this->BeginTransaction();
     Wt::Dbo::ptr<Dal::AppSetting> obj =
             m_session.find<Dal::AppSetting>().where("name = ?").bind(setting.GetName());
     if (!obj) {
-        obj = m_session.add<AppSetting>(new AppSetting(std::string(setting.GetName())));
+        obj = m_session.add<AppSetting>(new AppSetting(setting.GetName()));
     }
     obj.modify()->SetValue(setting.GetValue());
-    this->CommitTransaction(transaction);
 }
 
 Wt::Dbo::ptr<User> WtDaoImp::RegisterUser(User &loggedUser, User *user)

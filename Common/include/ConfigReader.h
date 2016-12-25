@@ -31,7 +31,7 @@ protected:
     ConfigReader() = default;
     virtual ~ConfigReader() = default;
 
-    NON_COPY_NON_ASSIGN_ABLE(ConfigReader);
+    NON_COPY_NON_MOVE_ABLE(ConfigReader);
 };
 
 }

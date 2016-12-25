@@ -10,7 +10,10 @@
  * magnetic storage, computer print-out or visual display.
  */
 
+#include <Wt/Auth/Identity>
+
 #include "User.h"
+#include "PassWordEncoder.h"
 
 DBO_INSTANTIATE_TEMPLATES(Dal::User);
 
@@ -23,10 +26,13 @@ void User::copyFrom(const User& user)
     m_dateCreated = user.m_dateCreated;
     m_dateLastUpdated = user.m_dateLastUpdated;
     m_name = user.m_name;
-    m_password = user.m_password;
-    m_email = user.m_email;
     m_roles = user.m_roles;
     m_status = user.m_status;
+
+    this->SetStatus(user.GetStatus());
+    this->SetEmail(user.GetEmail());
+    this->SetPasswordHash(user.GetPassWordHash(), user.GetPasswordHashMethod(),
+            user.GetPasswordSalt());
 }
 
 void User::copyFrom(User&& user)
@@ -36,15 +42,17 @@ void User::copyFrom(User&& user)
     m_dateCreated = std::move(user.m_dateCreated);
     m_dateLastUpdated = std::move(user.m_dateLastUpdated);
     m_name = std::move(user.m_name);
-    m_password = std::move(user.m_password);
-    m_email = std::move(user.m_email);
     m_roles = std::move(user.m_roles);
     m_status = user.m_status;
+
+    this->SetStatus(user.GetStatus());
+    this->SetEmail(user.GetEmail());
+    this->SetPasswordHash(user.GetPassWordHash(), user.GetPasswordHashMethod(),
+            user.GetPasswordSalt());
 }
 
 User::User()
 {
-    m_status = Status::V;
 }
 
 User::User(const User &user)
@@ -55,6 +63,10 @@ User::User(const User &user)
 User::User(User &&user)
 {
     copyFrom(std::move(user));
+}
+
+User::~User()
+{
 }
 
 User& User::operator=(const User &user)
@@ -69,9 +81,37 @@ User& User::operator=(const User &&user)
     return *this;
 }
 
-const std::string &User::GetEmail() const
+void User::InitAuthInfo()
 {
-    return m_email;
+    if (!m_authInfo) {
+        m_authInfo = Wt::Dbo::ptr<AuthInfo>(new AuthInfo());
+    }
+}
+
+void User::SetStatus(Status status)
+{
+    InitAuthInfo();
+
+    switch (status) {
+    case Status::V:
+        m_authInfo.modify()->setStatus(Wt::Auth::User::Status::Normal);
+        break;
+
+    default:
+        m_authInfo.modify()->setStatus(Wt::Auth::User::Status::Disabled);
+        break;
+    }
+    m_status = status;
+}
+
+std::string User::GetEmail() const
+{
+    std::string email = "";
+
+    if (m_authInfo) {
+        email = m_authInfo->email();
+    }
+    return email;
 }
 
 const std::string &User::GetName() const
@@ -84,9 +124,27 @@ const std::string &User::GetRoles() const
     return m_roles;
 }
 
-void User::SetEmail(std::string email)
+void User::AddIdentity(const std::string &provider, const std::string &identity)
 {
-    m_email = std::move(email);
+    InitAuthInfo();
+
+    if (m_authInfo) {
+        Wt::Dbo::ptr<Dal::AuthInfo::AuthIdentityType> idenPtr =
+                Wt::Dbo::ptr<Dal::AuthInfo::AuthIdentityType>(new Dal::AuthInfo::AuthIdentityType(provider, identity));
+        m_authInfo.modify()->authIdentities().insert(idenPtr);
+    }
+}
+
+void User::SetEmail(const std::string &email)
+{
+    InitAuthInfo();
+    
+    if (m_authInfo) {
+        //auto authInfo = dynamic_cast< Wt::Dbo::ptr<AuthInfo> >(m_authInfo);
+        auto authInfo = m_authInfo.modify();
+        authInfo->setEmail(email);
+        authInfo->setUnverifiedEmail(email);
+    }
 }
 
 void User::SetName(std::string name)
@@ -99,21 +157,73 @@ void User::SetRoles(std::string roles)
     m_roles = std::move(roles);
 }
 
-const std::string &User::GetPassword() const
+const std::string User::GetPassword() const
 {
-    return m_password;
+    std::string passwd = "";
+
+    if (m_authInfo) {
+        passwd = m_authInfo->passwordHash();
+    }
+    return passwd;
 }
 
 void User::SetPassword(std::string password)
 {
-    m_password = std::move(password);
+    InitAuthInfo();
+    
+    if (m_authInfo) {
+        //TODO: generate salt
+        std::string salt = "salt";
+        auto passwdEncoder = Common::PassWordEncoder::GetInstance();
+        auto hash = passwdEncoder->Encode(password, salt);
+        auto hashMethod = passwdEncoder->HasHMethod();
+        m_authInfo.modify()->setPassword(hash, hashMethod, salt);
+    }
+}
+
+void User::SetPasswordHash(const std::string &hash, const std::string &hashMethod, const std::string &salt)
+{
+    InitAuthInfo();
+    
+    if (m_authInfo) {
+        m_authInfo.modify()->setPassword(hash, hashMethod, salt);
+    }
+}
+
+std::string User::GetPassWordHash() const
+{
+    std::string hash = "";
+
+    if (m_authInfo) {
+        hash = m_authInfo->passwordHash();
+    }
+    return hash;
+}
+
+std::string User::GetPasswordSalt() const
+{
+    std::string salt = "";
+
+    if (m_authInfo) {
+        salt = m_authInfo->passwordSalt();
+    }
+    return salt;
+}
+
+std::string User::GetPasswordHashMethod() const
+{
+    std::string method = "";
+
+    if (m_authInfo) {
+        method = m_authInfo->passwordMethod();
+    }
+    return method;
 }
 
 bool User::HasRole(std::string &&role)
 {
     return (m_roles.find(std::move(role)) != std::string::npos);
 }
-
 
 void User::SetDateCreated(Wt::WDateTime &dt)
 {

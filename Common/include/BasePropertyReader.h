@@ -43,7 +43,7 @@ namespace Common {
         map< string, string > m_properties;
         string m_fileName;
 
-        NON_COPY_NON_ASSIGN_ABLE(BasePropertyReader);
+        NON_COPY_NON_MOVE_ABLE(BasePropertyReader);
     };
 
 } /* namespace Common */

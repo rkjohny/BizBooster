@@ -14,11 +14,16 @@
 
 namespace Dal {
 
-AppSetting::AppSetting(const std::string &&name) : m_name{ std::move(name) }
-{}
+AppSetting::AppSetting(const std::string &name) : m_name{name}
+{
+}
+
+AppSetting::AppSetting(const std::string &&name) : m_name{std::move(name)}
+{
+}
 
 AppSetting::AppSetting(const std::string &&name, const std::string &&value) :
-        m_name{ std::move(name) }, m_value{ std::move(value) }
+m_name{std::move(name)}, m_value{ std::move(value)}
 {
 }
 

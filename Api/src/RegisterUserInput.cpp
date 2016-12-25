@@ -22,6 +22,24 @@ RegisterUserInput::RegisterUserInput()
 {
 }
 
+RegisterUserInput::RegisterUserInput(const RegisterUserInput &orig)
+{
+    m_email = orig.m_email;
+    m_name = orig.m_name;
+    m_password = orig.m_password;
+    m_roles = orig.m_roles;
+    m_version = orig.m_version;
+}
+
+RegisterUserInput::RegisterUserInput(RegisterUserInput &&orig)
+{    
+    m_email = std::move(orig.m_email);
+    m_name = std::move(orig.m_name);
+    m_password = std::move(orig.m_password);
+    m_roles = std::move(orig.m_roles);
+    m_version = orig.m_version;
+}
+
 RegisterUserInput::~RegisterUserInput()
 {
 }

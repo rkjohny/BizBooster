@@ -41,7 +41,7 @@ void RegisterUserHelper::SetInput(RegisterUserInput &input)
     this->m_input = &input;
 }
 
-void RegisterUserHelper::ValidateInput()
+void RegisterUserHelper::InitAndValidate()
 {
     RegisterUserInput *input = dynamic_cast<RegisterUserInput*>(m_input);
     User loggedUser = User();
@@ -51,10 +51,6 @@ void RegisterUserHelper::ValidateInput()
         throw Common::AppException(AppErrorCode::DUPLICATE_USER, 
                            "User with the email already exists");
     }
-}
-
-void RegisterUserHelper::Initialize()
-{
 }
 
 void RegisterUserHelper::CheckPermission()
@@ -74,6 +70,8 @@ void RegisterUserHelper::ExecuteHelper()
         user->SetRoles(input->GetRoles());
         user->SetVersion(input->GetVersion());
         user->SetPassword(input->GetPassword());
+        //TODO: loginname is hardcoded
+        user->AddIdentity("loginname", input->GetEmail());
 
         LOG_DEBUG("Registering new user.");
 

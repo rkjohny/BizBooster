@@ -25,7 +25,7 @@ namespace Api {
 
     class RegisterUserHelper : public AbstractHelper {
     private:
-        NON_COPY_NON_ASSIGN_ABLE(RegisterUserHelper);
+        NON_COPY_NON_MOVE_ABLE(RegisterUserHelper);
 
     public:
         RegisterUserHelper();
@@ -37,9 +37,7 @@ namespace Api {
 
         void SetInput(RegisterUserInput &in);
 
-        void ValidateInput() override;
-
-        void Initialize() override;
+        void InitAndValidate() override;
 
         void CheckPermission() override;
 

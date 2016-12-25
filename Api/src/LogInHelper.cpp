@@ -10,37 +10,48 @@
  * magnetic storage, computer print-out or visual display.
  */
 
-#include "RegisterUserOutput.h"
+#include "LogInHelper.h"
 
 namespace Api {
 
-RegisterUserOutput::RegisterUserOutput()
+LogInHelper::LogInHelper()
 {
 }
 
-RegisterUserOutput::~RegisterUserOutput()
+LogInHelper::~LogInHelper()
 {
 }
 
-RegisterUserOutput::RegisterUserOutput(const RegisterUserOutput &orig)
+LogInHelper::LogInHelper(LogInInput *input)
 {
-    m_user.copyFrom(orig.m_user);
+    m_input = input;
 }
 
-RegisterUserOutput::RegisterUserOutput(RegisterUserOutput &&orig)
+LogInHelper::LogInHelper(LogInInput &input)
 {
-    m_user.copyFrom(std::move(orig.m_user));
+    m_input = &input;
 }
 
-const User& RegisterUserOutput::GetUser() const
+void LogInHelper::SetInput(LogInInput *in)
 {
-    return m_user;
+    m_input = in;
 }
 
-void RegisterUserOutput::SetUser(const User& user)
+void LogInHelper::SetInput(LogInInput &in)
 {
-    m_user.copyFrom(user);
+    m_input = &in;
 }
 
+void LogInHelper::InitAndValidate()
+{
+}
 
-} /* namespace Api */
+void LogInHelper::CheckPermission()
+{
+}
+
+void LogInHelper::ExecuteHelper()
+{
+}
+
+}

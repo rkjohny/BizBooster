@@ -25,6 +25,8 @@ namespace Api {
     class RegisterUserInput : public ApiInput<RegisterUserInput> {
     public:
         RegisterUserInput();
+        RegisterUserInput(const RegisterUserInput &orig);
+        RegisterUserInput(RegisterUserInput &&orig);
         ~RegisterUserInput();
 
         web::json::value Process() override;

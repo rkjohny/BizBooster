@@ -29,7 +29,7 @@ private:
     map<string, OStream *> m_streamList;
     int m_logLevel;
 
-    NON_COPY_NON_ASSIGN_ABLE(BaseLogger);
+    NON_COPY_NON_MOVE_ABLE(BaseLogger);
 
 protected:
     BaseLogger();

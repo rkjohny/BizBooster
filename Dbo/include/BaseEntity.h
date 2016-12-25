@@ -29,11 +29,11 @@ public:
     int64_t m_id;
     int m_version;
 
-    int64_t GetId() const;
-    void SetId(int64_t id);
+    virtual int64_t GetId() const;
+    virtual void SetId(int64_t id);
 
-    int GetVersion() const;
-    void SetVersion(int v);
+    virtual int GetVersion() const;
+    virtual void SetVersion(int v);
 
     REGISTER_GETTER_INCLUDING_BASE_START(Json::Serializable)
     GETTER(BaseEntity, int64_t, COLUMN_ID , &BaseEntity::GetId),

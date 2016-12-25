@@ -28,8 +28,8 @@ public:
     SimpleEntity() = default;
     virtual ~SimpleEntity() = default;
 
-    Status GetStatus() const;
-    void SetStatus(Status m_status);
+    virtual Status GetStatus() const;
+    virtual void SetStatus(Status m_status);
 
     REGISTER_GETTER_INCLUDING_BASE_START(BaseEntity)
     GETTER(SimpleEntity, Status, COLUMN_STATUS, &SimpleEntity::GetStatus)

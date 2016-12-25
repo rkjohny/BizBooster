@@ -19,7 +19,7 @@
 #include "BaseEntity.h"
 #include "AuditableEntity.h"
 #include "WtSession.h"
-#include "WtConnection.h"
+#include "WtPgConnection.h"
 #include <string>
 #include <memory>
 #include <Wt/Dbo/Dbo>
@@ -29,28 +29,17 @@
 #include "User.h"
 
 
-typedef Wt::Auth::Dbo::UserDatabase<AuthInfo> UserDatabase;
-
 namespace Dal {
 
 class WtDaoImp : public Dao {
 private:
-    WtDaoImp(WtDaoImp &&) = delete;
+    NON_COPY_NON_MOVE_ABLE(WtDaoImp);
 
-    WtDaoImp &operator=(WtDaoImp &&) = delete;
-
-    WtDaoImp(WtDaoImp &) = delete;
-
-    WtDaoImp &operator=(WtDaoImp &) = delete;
-    
     static std::shared_ptr<WtDaoImp> m_instance;
-    
     Dal::WtSession m_session;
 
 protected:
     WtDaoImp();
-
-    UserDatabase *m_users;
 
 public:
     virtual ~WtDaoImp();
@@ -106,10 +95,6 @@ public:
     bool CommitTransaction(Wt::Dbo::Transaction&) override;
 
     void RollbackTransaction(Wt::Dbo::Transaction&) override;
-
-
-    Wt::Dbo::ptr<Dal::User> GetUser(const Wt::Auth::User& authUser) override;
-    Wt::Auth::AbstractUserDatabase& GetUserDB() override;
 
     Wt::Dbo::ptr<User> RegisterUser(User &loggedUser, User *newUser) override;
 

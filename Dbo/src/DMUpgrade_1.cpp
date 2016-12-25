@@ -20,11 +20,11 @@ namespace Dal {
 
 void DMUpgrade_1::Execute()
 {
-    std::shared_ptr<Dao> dao = Dal::GetDao();
+    //std::shared_ptr<Dao> dao = Dal::GetDao();
 
-    LOG_DEBUG("Creating tables ...");
-
-    dao->CreateTables();
+    //TODO: create super user
+    //LOG_DEBUG("Creating tables ...");
+    //dao->CreateTables();
 }
 
 }

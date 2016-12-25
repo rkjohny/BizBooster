@@ -51,15 +51,16 @@ else ()
 
     # linking third party library dependencies
     target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_CPP_REST})
-    target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_BOOST})
-    target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_SSL})
-    target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_CRYPTO})
-    target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_CRYPT})
 
     # linking witty for databse ORM
     target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_WITTY})
     target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_WITTY_DBO})
     target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_WITTY_PG_SQL})
+
+    target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_BOOST})
+    target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_SSL})
+    target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_CRYPTO})
+    target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_CRYPT})
 
     configure_file(service.properties ${EXECUTABLE_OUTPUT_PATH}/ COPYONLY UNIX)
 

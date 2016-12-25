@@ -32,15 +32,9 @@
 #define LN __LINE__
 
 
-#define NON_COPY_ABLE(TYPE) \
-        TYPE(TYPE&) = delete; \
-        TYPE(TYPE&&) = delete; \
 
-#define NON_ASSIGN_ABLE(TYPE) \
-        TYPE& operator=(TYPE&) = delete; \
-        TYPE& operator=(TYPE&&) = delete;
 
-#define NON_COPY_NON_ASSIGN_ABLE(TYPE) \
+#define NON_COPY_NON_MOVE_ABLE(TYPE) \
         TYPE(TYPE&) = delete; \
         TYPE& operator=(TYPE&) = delete; \
         TYPE(TYPE&&) = delete; \

@@ -10,31 +10,37 @@
  * magnetic storage, computer print-out or visual display.
  */
 
-#ifndef SESSION_H
-#define SESSION_H
+#include "LogInOutput.h"
+#include "User.h"
 
-#include "AppFactory.h"
-#include "DboDef.h"
-#include "AppSetting.h"
-#include "WtPgConnection.h"
-#include <Wt/Dbo/Dbo>
+namespace Api {
 
-namespace Dal {
-
-class WtSession : public Wt::Dbo::Session {
-public:
-
-    WtSession();
-    
-    virtual ~WtSession() = default;
-
-private:
-    NON_COPY_NON_MOVE_ABLE(WtSession);
-
-    WtPgConnection m_connection;
-};
-
+LogInOutput::LogInOutput()
+{
 }
 
-#endif /* SESSION_H */
+LogInOutput::LogInOutput(const LogInOutput& orig)
+{
+    m_user.copyFrom(orig.m_user);
+}
 
+LogInOutput::LogInOutput(LogInOutput&& orig)
+{
+    m_user.copyFrom(std::move(orig.m_user));
+}
+
+LogInOutput::~LogInOutput()
+{
+}
+
+const Dal::User& LogInOutput::GetUser() const
+{
+    return m_user;
+}
+
+void LogInOutput::SetUser(const Dal::User &user)
+{
+    m_user.copyFrom(user);
+}
+
+}

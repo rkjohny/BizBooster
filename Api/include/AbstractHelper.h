@@ -25,7 +25,7 @@ namespace Api {
 
     class AbstractHelper {
     private:
-        NON_COPY_NON_ASSIGN_ABLE(AbstractHelper);
+        NON_COPY_NON_MOVE_ABLE(AbstractHelper);
 
     protected:
         std::unique_ptr<BaseOutput> m_output;
@@ -35,9 +35,7 @@ namespace Api {
         AbstractHelper();
         virtual ~AbstractHelper();
 
-        virtual void ValidateInput() = 0;
-
-        virtual void Initialize() = 0;
+        virtual void InitAndValidate() = 0;
 
         virtual void CheckPermission() = 0;
 
