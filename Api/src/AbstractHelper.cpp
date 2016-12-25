@@ -16,7 +16,7 @@
 #include "Dao.h"
 #include "Dal.h"
 #include "AppException.h"
-#include "AppFactory.h"
+#include "LogFactory.h"
 #include "ApiUtils.h"
 
 namespace Api {

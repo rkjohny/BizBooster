@@ -13,18 +13,17 @@
 #ifndef SERVER_INITIALIZER_H
 #define SERVER_INITIALIZER_H
 
+#include "AppDef.h"
 
 namespace Rest {
 
-    class ServiceInitializer {
-    private:
-        ServiceInitializer();
-        ServiceInitializer(ServiceInitializer&);
-        ServiceInitializer& operator=(ServiceInitializer&);
+class ServiceInitializer {
+private:
+    MAKE_STATIC(ServiceInitializer);
 
-    public:
-        static void Initialize();
-    };
+public:
+    static void Initialize();
+};
 
 
 } //namespace Server

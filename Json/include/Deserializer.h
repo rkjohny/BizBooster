@@ -15,7 +15,7 @@
 
 #include <cpprest/json.h>
 #include "TypeTratits.h"
-
+#include "AppDef.h"
 #include <iostream>
 #include <Wt/WDateTime>
 
@@ -24,7 +24,7 @@ namespace Json {
 
     class Deserializer {
     private:
-        Deserializer() = delete;
+        MAKE_STATIC(Deserializer);
 
 
         /**

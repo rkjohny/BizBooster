@@ -21,12 +21,17 @@ else()
     # including libcommon include directory
     include_directories(${LIB_COMMON_INCLUDE_DIR})
 
+    #including libfio include directory
+    include_directories(${LIB_FIO_INCLUDE_DIR})
 
     file(GLOB CLIENT_HEADERS ${PROJECT_INCLUDE_DIR}/*.h)
     file(GLOB CLIENT_SOURCES ${PROJECT_SOURCE_DIR}/*.cpp)
 
     #creating target server
     add_executable(${PROJECT_NAME} ${CLIENT_SOURCES} ${PROJECT_INCLUDE_DIR})
+
+    # linking libfio library as dependences 
+    target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_FIO})
 
     # linking libcommon library as dependencies
     target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_COMMON})

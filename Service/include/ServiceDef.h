@@ -16,10 +16,10 @@
 namespace Rest {
 
 #define SERVICE_CONFIG_FILE_NAME "service.properties"
-#define SERVICE_LOG_FILE_NAME "service.log"
 
-#define SERVICE_LOG_FILE_PATH_STR "service.logfile.path"
-#define SERVICE_LOG_LEVEL_STR "service.log.level"
+#define SERVICE_LOG_FILE_PATH "service.logfile.path"
+#define SERVICE_LOG_FILE_NAME "service.log"
+#define SERVICE_LOG_LEVEL "service.log.level"
 
 #define SERVICE_HOST_PROTOCOL "service.host.protocol"
 #define SERVICE_HOST_NAME "service.host.name"

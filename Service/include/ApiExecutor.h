@@ -24,6 +24,9 @@ namespace Rest {
         static web::json::value ExecuteSingleApi(const web::json::value &jrequest);
 
         static web::json::value ExecuteMultipleApi(const web::json::value &jrequests);
+        
+    private:
+        MAKE_STATIC(ApiExecutor);
     };
 
 

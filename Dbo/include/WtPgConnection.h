@@ -13,6 +13,7 @@
 #ifndef PGCONNECTION_H
 #define PGCONNECTION_H
 
+#include "AppDef.h"
 #include <Wt/Dbo/Dbo>
 #include <Wt/Dbo/WtSqlTraits>
 #include <Wt/Dbo/backend/Postgres>

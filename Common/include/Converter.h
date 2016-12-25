@@ -17,11 +17,13 @@
 #include <string>
 #include <stdexcept>
 
+#include "AppDef.h"
+
 namespace Common {
 
     class Converter {
     private:
-        Converter() = delete;
+        MAKE_STATIC(Converter);
 
     public:
 

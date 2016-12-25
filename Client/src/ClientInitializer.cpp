@@ -13,29 +13,31 @@
 #include <Converter.h>
 #include "ClientInitializer.h"
 #include "StringUtility.h"
-#include "AppFactory.h"
+#include "CFReaderFactory.h"
 #include "OFStream.h"
 #include "OSTDStream.h"
 #include "CilentDef.h"
 #include "Converter.h"
+#include "LogFactory.h"
 
 
 using namespace std;
 using namespace Client;
 using namespace Common;
+using namespace Fio;
 
 void ClientInitializer::Initialize()
 {
     // Initializing property reader and reading server config file
-    auto propertyReader = AppFactory::CreateConfigReader(LANG_PROP_FILE_NAME, ConFigFileType::PROPERTY_FILE);
+    auto propertyReader = Fio::CFReaderFactory::CreateConfigReader(LANG_PROP_FILE_NAME, ConFigFileType::PROPERTY_FILE);
     propertyReader->SetFile(LANG_PROP_FILE_NAME);
 
-    auto configReader = AppFactory::CreateConfigReader(CLIENT_CONFIG_FILE_NAME,
-                                                         Common::ConFigFileType::PROPERTY_FILE);
+    auto configReader = Fio::CFReaderFactory::CreateConfigReader(CLIENT_CONFIG_FILE_NAME,
+                                                         Fio::ConFigFileType::PROPERTY_FILE);
     configReader->SetFile(CLIENT_CONFIG_FILE_NAME);
 
     // creating client logger
-    auto logger = AppFactory::GetLogger();
+    auto logger = LogFactory::GetLogger();
 
     // Adding file stream
     string filename = configReader->GetValueOf(CLIENT_LOG_FILE_PATH_STR) + PATH_SEPARATOR + CLIENT_LOG_FILE_NAME;

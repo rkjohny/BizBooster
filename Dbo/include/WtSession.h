@@ -13,9 +13,7 @@
 #ifndef SESSION_H
 #define SESSION_H
 
-#include "AppFactory.h"
-#include "DboDef.h"
-#include "AppSetting.h"
+#include "AppDef.h"
 #include "WtPgConnection.h"
 #include <Wt/Dbo/Dbo>
 

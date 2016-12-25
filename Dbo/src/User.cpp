@@ -174,7 +174,7 @@ void User::SetPassword(std::string password)
     if (m_authInfo) {
         //TODO: generate salt
         std::string salt = "salt";
-        auto passwdEncoder = Common::PassWordEncoder::GetInstance();
+        auto passwdEncoder = LCrypto::PassWordEncoder::GetInstance();
         auto hash = passwdEncoder->Encode(password, salt);
         auto hashMethod = passwdEncoder->HasHMethod();
         m_authInfo.modify()->setPassword(hash, hashMethod, salt);

@@ -14,7 +14,7 @@
 #include "Dal.h"
 #include "DboDef.h"
 #include "Converter.h"
-#include "AppFactory.h"
+#include "LogFactory.h"
 
 
 namespace Dal {

@@ -11,13 +11,13 @@
  */
 
 
-#include <AppFactory.h>
 #include "Dal.h"
 #include "SOFactory.h"
 #include "DboDef.h"
 #include "WtDaoImp.h"
 #include "DataModelManager.h"
-
+#include "LogFactory.h"
+#include "CFReaderFactory.h"
 
 namespace Dal {
 
@@ -31,8 +31,8 @@ void LoadLibrary()
         LOG_DEBUG("Registering User calss...");
         REGISTER_CLASS(User, "user");
 
-        auto config_reader = Common::AppFactory::CreateConfigReader(
-                DBO_CONFIG_FILE_NAME, Common::ConFigFileType::PROPERTY_FILE);
+        auto config_reader = Fio::CFReaderFactory::CreateConfigReader(
+                DBO_CONFIG_FILE_NAME, Fio::ConFigFileType::PROPERTY_FILE);
         config_reader->SetFile(DBO_CONFIG_FILE_NAME);
 
         DataModelManager().Run();

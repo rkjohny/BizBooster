@@ -17,6 +17,8 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
 # list of all projects
 set(LIB_COMMON common)
+set(LIB_FIO fio)
+set(LIB_LCRYPTO lcrypto)
 set(LIB_JSON json)
 set(LIB_JSON_TEST jsontester)
 set(LIB_DBO dbo)
@@ -137,13 +139,15 @@ endif()
 # add common, Json, Dal, and Api first beacuse they will export the librray header locations which will be used by JsonTest, Server and Client
 #include Common first, before Json
 add_subdirectory(Common)
+add_subdirectory(Fio)
+add_subdirectory(LCrypto)
 add_subdirectory(Json)
 #add_subdirectory(JsonTest)
 add_subdirectory(Dbo)
 add_subdirectory(Api)
 add_subdirectory(Service)
-#add_subdirectory(App)
-add_subdirectory(Client)
+add_subdirectory(App)
+#add_subdirectory(Client)
 
 
 # setting linking dependices explecitely

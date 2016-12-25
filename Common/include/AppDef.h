@@ -31,8 +31,7 @@
 #define FL __FILE__
 #define LN __LINE__
 
-
-
+#define APP_LOGGER "app.logger"
 
 #define NON_COPY_NON_MOVE_ABLE(TYPE) \
         TYPE(TYPE&) = delete; \
@@ -40,5 +39,8 @@
         TYPE(TYPE&&) = delete; \
         TYPE& operator=(TYPE&&) = delete;
 
+#define MAKE_STATIC(TYPE) \
+    TYPE() = delete; \
+    ~TYPE() = delete;
 
 #endif //APP_CONGIF_H

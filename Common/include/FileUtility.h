@@ -16,15 +16,14 @@
 #include <string>
 #include <vector>
 
+#include "AppDef.h"
+
 namespace Common {
     using namespace std;
 
     class FileUtility {
     private:
-        FileUtility() = delete;
-        FileUtility(const FileUtility&) = delete;
-        FileUtility& operator=(const FileUtility&) = delete;
-        ~FileUtility() = delete;
+        MAKE_STATIC(FileUtility);
 
     public:
         static void SplitPath(vector< string >& listName, const string& absulateFileName);

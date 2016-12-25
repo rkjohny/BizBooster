@@ -13,7 +13,7 @@
 #include "WtDaoImp.h"
 #include "DboDef.h"
 #include "Converter.h"
-#include "AppFactory.h"
+#include "LogFactory.h"
 
 #include "Wt/Auth/Dbo/UserDatabase"
 

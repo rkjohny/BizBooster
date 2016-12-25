@@ -13,7 +13,7 @@
 #include "Dao.h"
 #include "Dal.h"
 #include "RegisterUserHelper.h"
-#include "AppFactory.h"
+#include "LogFactory.h"
 
 namespace Api {
 

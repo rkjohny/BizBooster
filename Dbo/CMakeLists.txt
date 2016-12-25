@@ -28,6 +28,11 @@ else ()
     #including libjson include dir
     include_directories(${LIB_JSON_INCLUDE_DIR})
 
+    #including liblcrypto include dirctories
+    include_directories(${LIB_LCRYPTO_INCLUDE_DIR})
+
+    #including libfio include directory
+    include_directories(${LIB_FIO_INCLUDE_DIR})
 
     file(GLOB LIB_DBO_HEADERS ${LIB_DBO_INCLUDE_DIR}/*.h)
     file(GLOB LIB_DBO_SOURCES ${PROJECT_SOURCE_DIR}/*.cpp)

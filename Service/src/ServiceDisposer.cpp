@@ -12,14 +12,16 @@
 
 
 #include "ServiceDisposer.h"
-#include "AppFactory.h"
+#include "CFReaderFactory.h"
+#include "LogFactory.h"
 
 
 namespace Rest {
 
 void ServiceDisposer::Dispose()
 {
-    Common::AppFactory::Dispose();
+    Fio::CFReaderFactory::Dispose();
+    Fio::LogFactory::Dispose();
 }
 
 }

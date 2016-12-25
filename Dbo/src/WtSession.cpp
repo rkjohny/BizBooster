@@ -11,7 +11,7 @@
  */
 
 #include "WtSession.h"
-#include "AppFactory.h"
+#include "CFReaderFactory.h"
 #include "DboDef.h"
 #include "AppSetting.h"
 
@@ -20,8 +20,8 @@ namespace Dal {
 
 WtSession::WtSession()
 {
-    auto config_reader = Common::AppFactory::CreateConfigReader(
-            DBO_CONFIG_FILE_NAME, Common::ConFigFileType::PROPERTY_FILE);
+    auto config_reader = Fio::CFReaderFactory::CreateConfigReader(
+            DBO_CONFIG_FILE_NAME, Fio::ConFigFileType::PROPERTY_FILE);
     config_reader->SetFile(DBO_CONFIG_FILE_NAME);
 
     std::string db_host = config_reader->GetValueOf(DB_HOST);

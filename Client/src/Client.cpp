@@ -13,7 +13,9 @@
 #include "Client.h"
 #include "CilentDef.h"
 #include "ClientInitializer.h"
-#include "AppFactory.h"
+#include "LogFactory.h"
+#include "CFReaderFactory.h"
+
 
 using namespace Common;
 using namespace Client;
@@ -24,17 +26,17 @@ TradeXClient::TradeXClient(const WEnvironment& env)
 
     ClientInitializer::Initialize();
 
-    auto logger = AppFactory::GetLogger();
+    auto logger = Fio::LogFactory::GetLogger();
 
     LOG_DEBUG("Inside TradeXClient, writing to log file a debug message");
     logger->Debug(FL, LN, "Starting TradexClient  application");
 
     try {
-        auto propertyReader = AppFactory::GetConfigReader(LANG_PROP_FILE_NAME);
+        auto propertyReader = Fio::CFReaderFactory::GetConfigReader(LANG_PROP_FILE_NAME);
         string apptitle = propertyReader->GetValueOf(LANG_PROP_KEY_APP_TITLE) + " - v" + CLIENT_VERSION;
         setTitle(WString(std::move(apptitle)));
     } catch (AppException &e) {
-        LOG_ERROR(std::move(e.GetMessage()));
+        LOG_ERROR(e.GetMessage());
     }
 
     root()->addWidget(new WText("Your name, please ? ")); // show some text

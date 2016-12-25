@@ -21,10 +21,10 @@
 
 #include "Service.h"
 #include "ServiceDef.h"
-#include "AppFactory.h"
+#include "LogFactory.h"
 #include "ServiceInitializer.h"
 #include "ServiceDisposer.h"
-
+#include "CFReaderFactory.h"
 
 using namespace Rest;
 using namespace Common;
@@ -39,7 +39,7 @@ Service::Service()
     //First thing to initialize service
     ServiceInitializer::Initialize();
 
-    auto server_config_reader = AppFactory::GetConfigReader(SERVICE_CONFIG_FILE_NAME);
+    auto server_config_reader = Fio::CFReaderFactory::GetConfigReader(SERVICE_CONFIG_FILE_NAME);
     
     utility::string_t protocol = server_config_reader->GetValueOf(SERVICE_HOST_PROTOCOL);
     utility::string_t host_name = server_config_reader->GetValueOf(SERVICE_HOST_NAME);
@@ -66,7 +66,7 @@ void Service::Run()
 {
     m_listener->Run().then([]()
     {
-        LOG_DEBUG("Server listening ...");
+        LOG_DEBUG("Rest service listening ...");
     }).wait();
 }
 
@@ -79,11 +79,11 @@ int main(int argc, char** argv)
 {
     Service server;
 
-    LOG_DEBUG("Starting Server ...");
+    LOG_DEBUG("Rest service starting ...");
 
     server.Run();
 
-    LOG_DEBUG("Server started.");
+    LOG_DEBUG("Rest service started.");
     while (1) {
         std::string input;
         LOG_DEBUG("Please enter EXIT to exit.");
@@ -99,7 +99,7 @@ int main(int argc, char** argv)
 #endif
     }
 
-    LOG_DEBUG("Server is shutting down ...");
+    LOG_DEBUG("Rest service is shutting down ...");
 
     server.ShutDown();
     ServiceDisposer::Dispose();

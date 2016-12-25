@@ -15,12 +15,15 @@
 #include "StringUtility.h"
 #include "OFStream.h"
 #include "OSTDStream.h"
-#include "AppFactory.h"
+#include "CFReaderFactory.h"
 #include "Api.h"
 #include "Json.h"
 #include "Common.h"
 #include "ServiceDef.h"
 #include "Converter.h"
+#include "LogFactory.h"
+
+#include <string>
 
 using namespace std;
 using namespace Rest;
@@ -30,31 +33,35 @@ using namespace Api;
 void ServiceInitializer::Initialize()
 {
     // Initializing config reader and reading server config file
-    auto server_config_reader = AppFactory::CreateConfigReader(SERVICE_CONFIG_FILE_NAME, Common::ConFigFileType::PROPERTY_FILE);
+    auto server_config_reader =
+            Fio::CFReaderFactory::CreateConfigReader(SERVICE_CONFIG_FILE_NAME,
+            Fio::ConFigFileType::PROPERTY_FILE);
+
     server_config_reader->SetFile(SERVICE_CONFIG_FILE_NAME);
 
     // creating server logger
-    auto logger = AppFactory::GetLogger();
+    auto logger = Fio::LogFactory::GetLogger(APP_LOGGER);
 
     // Adding file stream to logger
-    string filename = server_config_reader->GetValueOf(SERVICE_LOG_FILE_PATH_STR) + PATH_SEPARATOR + SERVICE_LOG_FILE_NAME;
-    OFStream* ofStream = new OFStream();
+    std::string filename = server_config_reader->GetValueOf(SERVICE_LOG_FILE_PATH) +
+            PATH_SEPARATOR + server_config_reader->GetValueOf(SERVICE_LOG_FILE_NAME);
+    
+    Fio::OFStream* ofStream = new Fio::OFStream();
     ofStream->SetFile(std::string(filename));
     logger->AddStream(std::move(filename), ofStream);
 
-    string&& loglevelStr = server_config_reader->GetValueOf(SERVICE_LOG_LEVEL_STR);
+    std::string&& loglevelStr = server_config_reader->GetValueOf(SERVICE_LOG_LEVEL);
     try {
         logger->SetLogLevel(Converter::ToInt32(std::move(loglevelStr)));
     } catch (...) {
     }
 
     // Adding standard output (console) stream
-    OSTDStream *ostdStream = new OSTDStream();
+    Fio::OSTDStream *ostdStream = new Fio::OSTDStream();
     logger->AddStream("standard_output_stram", ostdStream);
 
     // Load all libraries
     Common::LoadLibrary();
     Json::LoadLibrary();
     Api::LoadLibrary();
-
 }

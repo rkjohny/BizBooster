@@ -16,6 +16,7 @@
 #include <type_traits>
 #include "TypeTratits.h"
 #include "Getter.h"
+#include "AppDef.h"
 #include <cpprest/json.h>
 #include <cpprest/details/basic_types.h>
 #include <cpprest/asyncrt_utils.h>
@@ -33,7 +34,7 @@ namespace Json {
 
     class Serializer {
     private:
-        Serializer() = delete;
+        MAKE_STATIC(Serializer);
 
         template<class T>
         static void GetData(const Wt::WDateTime &object, json::value &jvalue, const char*name) {

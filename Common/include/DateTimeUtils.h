@@ -15,15 +15,14 @@
 
 #include <string>
 
+#include "AppDef.h"
+
 namespace Common {
     using namespace std;
 
     class DateTimeUtils {
     private:
-        DateTimeUtils() = delete;
-        DateTimeUtils(const DateTimeUtils&) = delete;
-        DateTimeUtils& operator=(DateTimeUtils&) = delete;
-        ~DateTimeUtils() = delete;
+        MAKE_STATIC(DateTimeUtils);
 
     public:
         static string GetTimeStamp();

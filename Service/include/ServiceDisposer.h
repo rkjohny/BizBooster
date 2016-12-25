@@ -13,14 +13,13 @@
 #ifndef SERVER_DISPOSER_H
 #define SERVER_DISPOSER_H
 
+#include "AppDef.h"
 
 namespace Rest {
 
     class ServiceDisposer {
     private:
-        ServiceDisposer();
-        ServiceDisposer(const ServiceDisposer&);
-        ServiceDisposer& operator=(ServiceDisposer&);
+        MAKE_STATIC(ServiceDisposer);
 
     public:
         static void Dispose();

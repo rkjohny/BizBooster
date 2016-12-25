@@ -31,6 +31,9 @@ else ()
     #including libjdbo include directory
     include_directories(${LIB_DBO_INCLUDE_DIR})
 
+    #including libfio include directory
+    include_directories(${LIB_FIO_INCLUDE_DIR})
+
     message("LIB_COMMON_INCLUDE_DIR = ${LIB_COMMON_INCLUDE_DIR}")
 
     file(GLOB LIB_API_HEADERS ${LIB_API_INCLUDE_DIR}/*.h)

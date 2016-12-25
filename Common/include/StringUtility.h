@@ -18,15 +18,14 @@
 #include <sstream>
 #include <string>
 
+#include "AppDef.h"
+
 namespace Common {
     using namespace std;
 
     class StringUtility {
     private:
-        StringUtility() = delete;
-        StringUtility(const StringUtility&) = delete;
-        StringUtility& operator=(const StringUtility&) = delete;
-        ~StringUtility() = delete;
+        MAKE_STATIC(StringUtility);
 
         static string cm_newLineStr;
         static string cm_tabStr;
