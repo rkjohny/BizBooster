@@ -77,6 +77,8 @@ void Service::ShutDown()
 
 int main(int argc, char** argv)
 {
+    UNUSED(arc), UNUSED(argv);
+    
     Service server;
 
     LOG_DEBUG("Rest service starting ...");

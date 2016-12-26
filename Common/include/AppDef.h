@@ -33,6 +33,8 @@
 
 #define APP_LOGGER "app.logger"
 
+#define UNUSED(x) ((void)(x))
+
 #define NON_COPY_NON_MOVE_ABLE(TYPE) \
         TYPE(TYPE&) = delete; \
         TYPE& operator=(TYPE&) = delete; \

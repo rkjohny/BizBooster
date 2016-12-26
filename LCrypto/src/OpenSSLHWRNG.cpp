@@ -30,8 +30,6 @@ extern void OPENSSL_cpuid_setup(void);
 }
 #endif
 
-//#define UNUSED(x) ((void)(x))
-
 
 namespace LCrypto {
 
