@@ -15,7 +15,7 @@
 
 #include "AppDef.h"
 
-namespace App {
+namespace WebApp {
 
 class AppInitializer {
 public:

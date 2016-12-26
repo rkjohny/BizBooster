@@ -13,18 +13,17 @@
 #ifndef CLIENT_DISPOSER_H
 #define CLIENT_DISPOSER_H
 
+#include "AppDef.h"
 
-namespace App {
+namespace WebApp {
 
-    class AppDisposer {
-    private:
-        AppDisposer();
-        AppDisposer(const AppDisposer&);
-        AppDisposer& operator=(AppDisposer&);
+class AppDisposer {
+private:
+    MAKE_STATIC(AppDisposer);
 
-    public:
-        static void Dispose();
-    };
+public:
+    static void Dispose();
+};
 
 
 }

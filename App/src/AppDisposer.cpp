@@ -11,16 +11,19 @@
  */
 
 #include "AppDisposer.h"
-#include "CFReaderFactory.h"
-#include "LogFactory.h"
+#include "Fio.h"
+#include "Common.h"
+#include "Json.h"
+#include "LCrypto.h"
 
-
-namespace App {
+namespace WebApp {
 
 void AppDisposer::Dispose()
 {
-    Fio::CFReaderFactory::Dispose();
-    Fio::LogFactory::Dispose();
+    Json::LoadLibrary();
+    LCrypto::LoadLibrary();
+    Fio::ReleaseLibrary();
+    Common::ReleaseLibrary();
 }
 
 }

@@ -19,13 +19,18 @@
 #include "CFReaderFactory.h"
 #include "OFStream.h"
 #include "OSTDStream.h"
+#include "Json.h"
+#include "LCrypto.h"
 
 #include <string>
 
-namespace App {
+namespace WebApp {
 
 void AppInitializer::Initialize()
 {
+    // Load all libraries
+    Common::LoadLibrary();
+    
     // Initializing config reader and reading server config file
     auto server_config_reader =
             Fio::CFReaderFactory::CreateConfigReader(APP_CONFIG_FILE_NAME,
@@ -54,8 +59,9 @@ void AppInitializer::Initialize()
     Fio::OSTDStream *ostdStream = new Fio::OSTDStream();
     logger->AddStream("standard_output_stram", ostdStream);
 
-    // Load all libraries
-    Common::LoadLibrary();
+    /* load rest of libraries*/
+    Json::LoadLibrary();
+    LCrypto::LoadLibrary();
 }
 
 

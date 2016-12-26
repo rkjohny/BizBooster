@@ -12,30 +12,33 @@
 
 #include "Application.h"
 
-#include <Wt/WApplication>
-#include <Wt/WContainerWidget>
-#include <Wt/WServer>
 
+#include <Wt/WServer>
 #include <Wt/WBootstrapTheme>
+
 
 #include "AppInitializer.h"
 
-namespace App {
+namespace WebApp {
 
 Application::Application(const Wt::WEnvironment &env) : Wt::WApplication(env)
 {
+    root()->addWidget(new Wt::WText("Hello World")); // show some text
 }
+
+} /* end namespace */
+
 
 Wt::WApplication* createApplication(const Wt::WEnvironment &env)
 {
-    return new Application(env);
+    return new WebApp::Application(env);
 }
 
 int main(int argc, char **argv)
 {
     try {
         
-        AppInitializer::Initialize();
+        WebApp::AppInitializer::Initialize();
         
         Wt::WServer server(argc, argv, WTHTTP_CONFIGURATION);
 
@@ -48,7 +51,6 @@ int main(int argc, char **argv)
     } catch (std::exception &e) {
         std::cerr << "exception: " << e.what() << std::endl;
     }
-}
-
-
+    
+    return 0;
 }

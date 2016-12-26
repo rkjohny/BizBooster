@@ -4,8 +4,9 @@ project(BizBooster)
 
 message("Executing BizBooster::CMakeLists.txt")
 
-add_compile_options(-O1 -g3 -Wall -Wextra -std=c++1y)
+add_compile_options(-c -O1 -g3 -Wall -Wextra -std=c++1y)
 set(CMAKE_BUILD_TYPE Debug)
+
 
 # setting the output path
 #TODO: how to get the path from where cmake commade was given without hard coding build
@@ -146,7 +147,7 @@ add_subdirectory(Json)
 add_subdirectory(Dbo)
 add_subdirectory(Api)
 add_subdirectory(Service)
-#add_subdirectory(App)
+add_subdirectory(App)
 #add_subdirectory(Client)
 
 

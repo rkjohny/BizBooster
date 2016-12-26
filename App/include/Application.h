@@ -14,8 +14,13 @@
 #define W_APPLICATION_H
 
 #include <Wt/WApplication>
+#include <Wt/WBreak>
+#include <Wt/WContainerWidget>
+#include <Wt/WLineEdit>
+#include <Wt/WPushButton>
+#include <Wt/WText>
 
-namespace App {
+namespace WebApp {
 
 class Application : public Wt::WApplication {
 public:
