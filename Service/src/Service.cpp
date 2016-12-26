@@ -77,7 +77,7 @@ void Service::ShutDown()
 
 int main(int argc, char** argv)
 {
-    UNUSED(arc), UNUSED(argv);
+    UNUSED(argc), UNUSED(argv);
     
     Service server;
 
