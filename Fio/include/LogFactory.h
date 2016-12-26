@@ -63,8 +63,6 @@ public:
     class Logger : public BaseLogger {
         friend class LogFactory;
     public:
-        ~Logger() = default;
-
         void Debug(const char *fname, int line, const string &&message);
         void Info(const char *fname, int line, const string &&message);
         void Warning(const char *fname, int line, const string &&message);
@@ -83,6 +81,7 @@ public:
         void Error(const char *fname, int line, const char *format, ...);
 
     protected:
+        ~Logger() = default;
         Logger() = default;
 
     private:
@@ -90,14 +89,14 @@ public:
     };
 
     static void Dispose();
-    static std::shared_ptr<Logger> GetLogger(std::string &&key);
+    static Logger* GetLogger(std::string &&key);
     static void DisposeLogger();
     static bool DisposeLogger(std::string &key);
 
 private:
     MAKE_STATIC(LogFactory);
     
-    static std::map<std::string, std::shared_ptr<Logger>> cm_loggersList;
+    static std::map<std::string, Logger*> cm_loggersList;
 };
 
 } /* namespace Fio */

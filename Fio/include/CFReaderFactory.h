@@ -21,21 +21,14 @@
 
 namespace Fio {
 
-enum ConFigFileType {
-    PROPERTY_FILE,
-    XML_FILE
-};
-
 class CFReaderFactory {
 public:    
 
     class PropertyReader : public BasePropertyReader {
         friend class CFReaderFactory;
 
-    public:
-        ~PropertyReader() = default;
-
     protected:
+        ~PropertyReader() = default;
         PropertyReader() = default;
 
         NON_COPY_NON_MOVE_ABLE(PropertyReader);
@@ -43,17 +36,15 @@ public:
 
     static void Dispose();
 
-    static std::shared_ptr<ConfigReader> CreateConfigReader(std::string &&key, ConFigFileType type);
-    static std::shared_ptr<ConfigReader> GetConfigReader(std::string &&key);
-    static bool DisposeConfigReader(std::string &key);
+    static ConfigReader* CreateConfigReader(std::string &&key, ConFigFileType type);
+    static ConfigReader* GetConfigReader(std::string &&key);
+    static bool DisposeConfigReader(std::string &&key);
     static void DisposeConfigReader();
 
 private:
     MAKE_STATIC(CFReaderFactory);
 
-    NON_COPY_NON_MOVE_ABLE(CFReaderFactory);
-
-    static std::map<std::string, std::shared_ptr<ConfigReader>> cm_configReaderList;
+    static std::map<std::string, ConfigReader*> cm_configReaderList;
 };
 
 } /* namespace Common */

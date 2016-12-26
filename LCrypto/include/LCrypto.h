@@ -10,31 +10,16 @@
  * magnetic storage, computer print-out or visual display.
  */
 
-#ifndef SESSION_H
-#define SESSION_H
 
-#include "AppDef.h"
-#include "WtPgConnection.h"
-#include <Wt/Dbo/Dbo>
+#ifndef LCRYPTO_H
+#define LCRYPTO_H
 
-namespace Dal {
+namespace LCrypto {
 
-class WtSession : public Wt::Dbo::Session, public Common::Disposable {
-public:
-
-    WtSession();
-    
-    virtual ~WtSession() = default;
-
-    void Dispose() override;
-
-private:
-    NON_COPY_NON_MOVE_ABLE(WtSession);
-
-    WtPgConnection m_connection;
-};
+void LoadLibrary();
+void ReleaseLibrary();
 
 }
 
-#endif /* SESSION_H */
+#endif /* LCRYPTO_H */
 

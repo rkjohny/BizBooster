@@ -17,7 +17,7 @@
 
 namespace Fio {
 
-BasePropertyReader::BasePropertyReader()
+BasePropertyReader::BasePropertyReader() : ConfigReader(ConFigFileType::PROPERTY_FILE)
 {
 }
 

@@ -21,8 +21,12 @@
 
 namespace Fio {
 
-class ConfigReader : public Common::SharedObject, public Common::Disposable
-{
+enum ConFigFileType {
+    PROPERTY_FILE,
+    XML_FILE
+};
+
+class ConfigReader : public Common::SharedObject, public Common::Disposable {
 public:
     virtual std::string GetValueOf(const std::string& key) = 0;
 
@@ -30,11 +34,17 @@ public:
 
     virtual void SetFile(const std::string& fileName) throw (Common::AppException) = 0;
 
+    void SetType(ConFigFileType type);
+    ConFigFileType GetType() const;
+    
 protected:
-    ConfigReader() = default;
+
+    ConfigReader(ConFigFileType type);
     virtual ~ConfigReader() = default;
 
     NON_COPY_NON_MOVE_ABLE(ConfigReader);
+
+    ConFigFileType m_type;
 };
 
 }

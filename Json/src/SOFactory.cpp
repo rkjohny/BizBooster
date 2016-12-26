@@ -51,4 +51,16 @@ std::vector< std::shared_ptr<Serializable>> SOFactory::CreateObjectArray(string 
     return v;
 }
 
+
+void SOFactory::Clear()
+{
+    cm_mutex.lock();
+    cm_objectCreators.clear();
+    cm_mutex.unlock();
+    
+    cm_mutexArr.lock();
+    cm_objectArrayCreators.clear();
+    cm_mutexArr.unlock();
+}
+
 } /* namespace Api */

@@ -10,16 +10,22 @@
  * magnetic storage, computer print-out or visual display.
  */
 
-#include "AppDisposer.h"
+#include "ConfigReader.h"
 
-namespace Common {
+namespace Fio {
 
-AppDisposer::AppDisposer()
+ConfigReader::ConfigReader(ConFigFileType type) : m_type(type)
 {
+};
+
+void ConfigReader::SetType(ConFigFileType type)
+{
+    m_type = type;
 }
 
-AppDisposer::~AppDisposer()
+ConFigFileType ConfigReader::GetType() const
 {
+    return m_type;
 }
 
-} /* namespace Common */
+}

@@ -10,16 +10,32 @@
  * magnetic storage, computer print-out or visual display.
  */
 
-#include "SharedObject.h"
+#include "Fio.h"
+#include "LogFactory.h"
+#include "CFReaderFactory.h"
 
-namespace Common {
+namespace Fio {
 
-SharedObject::SharedObject()
+static bool g_loaded = false;
+
+void LoadLibrary()
 {
+    if (!g_loaded) {
+        g_loaded = true;
+    }
 }
 
-SharedObject::~SharedObject()
+void ReleaseLibrary()
 {
+    if (g_loaded) {
+        
+        Fio::LogFactory::Dispose();
+        Fio::CFReaderFactory::Dispose();
+        
+        g_loaded = false;
+    }
 }
 
-} /* namespace Common */
+}
+
+

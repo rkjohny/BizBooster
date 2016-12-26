@@ -27,9 +27,21 @@ WtDaoImp::WtDaoImp()
 
 WtDaoImp::~WtDaoImp()
 {
-    //TODO: commit/rollback if pending, close the connection
-    m_session.flush();
+    Dispose();
 }
+
+ void WtDaoImp::Dispose()
+ {
+//     if (!m_isDosposed) {
+//        //TODO: commit/rollback if pending, close the connection
+//         m_session.Dispose();
+//         m_isDosposed = true;
+//     }
+     
+     //Just flush the session, we are not closing connection.
+     m_session.flush();
+ }
+
 
 std::shared_ptr<WtDaoImp> WtDaoImp::GetInstance()
 {

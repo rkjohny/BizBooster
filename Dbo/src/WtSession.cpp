@@ -47,4 +47,16 @@ WtSession::WtSession()
 }
 
 
+void WtSession::Dispose()
+{
+//    if (!m_isDosposed) {
+//        m_connection.Dispose();
+//        this->flush();
+//        m_isDosposed = true;
+//    }
+    
+    //Just flush the session, we are not closing connection. 
+    this->flush();
+}
+
 }

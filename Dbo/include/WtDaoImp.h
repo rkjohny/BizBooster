@@ -44,6 +44,8 @@ protected:
 public:
     virtual ~WtDaoImp();
 
+    void Dispose() override;
+    
     template<class C>
     typename std::enable_if<(std::is_base_of<Dal::AuditableEntity, C>::value == true ||
             std::is_base_of<Dal::User, C>::value == true), void >::type

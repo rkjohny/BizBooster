@@ -22,7 +22,8 @@
 #include "ServiceDef.h"
 #include "Converter.h"
 #include "LogFactory.h"
-
+#include "Fio.h"
+#include "LCrypto.h"
 #include <string>
 
 using namespace std;
@@ -62,6 +63,8 @@ void ServiceInitializer::Initialize()
 
     // Load all libraries
     Common::LoadLibrary();
+    LCrypto::LoadLibrary();
+    Fio::LoadLibrary();
     Json::LoadLibrary();
     Api::LoadLibrary();
 }

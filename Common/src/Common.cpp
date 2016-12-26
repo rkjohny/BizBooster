@@ -15,13 +15,22 @@
 
 namespace Common {
 
-static bool loaded = false;
+static bool g_loaded = false;
 
 void LoadLibrary()
 {
     //needed just to initialize the static variables
     //this method will be called form outside the library
-    loaded = true;
+    if (!g_loaded) {
+        g_loaded = true;
+    }
+}
+
+void ReleaseLibrary()
+{
+    if (g_loaded) {
+        g_loaded = false;
+    }
 }
 
 }

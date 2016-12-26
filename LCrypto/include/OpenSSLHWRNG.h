@@ -24,8 +24,8 @@ public:
 
     int Initialize() override;
     int GetRandomBytes(std::vector<uint8_t> &bytes, int length) override;
-    BaseRNG* GetInstance() override;
-    void Close() override;
+    static BaseRNG* GetInstance();
+    void Dispose() override;
     
 protected:
     OpenSSLHWRNG();

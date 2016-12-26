@@ -20,7 +20,7 @@
 
 namespace Fio {
 
-std::map<std::string, std::shared_ptr<LogFactory::Logger>> LogFactory::cm_loggersList;
+std::map<std::string, LogFactory::Logger*> LogFactory::cm_loggersList;
 
 
 void LogFactory::Logger::Debug(const char *fname, int line, const string &&message)
@@ -125,16 +125,16 @@ void LogFactory::Dispose()
     DisposeLogger();
 }
 
-std::shared_ptr<LogFactory::Logger> LogFactory::GetLogger(std::string &&key)
+LogFactory::Logger* LogFactory::GetLogger(std::string &&key)
 {
-    std::shared_ptr<LogFactory::Logger> logger = nullptr;
+    LogFactory::Logger *logger = nullptr;
     
     auto itr = cm_loggersList.find(key);
         
     if (itr != cm_loggersList.end()) {
         logger = itr->second;
     } else {
-        logger = std::shared_ptr<LogFactory::Logger>(new LogFactory::Logger());
+        logger = new LogFactory::Logger();
         cm_loggersList[std::move(key)] = logger;
     }
     
@@ -146,6 +146,8 @@ bool LogFactory::DisposeLogger(std::string &key)
     auto itr = cm_loggersList.find(key);
     if (itr != cm_loggersList.end()) {
         itr->second->Dispose();
+        cm_loggersList.erase(itr);
+        delete itr->second;
         return true;
     }
     return false;
@@ -155,7 +157,9 @@ void LogFactory::DisposeLogger()
 {
     for (auto &reader : cm_loggersList) {
         reader.second->Dispose();
+        delete reader.second;
     }
+    cm_loggersList.clear();
 }
 
 

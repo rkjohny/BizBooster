@@ -46,9 +46,12 @@ namespace Json {
 
 
 /************* Load Librray **************************/
+
 void LoadLibrary();
+void ReleaseLibrary();
 
 /************************** Serializing *************************/
+
 template <class T>
 json::value ToJson(const T &&object)
 {

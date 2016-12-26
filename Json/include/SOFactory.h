@@ -35,6 +35,10 @@ namespace Json {
     Json::ClassRegistrar<TYPE> \
         TYPE::_class_registrar_##ID = Json::ClassRegistrar<TYPE>( string(KEY) );
 
+    
+#define UNREGISTER_CLASS(TYPE, NAME) \
+    Json::SOFactory::UnRegister<TYPE>(NAME);    
+    
     class SOFactory {
     public:
 
@@ -57,7 +61,30 @@ namespace Json {
             cout << cm_objectCreators.size() << endl;
             cout << cm_objectArrayCreators.size() << endl;
         }
+        
+        template< class T >
+        static void UnRegister(string &&key) {
+            static_assert(std::is_base_of< Serializable, T >::value, "T must be derived from Serializable");
+            Common::StringUtility::ToLower(key);
+            
+            cm_mutex.lock();
+            auto itrObj = cm_objectCreators.find(key);
+            if (itrObj != cm_objectCreators.end()) {
+                cm_objectCreators.erase(itrObj);
+            }
+            cm_mutex.unlock();
 
+            
+            cm_mutexArr.lock();
+            auto itrArr = cm_objectArrayCreators.find(std::move(key));
+            if (itrArr != cm_objectArrayCreators.end()) {
+                cm_objectArrayCreators.erase(itrArr);
+            }
+            cm_mutexArr.unlock(); 
+        }
+        
+        static void Clear();
+        
     protected:
         SOFactory() = default;
 

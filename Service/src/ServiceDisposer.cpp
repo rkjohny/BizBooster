@@ -14,14 +14,23 @@
 #include "ServiceDisposer.h"
 #include "CFReaderFactory.h"
 #include "LogFactory.h"
+#include "Fio.h"
+#include "Common.h"
+#include "Api.h"
+#include "Dal.h"
+#include "LCrypto.h"
 
 
 namespace Rest {
 
 void ServiceDisposer::Dispose()
 {
-    Fio::CFReaderFactory::Dispose();
-    Fio::LogFactory::Dispose();
+    Api::ReleaseLibrary();
+    Dal::ReleaseLibrary();
+    LCrypto::ReleaseLibrary();
+    Json::ReleaseLibrary();
+    Fio::ReleaseLibrary();
+    Common::ReleaseLibrary();
 }
 
 }

@@ -15,14 +15,25 @@
 
 namespace Json {
 
-static bool loaded = false;
+static bool g_loaded = false;
 
 void LoadLibrary()
 {
-    if (!loaded) {
+    if (!g_loaded) {
         Common::LoadLibrary();
-        loaded = true;
+        g_loaded = true;
     }
+}
+
+void ReleaseLibrary()
+{
+    if (g_loaded) {
+        
+        Common::ReleaseLibrary();
+        
+        g_loaded = false;
+    }
+    
 }
 
 }

@@ -24,8 +24,7 @@ public:
 
     int Initialize() override;
     int GetRandomBytes(std::string &buff, int length) override;
-    BaseRNG* GetInstance() override;
-    void Close() override;
+    static BaseRNG* GetInstance();
 
 protected:
     OpenSSLSWRNG();

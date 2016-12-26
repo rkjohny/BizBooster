@@ -26,7 +26,7 @@ namespace Api {
         static web::json::value RegisterUser(RegisterUserInput &input);
 
     private:
-        ServiceFacade() = delete;
+        MAKE_STATIC(ServiceFacade);
     };
 } /* namespace Api */
 

@@ -40,7 +40,7 @@ OpenSSLHWRNG::OpenSSLHWRNG()
 
 OpenSSLHWRNG::~OpenSSLHWRNG()
 {
-    Close();
+    Dispose();
 }
 
 int OpenSSLHWRNG::Initialize()
@@ -117,7 +117,7 @@ int OpenSSLHWRNG::Initialize()
 
         if (ret) {
             m_isopened = true;
-            Close();
+            Dispose();
         }
     }
 
@@ -150,7 +150,7 @@ BaseRNG* OpenSSLHWRNG::GetInstance()
     return m_instance;
 }
 
-void OpenSSLHWRNG::Close()
+void OpenSSLHWRNG::Dispose()
 {
     if (m_isopened) {
 

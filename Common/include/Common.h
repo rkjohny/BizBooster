@@ -15,7 +15,10 @@
 
 
 namespace Common {
-    void LoadLibrary();
+
+void LoadLibrary();
+void ReleaseLibrary();
+
 }
 
 

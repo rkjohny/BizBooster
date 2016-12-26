@@ -21,11 +21,11 @@
 
 namespace Dal {
 
-static bool loaded = false;
+static bool g_loaded = false;
 
 void LoadLibrary()
 {
-    if (!loaded) {
+    if (!g_loaded) {
         Json::LoadLibrary();
 
         LOG_DEBUG("Registering User calss...");
@@ -35,11 +35,29 @@ void LoadLibrary()
                 DBO_CONFIG_FILE_NAME, Fio::ConFigFileType::PROPERTY_FILE);
         config_reader->SetFile(DBO_CONFIG_FILE_NAME);
 
+        //Initializing Dbo objects
+        Dal::GetDao();
+        
+        //Run data model, data model it will create tables; 
         DataModelManager().Run();
-        loaded = true;
+        
+        g_loaded = true;
     }
 }
 
+void ReleaseLibrary()
+{
+    if (g_loaded) {
+
+        UNREGISTER_CLASS(User, "user");
+
+        Fio::CFReaderFactory::DisposeConfigReader(DBO_CONFIG_FILE_NAME);
+        
+        Dal::GetDao()->Dispose();
+        
+        g_loaded = false;
+    }
+}
 
 std::shared_ptr<Dao> GetDao()
 {

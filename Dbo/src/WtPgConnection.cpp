@@ -10,31 +10,16 @@
  * magnetic storage, computer print-out or visual display.
  */
 
-#ifndef SESSION_H
-#define SESSION_H
-
-#include "AppDef.h"
 #include "WtPgConnection.h"
-#include <Wt/Dbo/Dbo>
+#include "Disposable.h"
 
 namespace Dal {
 
-class WtSession : public Wt::Dbo::Session, public Common::Disposable {
-public:
-
-    WtSession();
-    
-    virtual ~WtSession() = default;
-
-    void Dispose() override;
-
-private:
-    NON_COPY_NON_MOVE_ABLE(WtSession);
-
-    WtPgConnection m_connection;
-};
-
+void WtPgConnection::Dispose()
+{
+    if (!m_isDosposed) {
+        m_isDosposed = true;
+    }
 }
 
-#endif /* SESSION_H */
-
+}

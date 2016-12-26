@@ -20,7 +20,7 @@
 
 namespace Dal {
 
-class Dao {
+class Dao : public Common::Disposable {
 private:    
     NON_COPY_NON_MOVE_ABLE(Dao);
 
@@ -29,7 +29,7 @@ protected:
 
 public:
     virtual ~Dao() = default;
-
+   
     virtual void CreateTables() = 0;
 
     virtual int GetNextDmVersion() = 0;

@@ -17,15 +17,14 @@
 #include <vector>
 
 #include "AppDef.h"
+#include "Disposable.h"
 
 namespace LCrypto {
 
-class BaseRNG {
+class BaseRNG : public Common::Disposable {
 public:
     virtual int Initialize() = 0;
     virtual int GetRandomBytes(std::vector<uint8_t> &bytes, int length) = 0;
-    virtual BaseRNG* GetInstance() = 0;
-    virtual void Close() = 0;
     
 protected:
     BaseRNG(); 

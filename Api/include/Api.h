@@ -16,7 +16,8 @@
 namespace Api {
 
 
-    void LoadLibrary();
+void LoadLibrary();
+void ReleaseLibrary();
 
 
 } /* namespace */

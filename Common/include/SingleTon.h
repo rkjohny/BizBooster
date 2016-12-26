@@ -10,17 +10,22 @@
  * magnetic storage, computer print-out or visual display.
  */
 
-#ifndef APP_DISPOSER_H
-#define APP_DISPOSER_H
+
+#ifndef SINGLE_TON_H
+#define SINGLE_TON_H
 
 namespace Common {
 
-    class AppDisposer {
-    public:
-        AppDisposer();
-        virtual ~AppDisposer();
-    };
+#define SINGLE_TON : public SingleTon
 
-} /* namespace Common */
 
-#endif /* APP_DISPOSER_H */
+class SingleTon {
+protected:
+    SingleTon() = default;
+    virtual ~SingleTon() = default;
+    
+};
+
+}
+#endif /* SINGLE_TON_H */
+

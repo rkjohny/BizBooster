@@ -14,17 +14,19 @@
 #define PGCONNECTION_H
 
 #include "AppDef.h"
+#include "Disposable.h"
 #include <Wt/Dbo/Dbo>
 #include <Wt/Dbo/WtSqlTraits>
 #include <Wt/Dbo/backend/Postgres>
 
 namespace Dal {
 
-class WtPgConnection : public Wt::Dbo::backend::Postgres {
+class WtPgConnection : public Wt::Dbo::backend::Postgres, public Common::Disposable {
 public:
     WtPgConnection() = default;
     virtual ~WtPgConnection() = default;
-    
+    void Dispose() override;
+
 private:
     NON_COPY_NON_MOVE_ABLE(WtPgConnection);
 };

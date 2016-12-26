@@ -19,11 +19,11 @@
 
 namespace Api {
 
-static bool loaded = false;
+static bool g_loaded = false;
 
 void LoadLibrary()
 {
-    if (!loaded) {
+    if (!g_loaded) {
         Common::LoadLibrary();
         Json::LoadLibrary();
 
@@ -33,9 +33,22 @@ void LoadLibrary()
         REGISTER_CLASS(RegisterUserInput, "RegisterUserInput");
         REGISTER_CLASS(RegisterUserOutput, "RegisterUserOutput");
 
-        loaded = true;
+        g_loaded = true;
     }
 }
 
+void ReleaseLibrary()
+{
+    if (g_loaded) {
+
+        UNREGISTER_CLASS(RegisterUserInput, "register_user");
+        UNREGISTER_CLASS(RegisterUserInput, "RegisterUserInput");
+        UNREGISTER_CLASS(RegisterUserOutput, "RegisterUserOutput");
+        
+        Dal::ReleaseLibrary();
+        
+        g_loaded = false;
+    }
+}
 
 } /* namespace  */

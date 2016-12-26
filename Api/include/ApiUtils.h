@@ -15,12 +15,15 @@
 
 #include <cpprest/json.h>
 #include "AppError.h"
+#include "AppDef.h"
 
 namespace Api {
 
 
 class ApiUtils {
 public:
+    MAKE_STATIC(ApiUtils);
+    
     static web::json::value ErrorResponse(AppErrorCode code, const std::string &message);
 
     static web::json::value BadRequestResponse();
