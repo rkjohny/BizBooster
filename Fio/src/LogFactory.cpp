@@ -16,7 +16,6 @@
 #include "FioDef.h"
 
 #include <cstdarg>
-#include <cpprest/details/SafeInt3.hpp>
 
 
 namespace Fio {
