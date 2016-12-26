@@ -80,7 +80,7 @@ void LogFactory::Logger::Debug(const char *fname, int line, const char *format, 
     va_list argptr;
     va_start(argptr, format);
     
-    vsnprintf(dest, MAX_FORMATTED_LOG_MESSAGE, format, argptr);
+    vsnprintf(dest, (MAX_FORMATTED_LOG_MESSAGE - 1), format, argptr);
     
     va_end(argptr);
 
@@ -90,10 +90,13 @@ void LogFactory::Logger::Debug(const char *fname, int line, const char *format, 
 
 void LogFactory::Logger::Info(const char *fname, int line, const char *format, ...)
 {
-    char dest[1024 * 16];
+    char dest[MAX_FORMATTED_LOG_MESSAGE];
+    
     va_list argptr;
     va_start(argptr, format);
-    vsnprintf(dest, (1024 * 16 - 1), format, argptr);
+    
+    vsnprintf(dest, (MAX_FORMATTED_LOG_MESSAGE - 1), format, argptr);
+    
     va_end(argptr);
 
     BaseLogger::Info(Common::FileUtility::GetNameWithoutType(fname) + ":" +
@@ -102,10 +105,13 @@ void LogFactory::Logger::Info(const char *fname, int line, const char *format, .
 
 void LogFactory::Logger::Warning(const char *fname, int line, const char *format, ...)
 {
-    char dest[1024 * 16];
+    char dest[MAX_FORMATTED_LOG_MESSAGE];
+    
     va_list argptr;
     va_start(argptr, format);
-    vsnprintf(dest, (1024 * 16 - 1), format, argptr);
+
+    vsnprintf(dest, (MAX_FORMATTED_LOG_MESSAGE - 1), format, argptr);
+
     va_end(argptr);
 
     BaseLogger::Warning(Common::FileUtility::GetNameWithoutType(fname) + ":" +
@@ -114,10 +120,13 @@ void LogFactory::Logger::Warning(const char *fname, int line, const char *format
 
 void LogFactory::Logger::Error(const char *fname, int line, const char *format, ...)
 {
-    char dest[1024 * 16];
+    char dest[MAX_FORMATTED_LOG_MESSAGE];
+    
     va_list argptr;
     va_start(argptr, format);
-    vsnprintf(dest, (1024 * 16 - 1), format, argptr);
+    
+    vsnprintf(dest, (MAX_FORMATTED_LOG_MESSAGE - 1), format, argptr);
+    
     va_end(argptr);
 
     BaseLogger::Error(Common::FileUtility::GetNameWithoutType(fname) + ":" +
