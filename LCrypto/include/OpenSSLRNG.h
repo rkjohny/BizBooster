@@ -20,12 +20,12 @@ namespace LCrypto {
 class OpenSSLRNG : public BaseRNG {
 public:
 
-
 protected:
-    OpenSSLRNG();
-    virtual ~OpenSSLRNG();
+    OpenSSLRNG() = default;
+    virtual ~OpenSSLRNG() = default;
     NON_COPY_NON_MOVE_ABLE(OpenSSLRNG);
 };
+
 }
 
 

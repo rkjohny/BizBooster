@@ -27,8 +27,8 @@ public:
     virtual int GetRandomBytes(std::vector<uint8_t> &bytes, int length) = 0;
     
 protected:
-    BaseRNG(); 
-    virtual ~BaseRNG();
+    BaseRNG() = default; 
+    virtual ~BaseRNG() = default;
     NON_COPY_NON_MOVE_ABLE(BaseRNG);   
 };
 

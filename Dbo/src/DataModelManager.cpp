@@ -29,7 +29,7 @@ DataModelManager::DataModelManager()
 void DataModelManager::Run()
 {
     auto dao = Dal::GetDao();
-    int nextDmVersion = 0;
+    size_t nextDmVersion = 0;
 
     dao->CreateTables();
     
@@ -37,15 +37,9 @@ void DataModelManager::Run()
     
     nextDmVersion = dao->GetNextDmVersion();
 
-//    bool tableExists = dao->TableExists("t_setting");
-//    if (tableExists) {
-//        nextDmVersion = dao->GetNextDmVersion();
-//    }
+    FLOG_DEBUG("Running Data Model Manager... pending upgrade count: %u", dmUpgradeList.size() - nextDmVersion); 
 
-    LOG_DEBUG("Running Data Model Manager... pending upgrade count: " + 
-            Common::Converter::ToStr(dmUpgradeList.size() - nextDmVersion));
-
-    int i = nextDmVersion;
+    size_t i = nextDmVersion;
     for (; i<dmUpgradeList.size(); ++i) {
         dmUpgradeList.at(i)->Execute();
     }

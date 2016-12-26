@@ -20,8 +20,8 @@ namespace Common {
 
     class SharedObject {
     protected:
-        SharedObject();
-        virtual ~SharedObject();
+        SharedObject() = default;
+        virtual ~SharedObject() = default;
 
         mutex m_mutex;
     };

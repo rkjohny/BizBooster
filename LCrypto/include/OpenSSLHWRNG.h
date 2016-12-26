@@ -13,9 +13,9 @@
 #ifndef OPENSSLHWRNG_H
 #define OPENSSLHWRNG_H
 
-
+#include <openssl/ossl_typ.h>
 #include "OpenSSLRNG.h"
-#include "OpenSSLImport.h"
+//#include "OpenSSLImport.h"
 
 namespace LCrypto {
 
@@ -36,8 +36,8 @@ protected:
     
     // These point to the same engine. One is used for ENGINE_finish, and
     // the other is used for ENGINE_free.
-    static ENGINE *eng1;
-    static ENGINE *eng2;
+    static ENGINE *engFoundById;
+    static ENGINE *engInitialized;
     
     static OpenSSLHWRNG* m_instance;
 };

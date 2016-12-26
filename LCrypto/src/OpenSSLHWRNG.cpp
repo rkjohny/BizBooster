@@ -13,19 +13,32 @@
 #include "OpenSSLHWRNG.h"
 #include "LogFactory.h"
 
-
-//#include <stdlib.h>
-//#include <assert.h>
+#include <openssl/evp.h>
+#include <openssl/err.h>
+#include <openssl/engine.h>
 // #include <openssl/fips.h>
 
 
-#define UNUSED(x) ((void)(x))
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+extern unsigned int OPENSSL_ia32cap_P[];
+extern void OPENSSL_cpuid_setup(void);
+
+#ifdef __cplusplus
+}
+#endif
+
+//#define UNUSED(x) ((void)(x))
+
 
 namespace LCrypto {
 
+OpenSSLHWRNG* OpenSSLHWRNG::m_instance = nullptr;
 bool OpenSSLHWRNG::m_isopened = false;
-ENGINE* OpenSSLHWRNG::eng1 = nullptr;
-ENGINE* OpenSSLHWRNG::eng2 = nullptr;
+ENGINE* OpenSSLHWRNG::engFoundById = nullptr;
+ENGINE* OpenSSLHWRNG::engInitialized = nullptr;
 
 OpenSSLHWRNG::OpenSSLHWRNG()
 {
@@ -65,17 +78,17 @@ int OpenSSLHWRNG::Initialize()
 
             /* Load the engine of interest */
             ENGINE_load_rdrand();
-            eng1 = ENGINE_by_id("rdrand");
+            engFoundById = ENGINE_by_id("rdrand");
             err = ERR_get_error();
 
-            if (NULL == eng1) {
+            if (NULL == engFoundById) {
                 FLOG_ERROR("ENGINE_load_rdrand failed, err = 0x%lx", err);
                 break; /* failed */
             }
 
             // Make the assignment for proper cleanup (ENGINE_by_id needs one
             // cleanup, ENGINE_init needs a second distinct cleanup).
-            rc = ENGINE_init((eng2 = eng1));
+            rc = ENGINE_init((engInitialized = engFoundById));
             err = ERR_get_error();
 
             if (0 == rc) {
@@ -84,7 +97,7 @@ int OpenSSLHWRNG::Initialize()
             }
 
             /* Set the default RAND_method */
-            rc = ENGINE_set_default(eng2, ENGINE_METHOD_RAND);
+            rc = ENGINE_set_default(engInitialized, ENGINE_METHOD_RAND);
             err = ERR_get_error();
 
             if (1 != rc) {
@@ -119,7 +132,7 @@ int OpenSSLHWRNG::Initialize()
 int OpenSSLHWRNG::GetRandomBytes(std::vector<uint8_t> &bytes, int length)
 {
     uint8_t *buffer = new uint8_t[length];
-    
+
     int rc;
     int err;
 
@@ -133,8 +146,10 @@ int OpenSSLHWRNG::GetRandomBytes(std::vector<uint8_t> &bytes, int length)
             bytes.push_back(buffer[i]);
         }
     }
-    
+
     delete buffer;
+
+    return rc;
 }
 
 BaseRNG* OpenSSLHWRNG::GetInstance()
@@ -149,11 +164,11 @@ void OpenSSLHWRNG::Dispose()
 {
     if (m_isopened) {
 
-        if (eng2)
-            ENGINE_finish(eng2);
+        if (engInitialized)
+            ENGINE_finish(engInitialized);
 
-        if (eng1)
-            ENGINE_free(eng1);
+        if (engFoundById)
+            ENGINE_free(engFoundById);
 
         ENGINE_cleanup();
 
