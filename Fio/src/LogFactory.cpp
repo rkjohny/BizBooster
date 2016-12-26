@@ -13,6 +13,7 @@
 #include "LogFactory.h"
 #include "FileUtility.h"
 #include "Converter.h"
+#include "FioDef.h"
 
 #include <cstdarg>
 #include <cpprest/details/SafeInt3.hpp>
@@ -74,10 +75,13 @@ void LogFactory::Logger::Error(const char *fname, int line, const string &messag
 
 void LogFactory::Logger::Debug(const char *fname, int line, const char *format, ...)
 {
-    char dest[1024 * 16];
+    char dest[MAX_FORMATTED_LOG_MESSAGE];
+    
     va_list argptr;
     va_start(argptr, format);
-    vsnprintf(dest, (1024 * 16 - 1), format, argptr);
+    
+    vsnprintf(dest, MAX_FORMATTED_LOG_MESSAGE, format, argptr);
+    
     va_end(argptr);
 
     BaseLogger::Debug(Common::FileUtility::GetNameWithoutType(fname) + ":" +

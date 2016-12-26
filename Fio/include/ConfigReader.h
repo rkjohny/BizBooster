@@ -17,6 +17,7 @@
 #include "AppDef.h"
 #include "SharedObject.h"
 #include "Disposable.h"
+#include "AppException.h"
 #include <string>
 
 namespace Fio {

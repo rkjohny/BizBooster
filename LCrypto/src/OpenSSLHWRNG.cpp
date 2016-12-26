@@ -13,18 +13,11 @@
 #include "OpenSSLHWRNG.h"
 #include "LogFactory.h"
 
-#include <stdlib.h>
-#include <assert.h>
 
-#include <openssl/evp.h>
-#include <openssl/err.h>
-#include <openssl/engine.h>
-
+//#include <stdlib.h>
+//#include <assert.h>
 // #include <openssl/fips.h>
 
-//typedef unsigned char byte;
-extern unsigned int OPENSSL_ia32cap_P[];
-extern void OPENSSL_cpuid_setup(void);
 
 #define UNUSED(x) ((void)(x))
 
@@ -104,7 +97,6 @@ int OpenSSLHWRNG::Initialize()
             err = ERR_get_error();
             if (t) ENGINE_free(t);
 
-            assert(NULL != t);
             if (NULL == t) {
                 FLOG_ERROR("ENGINE_get_default_RAND failed, err = 0x%lx", err);
                 break; /* failed */
@@ -126,7 +118,8 @@ int OpenSSLHWRNG::Initialize()
 
 int OpenSSLHWRNG::GetRandomBytes(std::vector<uint8_t> &bytes, int length)
 {
-    uint8_t buffer[length] = {0};
+    uint8_t *buffer = new uint8_t[length];
+    
     int rc;
     int err;
 
@@ -140,6 +133,8 @@ int OpenSSLHWRNG::GetRandomBytes(std::vector<uint8_t> &bytes, int length)
             bytes.push_back(buffer[i]);
         }
     }
+    
+    delete buffer;
 }
 
 BaseRNG* OpenSSLHWRNG::GetInstance()

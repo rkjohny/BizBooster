@@ -13,9 +13,9 @@
 #ifndef OPENSSLHWRNG_H
 #define OPENSSLHWRNG_H
 
-#include <openssl/ossl_typ.h>
-#include "OpenSSLRNG.h"
 
+#include "OpenSSLRNG.h"
+#include "OpenSSLImport.h"
 
 namespace LCrypto {
 

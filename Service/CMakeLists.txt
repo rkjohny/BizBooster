@@ -68,9 +68,15 @@ else ()
     target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_WITTY_PG_SQL})
 
     target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_BOOST})
-    target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_SSL})
-    target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_CRYPTO})
-    #target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_CRYPT})
+
+#    target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_SSL})
+#    target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_CRYPTO})
+
+    target_link_libraries(${PROJECT_NAME} PUBLIC /usr/lib/x86_64-linux-gnu/libssl.a)
+    target_link_libraries(${PROJECT_NAME} PUBLIC /usr/lib/x86_64-linux-gnu/libcrypt.a)
+
+    target_link_libraries(${PROJECT_NAME} PUBLIC z)
+    target_link_libraries(${PROJECT_NAME} PUBLIC dl)
 
     configure_file(service.properties ${EXECUTABLE_OUTPUT_PATH}/ COPYONLY UNIX)
 
