@@ -83,12 +83,17 @@ public:
     std::string GetEmail() const;
     void SetEmail(const std::string &email);
     
+    std::string GetUnverifiedEmail() const;
+    void SetUnverifiedEmail(const std::string &email);
+    
     const std::string& GetName() const;
     void SetName(const std::string &name);
     
     const std::string GetPassword() const;
     void SetPassword(const std::string &password);
-        
+    
+    void SetPassword(const std::string &hash, const std::string &hashMethod, const std::string salt);
+    
     void SetStatus(const Status &status) override;
     void SetStatusStr(const std::string &status) override;
 
@@ -104,7 +109,14 @@ public:
     std::string GetPasswordHashMethod() const;
 
     void AddIdentity(const std::string &provider, const std::string &identity);
+    void AddIdentity(const Wt::Dbo::ptr<Dal::AuthInfo::AuthIdentityType> &identity);
+    
+    void SetEmailToken(const std::string &token, const Wt::WDateTime &expires, const Wt::Auth::User::EmailTokenRole &role);
 
+    std::string GetEmailToken() const;
+    Wt::WDateTime GetEmailTokenExpirationDate() const;
+    Wt::Auth::User::EmailTokenRole GetEmailTokenRole() const;
+    
     void SetDateCreated(Wt::WDateTime &dt);
     const Wt::WDateTime& GetDateCreated() const;
 
@@ -117,6 +129,9 @@ public:
     void SetLastUpdatedBy(Wt::Dbo::ptr<Dal::User> &&user);
     Wt::Dbo::ptr<Dal::User> GetLastUpdatedBy() const;
 
+    Wt::Auth::User::Status GetAuthInfoStatus() const;
+    void SetAuthInfoStatus(const Wt::Auth::User::Status &status);
+    
     REGISTER_GETTER_INCLUDING_BASE_START(SerializableSimpleEntity<User>)
     GETTER(User, const Wt::WDateTime&, COLUMN_DATE_CREATED, &User::GetDateCreated),
     GETTER(User, const Wt::WDateTime&, COLUMN_DATE_LAST_UPDATED, &User::GetDateLastUpdated),

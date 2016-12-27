@@ -49,7 +49,8 @@ public:
     virtual Wt::Dbo::ptr<User> GetUser(User &loggedUser, std::string email) = 0;
 
     virtual Wt::Dbo::ptr<AuthInfo> AddAuthInfo(User &loggedUser, AuthInfo *authInfo) = 0;
-
+    
+    virtual Wt::Dbo::ptr<AuthInfo::AuthIdentityType> AddIdentity(AuthInfo::AuthIdentityType *identity) = 0;
 };
 }
 

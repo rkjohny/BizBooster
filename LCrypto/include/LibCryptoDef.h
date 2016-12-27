@@ -22,10 +22,10 @@
 #define PASSWORD_HASH_LENGTH 100  
 
 //column size == 20
-#define PASSWORD_SALT_LENGTH 20
+#define PASSWORD_SALT_LENGTH 10
 
 //column size = 64
-#define EMAIL_TOKEN_LENGTH 64
+#define EMAIL_TOKEN_LENGTH 32
 
 
 #endif /* LIB_CRYPTO_DEF_H */

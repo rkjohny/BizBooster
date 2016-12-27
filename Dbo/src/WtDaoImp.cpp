@@ -19,7 +19,7 @@
 
 namespace Dal {
 
-std::shared_ptr<WtDaoImp>  WtDaoImp::m_instance = nullptr;
+std::shared_ptr<WtDaoImp> WtDaoImp::m_instance = nullptr;
 
 WtDaoImp::WtDaoImp()
 {
@@ -30,18 +30,17 @@ WtDaoImp::~WtDaoImp()
     Dispose();
 }
 
- void WtDaoImp::Dispose()
- {
-//     if (!m_isDosposed) {
-//        //TODO: commit/rollback if pending, close the connection
-//         m_session.Dispose();
-//         m_isDosposed = true;
-//     }
-     
-     //Just flush the session, we are not closing connection.
-     m_session.flush();
- }
+void WtDaoImp::Dispose()
+{
+    //     if (!m_isDosposed) {
+    //        //TODO: commit/rollback if pending, close the connection
+    //         m_session.Dispose();
+    //         m_isDosposed = true;
+    //     }
 
+    //Just flush the session, we are not closing connection.
+    m_session.flush();
+}
 
 std::shared_ptr<WtDaoImp> WtDaoImp::GetInstance()
 {
@@ -56,7 +55,7 @@ void WtDaoImp::CreateTables()
     try {
         LOG_INFO("Creating Tables...");
         m_session.createTables();
-    } catch(std::exception &e) {
+    } catch (std::exception &e) {
         LOG_DEBUG(std::string("error:") + e.what())
         LOG_INFO("Table already exists and will not be created.");
     }
@@ -77,12 +76,12 @@ bool WtDaoImp::CommitTransaction(Wt::Dbo::Transaction &transaction)
 
 void WtDaoImp::RollbackTransaction(Wt::Dbo::Transaction& transaction)
 {
-   transaction.rollback();
+    transaction.rollback();
 }
 
 bool WtDaoImp::TableExists(std::string table_name)
 {
-    int count = m_session.query<int>("SELECT count(1) FROM PG_CLASS").where("RELNAME = ?").bind(table_name);    
+    int count = m_session.query<int>("SELECT count(1) FROM PG_CLASS").where("RELNAME = ?").bind(table_name);
     return (count > 0) ? true : false;
 }
 
@@ -126,7 +125,6 @@ Wt::Dbo::ptr<User> WtDaoImp::GetUser(User &loggedUser, std::string email)
     return user;
 }
 
-
 Wt::Dbo::ptr<AuthInfo> WtDaoImp::AddAuthInfo(User &loggedUser, AuthInfo *authInfo)
 {
     Wt::Dbo::ptr<AuthInfo> authInfoAdded;
@@ -134,6 +132,12 @@ Wt::Dbo::ptr<AuthInfo> WtDaoImp::AddAuthInfo(User &loggedUser, AuthInfo *authInf
     return authInfoAdded;
 }
 
+Wt::Dbo::ptr<AuthInfo::AuthIdentityType> WtDaoImp::AddIdentity(AuthInfo::AuthIdentityType *identity)
+{
+    Wt::Dbo::ptr<AuthInfo::AuthIdentityType> identityAdded =
+            m_session.add<AuthInfo::AuthIdentityType>(identity);
+    return identityAdded;
+}
 
 }
 

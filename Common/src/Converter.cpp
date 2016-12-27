@@ -54,11 +54,8 @@ std::string Converter::ToHexStr(const std::vector<uint8_t> &vec)
 
     sout << std::internal // fill between the prefix and the number
             << std::setfill('0'); // fill with 0s
-
-    sout << std::hex << std::setw(2) << std::uppercase;
-
     for (auto &value : vec) {
-        sout << value;
+        sout << std::hex << std::setw(2) << std::uppercase << (uint32_t) value;
     }
     return sout.str();
 }
@@ -70,12 +67,22 @@ std::string Converter::ToHexStr(const uint8_t *arr, int length)
     sout << std::internal // fill between the prefix and the number
             << std::setfill('0'); // fill with 0s
 
-    sout << std::hex << std::setw(2) << std::uppercase;
-
-    for (int i = 0; i<length; i++) {
-        sout << arr[i];
+    for (int i = 0; i < length; i++) {
+        sout << std::hex << std::setw(2) << std::uppercase << (uint32_t) arr[i];
     }
+    
     return sout.str();
+
+#if 0    
+    char *p = new char[length * 2];
+    int ln = 0;
+    for (int i = 0; i < length; i++) {
+        ln += snprintf((p + ln), (length * 2), "%02X", (uint32_t) arr[i]);
+    }
+    std::string s(p);
+    delete p;
+    return s;
+#endif
 }
 
 }

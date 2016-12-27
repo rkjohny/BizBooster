@@ -24,41 +24,53 @@
 namespace Dal {
 
 void DMUpgrade_1::Execute()
-{    
+{
+    //TODO: hard coded super user info 
+    std::string superUserName = "admin";
+    std::string superUserEmail = "admin@nilavo.com";
+    std::string superUserPassword = "admin";
+    std::string superUserIdentityProvider = "loginname";
+    
     //Creating super user;
     User *user = new User();
-    user->SetName("admin");
-    user->SetEmail("admin@bizbooster.com");
-    //user->SetPassword("admin");
+    user->SetName(superUserName);
     user->SetRoles(Role::ROLE_CREATE_SUPER_USER);
     user->SetStatus(Status::V);
-    //user->AddIdentity("loginname", "admin");
-    
+
     User loggedUser = User();
     Wt::Dbo::ptr<User> userAdded = Dal::GetDao()->RegisterUser(loggedUser, user);
-    
+
     if (userAdded) {
         AuthInfo *authInfo = new AuthInfo();
-        
-        authInfo->setEmail(user->GetEmail());
 
+        authInfo->setEmail(superUserEmail);
+        authInfo->setUnverifiedEmail(superUserEmail);
+        
         Wt::WDateTime now;
         Common::DateTimeUtils::AddToCurrentDateTime(now, 2);
         authInfo->setEmailToken(Dal::AuthUtils::GenerateEmailToken(), now, Wt::Auth::User::EmailTokenRole::VerifyEmail);
-        
+
         auto passwdEncoder = LCrypto::PassWordEncoder::GetInstance();
         auto salt = passwdEncoder->GenerateSalt();
-        auto hash = passwdEncoder->Encode("admin", salt);
+        auto hash = passwdEncoder->Encode(superUserPassword, salt);
         auto hashMethod = passwdEncoder->HashMethodName();
         authInfo->setPassword(hash, hashMethod, salt);
 
         authInfo->setStatus(Wt::Auth::User::Status::Normal);
 
-        authInfo->setUnverifiedEmail(user->GetEmail());
         authInfo->setUser(userAdded);
 
         Wt::Dbo::ptr<AuthInfo> authInfoAdded = Dal::GetDao()->AddAuthInfo(loggedUser, authInfo);
-
+        
+        if (authInfoAdded) {
+            AuthInfo::AuthIdentityType *identity = 
+                    new AuthInfo::AuthIdentityType(superUserIdentityProvider, superUserEmail);
+            
+            authInfoAdded.modify()->authIdentities().insert(identity);
+            
+//            Wt::Dbo::ptr<AuthInfo::AuthIdentityType> identityAdded =
+//                    Dal::GetDao()->AddIdentity(identity);                                  
+        }
     }
 }
 

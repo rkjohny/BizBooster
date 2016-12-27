@@ -103,6 +103,8 @@ public:
     Wt::Dbo::ptr<User> GetUser(User &loggedUser, std::string email) override;
 
     Wt::Dbo::ptr<AuthInfo> AddAuthInfo(User &loggedUser, AuthInfo *authInfo) override;
+    
+    Wt::Dbo::ptr<AuthInfo::AuthIdentityType> AddIdentity(AuthInfo::AuthIdentityType *identity) override;
 };
 }
 
