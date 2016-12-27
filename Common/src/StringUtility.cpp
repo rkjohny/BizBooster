@@ -13,6 +13,7 @@
 #include "StringUtility.h"
 #include "AppDef.h"
 #include <algorithm>
+#include <ctime>
 
 #if USE_C_FUNCTION
 #include <string.h>

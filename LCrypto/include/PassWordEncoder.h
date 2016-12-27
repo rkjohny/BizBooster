@@ -26,8 +26,8 @@ namespace LCrypto {
 class PassWordEncoder {
 public:
     static PassWordEncoder* GetInstance();
-    std::string Encode(std::string passwd, std::string salt);
-    bool Match(std::string passwd, std::string hash, std::string salt);
+    std::string Encode(const std::string &passwd, const std::string &salt);
+    bool Match(const std::string &passwd, const std::string &hash, const std::string &salt);
     
     std::string HashMethodName();
     

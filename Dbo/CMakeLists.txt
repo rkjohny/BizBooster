@@ -34,6 +34,9 @@ else ()
     #including libfio include directory
     include_directories(${LIB_FIO_INCLUDE_DIR})
 
+    #including libcrypto include directory
+    include_directories(${LIB_LCRYPTO_INCLUDE_DIR})
+
     file(GLOB LIB_DBO_HEADERS ${LIB_DBO_INCLUDE_DIR}/*.h)
     file(GLOB LIB_DBO_SOURCES ${PROJECT_SOURCE_DIR}/*.cpp)
 

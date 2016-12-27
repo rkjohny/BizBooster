@@ -38,8 +38,17 @@ void ReleaseLibrary()
 
 HashGenerator *GetHashGenerator()
 {
-#ifdef WT_HASH
+#ifdef WT_HASH_FUNCTION
     return WtHashGenerator::GetInstance();
+#else
+    return nullptr;
+#endif
+}
+
+RndGenerator *GetRndGenerator()
+{
+#ifdef OPEN_SSL_CRYPTO_ENGINE
+    return OsslHwRandGenerator::GetInstance();
 #else
     return nullptr;
 #endif

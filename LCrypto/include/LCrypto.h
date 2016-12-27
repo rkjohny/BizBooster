@@ -15,7 +15,7 @@
 #define LCRYPTO_H
 
 #include "HashGenerator.h"
-
+#include "RndGenerator.h"
 
 namespace LCrypto {
 
@@ -23,6 +23,8 @@ void LoadLibrary();
 void ReleaseLibrary();
 
 HashGenerator *GetHashGenerator();
+
+RndGenerator *GetRndGenerator();
 
 }
 

@@ -14,9 +14,19 @@
 #ifndef LIB_CRYPTO_DEF_H
 #define LIB_CRYPTO_DEF_H
 
-#define WT_HASH
+#define WT_HASH_FUNCTION
 
-#define PASSWORD_SALT_LENGTH 16
+#define OPEN_SSL_CRYPTO_ENGINE
+
+//column size == 100
+#define PASSWORD_HASH_LENGTH 100  
+
+//column size == 20
+#define PASSWORD_SALT_LENGTH 20
+
+//column size = 64
+#define EMAIL_TOKEN_LENGTH 64
+
 
 #endif /* LIB_CRYPTO_DEF_H */
 

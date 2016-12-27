@@ -23,6 +23,7 @@ public:
 
     int Initialize() override;
     int GetRandomBytes(std::vector<uint8_t> &bytes, int length) override;
+    int GetRandomBytes(std::string &bytes, int length) override;
     static RndGenerator* GetInstance();
     void Dispose() override;
 

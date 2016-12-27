@@ -57,6 +57,7 @@ namespace Common {
         static std::string ToStr(int32_t n, int8_t base = 10);
         
         static std::string ToHexStr(const std::vector<uint8_t> &vec);
+        static std::string ToHexStr(const uint8_t *arr, int length);
 
     };
 }

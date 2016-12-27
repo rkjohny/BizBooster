@@ -12,6 +12,7 @@
 
 #include "OsslHwRandGenerator.h"
 #include "LogFactory.h"
+#include "Converter.h"
 
 //#include <openssl/evp.h>
 #include <openssl/err.h>
@@ -148,6 +149,28 @@ int OsslHwRandGenerator::GetRandomBytes(std::vector<uint8_t> &bytes, int length)
 
     return rc;
 }
+
+int OsslHwRandGenerator::GetRandomBytes(std::string &bytes, int length)
+{
+    uint8_t *buffer = new uint8_t[length];
+
+    int rc;
+    int err;
+
+    rc = RAND_bytes(buffer, length);
+    err = ERR_get_error();
+
+    if (1 != rc) {
+        FLOG_ERROR("RAND_bytes (1) failed, err = 0x%lx", err);
+    } else {
+        bytes = Common::Converter::ToHexStr(buffer, length);
+    }
+
+    delete buffer;
+
+    return rc;
+}
+
 
 RndGenerator* OsslHwRandGenerator::GetInstance()
 {

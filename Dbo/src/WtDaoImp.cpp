@@ -127,6 +127,14 @@ Wt::Dbo::ptr<User> WtDaoImp::GetUser(User &loggedUser, std::string email)
 }
 
 
+Wt::Dbo::ptr<AuthInfo> WtDaoImp::AddAuthInfo(User &loggedUser, AuthInfo *authInfo)
+{
+    Wt::Dbo::ptr<AuthInfo> authInfoAdded;
+    authInfoAdded = m_session.add<AuthInfo>(authInfo);
+    return authInfoAdded;
+}
+
+
 }
 
 

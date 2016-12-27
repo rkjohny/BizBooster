@@ -63,4 +63,19 @@ std::string Converter::ToHexStr(const std::vector<uint8_t> &vec)
     return sout.str();
 }
 
+std::string Converter::ToHexStr(const uint8_t *arr, int length)
+{
+    std::ostringstream sout;
+
+    sout << std::internal // fill between the prefix and the number
+            << std::setfill('0'); // fill with 0s
+
+    sout << std::hex << std::setw(2) << std::uppercase;
+
+    for (int i = 0; i<length; i++) {
+        sout << arr[i];
+    }
+    return sout.str();
+}
+
 }

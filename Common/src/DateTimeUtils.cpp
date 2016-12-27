@@ -12,6 +12,8 @@
 
 #include "DateTimeUtils.h"
 #include <time.h>
+#include <ctime>
+
 
 namespace Common {
 
@@ -35,5 +37,25 @@ string DateTimeUtils::GetTimeStamp()
 
     return string(buf);
 }
+
+void DateTimeUtils::GetCurrentDateTime(Wt::WDateTime &dt)
+{
+    std::time_t curTime = std::time(nullptr);
+    //std::tm *tm_local = std::localtime(&curTime);
+
+    dt.setTime_t(curTime);
+}
+
+void DateTimeUtils::AddToCurrentDateTime(Wt::WDateTime &dt, int day)
+{
+    std::time_t curTime = std::time(nullptr);
+    std::tm *tm_local = std::localtime(&curTime);
+    tm_local->tm_mday += day;
+
+    std::time_t next = std::mktime(tm_local);
+
+    dt.setTime_t(next);
+}
+
 
 } /* namespace Common */

@@ -13,6 +13,7 @@
 #ifndef DATE_TIME_UTILS_H
 #define DATE_TIME_UTILS_H
 
+#include <Wt/Dbo/WtSqlTraits>
 #include <string>
 
 #include "AppDef.h"
@@ -26,6 +27,9 @@ namespace Common {
 
     public:
         static string GetTimeStamp();
+
+        static void GetCurrentDateTime(Wt::WDateTime &dt);
+        static void AddToCurrentDateTime(Wt::WDateTime &dt, int day);
     };
 
 } /* namespace Common */

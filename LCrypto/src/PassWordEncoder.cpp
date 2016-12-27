@@ -22,8 +22,13 @@ PassWordEncoder* PassWordEncoder::m_instance = nullptr;
 
 PassWordEncoder::PassWordEncoder()
 {
+#ifdef WT_HASH_FUNCTION
     m_hasGenerator = WtHashGenerator::GetInstance();
+#endif
+    
+#ifdef OPEN_SSL_CRYPTO_ENGINE    
     m_randGenerator = OsslHwRandGenerator::GetInstance();
+#endif
 }
 
 PassWordEncoder::~PassWordEncoder()
@@ -43,12 +48,12 @@ std::string PassWordEncoder::HashMethodName()
     return m_hasGenerator->Name(HashGenerator::HashMethod::BCRYPT);
 }
 
-std::string PassWordEncoder::Encode(std::string passwd, std::string salt)
+std::string PassWordEncoder::Encode(const std::string &passwd, const std::string &salt)
 {
     return m_hasGenerator->Generate(HashGenerator::HashMethod::BCRYPT, passwd, salt);
 }
 
-bool PassWordEncoder::Match(std::string passwd, std::string hash, std::string salt)
+bool PassWordEncoder::Match(const std::string &passwd, const std::string &hash, const std::string &salt)
 {
     return m_hasGenerator->Verify(HashGenerator::HashMethod::BCRYPT, passwd, hash, salt);
 }

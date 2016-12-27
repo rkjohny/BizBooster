@@ -101,6 +101,8 @@ public:
     Wt::Dbo::ptr<User> RegisterUser(User &loggedUser, User *newUser) override;
 
     Wt::Dbo::ptr<User> GetUser(User &loggedUser, std::string email) override;
+
+    Wt::Dbo::ptr<AuthInfo> AddAuthInfo(User &loggedUser, AuthInfo *authInfo) override;
 };
 }
 
