@@ -23,20 +23,26 @@
 namespace LCrypto {
 
 class WtHashGenerator : public HashGenerator {
-public:
+protected:
     WtHashGenerator();
     virtual ~WtHashGenerator();
+    NON_COPY_NON_MOVE_ABLE(WtHashGenerator);
     
-    std::string Name(HasMethod method) override;
+public:
+    std::string Name(HashMethod method) override;
     
-    bool Verify(HasMethod method, const std::string &msg, const std::string &hash, const std::string &salt) override;
-    std::string Generate(HasMethod method, const std::string &msg, const std::string &salt) override;
+    bool Verify(HashMethod method, const std::string &msg, const std::string &hash, const std::string &salt) override;
+    std::string Generate(HashMethod method, const std::string &msg, const std::string &salt) override;
 
     void Dispose() override;
+    
+    static WtHashGenerator *GetInstance();
 
 private:
     Wt::Auth::BCryptHashFunction m_bcryptHash;
     Wt::Auth::SHA1HashFunction m_sha1Hash;
+    
+    static WtHashGenerator *m_instance;
 };
 
 }

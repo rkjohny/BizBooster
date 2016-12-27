@@ -14,10 +14,15 @@
 #ifndef LCRYPTO_H
 #define LCRYPTO_H
 
+#include "HashGenerator.h"
+
+
 namespace LCrypto {
 
 void LoadLibrary();
 void ReleaseLibrary();
+
+HashGenerator *GetHashGenerator();
 
 }
 

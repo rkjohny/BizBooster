@@ -12,6 +12,8 @@
 
 #include "LCrypto.h"
 #include "OsslHwRandGenerator.h"
+#include "WtHashGenerator.h"
+#include "LibCryptoDef.h"
 
 namespace LCrypto {
 
@@ -34,6 +36,14 @@ void ReleaseLibrary()
     }
 }
 
+HashGenerator *GetHashGenerator()
+{
+#ifdef WT_HASH
+    return WtHashGenerator::GetInstance();
+#else
+    return nullptr;
+#endif
 }
 
+}
 

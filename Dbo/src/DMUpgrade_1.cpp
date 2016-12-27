@@ -12,18 +12,24 @@
 
 #include "DMUpgrade_1.h"
 #include <memory>
-#include "Dao.h"
 #include "Dal.h"
+#include "Roles.h"
 
 namespace Dal {
 
 void DMUpgrade_1::Execute()
-{
-    //std::shared_ptr<Dao> dao = Dal::GetDao();
-
-    //TODO: create super user
-    //LOG_DEBUG("Creating tables ...");
-    //dao->CreateTables();
+{    
+    //Creating super user;
+    User *user = new User();
+    user->SetName("admin");
+    user->SetEmail("admin@bizbooster.com");
+    user->SetPassword("admin");
+    user->SetRoles(Role::ROLE_CREATE_SUPER_USER);
+    user->SetStatus(Status::V);
+    user->AddIdentity("loginname", "admin");
+    
+    User loggedUser = User();
+    Wt::Dbo::ptr<User> userAdded = Dal::GetDao()->RegisterUser(loggedUser, user);
 }
 
 }

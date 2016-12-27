@@ -67,7 +67,7 @@ void RegisterUserHelper::ExecuteHelper()
         User *user = new User();
         user->SetEmail(input->GetEmail());
         user->SetName(input->GetName());
-        user->SetRoles(input->GetRoles());
+        user->SetRolesStr(input->GetRoles());
         user->SetVersion(input->GetVersion());
         user->SetPassword(input->GetPassword());
         //TODO: loginname is hardcoded

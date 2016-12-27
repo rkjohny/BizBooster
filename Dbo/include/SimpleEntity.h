@@ -15,7 +15,7 @@
 #include "BaseEntity.h"
 #include "Status.h"
 #include "Json.h"
-
+#include <string>
 
 
 namespace Dal {
@@ -23,20 +23,24 @@ namespace Dal {
 class SimpleEntity : public BaseEntity {
 protected:
     Status m_status;
+    std::string m_statusStr;
 
 public:
     SimpleEntity() = default;
     virtual ~SimpleEntity() = default;
 
     virtual Status GetStatus() const;
-    virtual void SetStatus(Status m_status);
-
+    virtual void SetStatus(const Status &status);
+    
+    virtual const std::string& GetStatusStr() const;
+    virtual void SetStatusStr(const std::string &status);
+    
     REGISTER_GETTER_INCLUDING_BASE_START(BaseEntity)
-    GETTER(SimpleEntity, Status, COLUMN_STATUS, &SimpleEntity::GetStatus)
+    GETTER(SimpleEntity, const std::string&, COLUMN_STATUS, &SimpleEntity::GetStatusStr)
     REGISTER_GETTER_INCLUDING_BASE_END
 
     REGISTER_SETTER_INCLUDING_BASE_START(BaseEntity)
-    SETTER(SimpleEntity, Status, COLUMN_STATUS, &SimpleEntity::SetStatus)
+    SETTER(SimpleEntity, const std::string&, COLUMN_STATUS, &SimpleEntity::SetStatusStr)
     REGISTER_SETTER_INCLUDING_BASE_END
 
 };

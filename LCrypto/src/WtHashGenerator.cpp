@@ -14,6 +14,8 @@
 
 namespace LCrypto {
 
+WtHashGenerator* WtHashGenerator::m_instance = nullptr;
+
 WtHashGenerator::WtHashGenerator() : m_bcryptHash(BCRYPT_ITERATION)
 {
     
@@ -24,7 +26,7 @@ WtHashGenerator::~WtHashGenerator()
     Dispose();
 }
 
-std::string WtHashGenerator::Name(HasMethod method)
+std::string WtHashGenerator::Name(HashMethod method)
 {
     std::string name = "";
     
@@ -39,7 +41,7 @@ std::string WtHashGenerator::Name(HasMethod method)
     return name;
 }
 
-bool WtHashGenerator::Verify(HasMethod method, const std::string &msg, const std::string &hash, const std::string &salt)
+bool WtHashGenerator::Verify(HashMethod method, const std::string &msg, const std::string &hash, const std::string &salt)
 {
     bool ret = false;
     
@@ -55,7 +57,7 @@ bool WtHashGenerator::Verify(HasMethod method, const std::string &msg, const std
     return ret;
 }
 
-std::string WtHashGenerator::Generate(HasMethod method, const std::string &msg, const std::string &salt)
+std::string WtHashGenerator::Generate(HashMethod method, const std::string &msg, const std::string &salt)
 {
     std::string hash;
     
@@ -76,6 +78,14 @@ void WtHashGenerator::Dispose()
     if (!m_isDosposed) {
         m_isDosposed = true;
     }
+}
+
+WtHashGenerator *WtHashGenerator::GetInstance()
+{
+    if (!m_instance) {
+        m_instance = new WtHashGenerator();
+    }
+    return m_instance;
 }
 
 }

@@ -16,23 +16,26 @@
 
 #include <string>
 #include <Disposable.h>
+#include "AppDef.h"
 
 namespace LCrypto {
 
 class HashGenerator : public Common::Disposable {
 public:
-    enum HasMethod {
+    enum HashMethod {
         SHA1,
         BCRYPT
     };
+       
+    virtual std::string Name(HashMethod method) = 0;
+
+    virtual bool Verify(HashMethod method, const std::string &msg, const std::string &hash, const std::string &salt) = 0;
+    virtual std::string Generate(HashMethod method, const std::string &msg, const std::string &salt) = 0;
     
+protected:
     HashGenerator() = default;
     virtual ~HashGenerator() = default;
-    
-    virtual std::string Name(HasMethod method) = 0;
-
-    virtual bool Verify(HasMethod method, const std::string &msg, const std::string &hash, const std::string &salt) = 0;
-    virtual std::string Generate(HasMethod method, const std::string &msg, const std::string &salt) = 0;
+    NON_COPY_NON_MOVE_ABLE(HashGenerator);
 };
 
 }

@@ -20,13 +20,14 @@
 #include "Json.h"
 #include "SerializableSimpleEntity.h"
 #include "DboDef.h"
+#include "Roles.h"
 
 #include <Wt/Dbo/Impl>
 #include <Wt/Auth/Dbo/AuthInfo>
 
-//namespace Dal {
-//class User;
-//}
+namespace Dal {
+class User;
+}
 
 //namespace Wt {
 //namespace Dbo {
@@ -45,7 +46,7 @@
 
 namespace Dal {
 
-class User;
+//class User;
 
 typedef Wt::Auth::Dbo::AuthInfo<Dal::User> AuthInfo;
 
@@ -53,7 +54,8 @@ class User : public SerializableSimpleEntity<User> {
 private:
 
     std::string m_name;
-    std::string m_roles;
+    std::string m_rolesStr;
+    std::vector<Role> m_roles;
 
     Wt::WDateTime m_dateCreated;
     Wt::WDateTime m_dateLastUpdated;
@@ -62,7 +64,7 @@ private:
     Wt::Dbo::ptr<Dal::User> m_lastUpdatedBy;
 
     Wt::Dbo::weak_ptr<Dal::AuthInfo> m_authInfo;
-
+    
 public:
     User();
     User(const User&);
@@ -75,19 +77,27 @@ public:
 
     void InitAuthInfo();
     
-    bool HasRole(std::string &&);
+    bool HasRole(const std::string &);
+    bool HasRole(const Role &);
 
     std::string GetEmail() const;
-    const std::string& GetName() const;
-    const std::string& GetRoles() const;
-    const std::string GetPassword() const;
-
     void SetEmail(const std::string &email);
-    void SetName(std::string name);
-    void SetRoles(std::string roles);
-    void SetPassword(std::string password);
-    void SetStatus(Status status) override;
+    
+    const std::string& GetName() const;
+    void SetName(const std::string &name);
+    
+    const std::string GetPassword() const;
+    void SetPassword(const std::string &password);
+        
+    void SetStatus(const Status &status) override;
+    void SetStatusStr(const std::string &status) override;
 
+    const std::vector<Role> &GetRoles() const;
+    const std::string& GetRolesStr() const;
+    void SetRolesStr(const std::string &roles);
+    void SetRoles(Role role);
+    void SetRoles(std::vector<Role> roles);
+    
     void SetPasswordHash(const std::string &hash, const std::string &hashMethod, const std::string &salt);
     std::string GetPassWordHash() const;
     std::string GetPasswordSalt() const;
@@ -112,7 +122,7 @@ public:
     GETTER(User, const Wt::WDateTime&, COLUMN_DATE_LAST_UPDATED, &User::GetDateLastUpdated),
     GETTER(User, std::string, "email", &User::GetEmail),
     GETTER(User, const std::string&, "name", &User::GetName),
-    GETTER(User, const std::string&, "roles", &User::GetRoles)
+    GETTER(User, const std::string&, "roles", &User::GetRolesStr)
     REGISTER_GETTER_INCLUDING_BASE_END
 
 
@@ -120,23 +130,23 @@ public:
     SETTER(User, Wt::WDateTime&, COLUMN_DATE_CREATED, &User::SetDateCreated),
     SETTER(User, Wt::WDateTime&, COLUMN_DATE_LAST_UPDATED, &User::SetDateLastUpdated),
     SETTER(User, const std::string&, "email", &User::SetEmail),
-    SETTER(User, std::string, "name", &User::SetName),
-    SETTER(User, std::string, "roles", &User::SetRoles)
+    SETTER(User, const std::string&, "name", &User::SetName),
+    SETTER(User, const std::string&, "roles", &User::SetRolesStr)
     REGISTER_SETTER_INCLUDING_BASE_END
 
     template<class Action>
     void persist(Action &a)
     {
         Wt::Dbo::field(a, m_name, "name");
-        Wt::Dbo::field(a, m_roles, "roles");
-        Wt::Dbo::field(a, m_status, COLUMN_STATUS);
+        Wt::Dbo::field(a, m_rolesStr, "roles");
+        Wt::Dbo::field(a, m_statusStr, COLUMN_STATUS);
         Wt::Dbo::field(a, m_dateCreated, COLUMN_DATE_CREATED);
         Wt::Dbo::field(a, m_dateLastUpdated, COLUMN_DATE_LAST_UPDATED);
 
         Wt::Dbo::hasOne(a, m_authInfo, "user");
 
-        Wt::Dbo::belongsTo(a, m_createdBy, "created_by");
-        Wt::Dbo::belongsTo(a, m_lastUpdatedBy, "last_updated_by");
+        //Wt::Dbo::belongsTo(a, m_createdBy, "created_by");
+        //Wt::Dbo::belongsTo(a, m_lastUpdatedBy, "last_updated_by");
     }
 };
 

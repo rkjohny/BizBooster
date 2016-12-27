@@ -11,27 +11,12 @@
  */
 
 
-#ifndef TINY_JSON_GETTER_H
-#define TINY_JSON_GETTER_H
+#ifndef LIB_CRYPTO_DEF_H
+#define LIB_CRYPTO_DEF_H
 
-namespace Json {
+#define WT_HASH
 
-    template<class ClassT, class ReturnT>
-    class Getter {
-    public:
+#define PASSWORD_SALT_LENGTH 16
 
-        using Class = ClassT;
-        using Type = ReturnT;
+#endif /* LIB_CRYPTO_DEF_H */
 
-        typedef ReturnT(Class::*GetterPtr)() const;
-        GetterPtr fp;
-        const char* name;
-
-        constexpr Getter(GetterPtr fp, const char* name) : fp(fp), name(name)
-        {
-        }
-    };
-
-}
-
-#endif

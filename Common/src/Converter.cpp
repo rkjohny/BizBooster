@@ -12,6 +12,7 @@
 
 #include "Converter.h"
 #include <sstream>
+#include <iomanip>
 
 namespace Common {
 
@@ -29,17 +30,35 @@ std::string Converter::ToStr(int32_t n, int8_t base)
     std::ostringstream sout;
 
     switch (base) {
-        case 10:
-            sout << std::dec << n;
-            break;
+    case 10:
+        sout << std::dec << n;
+        break;
 
-        case 16:
-            sout << "0x" << std::hex << std::uppercase << n;
-            break;
+    case 16:
+        sout << std::showbase // show the 0x prefix 
+                << std::internal // fill between the prefix and the number
+                << std::setfill('0'); // fill with 0s
+        sout << std::hex << std::setw(4) << std::uppercase << n;
+        break;
 
-        case 8:
-            sout << std::oct  << n;
-            break;
+    case 8:
+        sout << std::oct << n;
+        break;
+    }
+    return sout.str();
+}
+
+std::string Converter::ToHexStr(const std::vector<uint8_t> &vec)
+{
+    std::ostringstream sout;
+
+    sout << std::internal // fill between the prefix and the number
+            << std::setfill('0'); // fill with 0s
+
+    sout << std::hex << std::setw(2) << std::uppercase;
+
+    for (auto &value : vec) {
+        sout << value;
     }
     return sout.str();
 }

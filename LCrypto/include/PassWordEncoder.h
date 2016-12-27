@@ -18,6 +18,7 @@
 
 #include "WtHashGenerator.h"
 #include "HashGenerator.h"
+#include "RndGenerator.h"
 #include <string>
 
 namespace LCrypto {
@@ -28,10 +29,14 @@ public:
     std::string Encode(std::string passwd, std::string salt);
     bool Match(std::string passwd, std::string hash, std::string salt);
     
-    std::string HasHMethod();
+    std::string HashMethodName();
+    
+    std::string GenerateSalt();
     
 private:
     HashGenerator *m_hasGenerator;
+    RndGenerator *m_randGenerator;
+    
     static PassWordEncoder *m_instance;
     
     PassWordEncoder();
