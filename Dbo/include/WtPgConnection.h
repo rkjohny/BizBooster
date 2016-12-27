@@ -24,7 +24,7 @@ namespace Dal {
 class WtPgConnection : public Wt::Dbo::backend::Postgres, public Common::Disposable {
 public:
     WtPgConnection() = default;
-    virtual ~WtPgConnection() = default;
+    virtual ~WtPgConnection();
     void Dispose() override;
 
 private:

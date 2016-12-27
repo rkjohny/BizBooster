@@ -13,26 +13,21 @@
 #ifndef OPENSSL_SW_RNG_H
 #define OPENSSLSWRNG_H
 
-#include "OpenSSLRNG.h"
+#include "RndGeneratorOSSL.h"
 
 namespace LCrypto {
 
-class OpenSSLSWRNG : public OpenSSLRNG {
+class RndGeneratorOSSL_SW : public RndGeneratorOSSL {
 public:
-    OpenSSLSWRNG();
-    virtual ~OpenSSLSWRNG();
 
-    int Initialize() override;
-    int GetRandomBytes(std::string &buff, int length) override;
-    static BaseRNG* GetInstance();
 
 protected:
-    OpenSSLSWRNG();
-    virtual ~OpenSSLSWRNG();
-    NON_COPY_NON_MOVE_ABLE(OpenSSLSWRNG);
+    RndGeneratorOSSL_SW();
+    virtual ~RndGeneratorOSSL_SW();
+    NON_COPY_NON_MOVE_ABLE(RndGeneratorOSSL_SW);
 
     static bool m_isopened;
-    static OpenSSLSWRNG* m_instance;
+    static RndGeneratorOSSL_SW* m_instance;
 };
 
 }

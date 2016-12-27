@@ -13,17 +13,17 @@
 #ifndef OPEN_SSLRNG_H
 #define OPEN_SSLRNG_H
 
-#include "BaseRNG.h"
+#include "RndGenerator.h"
 
 namespace LCrypto {
 
-class OpenSSLRNG : public BaseRNG {
+class RndGeneratorOSSL : public RndGenerator {
 public:
 
 protected:
-    OpenSSLRNG() = default;
-    virtual ~OpenSSLRNG() = default;
-    NON_COPY_NON_MOVE_ABLE(OpenSSLRNG);
+    RndGeneratorOSSL() = default;
+    virtual ~RndGeneratorOSSL() = default;
+    NON_COPY_NON_MOVE_ABLE(RndGeneratorOSSL);
 };
 
 }

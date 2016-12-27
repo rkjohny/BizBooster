@@ -14,32 +14,29 @@
 #define OPENSSLHWRNG_H
 
 #include <openssl/ossl_typ.h>
-#include "OpenSSLRNG.h"
-//#include "OpenSSLImport.h"
+#include "RndGeneratorOSSL.h"
 
 namespace LCrypto {
 
-class OpenSSLHWRNG : public OpenSSLRNG {
+class RndGeneratorOSSL_HW : public RndGeneratorOSSL {
 public:
 
     int Initialize() override;
     int GetRandomBytes(std::vector<uint8_t> &bytes, int length) override;
-    static BaseRNG* GetInstance();
+    static RndGenerator* GetInstance();
     void Dispose() override;
-    
-protected:
-    OpenSSLHWRNG();
-    virtual ~OpenSSLHWRNG();
-    NON_COPY_NON_MOVE_ABLE(OpenSSLHWRNG);
 
-    static bool m_isopened;
-    
+protected:
+    RndGeneratorOSSL_HW();
+    virtual ~RndGeneratorOSSL_HW();
+    NON_COPY_NON_MOVE_ABLE(RndGeneratorOSSL_HW);
+
     // These point to the same engine. One is used for ENGINE_finish, and
     // the other is used for ENGINE_free.
     static ENGINE *engFoundById;
     static ENGINE *engInitialized;
     
-    static OpenSSLHWRNG* m_instance;
+    static RndGeneratorOSSL_HW* m_instance;
 };
 
 }

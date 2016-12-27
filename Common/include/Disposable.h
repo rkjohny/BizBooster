@@ -18,6 +18,7 @@ namespace Common {
     class Disposable {
     protected:
         bool m_isDosposed;
+        bool m_isInitialized;
 
     public:
         Disposable();

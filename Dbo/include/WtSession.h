@@ -24,7 +24,7 @@ public:
 
     WtSession();
     
-    virtual ~WtSession() = default;
+    virtual ~WtSession();
 
     void Dispose() override;
 

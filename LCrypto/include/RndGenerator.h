@@ -21,15 +21,15 @@
 
 namespace LCrypto {
 
-class BaseRNG : public Common::Disposable {
+class RndGenerator : public Common::Disposable {
 public:
     virtual int Initialize() = 0;
     virtual int GetRandomBytes(std::vector<uint8_t> &bytes, int length) = 0;
     
 protected:
-    BaseRNG() = default; 
-    virtual ~BaseRNG() = default;
-    NON_COPY_NON_MOVE_ABLE(BaseRNG);   
+    RndGenerator() = default; 
+    virtual ~RndGenerator() = default;
+    NON_COPY_NON_MOVE_ABLE(RndGenerator);   
 };
 
 }

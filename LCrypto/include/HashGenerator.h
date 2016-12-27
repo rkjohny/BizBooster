@@ -15,21 +15,22 @@
 #define BASE_HASH_FUNCTION_H
 
 #include <string>
+#include <Disposable.h>
 
 namespace LCrypto {
 
-class BaseHashFunction {
+class HashGenerator : public Common::Disposable {
 public:
     enum HasMethod {
         SHA1,
         BCRYPT
     };
     
-    BaseHashFunction() = default;
-    virtual ~BaseHashFunction() = default;
+    HashGenerator() = default;
+    virtual ~HashGenerator() = default;
     
     virtual std::string Name(HasMethod method) = 0;
-       
+
     virtual bool Verify(HasMethod method, const std::string &msg, const std::string &hash, const std::string &salt) = 0;
     virtual std::string Generate(HasMethod method, const std::string &msg, const std::string &salt) = 0;
 };

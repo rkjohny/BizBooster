@@ -10,10 +10,10 @@
  * magnetic storage, computer print-out or visual display.
  */
 
-#include "OpenSSLHWRNG.h"
+#include "RndGeneratorOSSL_HW.h"
 #include "LogFactory.h"
 
-#include <openssl/evp.h>
+//#include <openssl/evp.h>
 #include <openssl/err.h>
 #include <openssl/engine.h>
 // #include <openssl/fips.h>
@@ -33,27 +33,26 @@ extern void OPENSSL_cpuid_setup(void);
 
 namespace LCrypto {
 
-OpenSSLHWRNG* OpenSSLHWRNG::m_instance = nullptr;
-bool OpenSSLHWRNG::m_isopened = false;
-ENGINE* OpenSSLHWRNG::engFoundById = nullptr;
-ENGINE* OpenSSLHWRNG::engInitialized = nullptr;
+RndGeneratorOSSL_HW* RndGeneratorOSSL_HW::m_instance = nullptr;
+ENGINE* RndGeneratorOSSL_HW::engFoundById = nullptr;
+ENGINE* RndGeneratorOSSL_HW::engInitialized = nullptr;
 
-OpenSSLHWRNG::OpenSSLHWRNG()
+RndGeneratorOSSL_HW::RndGeneratorOSSL_HW()
 {
 }
 
-OpenSSLHWRNG::~OpenSSLHWRNG()
+RndGeneratorOSSL_HW::~RndGeneratorOSSL_HW()
 {
     Dispose();
 }
 
-int OpenSSLHWRNG::Initialize()
+int RndGeneratorOSSL_HW::Initialize()
 {
     int ret = EXIT_FAILURE;
     unsigned long err = 0;
     int rc = 0;
 
-    if (!m_isopened) {
+    if (!m_isInitialized) {
         do {
             // This is called by OPENSSL_load_builtin_engines()
             OPENSSL_cpuid_setup();
@@ -114,12 +113,12 @@ int OpenSSLHWRNG::Initialize()
             }
             ret = EXIT_SUCCESS;
 
-            m_isopened = true;
+            m_isInitialized = true;
 
         } while (0);
 
-        if (ret) {
-            m_isopened = true;
+        if (ret == EXIT_SUCCESS) {
+            m_isInitialized = true;
             Dispose();
         }
     }
@@ -127,7 +126,7 @@ int OpenSSLHWRNG::Initialize()
     return ret;
 }
 
-int OpenSSLHWRNG::GetRandomBytes(std::vector<uint8_t> &bytes, int length)
+int RndGeneratorOSSL_HW::GetRandomBytes(std::vector<uint8_t> &bytes, int length)
 {
     uint8_t *buffer = new uint8_t[length];
 
@@ -150,17 +149,17 @@ int OpenSSLHWRNG::GetRandomBytes(std::vector<uint8_t> &bytes, int length)
     return rc;
 }
 
-BaseRNG* OpenSSLHWRNG::GetInstance()
+RndGenerator* RndGeneratorOSSL_HW::GetInstance()
 {
     if (!m_instance) {
-        m_instance = new OpenSSLHWRNG();
+        m_instance = new RndGeneratorOSSL_HW();
     }
     return m_instance;
 }
 
-void OpenSSLHWRNG::Dispose()
+void RndGeneratorOSSL_HW::Dispose()
 {
-    if (m_isopened) {
+    if (m_isInitialized) {
 
         if (engInitialized)
             ENGINE_finish(engInitialized);
@@ -170,7 +169,7 @@ void OpenSSLHWRNG::Dispose()
 
         ENGINE_cleanup();
 
-        m_isopened = false;
+        m_isInitialized = false;
     }
 }
 

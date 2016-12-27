@@ -14,7 +14,7 @@
 #define WT_HASH_FUNCTION_H
 
 #include "AppDef.h"
-#include "BaseHashFunction.h"
+#include "HashGenerator.h"
 #include <Wt/Auth/HashFunction>
 #include <string>
 
@@ -22,15 +22,17 @@
 
 namespace LCrypto {
 
-class WtHashFunction : public BaseHashFunction {
+class WtHashGenerator : public HashGenerator {
 public:
-    WtHashFunction();
-    virtual ~WtHashFunction() = default;
+    WtHashGenerator();
+    virtual ~WtHashGenerator();
     
     std::string Name(HasMethod method) override;
     
     bool Verify(HasMethod method, const std::string &msg, const std::string &hash, const std::string &salt) override;
     std::string Generate(HasMethod method, const std::string &msg, const std::string &salt) override;
+
+    void Dispose() override;
 
 private:
     Wt::Auth::BCryptHashFunction m_bcryptHash;

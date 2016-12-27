@@ -10,16 +10,21 @@
  * magnetic storage, computer print-out or visual display.
  */
 
-#include "WtHashFunction.h"
+#include "WtHashGenerator.h"
 
 namespace LCrypto {
 
-WtHashFunction::WtHashFunction() : m_bcryptHash(BCRYPT_ITERATION)
+WtHashGenerator::WtHashGenerator() : m_bcryptHash(BCRYPT_ITERATION)
 {
     
 }
 
-std::string WtHashFunction::Name(HasMethod method)
+WtHashGenerator::~WtHashGenerator()
+{
+    Dispose();
+}
+
+std::string WtHashGenerator::Name(HasMethod method)
 {
     std::string name = "";
     
@@ -34,7 +39,7 @@ std::string WtHashFunction::Name(HasMethod method)
     return name;
 }
 
-bool WtHashFunction::Verify(HasMethod method, const std::string &msg, const std::string &hash, const std::string &salt)
+bool WtHashGenerator::Verify(HasMethod method, const std::string &msg, const std::string &hash, const std::string &salt)
 {
     bool ret = false;
     
@@ -50,7 +55,7 @@ bool WtHashFunction::Verify(HasMethod method, const std::string &msg, const std:
     return ret;
 }
 
-std::string WtHashFunction::Generate(HasMethod method, const std::string &msg, const std::string &salt)
+std::string WtHashGenerator::Generate(HasMethod method, const std::string &msg, const std::string &salt)
 {
     std::string hash;
     
@@ -64,6 +69,13 @@ std::string WtHashFunction::Generate(HasMethod method, const std::string &msg, c
         break;
     }
     return hash;
+}
+
+void WtHashGenerator::Dispose()
+{
+    if (!m_isDosposed) {
+        m_isDosposed = true;
+    }
 }
 
 }

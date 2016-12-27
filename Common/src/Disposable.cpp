@@ -14,8 +14,7 @@
 
 namespace Common {
 
-Disposable::Disposable() :
-m_isDosposed(false)
+Disposable::Disposable() : m_isDosposed(false) , m_isInitialized(false)
 {
 }
 

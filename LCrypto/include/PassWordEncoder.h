@@ -16,8 +16,8 @@
 #ifndef PASSWORD_ENCODER_H
 #define PASSWORD_ENCODER_H
 
-#include "WtHashFunction.h"
-#include "BaseHashFunction.h"
+#include "WtHashGenerator.h"
+#include "HashGenerator.h"
 #include <string>
 
 namespace LCrypto {
@@ -31,7 +31,7 @@ public:
     std::string HasHMethod();
     
 private:
-    BaseHashFunction *m_hasFunction;
+    HashGenerator *m_hasGenerator;
     static PassWordEncoder *m_instance;
     
     PassWordEncoder();

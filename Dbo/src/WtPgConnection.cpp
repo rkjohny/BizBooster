@@ -15,6 +15,11 @@
 
 namespace Dal {
 
+WtPgConnection::~WtPgConnection()
+{
+    Dispose();
+}
+
 void WtPgConnection::Dispose()
 {
     if (!m_isDosposed) {

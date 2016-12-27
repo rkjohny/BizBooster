@@ -11,7 +11,7 @@
  */
 
 #include "LCrypto.h"
-#include "OpenSSLHWRNG.h"
+#include "RndGeneratorOSSL_HW.h"
 
 namespace LCrypto {
 
@@ -21,7 +21,7 @@ void LoadLibrary()
 {
     if (!g_loaded) {
         
-        OpenSSLHWRNG::GetInstance()->Initialize();
+        RndGeneratorOSSL_HW::GetInstance()->Initialize();
         g_loaded = true;
     }
 }
@@ -30,7 +30,7 @@ void ReleaseLibrary()
 {
     if (g_loaded) {
         g_loaded = false;
-        OpenSSLHWRNG::GetInstance()->Dispose();
+        RndGeneratorOSSL_HW::GetInstance()->Dispose();
     }
 }
 

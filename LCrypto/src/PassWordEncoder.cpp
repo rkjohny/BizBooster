@@ -21,12 +21,12 @@ PassWordEncoder* PassWordEncoder::m_instance = nullptr;
 
 PassWordEncoder::PassWordEncoder()
 {
-    m_hasFunction = new WtHashFunction();
+    m_hasGenerator = new WtHashGenerator();
 }
 
 PassWordEncoder::~PassWordEncoder()
 {
-    delete m_hasFunction;
+    delete m_hasGenerator;
 }
 
 PassWordEncoder* PassWordEncoder::GetInstance()
@@ -39,17 +39,17 @@ PassWordEncoder* PassWordEncoder::GetInstance()
 
 std::string PassWordEncoder::HasHMethod()
 {
-    return m_hasFunction->Name(BaseHashFunction::HasMethod::BCRYPT);
+    return m_hasGenerator->Name(HashGenerator::HasMethod::BCRYPT);
 }
 
 std::string PassWordEncoder::Encode(std::string passwd, std::string salt)
 {
-    return m_hasFunction->Generate(BaseHashFunction::HasMethod::BCRYPT, passwd, salt);
+    return m_hasGenerator->Generate(HashGenerator::HasMethod::BCRYPT, passwd, salt);
 }
 
 bool PassWordEncoder::Match(std::string passwd, std::string hash, std::string salt)
 {
-    return m_hasFunction->Verify(BaseHashFunction::HasMethod::BCRYPT, passwd, hash, salt);
+    return m_hasGenerator->Verify(HashGenerator::HasMethod::BCRYPT, passwd, hash, salt);
 }
 
 }
