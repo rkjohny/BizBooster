@@ -10,7 +10,7 @@
  * magnetic storage, computer print-out or visual display.
  */
 
-#include "RndGeneratorOSSL_HW.h"
+#include "OsslHwRandGenerator.h"
 #include "LogFactory.h"
 
 //#include <openssl/evp.h>
@@ -33,20 +33,20 @@ extern void OPENSSL_cpuid_setup(void);
 
 namespace LCrypto {
 
-RndGeneratorOSSL_HW* RndGeneratorOSSL_HW::m_instance = nullptr;
-ENGINE* RndGeneratorOSSL_HW::engFoundById = nullptr;
-ENGINE* RndGeneratorOSSL_HW::engInitialized = nullptr;
+OsslHwRandGenerator* OsslHwRandGenerator::m_instance = nullptr;
+ENGINE* OsslHwRandGenerator::engFoundById = nullptr;
+ENGINE* OsslHwRandGenerator::engInitialized = nullptr;
 
-RndGeneratorOSSL_HW::RndGeneratorOSSL_HW()
+OsslHwRandGenerator::OsslHwRandGenerator()
 {
 }
 
-RndGeneratorOSSL_HW::~RndGeneratorOSSL_HW()
+OsslHwRandGenerator::~OsslHwRandGenerator()
 {
     Dispose();
 }
 
-int RndGeneratorOSSL_HW::Initialize()
+int OsslHwRandGenerator::Initialize()
 {
     int ret = EXIT_FAILURE;
     unsigned long err = 0;
@@ -126,7 +126,7 @@ int RndGeneratorOSSL_HW::Initialize()
     return ret;
 }
 
-int RndGeneratorOSSL_HW::GetRandomBytes(std::vector<uint8_t> &bytes, int length)
+int OsslHwRandGenerator::GetRandomBytes(std::vector<uint8_t> &bytes, int length)
 {
     uint8_t *buffer = new uint8_t[length];
 
@@ -149,15 +149,15 @@ int RndGeneratorOSSL_HW::GetRandomBytes(std::vector<uint8_t> &bytes, int length)
     return rc;
 }
 
-RndGenerator* RndGeneratorOSSL_HW::GetInstance()
+RndGenerator* OsslHwRandGenerator::GetInstance()
 {
     if (!m_instance) {
-        m_instance = new RndGeneratorOSSL_HW();
+        m_instance = new OsslHwRandGenerator();
     }
     return m_instance;
 }
 
-void RndGeneratorOSSL_HW::Dispose()
+void OsslHwRandGenerator::Dispose()
 {
     if (m_isInitialized) {
 

@@ -13,21 +13,21 @@
 #ifndef OPENSSL_SW_RNG_H
 #define OPENSSLSWRNG_H
 
-#include "RndGeneratorOSSL.h"
+#include "OsslRandGenerator.h"
 
 namespace LCrypto {
 
-class RndGeneratorOSSL_SW : public RndGeneratorOSSL {
+class OsslSwRandGenerator : public OsslRandGenerator {
 public:
 
 
 protected:
-    RndGeneratorOSSL_SW();
-    virtual ~RndGeneratorOSSL_SW();
-    NON_COPY_NON_MOVE_ABLE(RndGeneratorOSSL_SW);
+    OsslSwRandGenerator();
+    virtual ~OsslSwRandGenerator();
+    NON_COPY_NON_MOVE_ABLE(OsslSwRandGenerator);
 
     static bool m_isopened;
-    static RndGeneratorOSSL_SW* m_instance;
+    static OsslSwRandGenerator* m_instance;
 };
 
 }

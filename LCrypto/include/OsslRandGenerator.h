@@ -17,13 +17,13 @@
 
 namespace LCrypto {
 
-class RndGeneratorOSSL : public RndGenerator {
+class OsslRandGenerator : public RndGenerator {
 public:
 
 protected:
-    RndGeneratorOSSL() = default;
-    virtual ~RndGeneratorOSSL() = default;
-    NON_COPY_NON_MOVE_ABLE(RndGeneratorOSSL);
+    OsslRandGenerator() = default;
+    virtual ~OsslRandGenerator() = default;
+    NON_COPY_NON_MOVE_ABLE(OsslRandGenerator);
 };
 
 }

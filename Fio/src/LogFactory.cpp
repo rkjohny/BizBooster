@@ -74,12 +74,12 @@ void LogFactory::Logger::Error(const char *fname, int line, const string &messag
 
 void LogFactory::Logger::Debug(const char *fname, int line, const char *format, ...)
 {
-    char dest[MAX_FORMATTED_LOG_MESSAGE];
+    char dest[MAX_SIZE_FORMATTED_LOG_MESSAGE];
     
     va_list argptr;
     va_start(argptr, format);
     
-    vsnprintf(dest, (MAX_FORMATTED_LOG_MESSAGE - 1), format, argptr);
+    vsnprintf(dest, (MAX_SIZE_FORMATTED_LOG_MESSAGE - 1), format, argptr);
     
     va_end(argptr);
 
@@ -89,12 +89,12 @@ void LogFactory::Logger::Debug(const char *fname, int line, const char *format, 
 
 void LogFactory::Logger::Info(const char *fname, int line, const char *format, ...)
 {
-    char dest[MAX_FORMATTED_LOG_MESSAGE];
+    char dest[MAX_SIZE_FORMATTED_LOG_MESSAGE];
     
     va_list argptr;
     va_start(argptr, format);
     
-    vsnprintf(dest, (MAX_FORMATTED_LOG_MESSAGE - 1), format, argptr);
+    vsnprintf(dest, (MAX_SIZE_FORMATTED_LOG_MESSAGE - 1), format, argptr);
     
     va_end(argptr);
 
@@ -104,12 +104,12 @@ void LogFactory::Logger::Info(const char *fname, int line, const char *format, .
 
 void LogFactory::Logger::Warning(const char *fname, int line, const char *format, ...)
 {
-    char dest[MAX_FORMATTED_LOG_MESSAGE];
+    char dest[MAX_SIZE_FORMATTED_LOG_MESSAGE];
     
     va_list argptr;
     va_start(argptr, format);
 
-    vsnprintf(dest, (MAX_FORMATTED_LOG_MESSAGE - 1), format, argptr);
+    vsnprintf(dest, (MAX_SIZE_FORMATTED_LOG_MESSAGE - 1), format, argptr);
 
     va_end(argptr);
 
@@ -119,12 +119,12 @@ void LogFactory::Logger::Warning(const char *fname, int line, const char *format
 
 void LogFactory::Logger::Error(const char *fname, int line, const char *format, ...)
 {
-    char dest[MAX_FORMATTED_LOG_MESSAGE];
+    char dest[MAX_SIZE_FORMATTED_LOG_MESSAGE];
     
     va_list argptr;
     va_start(argptr, format);
     
-    vsnprintf(dest, (MAX_FORMATTED_LOG_MESSAGE - 1), format, argptr);
+    vsnprintf(dest, (MAX_SIZE_FORMATTED_LOG_MESSAGE - 1), format, argptr);
     
     va_end(argptr);
 

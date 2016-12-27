@@ -14,11 +14,11 @@
 #define OPENSSLHWRNG_H
 
 #include <openssl/ossl_typ.h>
-#include "RndGeneratorOSSL.h"
+#include "OsslRandGenerator.h"
 
 namespace LCrypto {
 
-class RndGeneratorOSSL_HW : public RndGeneratorOSSL {
+class OsslHwRandGenerator : public OsslRandGenerator {
 public:
 
     int Initialize() override;
@@ -27,16 +27,16 @@ public:
     void Dispose() override;
 
 protected:
-    RndGeneratorOSSL_HW();
-    virtual ~RndGeneratorOSSL_HW();
-    NON_COPY_NON_MOVE_ABLE(RndGeneratorOSSL_HW);
+    OsslHwRandGenerator();
+    virtual ~OsslHwRandGenerator();
+    NON_COPY_NON_MOVE_ABLE(OsslHwRandGenerator);
 
     // These point to the same engine. One is used for ENGINE_finish, and
     // the other is used for ENGINE_free.
     static ENGINE *engFoundById;
     static ENGINE *engInitialized;
     
-    static RndGeneratorOSSL_HW* m_instance;
+    static OsslHwRandGenerator* m_instance;
 };
 
 }

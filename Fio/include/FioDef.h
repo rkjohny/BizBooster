@@ -13,7 +13,7 @@
 #ifndef FIO_DEF_H
 #define FIO_DEF_H
 
-#define MAX_FORMATTED_LOG_MESSAGE 300
+#define MAX_SIZE_FORMATTED_LOG_MESSAGE 300
 
 #endif /* FIODEF_H */
 
