@@ -18,11 +18,7 @@ namespace Api {
 //REGISTER_CLASS_DEC(RegisterUserInput, "register_user", 0)
 //REGISTER_CLASS_DEC(RegisterUserInput, "RegisterUserInput", 1)
 
-RegisterUserInput::RegisterUserInput()
-{
-}
-
-RegisterUserInput::RegisterUserInput(const RegisterUserInput &orig)
+void RegisterUserInput::CopyFrom(const RegisterUserInput &orig)
 {
     m_email = orig.m_email;
     m_name = orig.m_name;
@@ -31,17 +27,27 @@ RegisterUserInput::RegisterUserInput(const RegisterUserInput &orig)
     m_version = orig.m_version;
 }
 
-RegisterUserInput::RegisterUserInput(RegisterUserInput &&orig)
-{    
+void RegisterUserInput::CopyFrom(RegisterUserInput &&orig)
+{
     m_email = std::move(orig.m_email);
     m_name = std::move(orig.m_name);
     m_password = std::move(orig.m_password);
     m_roles = std::move(orig.m_roles);
-    m_version = orig.m_version;
+    m_version = std::move(orig.m_version);
 }
 
-RegisterUserInput::~RegisterUserInput()
+void RegisterUserInput::CopyFrom(const std::shared_ptr<RegisterUserInput> &orig)
 {
+    m_email = orig->GetEmail();
+    m_name = orig->GetName();
+    m_password = orig->GetPassword();
+    m_roles = orig->GetRoles();
+    m_version = orig->GetVersion();
+}
+
+string RegisterUserInput::Name()
+{
+    return "RegisterUserInput";
 }
 
 string RegisterUserInput::ToString()
@@ -59,9 +65,9 @@ const std::string& RegisterUserInput::GetEmail() const
     return m_email;
 }
 
-void RegisterUserInput::SetEmail(std::string email)
+void RegisterUserInput::SetEmail(const std::string &email)
 {
-    m_email = std::move(email);
+    m_email = email;
 }
 
 const std::string& RegisterUserInput::GetName() const
@@ -69,9 +75,9 @@ const std::string& RegisterUserInput::GetName() const
     return m_name;
 }
 
-void RegisterUserInput::SetName(std::string name)
+void RegisterUserInput::SetName(const std::string &name)
 {
-    m_name = std::move(name);
+    m_name = name;
 }
 
 const std::string& RegisterUserInput::GetRoles() const
@@ -79,9 +85,9 @@ const std::string& RegisterUserInput::GetRoles() const
     return m_roles;
 }
 
-void RegisterUserInput::SetRoles(std::string roles)
+void RegisterUserInput::SetRoles(const std::string &roles)
 {
-    m_roles = std::move(roles);
+    m_roles = roles;
 }
 
 int RegisterUserInput::GetVersion() const
@@ -89,7 +95,7 @@ int RegisterUserInput::GetVersion() const
     return m_version;
 }
 
-void RegisterUserInput::SetVersion(int version)
+void RegisterUserInput::SetVersion(const int &version)
 {
     m_version = version;
 }
@@ -104,6 +110,15 @@ void RegisterUserInput::SetPassword(std::string password)
     m_password = std::move(password);
 }
 
+const std::string& RegisterUserInput::GetStatus() const
+{
+    return m_status;
+}
+
+void RegisterUserInput::SetStatus(const std::string &status)
+{
+    m_status = status;
+}
 
 } /* namespace Api */
 

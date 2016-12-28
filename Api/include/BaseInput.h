@@ -32,7 +32,8 @@ namespace Api {
         virtual web::json::value Process() = 0;
 
         virtual string ToString() = 0;
-
+        virtual string Name() = 0;
+        
         REGISTER_GETTER_INCLUDING_BASE_START(Serializable)
         REGISTER_GETTER_INCLUDING_BASE_END
 
@@ -45,7 +46,7 @@ namespace Api {
     public:
         ApiInput() = default;
         virtual ~ApiInput() = default;
-
+            
         web::json::value Serialize() const override {
             return Json::ToJson<T>(reinterpret_cast<const T*>(this));
         }

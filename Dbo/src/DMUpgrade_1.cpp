@@ -30,51 +30,72 @@ void DMUpgrade_1::Execute()
     std::string superUserEmail = "admin@nilavo.com";
     std::string superUserPassword = "admin";
     std::string superUserIdentityProvider = "loginname";
-    
-    //Creating super user;
-    User *user = new User();
-    user->SetName(superUserName);
-    user->SetRoles(Role::ROLE_CREATE_SUPER_USER);
-    user->SetStatus(Status::V);
 
-    User loggedUser = User();
-    Wt::Dbo::ptr<User> userAdded = Dal::GetDao()->RegisterUser(loggedUser, user);
+    User *user = nullptr;
+    Dal::AuthInfo *authInfo = nullptr;
+    Dal::AuthInfo::AuthIdentityType *identity = nullptr;
 
-    if (userAdded) {
-        AuthInfo *authInfo = new AuthInfo();
+    try {
+        //Creating super user;
+        user = new User();
+        user->SetName(superUserName);
+        user->SetRoles(Role::ROLE_CREATE_SUPER_USER);
+        user->SetStatus(Status::V);
 
-        authInfo->setEmail(superUserEmail);
-        authInfo->setUnverifiedEmail(superUserEmail);
-        
-        Wt::WDateTime now;
-        Common::DateTimeUtils::AddToCurrentDateTime(now, 2);
-        authInfo->setEmailToken(Dal::AuthUtils::GenerateEmailToken(), now, Wt::Auth::User::EmailTokenRole::VerifyEmail);
+        User loggedUser = User();
+        Wt::Dbo::ptr<User> userAdded = Dal::GetDao()->RegisterUser(loggedUser, user);
 
-        auto passwdEncoder = LCrypto::PassWordEncoder::GetInstance();
-        auto salt = passwdEncoder->GenerateSalt();
-        auto hash = passwdEncoder->Encode(superUserPassword, salt);
-        auto hashMethod = passwdEncoder->HashMethodName();
-        authInfo->setPassword(hash, hashMethod, salt);
+        if (userAdded) {
+            authInfo = new AuthInfo();
 
-        authInfo->setStatus(Wt::Auth::User::Status::Normal);
+            authInfo->setEmail(superUserEmail);
+            authInfo->setUnverifiedEmail(superUserEmail);
 
-        authInfo->setUser(userAdded);
+            Wt::WDateTime now;
+            Common::DateTimeUtils::AddToCurrentDateTime(now, 2);
+            authInfo->setEmailToken(Dal::AuthUtils::GenerateEmailToken(), now, Wt::Auth::User::EmailTokenRole::VerifyEmail);
 
-        Wt::Dbo::ptr<AuthInfo> authInfoAdded = Dal::GetDao()->AddAuthInfo(loggedUser, authInfo);
-        
-        if (authInfoAdded) {
-            AuthInfo::AuthIdentityType *identity = 
-                    new AuthInfo::AuthIdentityType(superUserIdentityProvider, superUserEmail);
-            
-            authInfoAdded.modify()->authIdentities().insert(identity);
-            
-            // Wt::Dbo::ptr<AuthInfo::AuthIdentityType> identityAdded =
-            // Dal::GetDao()->AddIdentity(identity);                                  
+            auto passwdEncoder = LCrypto::PassWordEncoder::GetInstance();
+            auto salt = passwdEncoder->GenerateSalt();
+            auto hash = passwdEncoder->Encode(superUserPassword, salt);
+            auto hashMethod = passwdEncoder->HashMethodName();
+            authInfo->setPassword(hash, hashMethod, salt);
+
+            authInfo->setStatus(Wt::Auth::User::Status::Normal);
+
+            authInfo->setUser(userAdded);
+
+            Wt::Dbo::ptr<AuthInfo> authInfoAdded = Dal::GetDao()->AddAuthInfo(loggedUser, authInfo);
+
+            if (authInfoAdded) {
+                identity = new AuthInfo::AuthIdentityType(superUserIdentityProvider, superUserEmail);
+
+                authInfoAdded.modify()->authIdentities().insert(identity);
+
+                // Wt::Dbo::ptr<AuthInfo::AuthIdentityType> identityAdded =
+                // Dal::GetDao()->AddIdentity(identity);                                  
+            } else {
+                throw Common::AppException(AppErrorCode::DB_OPERATION_FAILED,
+                        "Database operation of adding auth info of super user failed");
+            }
         } else {
-            delete authInfo;
+            throw Common::AppException(AppErrorCode::DB_OPERATION_FAILED,
+                    "Database operation of adding super user failed");
         }
-    } else {
-        delete user;
+    } catch (Common::AppException &e) {
+        //cleanup if not yet
+        if (user) delete user;
+        if (authInfo) delete authInfo;
+        if (identity) delete identity;
+        //raise error
+        throw e;
+    } catch (std::exception &e) {
+        //cleanup if not yet
+        if (user) delete user;
+        if (authInfo) delete authInfo;
+        if (identity) delete identity;
+        //raise error
+        throw Common::AppException(e);
     }
 }
 

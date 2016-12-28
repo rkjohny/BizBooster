@@ -14,67 +14,66 @@
 #define REGISTER_USER_INPUT_H
 
 #include <string>
-#include "SOFactory.h"
 #include "BaseInput.h"
 #include "Json.h"
+#include "AppDef.h"
 
 namespace Api {
-    using namespace std;
-    using namespace Json;
+using namespace std;
+using namespace Json;
 
-    class RegisterUserInput : public ApiInput<RegisterUserInput> {
-    public:
-        RegisterUserInput();
-        RegisterUserInput(const RegisterUserInput &orig);
-        RegisterUserInput(RegisterUserInput &&orig);
-        ~RegisterUserInput();
+class RegisterUserInput : public ApiInput<RegisterUserInput> {
+public:
+    API_INPUT(RegisterUserInput);
 
-        web::json::value Process() override;
+    const std::string& GetEmail() const;
+    void SetEmail(const std::string &email);
 
-        string ToString() override ;
+    const std::string& GetName() const;
+    void SetName(const std::string &name);
 
-        const std::string& GetEmail() const;
-        void SetEmail(std::string email);
+    const std::string& GetRoles() const;
+    void SetRoles(const std::string &roles);
 
-        const std::string& GetName() const;
-        void SetName(std::string name);
+    int GetVersion() const;
+    void SetVersion(const int &version);
 
-        const std::string& GetRoles() const;
-        void SetRoles(std::string roles);
+    const std::string& GetPassword() const;
+    void SetPassword(std::string password);
 
-        int GetVersion() const;
-        void SetVersion(int version);
+    const std::string& GetStatus();
+    void SetStatus(const std::string &status);
 
-        const std::string& GetPassword() const;
-        void SetPassword(std::string password);
-
-    private:
-        std::string m_email;
-        std::string m_name;
-        std::string m_roles;
-        std::string m_password;
-        int m_version;
+private:
+    std::string m_email;
+    std::string m_name;
+    std::string m_roles;
+    std::string m_password;
+    int m_version;
+    std::string m_status;
 
 
-        REGISTER_GETTER_INCLUDING_BASE_START(ApiInput<RegisterUserInput>)
-        GETTER(RegisterUserInput, const std::string&, "email", &RegisterUserInput::GetEmail),
-        GETTER(RegisterUserInput, const std::string&, "name", &RegisterUserInput::GetName),
-        GETTER(RegisterUserInput, const std::string&, "roles", &RegisterUserInput::GetRoles),
-        GETTER(RegisterUserInput, const std::string&, "password", &RegisterUserInput::GetPassword),
-        GETTER(RegisterUserInput, int, "version", &RegisterUserInput::GetVersion)
-        REGISTER_GETTER_INCLUDING_BASE_END
+    REGISTER_GETTER_INCLUDING_BASE_START(ApiInput<RegisterUserInput>)
+    GETTER(RegisterUserInput, const std::string&, "email", &RegisterUserInput::GetEmail),
+    GETTER(RegisterUserInput, const std::string&, "name", &RegisterUserInput::GetName),
+    GETTER(RegisterUserInput, const std::string&, "roles", &RegisterUserInput::GetRoles),
+    GETTER(RegisterUserInput, const std::string&, "password", &RegisterUserInput::GetPassword),
+    GETTER(RegisterUserInput, const std::string&, "status", &RegisterUserInput::GetStatus),
+    GETTER(RegisterUserInput, int, "version", &RegisterUserInput::GetVersion)
+    REGISTER_GETTER_INCLUDING_BASE_END
 
-        REGISTER_SETTER_INCLUDING_BASE_START(ApiInput<RegisterUserInput>)
-        SETTER(RegisterUserInput, std::string, "email", &RegisterUserInput::SetEmail),
-        SETTER(RegisterUserInput, std::string, "name", &RegisterUserInput::SetName),
-        SETTER(RegisterUserInput, std::string, "roles", &RegisterUserInput::SetRoles),
-        SETTER(RegisterUserInput, std::string, "password", &RegisterUserInput::SetPassword),
-        SETTER(RegisterUserInput, int, "version", &RegisterUserInput::SetVersion)
-        REGISTER_SETTER_INCLUDING_BASE_END
+    REGISTER_SETTER_INCLUDING_BASE_START(ApiInput<RegisterUserInput>)
+    SETTER(RegisterUserInput, const std::string&, "email", &RegisterUserInput::SetEmail),
+    SETTER(RegisterUserInput, const std::string&, "name", &RegisterUserInput::SetName),
+    SETTER(RegisterUserInput, const std::string&, "roles", &RegisterUserInput::SetRoles),
+    SETTER(RegisterUserInput, const std::string&, "password", &RegisterUserInput::SetPassword),
+    SETTER(RegisterUserInput, const std::string&, "status", &RegisterUserInput::SetStatus),
+    SETTER(RegisterUserInput, const int&, "version", &RegisterUserInput::SetVersion)
+    REGISTER_SETTER_INCLUDING_BASE_END
 
-        //REGISTER_CLASS_DEF(RegisterUserInput, "register_user", 0)
-        //REGISTER_CLASS_DEF(RegisterUserInput, "RegisterUserInput", 1)
-    };
+    //REGISTER_CLASS_DEF(RegisterUserInput, "register_user", 0)
+    //REGISTER_CLASS_DEF(RegisterUserInput, "RegisterUserInput", 1)
+};
 
 } /* namespace Api */
 

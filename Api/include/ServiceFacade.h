@@ -18,16 +18,16 @@
 
 namespace Api {
 
-    //TODO: Use forward declaration for class RegisterUserInput if needed
+//TODO: Use forward declaration for class RegisterUserInput if needed
 
-    class ServiceFacade {
-    public:
-        static web::json::value RegisterUser(RegisterUserInput *input);
-        static web::json::value RegisterUser(RegisterUserInput &input);
+class ServiceFacade {
+public:
+    static web::json::value RegisterUser(std::shared_ptr<RegisterUserInput> input,
+            std::shared_ptr<RegisterUserOutput> output = nullptr);
 
-    private:
-        MAKE_STATIC(ServiceFacade);
-    };
+private:
+    MAKE_STATIC(ServiceFacade);
+};
 } /* namespace Api */
 
 #endif /* SERVICEFACADE_H_ */

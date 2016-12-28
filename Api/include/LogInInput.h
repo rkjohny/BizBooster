@@ -17,15 +17,13 @@
 #include <string>
 #include "Json.h"
 #include "BaseInput.h"
+#include "AppDef.h"
 
 namespace Api {
 
 class LogInInput : public ApiInput<LogInInput> {
 public:
-    LogInInput();
-    LogInInput(const LogInInput& orig);
-    LogInInput(LogInInput&& orig);
-    virtual ~LogInInput();
+    API_INPUT(LogInInput);
 
     const std::string& GetPassword() const;
 

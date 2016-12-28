@@ -14,35 +14,53 @@
 #ifndef ABSTRACT_HELPER_H
 #define ABSTRACT_HELPER_H
 
-#include "BaseInput.h"
-#include "BaseOutput.h"
+
 #include "AppDef.h"
 #include <memory>
 
 namespace Api {
 
-    //TODO: Use Forward declaration class BaseInput and BaseOutput if needed.
+//TODO: Use Forward declaration class BaseInput and BaseOutput if needed.
 
-    class AbstractHelper {
-    private:
-        NON_COPY_NON_MOVE_ABLE(AbstractHelper);
+template<class InputT, class OutputT>
+class AbstractHelper {
+private:
+    NON_COPY_NON_MOVE_ABLE(AbstractHelper);
 
-    protected:
-        std::unique_ptr<BaseOutput> m_output;
-        BaseInput *m_input;
+protected:
+    std::shared_ptr<InputT> m_input;
+    std::shared_ptr<OutputT> m_output;
 
-    public:
-        AbstractHelper();
-        virtual ~AbstractHelper();
+public:
 
-        virtual void InitAndValidate() = 0;
+    AbstractHelper(std::shared_ptr<InputT> input, std::shared_ptr<OutputT> output = nullptr) :
+    m_input(input), m_output(output)
+    {
+        if (!m_output) {
+            m_output = std::make_shared<OutputT>();
+        }
+    }
 
-        virtual void CheckPermission() = 0;
+    virtual ~AbstractHelper() = default;
 
-        virtual void ExecuteHelper() = 0;
+    virtual void InitAndValidate() = 0;
 
-        web::json::value Execute();
-    };
+    virtual void CheckPermission() = 0;
+
+    virtual void ExecuteHelper() = 0;
+
+    std::shared_ptr<OutputT> GetOutput()
+    {
+        return m_output;
+    }
+
+    std::shared_ptr<InputT> Getinput()
+    {
+        return m_input;
+    }
+
+    web::json::value Execute();
+};
 
 } /* namespace Api */
 

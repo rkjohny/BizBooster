@@ -31,7 +31,7 @@ web::json::value ApiExecutor::ExecuteSingleApi(const web::json::value &jrequest)
     std::string apiName = utility::conversions::to_utf8string(japi.as_string());
 
     if (japi.is_string() && jdata.is_object()) {
-        std::shared_ptr<Api::Serializable> obj = std::move(Api::SOFactory::CreateObject(std::move(apiName)));
+        std::shared_ptr<Api::Serializable> obj = Api::SOFactory::CreateObject(std::move(apiName));
         if (obj) {
             std::shared_ptr<Api::BaseInput> input = std::dynamic_pointer_cast<Api::BaseInput, Api::Serializable>(obj);
 
@@ -39,6 +39,10 @@ web::json::value ApiExecutor::ExecuteSingleApi(const web::json::value &jrequest)
                 input->Deserialize(jdata);
 
                 jresponse = input->Process();
+
+                //alternative way
+                jresponse = Api::ServiceFacade::RegisterUser(input);
+                
             } else {
                 return Api::ApiUtils::ErrorResponse(AppErrorCode::INTERNAL_SERVER_ERROR,
                                                     "Could not cast shared pointer of Serializable to BaseInput");

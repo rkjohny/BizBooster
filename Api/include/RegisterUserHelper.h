@@ -21,28 +21,26 @@
 
 namespace Api {
 
-    //TODO: Use forrward declaration of class RegisterUserInput if needed.
+//TODO: Use forrward declaration of class RegisterUserInput if needed.
 
-    class RegisterUserHelper : public AbstractHelper {
-    private:
-        NON_COPY_NON_MOVE_ABLE(RegisterUserHelper);
+class RegisterUserHelper : public AbstractHelper <RegisterUserInput, RegisterUserOutput> {
+private:
+    NON_COPY_NON_MOVE_ABLE(RegisterUserHelper);
 
-    public:
-        RegisterUserHelper();
-        RegisterUserHelper(RegisterUserInput *input);
+public:
+    virtual ~RegisterUserHelper();
 
-        void SetInput(RegisterUserInput *in);
+    RegisterUserHelper(std::shared_ptr<RegisterUserInput> input, std::shared_ptr<RegisterUserOutput> output = nullptr) :
+    AbstractHelper <RegisterUserInput, RegisterUserOutput>(input, output)
+    {
+    }
 
-        RegisterUserHelper(RegisterUserInput &input);
+    void InitAndValidate() override;
 
-        void SetInput(RegisterUserInput &in);
+    void CheckPermission() override;
 
-        void InitAndValidate() override;
-
-        void CheckPermission() override;
-
-        void ExecuteHelper() override;
-    };
+    void ExecuteHelper() override;
+};
 
 } /* namespace Api */
 

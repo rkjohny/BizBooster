@@ -10,25 +10,15 @@
  * magnetic storage, computer print-out or visual display.
  */
 
-#include "RegisterUserOutput.h"
-#include "Converter.h"
+
 #include "AbstractHelper.h"
-#include "Dao.h"
 #include "Dal.h"
 #include "AppException.h"
 #include "LogFactory.h"
-#include "ApiUtils.h"
 
 namespace Api {
 using namespace Common;
 
-AbstractHelper::AbstractHelper() : m_output(nullptr)
-{
-}
-
-AbstractHelper::~AbstractHelper()
-{
-}
 
 web::json::value AbstractHelper::Execute()
 {
@@ -41,6 +31,7 @@ web::json::value AbstractHelper::Execute()
         ExecuteHelper();
 
         response = m_output->Serialize();
+        
         //TODO: what to do  if commit failes
         bool succeeded = dao->CommitTransaction(transaction);
 
@@ -48,14 +39,14 @@ web::json::value AbstractHelper::Execute()
         dao->RollbackTransaction(transaction);
         response = e.Serialize();
         //response = ApiUtils::ErrorResponse(e.GetCode(), e.GetMessage());
-        LOG_ERROR(std::string("Input: ") + m_input->ToString() +
+        LOG_ERROR(std::string("Input: ") + m_input->Name() +
                             " failed with with error: [" + e.ToString() + "]" );
     } catch (exception &e) {
         dao->RollbackTransaction(transaction);
         AppException ex = AppException( e );
         response = ex.Serialize();
         //response = ApiUtils::ErrorResponse(ex.GetCode(), ex.GetMessage());
-        LOG_ERROR(std::string("Input: ") + m_input->ToString() +
+        LOG_ERROR(std::string("Input: ") + m_input->Name() +
                           " failed with with error: [" +  ex.ToString() + "]" );
     }
 

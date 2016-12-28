@@ -17,39 +17,14 @@
 
 namespace Api {
 
-RegisterUserHelper::RegisterUserHelper()
-{
-}
-
-RegisterUserHelper::RegisterUserHelper(RegisterUserInput *input)
-{
-    this->m_input = input;
-}
-
-void RegisterUserHelper::SetInput(RegisterUserInput *input)
-{
-    this->m_input = input;
-}
-
-RegisterUserHelper::RegisterUserHelper(RegisterUserInput &input)
-{
-    this->m_input = &input;
-}
-
-void RegisterUserHelper::SetInput(RegisterUserInput &input)
-{
-    this->m_input = &input;
-}
-
 void RegisterUserHelper::InitAndValidate()
 {
-    RegisterUserInput *input = dynamic_cast<RegisterUserInput*>(m_input);
     User loggedUser = User();
-    Wt::Dbo::ptr<Dal::User> user = Dal::GetDao()->GetUser(loggedUser, input->GetEmail());
-    
+    Wt::Dbo::ptr<Dal::User> user = Dal::GetDao()->GetUser(loggedUser, m_input->GetEmail());
+
     if (user) {
-        throw Common::AppException(AppErrorCode::DUPLICATE_USER, 
-                           "User with the email already exists");
+        throw Common::AppException(AppErrorCode::DUPLICATE_USER,
+                "User with the email already exists");
     }
 }
 
@@ -61,40 +36,79 @@ void RegisterUserHelper::ExecuteHelper()
 {
     LOG_DEBUG("Api input: " + m_input->Serialize().serialize());
 
-    RegisterUserInput *input = dynamic_cast<RegisterUserInput*>(m_input);
+    User *user = nullptr;
+    Dal::AuthInfo *authInfo = nullptr;
+    Dal::AuthInfo::AuthIdentityType *identity = nullptr;
 
-    if (input) {
-        User *user = new User();
-        user->SetEmail(input->GetEmail());
-        user->SetName(input->GetName());
-        user->SetRolesStr(input->GetRoles());
-        user->SetVersion(input->GetVersion());
-        user->SetPassword(input->GetPassword());
-        //TODO: loginname is hardcoded
-        user->AddIdentity("loginname", input->GetEmail());
+    LOG_DEBUG("Registering new user.");
 
-        LOG_DEBUG("Registering new user.");
+    try {
+        user = new User();
+        user->SetName(m_input->GetName());
+        user->SetRolesStr(m_input->GetRoles());
+        user->SetVersion(m_input->GetVersion());
+        user->SetStatusStr(m_input->GetStatus());
+
 
         User loggedUser = User();
         Wt::Dbo::ptr<User> userAdded = Dal::GetDao()->RegisterUser(loggedUser, user);
 
         if (userAdded) {
-            LOG_DEBUG("New user registered successfully");
+            authInfo = new Dal::AuthInfo();
 
-            std::unique_ptr<RegisterUserOutput> output = std::make_unique<RegisterUserOutput>();
-            output->SetUser(*userAdded);
+            authInfo->setEmail(m_input->GetEmail());
+            authInfo->setUnverifiedEmail(m_input->GetEmail());
 
-            m_output = std::move(output);
+            Wt::WDateTime now;
+            Common::DateTimeUtils::AddToCurrentDateTime(now, 2);
+            authInfo->setEmailToken(Dal::AuthUtils::GenerateEmailToken(), now, Wt::Auth::User::EmailTokenRole::VerifyEmail);
 
-            LOG_DEBUG("Api output: " + m_output->Serialize().serialize());
+            auto passwdEncoder = LCrypto::PassWordEncoder::GetInstance();
+            auto salt = passwdEncoder->GenerateSalt();
+            auto hash = passwdEncoder->Encode(m_input->GetPassword(), salt);
+            auto hashMethod = passwdEncoder->HashMethodName();
+            authInfo->setPassword(hash, hashMethod, salt);
 
+            authInfo->setStatus(Wt::Auth::User::Status::Normal);
+
+            authInfo->setUser(userAdded);
+
+            Wt::Dbo::ptr<AuthInfo> authInfoAdded = Dal::GetDao()->AddAuthInfo(loggedUser, authInfo);
+
+            if (authInfoAdded) {
+                //TODO: hard coded identity provider
+                identity = new Dal::AuthInfo::AuthIdentityType("loginname", m_input->GetEmail());
+
+                authInfoAdded.modify()->authIdentities().insert(identity);
+
+                LOG_DEBUG("New user registered successfully");
+
+                m_output->SetUser(*userAdded);
+
+                LOG_DEBUG("Api output: " + m_output->Serialize().serialize());
+
+            } else {
+                throw Common::AppException(AppErrorCode::DB_OPERATION_FAILED,
+                        "Database operation of adding new auth info failed");
+            }
         } else {
             throw Common::AppException(AppErrorCode::DB_OPERATION_FAILED,
                     "Database operation of adding new user failed");
         }
-    } else {
-        throw Common::AppException(AppErrorCode::INTERNAL_SERVER_ERROR,
-                "Could not cast pointer of BaseInput to RegisterUserInput");
+    } catch (Common::AppException &e) {
+        //cleanup if not yet
+        if (user) delete user;
+        if (authInfo) delete authInfo;
+        if (identity) delete identity;
+        //raise error
+        throw e;
+    } catch (std::exception &e) {
+        //cleanup if not yet
+        if (user) delete user;
+        if (authInfo) delete authInfo;
+        if (identity) delete identity;
+        //raise error
+        throw Common::AppException(e);
     }
 }
 

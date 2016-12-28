@@ -13,9 +13,15 @@
 #ifndef APP_CONGIF_H
 #define APP_CONGIF_H
 
-#if defined(WIN32) || defined(_WIN32) || defined (__CYGWIN__)
-#define PATH_SEPARATOR "\\"
+#if defined(WIN32) || defined(_WIN32)
+#define WINDOWS
 #else
+#define LINUX
+#endif
+
+#if defined(WINDOWS)
+#define PATH_SEPARATOR "\\"
+#else if defined(LINUX)
 #define PATH_SEPARATOR "/"
 #endif
 
@@ -45,4 +51,43 @@
     TYPE() = delete; \
     ~TYPE() = delete;
 
+#define COPY_ABLE_MOVE_ABLE(TYPE) \
+        TYPE(const TYPE &orig) { \
+            CopyFrom(orig); \
+        } \
+        TYPE(TYPE &&orig) { \
+            CopyFrom(std::move(orig)); \
+        } \
+        TYPE(const std::shared_ptr<TYPE> &orig) { \
+            CopyFrom(orig); \
+        } \
+        TYPE & operator=(const TYPE &orig) { \
+             CopyFrom(orig); \
+             return *this; \
+        } \
+        TYPE & operator=(TYPE &&orig) { \
+            CopyFrom(std::move(orig)); \
+            return *this; \
+        } \
+        TYPE & operator=(const std::shared_ptr<TYPE> &orig) { \
+            CopyFrom(orig); \
+            return *this; \
+        } \
+        void CopyFrom(const TYPE &orig); \
+        void CopyFrom(TYPE &&orig); \
+        void CopyFrom(const std::shared_ptr<TYPE> &orig);
+
+
+#define DEFAULT_CONS_DES_TRUCTOR(TYPE) \
+    TYPE() = default; \
+    virtual ~TYPE() = default;
+
+
+#define API_INPUT(TYPE) \
+    DEFAULT_CONS_DES_TRUCTOR(TYPE) \
+    COPY_ABLE_MOVE_ABLE(TYPE) \
+    std::string ToString() override; \
+    web::json::value Process() override; \
+    std::string Name() override;
+    
 #endif //APP_CONGIF_H
