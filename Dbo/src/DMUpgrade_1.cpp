@@ -19,7 +19,7 @@
 #include "Dal.h"
 #include "Roles.h"
 #include "LCrypto.h"
-#include "LibCryptoDef.h"
+#include "CryptoDef.h"
 
 namespace Dal {
 
@@ -68,9 +68,13 @@ void DMUpgrade_1::Execute()
             
             authInfoAdded.modify()->authIdentities().insert(identity);
             
-//            Wt::Dbo::ptr<AuthInfo::AuthIdentityType> identityAdded =
-//                    Dal::GetDao()->AddIdentity(identity);                                  
+            // Wt::Dbo::ptr<AuthInfo::AuthIdentityType> identityAdded =
+            // Dal::GetDao()->AddIdentity(identity);                                  
+        } else {
+            delete authInfo;
         }
+    } else {
+        delete user;
     }
 }
 

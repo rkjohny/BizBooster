@@ -112,5 +112,7 @@ int main(int argc, char** argv)
     sleep(1);
 #endif
 
+    LOG_DEBUG("Rest service stopped.");
+    
     return 0;
 }

@@ -13,7 +13,7 @@
 #include "LCrypto.h"
 #include "OsslHwRandGenerator.h"
 #include "WtHashGenerator.h"
-#include "LibCryptoDef.h"
+#include "CryptoDef.h"
 
 namespace LCrypto {
 

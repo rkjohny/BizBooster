@@ -14,7 +14,7 @@
 #include "PassWordEncoder.h"
 #include "OsslHwRandGenerator.h"
 #include "Converter.h"
-#include "LibCryptoDef.h"
+#include "CryptoDef.h"
 
 namespace LCrypto {
 

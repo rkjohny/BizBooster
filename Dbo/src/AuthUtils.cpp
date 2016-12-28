@@ -13,7 +13,7 @@
 #include "AuthUtils.h"
 #include "RndGenerator.h"
 #include "LCrypto.h"
-#include "LibCryptoDef.h"
+#include "CryptoDef.h"
 
 namespace  Dal {
 
