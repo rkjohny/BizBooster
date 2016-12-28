@@ -42,9 +42,9 @@ web::json::value ApiExecutor::ExecuteSingleApi(const web::json::value &jrequest)
                 jresponse = input->Process(input);
 
                 //alternative way to execute api
-                std::shared_ptr<Api::RegisterUserInput> regUsrInput =
-                        std::dynamic_pointer_cast<Api::RegisterUserInput, Api::BaseInput>(input);
-                jresponse = Api::ServiceFacade::RegisterUser(regUsrInput);
+//                std::shared_ptr<Api::RegisterUserInput> regUsrInput =
+//                        std::dynamic_pointer_cast<Api::RegisterUserInput, Api::BaseInput>(input);
+//                jresponse = Api::ServiceFacade::RegisterUser(regUsrInput);
 
             } else {
                 return Api::ApiUtils::ErrorResponse(AppErrorCode::INTERNAL_SERVER_ERROR,
