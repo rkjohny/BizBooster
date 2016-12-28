@@ -16,76 +16,36 @@
 #include <string>
 #include <vector>
 #include "AppDef.h"
-#include "StringUtility.h"
-
-
 
 
 #define ROLE_CREATE_SUPER_USER_STR "ROLE_CREATE_SUPER_USER"
 
+namespace Dal {
+
 enum Role {
     ROLE_CREATE_SUPER_USER
 };
-
+    
 class RoleUtils {
 private:
     MAKE_STATIC(RoleUtils);
 
-    static Role ToRole(const std::string &&role) {
-        std::string newrole = Common::StringUtility::Trim(role);
-
-        if (newrole.compare(ROLE_CREATE_SUPER_USER_STR) == 0) {
-            return Role::ROLE_CREATE_SUPER_USER;
-        }
-        throw std::runtime_error("unknown roles");
-    }
-
-    static Role ToRole(const std::string &role) {
-        return ToRole(std::move(role));
-    }
+    static Role ToRole(const std::string &&role);
+    
+    static Role ToRole(const std::string &role);
 
 public:
 
-    static std::string ToStr(const Role &role) {
-        switch (role) {
-            case Role::ROLE_CREATE_SUPER_USER:
-                return ROLE_CREATE_SUPER_USER_STR;
-            default:
-                throw std::runtime_error("unknown roles found");
-        }
-    }
+    static std::string ToStr(const Role &role);
 
-    static std::string ToStr(const std::vector<Role> &&roles, const std::string &&delimeter = ",") {
-        std::string rolesStr = "";
-        bool first = true;
+    static std::string ToStr(const std::vector<Role> &&roles, const std::string &&delimeter = ",");
 
-        for (auto &role : roles) {
-            if (!first) {
-                rolesStr += delimeter;
-            }
-            rolesStr += ToStr(role);
-        }
-        return rolesStr;
-    }
+    static std::string ToStr(const std::vector<Role> &roles, const std::string &delimeter = ",");
 
-    static std::string ToStr(const std::vector<Role> &roles, const std::string &delimeter = ",") {
-        return ToStr(std::move(roles), std::move(delimeter));
-    }
+    static std::vector<Role> ToRoles(const std::string &&roles);
 
-    static std::vector<Role> ToRoles(const std::string &&roles) {
-        std::vector<std::string> v_rolesStr;
-        Common::StringUtility::Tokenize(v_rolesStr, roles, ",");
-
-        std::vector<Role> v_roles;
-        for (auto &role : v_rolesStr) {
-            v_roles.push_back(ToRole(role));
-        }
-        return v_roles;
-    }
-
-    static std::vector<Role> ToRoles(const std::string &roles) {
-        return ToRoles(std::move(roles));
-    }
+    static std::vector<Role> ToRoles(const std::string &roles);
 };
 
-#endif //BIZBOOSTER_ROLES_H
+}
+#endif //ROLES_H

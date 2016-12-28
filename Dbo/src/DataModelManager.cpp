@@ -37,7 +37,7 @@ void DataModelManager::Run()
     
     nextDmVersion = dao->GetNextDmVersion();
 
-    FLOG_DEBUG("Running Data Model Manager... pending upgrade count: %u", dmUpgradeList.size() - nextDmVersion); 
+    FLOG_INFO("Running Data Model Manager... pending upgrade count: %u", dmUpgradeList.size() - nextDmVersion); 
 
     size_t i = nextDmVersion;
     for (; i<dmUpgradeList.size(); ++i) {
