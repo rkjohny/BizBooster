@@ -26,10 +26,9 @@ namespace Api {
 
     class RegisterUserOutput : public ApiOutput<RegisterUserOutput> {
     public:
-        RegisterUserOutput();
-        RegisterUserOutput(const RegisterUserOutput &orig);
-        RegisterUserOutput(RegisterUserOutput &&orig);
-        ~RegisterUserOutput();
+        SERIALIZEABLE(RegisterUserOutput);
+        
+        ~RegisterUserOutput() = default;
 
         const User& GetUser() const;
         void SetUser(const User& user);

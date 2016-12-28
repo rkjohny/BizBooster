@@ -15,29 +15,32 @@
 
 #include "AbstractHelper.h"
 #include "LogInInput.h"
+#include "LogInOutput.h"
 
 
 namespace Api {
 
-class LogInHelper : public AbstractHelper {
+class LogInHelper : public AbstractHelper<LogInInput, LogInOutput> {
+private:
+    NON_COPY_NON_MOVE_ABLE(LogInHelper);
+
 public:
-    LogInHelper();
-    virtual ~LogInHelper();
-           
-    LogInHelper(LogInInput *input);
-    LogInHelper(LogInInput &input);
+
+    LogInHelper(std::shared_ptr<LogInInput> input, std::shared_ptr<LogInOutput> output) :
+    AbstractHelper<LogInInput, LogInOutput>(input, output)
+    {
+    }
+
+    ~LogInHelper() = default;
 
     void SetInput(LogInInput *in);
     void SetInput(LogInInput &in);
-        
+
     void InitAndValidate() override;
 
     void CheckPermission() override;
-    
-    void ExecuteHelper() override;
 
-private:
-    NON_COPY_NON_MOVE_ABLE(LogInHelper)
+    void ExecuteHelper() override;
 };
 
 }

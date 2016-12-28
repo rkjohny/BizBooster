@@ -55,9 +55,11 @@ string RegisterUserInput::ToString()
     return "RegisterUserInput";
 }
 
-web::json::value RegisterUserInput::Process()
+web::json::value RegisterUserInput::Process(const std::shared_ptr<BaseInput> &input)
 {
-    return ServiceFacade::RegisterUser(this);
+    std::shared_ptr<Api::RegisterUserInput> regUsrInput =
+            std::dynamic_pointer_cast<Api::RegisterUserInput, Api::BaseInput>(input);
+    return ServiceFacade::RegisterUser(regUsrInput);
 }
 
 const std::string& RegisterUserInput::GetEmail() const
@@ -105,9 +107,9 @@ const std::string& RegisterUserInput::GetPassword() const
     return m_password;
 }
 
-void RegisterUserInput::SetPassword(std::string password)
+void RegisterUserInput::SetPassword(const std::string &password)
 {
-    m_password = std::move(password);
+    m_password = password;
 }
 
 const std::string& RegisterUserInput::GetStatus() const

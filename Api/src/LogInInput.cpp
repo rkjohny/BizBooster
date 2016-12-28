@@ -14,11 +14,17 @@
 
 namespace Api {
 
-LogInInput::LogInInput()
+
+void LogInInput::CopyFrom(LogInInput&& orig)
 {
+     m_password = std::move(orig.m_password);
+    m_userName = std::move(orig.m_userName);
+    m_rememberMe = orig.m_rememberMe;
+    m_useFacebookAuth = orig.m_useFacebookAuth;
+    m_useGoogleAuth = orig.m_useGoogleAuth;
 }
 
-LogInInput::LogInInput(const LogInInput& orig)
+void LogInInput::CopyFrom(const LogInInput& orig)
 {
     m_password = orig.m_password;
     m_userName = orig.m_userName;
@@ -27,17 +33,28 @@ LogInInput::LogInInput(const LogInInput& orig)
     m_useGoogleAuth = orig.m_useGoogleAuth;
 }
 
-LogInInput::LogInInput(LogInInput&& orig)
+void LogInInput::CopyFrom(const std::shared_ptr<LogInInput>& orig)
 {
-    m_password = std::move(orig.m_password);
-    m_userName = std::move(orig.m_userName);
-    m_rememberMe = orig.m_rememberMe;
-    m_useFacebookAuth = orig.m_useFacebookAuth;
-    m_useGoogleAuth = orig.m_useGoogleAuth;
+    m_password = orig->GetPassword();
+    m_userName = orig->GetUserName();
+    m_rememberMe = orig->IsRememberMe();
+    m_useFacebookAuth = orig->IsUseFacebookAuth();
+    m_useGoogleAuth = orig->IsUseGoogleAuth();
 }
 
-LogInInput::~LogInInput()
+std::string LogInInput::Name()
 {
+    return "LoginInput";
+}
+
+std::string LogInInput::ToString()
+{
+    return "LoginInput";
+}
+
+web::json::value LogInInput::Process(const std::shared_ptr<BaseInput> &input)
+{
+    return web::json::value();   
 }
 
 const std::string& LogInInput::GetPassword() const

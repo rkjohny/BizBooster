@@ -29,7 +29,7 @@ namespace Api {
         BaseInput();
         virtual ~BaseInput();
 
-        virtual web::json::value Process() = 0;
+        virtual web::json::value Process(const std::shared_ptr<BaseInput> &input) = 0;
 
         virtual string ToString() = 0;
         virtual string Name() = 0;

@@ -16,7 +16,12 @@
 
 
 #include "AppDef.h"
+#include "Dal.h"
+#include "AppException.h"
+#include "LogFactory.h"
+#include <cpprest/json.h>
 #include <memory>
+
 
 namespace Api {
 
@@ -59,7 +64,38 @@ public:
         return m_input;
     }
 
-    web::json::value Execute();
+    web::json::value Execute()
+    {
+        web::json::value response;
+        auto dao = Dal::GetDao();
+        auto transaction = dao->BeginTransaction();
+        try {
+            InitAndValidate();
+            CheckPermission();
+            ExecuteHelper();
+
+            response = m_output->Serialize();
+
+            //TODO: what to do  if commit failes
+            bool succeeded = dao->CommitTransaction(transaction);
+
+        } catch (Common::AppException &e) {
+            dao->RollbackTransaction(transaction);
+            response = e.Serialize();
+            //response = ApiUtils::ErrorResponse(e.GetCode(), e.GetMessage());
+            LOG_ERROR(std::string("Input: ") + m_input->Name() +
+                    " failed with with error: [" + e.ToString() + "]");
+        } catch (std::exception &e) {
+            dao->RollbackTransaction(transaction);
+            Common::AppException ex = Common::AppException(e);
+            response = ex.Serialize();
+            //response = ApiUtils::ErrorResponse(ex.GetCode(), ex.GetMessage());
+            LOG_ERROR(std::string("Input: ") + m_input->Name() +
+                    " failed with with error: [" + ex.ToString() + "]");
+        }
+
+        return response;
+    }
 };
 
 } /* namespace Api */

@@ -14,6 +14,11 @@
 #include "Dal.h"
 #include "RegisterUserHelper.h"
 #include "LogFactory.h"
+#include "DateTimeUtils.h"
+#include "AuthUtils.h"
+#include "PassWordEncoder.h"
+#include <Wt/Dbo/WtSqlTraits>
+
 
 namespace Api {
 

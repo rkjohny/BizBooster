@@ -21,7 +21,7 @@
 
 #if defined(WINDOWS)
 #define PATH_SEPARATOR "\\"
-#else if defined(LINUX)
+#elif defined(LINUX)
 #define PATH_SEPARATOR "/"
 #endif
 
@@ -76,18 +76,11 @@
         void CopyFrom(const TYPE &orig); \
         void CopyFrom(TYPE &&orig); \
         void CopyFrom(const std::shared_ptr<TYPE> &orig);
-
-
-#define DEFAULT_CONS_DES_TRUCTOR(TYPE) \
+ 
+#define SERIALIZEABLE(TYPE) \
     TYPE() = default; \
-    virtual ~TYPE() = default;
-
-
-#define API_INPUT(TYPE) \
-    DEFAULT_CONS_DES_TRUCTOR(TYPE) \
     COPY_ABLE_MOVE_ABLE(TYPE) \
     std::string ToString() override; \
-    web::json::value Process() override; \
     std::string Name() override;
-    
+
 #endif //APP_CONGIF_H

@@ -16,6 +16,7 @@
 #include "RegisterUserOutput.h"
 #include "Common.h"
 #include "Dal.h"
+#include "SOFactory.h"
 
 namespace Api {
 

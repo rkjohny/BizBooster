@@ -14,33 +14,6 @@
 
 namespace Api {
 
-LogInHelper::LogInHelper()
-{
-}
-
-LogInHelper::~LogInHelper()
-{
-}
-
-LogInHelper::LogInHelper(LogInInput *input)
-{
-    m_input = input;
-}
-
-LogInHelper::LogInHelper(LogInInput &input)
-{
-    m_input = &input;
-}
-
-void LogInHelper::SetInput(LogInInput *in)
-{
-    m_input = in;
-}
-
-void LogInHelper::SetInput(LogInInput &in)
-{
-    m_input = &in;
-}
 
 void LogInHelper::InitAndValidate()
 {

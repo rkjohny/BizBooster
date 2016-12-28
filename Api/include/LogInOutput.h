@@ -20,10 +20,9 @@ namespace Api {
 
 class LogInOutput : public ApiOutput<LogInOutput> {
 public:
-    LogInOutput();
-    LogInOutput(const LogInOutput& orig);
-    LogInOutput(LogInOutput&& orig);
-    virtual ~LogInOutput();
+    SERIALIZEABLE(LogInOutput);
+
+    ~LogInOutput() = default;
 
     const Dal::User& GetUser() const;
 

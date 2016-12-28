@@ -343,6 +343,7 @@ std::string User::GetEmailToken() const
     if (m_authInfo) {
         m_authInfo->emailTokenRole();
     }
+    return "";
 }
 
 Wt::WDateTime User::GetEmailTokenExpirationDate() const
@@ -350,6 +351,7 @@ Wt::WDateTime User::GetEmailTokenExpirationDate() const
     if (m_authInfo) {
         return m_authInfo->emailTokenExpires();
     }
+    return Wt::WDateTime();
 }
 
 Wt::Auth::User::EmailTokenRole User::GetEmailTokenRole() const

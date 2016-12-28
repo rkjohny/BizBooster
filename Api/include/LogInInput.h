@@ -23,8 +23,12 @@ namespace Api {
 
 class LogInInput : public ApiInput<LogInInput> {
 public:
-    API_INPUT(LogInInput);
+    SERIALIZEABLE(LogInInput);
 
+    ~LogInInput() = default;
+    
+    web::json::value Process(const std::shared_ptr<BaseInput> &input) override;
+    
     const std::string& GetPassword() const;
 
     void SetPassword(std::string password);

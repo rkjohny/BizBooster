@@ -20,6 +20,7 @@
 #include "Roles.h"
 #include "LCrypto.h"
 #include "CryptoDef.h"
+#include "AppException.h"
 
 namespace Dal {
 

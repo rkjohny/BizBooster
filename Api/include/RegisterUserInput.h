@@ -24,8 +24,11 @@ using namespace Json;
 
 class RegisterUserInput : public ApiInput<RegisterUserInput> {
 public:
-    API_INPUT(RegisterUserInput);
-
+    SERIALIZEABLE(RegisterUserInput);
+    ~RegisterUserInput() = default;
+    
+    web::json::value Process(const std::shared_ptr<BaseInput> &input) override;
+    
     const std::string& GetEmail() const;
     void SetEmail(const std::string &email);
 
@@ -39,9 +42,9 @@ public:
     void SetVersion(const int &version);
 
     const std::string& GetPassword() const;
-    void SetPassword(std::string password);
-
-    const std::string& GetStatus();
+    void SetPassword(const std::string &password);
+    
+    const std::string& GetStatus() const;
     void SetStatus(const std::string &status);
 
 private:

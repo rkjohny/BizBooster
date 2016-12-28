@@ -28,10 +28,10 @@ private:
     NON_COPY_NON_MOVE_ABLE(RegisterUserHelper);
 
 public:
-    virtual ~RegisterUserHelper();
+    ~RegisterUserHelper() = default;
 
     RegisterUserHelper(std::shared_ptr<RegisterUserInput> input, std::shared_ptr<RegisterUserOutput> output = nullptr) :
-    AbstractHelper <RegisterUserInput, RegisterUserOutput>(input, output)
+    AbstractHelper<RegisterUserInput, RegisterUserOutput>(input, output)
     {
     }
 

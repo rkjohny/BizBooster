@@ -12,25 +12,33 @@
 
 #include "LogInOutput.h"
 #include "User.h"
+#include "LogInHelper.h"
 
 namespace Api {
 
-LogInOutput::LogInOutput()
-{
-}
-
-LogInOutput::LogInOutput(const LogInOutput& orig)
-{
-    m_user.copyFrom(orig.m_user);
-}
-
-LogInOutput::LogInOutput(LogInOutput&& orig)
+void LogInOutput::CopyFrom(LogInOutput&& orig)
 {
     m_user.copyFrom(std::move(orig.m_user));
 }
 
-LogInOutput::~LogInOutput()
+void LogInOutput::CopyFrom(const LogInOutput& orig)
 {
+    m_user.copyFrom(orig.m_user);
+}
+
+void LogInOutput::CopyFrom(const std::shared_ptr<LogInOutput>& orig)
+{
+    m_user.copyFrom(orig->GetUser());
+}
+
+std::string LogInOutput::Name()
+{
+    return "LogInOutput";
+}
+
+std::string LogInOutput::ToString()
+{
+    return "LogInOutput";
 }
 
 const Dal::User& LogInOutput::GetUser() const
