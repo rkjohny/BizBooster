@@ -52,7 +52,7 @@ std::string LogInInput::ToString()
     return "LoginInput";
 }
 
-web::json::value LogInInput::Process(const std::shared_ptr<BaseInput> &input)
+web::json::value LogInInput::Process(std::shared_ptr<BaseInput> input)
 {
     return web::json::value();   
 }

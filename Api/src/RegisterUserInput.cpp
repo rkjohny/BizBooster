@@ -55,7 +55,7 @@ string RegisterUserInput::ToString()
     return "RegisterUserInput";
 }
 
-web::json::value RegisterUserInput::Process(const std::shared_ptr<BaseInput> &input)
+web::json::value RegisterUserInput::Process(std::shared_ptr<BaseInput> input)
 {
     std::shared_ptr<Api::RegisterUserInput> regUsrInput =
             std::dynamic_pointer_cast<Api::RegisterUserInput, Api::BaseInput>(input);

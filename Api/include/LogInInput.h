@@ -27,7 +27,7 @@ public:
 
     ~LogInInput() = default;
     
-    web::json::value Process(const std::shared_ptr<BaseInput> &input) override;
+    web::json::value Process(std::shared_ptr<BaseInput> input) override;
     
     const std::string& GetPassword() const;
 
