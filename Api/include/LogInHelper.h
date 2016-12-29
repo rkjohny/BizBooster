@@ -13,21 +13,21 @@
 #ifndef LOGIN_HELPER_H
 #define LOGIN_HELPER_H
 
-#include "AbstractHelper.h"
+#include "ApiHelper.h"
 #include "LogInInput.h"
 #include "LogInOutput.h"
 
 
 namespace Api {
 
-class LogInHelper : public AbstractHelper<LogInInput, LogInOutput> {
+class LogInHelper : public ApiHelper<LogInInput, LogInOutput> {
 private:
     NON_COPY_NON_MOVE_ABLE(LogInHelper);
 
 public:
 
     LogInHelper(std::shared_ptr<LogInInput> input, std::shared_ptr<LogInOutput> output) :
-    AbstractHelper<LogInInput, LogInOutput>(input, output)
+    ApiHelper<LogInInput, LogInOutput>(input, output)
     {
     }
 

@@ -18,7 +18,8 @@
 
 namespace LCrypto {
 
-//TODO: it is test code (very early state) and not completed ...
+//TODO: it is test code (very early state) and not completed, we can initialize 
+//      and dispose once at application load and dispose time respectively.
 class OsslHwRandGenerator : public OsslRandGenerator {
 private:
     bool Initialize() override;

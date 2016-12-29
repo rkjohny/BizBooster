@@ -28,9 +28,9 @@ namespace Api {
 //TODO: Use Forward declaration class BaseInput and BaseOutput if needed.
 
 template<class InputT, class OutputT>
-class AbstractHelper {
+class ApiHelper {
 private:
-    NON_COPY_NON_MOVE_ABLE(AbstractHelper);
+    NON_COPY_NON_MOVE_ABLE(ApiHelper);
 
 protected:
     std::shared_ptr<InputT> m_input;
@@ -38,7 +38,7 @@ protected:
 
 public:
 
-    AbstractHelper(std::shared_ptr<InputT> input, std::shared_ptr<OutputT> output = nullptr) :
+    ApiHelper(std::shared_ptr<InputT> input, std::shared_ptr<OutputT> output = nullptr) :
     m_input(input), m_output(output)
     {
         if (!m_output) {
@@ -46,7 +46,7 @@ public:
         }
     }
 
-    virtual ~AbstractHelper() = default;
+    virtual ~ApiHelper() = default;
 
     virtual void InitAndValidate() = 0;
 

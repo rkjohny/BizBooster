@@ -15,7 +15,7 @@
 #ifndef REGISTER_USER_HELPER_H
 #define REGISTER_USER_HELPER_H
 
-#include "AbstractHelper.h"
+#include "ApiHelper.h"
 #include "RegisterUserInput.h"
 #include "RegisterUserOutput.h"
 
@@ -23,7 +23,7 @@ namespace Api {
 
 //TODO: Use forrward declaration of class RegisterUserInput if needed.
 
-class RegisterUserHelper : public AbstractHelper <RegisterUserInput, RegisterUserOutput> {
+class RegisterUserHelper : public ApiHelper <RegisterUserInput, RegisterUserOutput> {
 private:
     NON_COPY_NON_MOVE_ABLE(RegisterUserHelper);
 
@@ -31,7 +31,7 @@ public:
     ~RegisterUserHelper() = default;
 
     RegisterUserHelper(std::shared_ptr<RegisterUserInput> input, std::shared_ptr<RegisterUserOutput> output = nullptr) :
-    AbstractHelper<RegisterUserInput, RegisterUserOutput>(input, output)
+    ApiHelper<RegisterUserInput, RegisterUserOutput>(input, output)
     {
     }
 
