@@ -61,11 +61,13 @@ bool PassWordEncoder::Match(const std::string &passwd, const std::string &hash, 
 std::string PassWordEncoder::GenerateSalt()
 {
     std::vector<uint8_t> vec;
-    m_randGenerator->Initialize();
-    m_randGenerator->GetRandomBytes(vec, PASSWORD_SALT_LENGTH);
-    m_randGenerator->Dispose();
-    
+    m_randGenerator->GetRandomBytes(vec, PASSWORD_SALT_LENGTH);    
     return Common::Converter::ToHexStr(vec);
+}
+
+void PassWordEncoder::Dispose()
+{
+    
 }
 
 }

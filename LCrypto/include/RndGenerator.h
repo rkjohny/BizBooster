@@ -17,20 +17,20 @@
 #include <vector>
 
 #include "AppDef.h"
-#include "Disposable.h"
+#include "SingleTon.h"
 
 namespace LCrypto {
 
-class RndGenerator : public Common::Disposable {
+class RndGenerator : public Common::SingleTon {
 public:
-    virtual int Initialize() = 0;
-    virtual int GetRandomBytes(std::vector<uint8_t> &bytes, int length) = 0;
-    virtual int GetRandomBytes(std::string &bytes, int length) = 0;
+    virtual bool Initialize() = 0;
+    virtual bool GetRandomBytes(std::vector<uint8_t> &bytes, int length) = 0;
+    virtual bool GetRandomBytes(std::string &bytes, int length) = 0;
     
 protected:
     RndGenerator() = default; 
     virtual ~RndGenerator() = default;
-    NON_COPY_NON_MOVE_ABLE(RndGenerator);   
+    NON_COPY_NON_MOVE_ABLE(RndGenerator);    
 };
 
 }

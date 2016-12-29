@@ -18,14 +18,18 @@
 
 namespace LCrypto {
 
+//TODO: it is test code (very early state) and not completed ...
 class OsslHwRandGenerator : public OsslRandGenerator {
-public:
-
-    int Initialize() override;
-    int GetRandomBytes(std::vector<uint8_t> &bytes, int length) override;
-    int GetRandomBytes(std::string &bytes, int length) override;
-    static RndGenerator* GetInstance();
+private:
+    bool Initialize() override;
     void Dispose() override;
+    
+    bool DoGetRandomBytes(uint8_t *buff, int length);
+
+public:
+    static RndGenerator* GetInstance();
+    bool GetRandomBytes(std::vector<uint8_t> &bytes, int length) override;
+    bool GetRandomBytes(std::string &bytes, int length) override;
 
 protected:
     OsslHwRandGenerator();

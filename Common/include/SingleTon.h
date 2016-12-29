@@ -14,15 +14,18 @@
 #ifndef SINGLE_TON_H
 #define SINGLE_TON_H
 
+#include <mutex>
+#include "Disposable.h"
+
 namespace Common {
 
-#define SINGLE_TON : public SingleTon
 
-
-class SingleTon {
+class SingleTon : public Common::Disposable {
 protected:
     SingleTon() = default;
     virtual ~SingleTon() = default;
+    
+    std::mutex m_mutex;
     
 };
 

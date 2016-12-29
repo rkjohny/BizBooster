@@ -23,7 +23,7 @@
 
 namespace LCrypto {
 
-class PassWordEncoder {
+class PassWordEncoder : public Common::SingleTon {
 public:
     static PassWordEncoder* GetInstance();
     std::string Encode(const std::string &passwd, const std::string &salt);
@@ -32,6 +32,8 @@ public:
     std::string HashMethodName();
     
     std::string GenerateSalt();
+    
+    void Dispose() override;
     
 private:
     HashGenerator *m_hasGenerator;

@@ -26,7 +26,6 @@ protected:
     virtual ~OsslSwRandGenerator();
     NON_COPY_NON_MOVE_ABLE(OsslSwRandGenerator);
 
-    static bool m_isopened;
     static OsslSwRandGenerator* m_instance;
 };
 
