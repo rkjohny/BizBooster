@@ -14,12 +14,15 @@
 #ifndef BASE_HELPER_H
 #define BASE_HELPER_H
 
+#include "AppDef.h"
 #include <cpprest/json.h>
 
 namespace Api {
 
 class BaseHelper {
 public:
+    NON_COPY_NON_MOVE_ABLE(BaseHelper);
+    
     BaseHelper() = default;
     virtual ~BaseHelper() = default;
 

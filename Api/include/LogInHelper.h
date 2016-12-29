@@ -26,7 +26,7 @@ private:
 
 public:
 
-    LogInHelper(std::shared_ptr<LogInInput> input, std::shared_ptr<LogInOutput> output) :
+    LogInHelper(LogInInput *input, LogInOutput *output) :
     ApiHelper<LogInInput, LogInOutput>(input, output)
     {
     }

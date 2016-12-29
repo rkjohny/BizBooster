@@ -30,11 +30,11 @@ private:
 public:
     ~RegisterUserHelper() = default;
 
-    RegisterUserHelper(std::shared_ptr<RegisterUserInput> input, std::shared_ptr<RegisterUserOutput> output = nullptr) :
+    RegisterUserHelper(RegisterUserInput *input, RegisterUserOutput *output = nullptr) :
     ApiHelper<RegisterUserInput, RegisterUserOutput>(input, output)
     {
     }
-
+    
     void InitAndValidate() override;
 
     void CheckPermission() override;

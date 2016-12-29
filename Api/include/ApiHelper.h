@@ -34,15 +34,18 @@ private:
     NON_COPY_NON_MOVE_ABLE(ApiHelper);
 
 protected:
-    std::shared_ptr<InputT> m_input;
-    std::shared_ptr<OutputT> m_output;
+    InputT *m_input;
+    OutputT *m_output;
+    std::shared_ptr<OutputT> m_outputPtr;
 
 public:
-    ApiHelper(std::shared_ptr<InputT> input, std::shared_ptr<OutputT> output = nullptr) :
-    m_input(input), m_output(output)
+    ApiHelper(InputT *input, OutputT *output = nullptr) :
+    m_input(input), m_output(output), m_outputPtr(nullptr)
     {
         if (!m_output) {
-            m_output = std::make_shared<OutputT>();
+            m_output = new OutputT();
+            m_outputPtr = std::shared_ptr<OutputT>(m_output);
+        } else {
         }
     }
 

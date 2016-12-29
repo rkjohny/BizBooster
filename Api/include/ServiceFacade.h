@@ -15,6 +15,8 @@
 
 #include "RegisterUserOutput.h"
 #include "RegisterUserInput.h"
+#include "LogInOutput.h"
+#include "LogInInput.h"
 
 namespace Api {
 
@@ -22,8 +24,9 @@ namespace Api {
 
 class ServiceFacade {
 public:
-    static web::json::value RegisterUser(std::shared_ptr<RegisterUserInput> input,
-            std::shared_ptr<RegisterUserOutput> output = nullptr);
+    static web::json::value RegisterUser(RegisterUserInput *input, RegisterUserOutput *output = nullptr);
+    
+    static web::json::value LogIn(LogInInput *input, LogInOutput *output = nullptr);
 
 private:
     MAKE_STATIC(ServiceFacade);

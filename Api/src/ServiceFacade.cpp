@@ -12,18 +12,26 @@
 
 #include "ServiceFacade.h"
 #include "RegisterUserHelper.h"
+#include "LogInInput.h"
+#include "LogInOutput.h"
+#include "LogInHelper.h"
 
 
 namespace Api {
 
-web::json::value ServiceFacade::RegisterUser(std::shared_ptr<RegisterUserInput> input,
-        std::shared_ptr<RegisterUserOutput> output)
+web::json::value ServiceFacade::RegisterUser(RegisterUserInput *input, RegisterUserOutput *output)
 {
     RegisterUserHelper helper(input, output);
     //RegisterUserOutput* output = dynamic_cast<RegisterUserOutput*> (helper.Execute());
     web::json::value response = helper.Execute();
     //return output;
     return response;
+}
+
+web::json::value ServiceFacade::LogIn(LogInInput *input, LogInOutput *output)
+{
+    LogInHelper &&helper = LogInHelper(input, output);
+    return helper.Execute();
 }
 
 } /* namespace Api */

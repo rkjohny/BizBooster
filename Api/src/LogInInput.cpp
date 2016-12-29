@@ -11,6 +11,7 @@
  */
 
 #include "LogInInput.h"
+#include "ServiceFacade.h"
 
 namespace Api {
 
@@ -52,9 +53,9 @@ std::string LogInInput::ToString()
     return "LoginInput";
 }
 
-web::json::value LogInInput::Process(std::shared_ptr<BaseInput> input)
+web::json::value LogInInput::Process()
 {
-    return web::json::value();   
+    return ServiceFacade::LogIn(this);   
 }
 
 const std::string& LogInInput::GetPassword() const
