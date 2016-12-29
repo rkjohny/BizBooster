@@ -15,6 +15,7 @@
 #define ABSTRACT_HELPER_H
 
 
+#include "BaseHelper.h"
 #include "AppDef.h"
 #include "Dal.h"
 #include "AppException.h"
@@ -28,7 +29,7 @@ namespace Api {
 //TODO: Use Forward declaration class BaseInput and BaseOutput if needed.
 
 template<class InputT, class OutputT>
-class ApiHelper {
+class ApiHelper : public BaseHelper {
 private:
     NON_COPY_NON_MOVE_ABLE(ApiHelper);
 
@@ -37,7 +38,6 @@ protected:
     std::shared_ptr<OutputT> m_output;
 
 public:
-
     ApiHelper(std::shared_ptr<InputT> input, std::shared_ptr<OutputT> output = nullptr) :
     m_input(input), m_output(output)
     {
@@ -48,12 +48,8 @@ public:
 
     virtual ~ApiHelper() = default;
 
-    virtual void InitAndValidate() = 0;
-
-    virtual void CheckPermission() = 0;
-
     virtual void ExecuteHelper() = 0;
-
+    
     std::shared_ptr<OutputT> GetOutput()
     {
         return m_output;
@@ -64,7 +60,7 @@ public:
         return m_input;
     }
 
-    web::json::value Execute()
+    web::json::value Execute() override
     {
         web::json::value response;
         auto dao = Dal::GetDao();
