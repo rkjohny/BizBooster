@@ -13,12 +13,23 @@
 #ifndef BASE_REQUESTER_H
 #define BASE_REQUESTER_H
 
+#include "Roles.h"
+#include "AppDef.h"
+#include <memory>
+
 namespace Dal {
 
 class BaseRequester {
+private:
+    NON_COPY_NON_MOVE_ABLE(BaseRequester);
+    
 public:
-    virtual const User &GetUser() = 0;
-    virtual bool HasRole(std::string &&) = 0;
+    BaseRequester() = default;
+    virtual ~BaseRequester() = default;
+    
+    virtual const std::shared_ptr<User> GetUser() = 0;
+    virtual bool HasRole(const std::string &) = 0;
+    virtual bool HasRole(const Role &) = 0;
 };
 
 }

@@ -10,33 +10,28 @@
  * magnetic storage, computer print-out or visual display.
  */
 
-#ifndef AUTHENTICATED_REQUESTER_H
-#define AUTHENTICATED_REQUESTER_H
+#ifndef INTERNAL_ROOT_REQUESTER_H
+#define INTERNAL_ROOT_REQUESTER_H
 
-#include "User.h"
-#include "BaseRequester.h"
 #include "AppDef.h"
+#include "BaseRequester.h"
+
 
 namespace Dal {
 
-class AuthenticatedRequester : public BaseRequester {
-private:
-    NON_COPY_NON_MOVE_ABLE(AuthenticatedRequester);
-    
-    std::shared_ptr<User> m_user;
-
+class InternalRootRequester {
 public:
-    AuthenticatedRequester() = default;
-    virtual ~AuthenticatedRequester() = default;
-
-    virtual void SetUser(const std::shared_ptr<User>);
+    InternalRootRequester() = default;
+    virtual ~InternalRootRequester() = default;
     
     const std::shared_ptr<User> GetUser() override;
     bool HasRole(const std::string &) override;
     bool HasRole(const Role &) override;
+    
+private:
+    NON_COPY_NON_MOVE_ABLE(InternalRootRequester);
 };
 
 }
 
-
-#endif //AUTHENTICATED_REQUESTER_H
+#endif /* INTERNAL_ROOT_REQUESTER_H */

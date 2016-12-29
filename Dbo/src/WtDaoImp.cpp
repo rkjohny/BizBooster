@@ -120,8 +120,12 @@ Wt::Dbo::ptr<User> WtDaoImp::RegisterUser(User &loggedUser, User *user)
 
 Wt::Dbo::ptr<User> WtDaoImp::GetUser(User &loggedUser, std::string email)
 {
-    Wt::Dbo::ptr<User> user;
-    user = m_session.find<Dal::User>().where("email = ? and status = ?").bind(email).bind(Status::V);
+    Wt::Dbo::ptr<User> user = nullptr;
+    //user = m_session.find<Dal::User>().where("email = ? and status = ?").bind(email).bind(Status::V);
+    Wt::Dbo::ptr<Dal::AuthInfo> authInfo = m_session.find<Dal::AuthInfo>().where("email = ?").bind(email);
+    if (authInfo) {
+        user = authInfo->user();
+    }
     return user;
 }
 

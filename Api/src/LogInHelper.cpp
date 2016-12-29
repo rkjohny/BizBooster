@@ -11,6 +11,8 @@
  */
 
 #include "LogInHelper.h"
+#include "Dal.h"
+
 
 namespace Api {
 
@@ -25,6 +27,11 @@ void LogInHelper::CheckPermission()
 
 void LogInHelper::ExecuteHelper()
 {
+    User loggedUser;
+    
+    auto dao = Dal::GetDao();
+    dao->GetUser(loggedUser, m_input->Get)
+    
 }
 
 }

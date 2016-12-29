@@ -10,30 +10,26 @@
  * magnetic storage, computer print-out or visual display.
  */
 
-#include "AuthenticatedRequester.h"
+#include <memory>
+
+#include "InternalRootRequester.h"
 
 namespace Dal {
 
-void AuthenticatedRequester::SetUser(const std::shared_ptr<User> user)
+const std::shared_ptr<User> InternalRootRequester::GetUser()
 {
-    m_user = std::make_signed<User>();
-    m_user->copyFrom(*user);
+    return null_ptr;
 }
 
-const Wt::Dbo::ptr<User> AuthenticatedRequester::GetUser()
+bool InternalRootRequester::HasRole(const std::string &)
 {
-    return m_user;
+    return true;
 }
 
-bool AuthenticatedRequester::HasRole(const std::string &role)
+bool InternalRootRequester::HasRole(const Role &)
 {
-    m_user->HasRole(role);
+    return true;
 }
 
-bool AuthenticatedRequester::HasRole(const Role &role)
-{
-    m_user->HasRole(role);
 }
 
-
-}
