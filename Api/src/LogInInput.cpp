@@ -53,9 +53,9 @@ std::string LogInInput::ToString()
     return "LoginInput";
 }
 
-web::json::value LogInInput::Process()
+web::json::value LogInInput::Process(Dal::BaseRequester *requester)
 {
-    return ServiceFacade::LogIn(this);   
+    return ServiceFacade::LogIn(requester, this);   
 }
 
 const std::string& LogInInput::GetPassword() const

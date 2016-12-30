@@ -37,28 +37,33 @@ protected:
     InputT *m_input;
     OutputT *m_output;
     std::shared_ptr<OutputT> m_outputPtr;
+    
+    Dal::BaseRequester *m_requester;
 
 public:
-    ApiHelper(InputT *input, OutputT *output = nullptr) :
+    ApiHelper(Dal::BaseRequester * requester, InputT *input, OutputT *output = nullptr) :
     m_input(input), m_output(output), m_outputPtr(nullptr)
     {
         if (!m_output) {
-            m_output = new OutputT();
-            m_outputPtr = std::shared_ptr<OutputT>(m_output);
+            m_outputPtr = std::make_shared<OutputT>();
+            m_output = m_outputPtr.get();
+            //m_output = new OutputT();
+            //m_outputPtr = std::shared_ptr<OutputT>(m_output);
         } else {
         }
+        m_requester = requester;
     }
 
     virtual ~ApiHelper() = default;
 
     virtual void ExecuteHelper() = 0;
     
-    std::shared_ptr<OutputT> GetOutput()
+    virtual OutputT* GetOutput()
     {
         return m_output;
     }
 
-    std::shared_ptr<InputT> Getinput()
+    virtual InputT* Getinput()
     {
         return m_input;
     }
@@ -67,25 +72,26 @@ public:
     {
         web::json::value response;
         auto dao = Dal::GetDao();
-        auto transaction = dao->BeginTransaction();
+        auto transaction = dao->BeginTransaction(m_requester);
         try {
             InitAndValidate();
             CheckPermission();
+            
             ExecuteHelper();
 
             response = m_output->Serialize();
 
             //TODO: what to do  if commit failes
-            bool succeeded = dao->CommitTransaction(transaction);
+            bool succeeded = dao->CommitTransaction(m_requester, transaction);
 
         } catch (Common::AppException &e) {
-            dao->RollbackTransaction(transaction);
+            dao->RollbackTransaction(m_requester, transaction);
             response = e.Serialize();
             //response = ApiUtils::ErrorResponse(e.GetCode(), e.GetMessage());
             LOG_ERROR(std::string("Input: ") + m_input->Name() +
                     " failed with with error: [" + e.ToString() + "]");
         } catch (std::exception &e) {
-            dao->RollbackTransaction(transaction);
+            dao->RollbackTransaction(m_requester, transaction);
             Common::AppException ex = Common::AppException(e);
             response = ex.Serialize();
             //response = ApiUtils::ErrorResponse(ex.GetCode(), ex.GetMessage());

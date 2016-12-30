@@ -13,9 +13,7 @@
 #ifndef AUTHENTICATED_REQUESTER_H
 #define AUTHENTICATED_REQUESTER_H
 
-#include "User.h"
 #include "BaseRequester.h"
-#include "AppDef.h"
 
 namespace Dal {
 
@@ -23,15 +21,15 @@ class AuthenticatedRequester : public BaseRequester {
 private:
     NON_COPY_NON_MOVE_ABLE(AuthenticatedRequester);
     
-    std::shared_ptr<User> m_user;
+    User m_user;
 
 public:
     AuthenticatedRequester() = default;
     virtual ~AuthenticatedRequester() = default;
 
-    virtual void SetUser(const std::shared_ptr<User>);
+    virtual void SetUser(const User&);
     
-    const std::shared_ptr<User> GetUser() override;
+    const User& GetUser() override;
     bool HasRole(const std::string &) override;
     bool HasRole(const Role &) override;
 };

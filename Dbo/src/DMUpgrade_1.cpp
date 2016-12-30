@@ -21,6 +21,8 @@
 #include "LCrypto.h"
 #include "CryptoDef.h"
 #include "AppException.h"
+#include "BaseRequester.h"
+#include "InternalRootRequester.h"
 
 namespace Dal {
 
@@ -31,6 +33,7 @@ void DMUpgrade_1::Execute()
     std::string superUserEmail = "admin@nilavo.com";
     std::string superUserPassword = "admin";
     std::string superUserIdentityProvider = "loginname";
+    std::string superUserIdentity = "admin";
 
     User *user = nullptr;
     Dal::AuthInfo *authInfo = nullptr;
@@ -43,8 +46,8 @@ void DMUpgrade_1::Execute()
         user->SetRoles(Role::ROLE_CREATE_SUPER_USER);
         user->SetStatus(Status::V);
 
-        User loggedUser = User();
-        Wt::Dbo::ptr<User> userAdded = Dal::GetDao()->RegisterUser(loggedUser, user);
+        BaseRequester *requester = InternalRootRequester::GetInstance();
+        Wt::Dbo::ptr<User> userAdded = Dal::GetDao()->RegisterUser(requester, user);
 
         if (userAdded) {
             authInfo = new AuthInfo();
@@ -66,10 +69,10 @@ void DMUpgrade_1::Execute()
 
             authInfo->setUser(userAdded);
 
-            Wt::Dbo::ptr<AuthInfo> authInfoAdded = Dal::GetDao()->AddAuthInfo(loggedUser, authInfo);
+            Wt::Dbo::ptr<AuthInfo> authInfoAdded = Dal::GetDao()->AddAuthInfo(requester, authInfo);
 
             if (authInfoAdded) {
-                identity = new AuthInfo::AuthIdentityType(superUserIdentityProvider, superUserEmail);
+                identity = new AuthInfo::AuthIdentityType(superUserIdentityProvider, superUserIdentity);
 
                 authInfoAdded.modify()->authIdentities().insert(identity);
 

@@ -24,8 +24,7 @@ namespace Api {
 
 void RegisterUserHelper::InitAndValidate()
 {
-    User loggedUser = User();
-    Wt::Dbo::ptr<Dal::User> user = Dal::GetDao()->GetUser(loggedUser, m_input->GetEmail());
+    Wt::Dbo::ptr<Dal::User> user = Dal::GetDao()->GetUser(m_requester, m_input->GetEmail());
 
     if (user) {
         throw Common::AppException(AppErrorCode::DUPLICATE_USER,
@@ -54,9 +53,7 @@ void RegisterUserHelper::ExecuteHelper()
         user->SetVersion(m_input->GetVersion());
         user->SetStatusStr(m_input->GetStatus());
 
-
-        User loggedUser = User();
-        Wt::Dbo::ptr<User> userAdded = Dal::GetDao()->RegisterUser(loggedUser, user);
+        Wt::Dbo::ptr<User> userAdded = Dal::GetDao()->RegisterUser(m_requester, user);
 
         if (userAdded) {
             authInfo = new Dal::AuthInfo();
@@ -78,7 +75,7 @@ void RegisterUserHelper::ExecuteHelper()
 
             authInfo->setUser(userAdded);
 
-            Wt::Dbo::ptr<AuthInfo> authInfoAdded = Dal::GetDao()->AddAuthInfo(loggedUser, authInfo);
+            Wt::Dbo::ptr<AuthInfo> authInfoAdded = Dal::GetDao()->AddAuthInfo(m_requester, authInfo);
 
             if (authInfoAdded) {
                 //TODO: hard coded identity provider

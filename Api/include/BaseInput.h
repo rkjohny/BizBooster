@@ -17,6 +17,7 @@
 #include "Serializable.h"
 #include "Json.h"
 #include "BaseOutput.h"
+#include "BaseRequester.h"
 
 namespace Api {
     using namespace std;
@@ -29,7 +30,7 @@ namespace Api {
         BaseInput();
         virtual ~BaseInput();
 
-        virtual web::json::value Process() = 0;
+        virtual web::json::value Process(Dal::BaseRequester *requester) = 0;
 
         virtual string ToString() = 0;
         virtual string Name() = 0;

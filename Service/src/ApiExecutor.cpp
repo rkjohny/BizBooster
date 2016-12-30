@@ -33,6 +33,7 @@ web::json::value ApiExecutor::ExecuteSingleApi(const web::json::value &jrequest)
     if (japi.is_string() && jdata.is_object()) {
         std::shared_ptr<Api::Serializable> obj = Api::SOFactory::CreateObject(std::move(apiName));
         if (obj) {
+            
             std::shared_ptr<Api::BaseInput> input = std::dynamic_pointer_cast<Api::BaseInput, Api::Serializable>(obj);
 
             if (input) {
@@ -40,7 +41,7 @@ web::json::value ApiExecutor::ExecuteSingleApi(const web::json::value &jrequest)
                 input->Deserialize(jdata);
 
                 //execute api
-                jresponse = input->Process();
+                //jresponse = input->Process();
 
             } else {
                 return Api::ApiUtils::ErrorResponse(AppErrorCode::INTERNAL_SERVER_ERROR,

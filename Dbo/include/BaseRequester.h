@@ -15,7 +15,7 @@
 
 #include "Roles.h"
 #include "AppDef.h"
-#include <memory>
+#include "User.h"
 
 namespace Dal {
 
@@ -27,7 +27,7 @@ public:
     BaseRequester() = default;
     virtual ~BaseRequester() = default;
     
-    virtual const std::shared_ptr<User> GetUser() = 0;
+    virtual const User& GetUser() = 0;
     virtual bool HasRole(const std::string &) = 0;
     virtual bool HasRole(const Role &) = 0;
 };

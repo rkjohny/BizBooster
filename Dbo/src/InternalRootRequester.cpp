@@ -16,9 +16,25 @@
 
 namespace Dal {
 
-const std::shared_ptr<User> InternalRootRequester::GetUser()
+InternalRootRequester* InternalRootRequester::m_instance = nullptr;
+
+InternalRootRequester::InternalRootRequester()
 {
-    return null_ptr;
+    m_user.SetName("root");
+    m_user.SetRoles(Role::ROLE_INTERNAL_ROOT_USER);
+}
+
+InternalRootRequester* InternalRootRequester::GetInstance()
+{
+    if (!m_instance) {
+        m_instance = new InternalRootRequester();
+    }
+    return m_instance;
+}
+
+const User& InternalRootRequester::GetUser()
+{
+    return m_user;
 }
 
 bool InternalRootRequester::HasRole(const std::string &)

@@ -27,10 +27,8 @@ void LogInHelper::CheckPermission()
 
 void LogInHelper::ExecuteHelper()
 {
-    User loggedUser;
-    
-    auto dao = Dal::GetDao();
-    dao->GetUser(loggedUser, m_input->Get)
+    //auto dao = Dal::GetDao();
+    //dao->GetUser(m_requester, m_input->Get);
     
 }
 

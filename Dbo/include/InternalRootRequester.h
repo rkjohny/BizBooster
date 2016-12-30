@@ -13,22 +13,26 @@
 #ifndef INTERNAL_ROOT_REQUESTER_H
 #define INTERNAL_ROOT_REQUESTER_H
 
-#include "AppDef.h"
 #include "BaseRequester.h"
 
 
 namespace Dal {
 
-class InternalRootRequester {
-public:
-    InternalRootRequester() = default;
+class InternalRootRequester : public BaseRequester {
+protected:
+    InternalRootRequester();
     virtual ~InternalRootRequester() = default;
-    
-    const std::shared_ptr<User> GetUser() override;
+
+public:
+    static InternalRootRequester* GetInstance();
+    const User& GetUser() override;
     bool HasRole(const std::string &) override;
     bool HasRole(const Role &) override;
     
 private:
+    User m_user;
+    static InternalRootRequester *m_instance;
+    
     NON_COPY_NON_MOVE_ABLE(InternalRootRequester);
 };
 

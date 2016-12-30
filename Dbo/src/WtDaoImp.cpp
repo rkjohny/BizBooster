@@ -50,7 +50,7 @@ std::shared_ptr<WtDaoImp> WtDaoImp::GetInstance()
     return WtDaoImp::m_instance;
 }
 
-void WtDaoImp::CreateTables()
+void WtDaoImp::CreateTables(BaseRequester *requester)
 {
     try {
         LOG_INFO("Creating Tables...");
@@ -61,12 +61,12 @@ void WtDaoImp::CreateTables()
     }
 }
 
-Wt::Dbo::Transaction WtDaoImp::BeginTransaction()
+Wt::Dbo::Transaction WtDaoImp::BeginTransaction(BaseRequester *requester)
 {
     return Wt::Dbo::Transaction(m_session);
 }
 
-bool WtDaoImp::CommitTransaction(Wt::Dbo::Transaction &transaction)
+bool WtDaoImp::CommitTransaction(BaseRequester *requester, Wt::Dbo::Transaction &transaction)
 {
     //TODO: what will happen if this transaction is not the most recent transaction in the session?
     //      i.e, if commit returns false;
@@ -74,18 +74,18 @@ bool WtDaoImp::CommitTransaction(Wt::Dbo::Transaction &transaction)
     return commited;
 }
 
-void WtDaoImp::RollbackTransaction(Wt::Dbo::Transaction& transaction)
+void WtDaoImp::RollbackTransaction(BaseRequester *requester, Wt::Dbo::Transaction& transaction)
 {
     transaction.rollback();
 }
 
-bool WtDaoImp::TableExists(std::string table_name)
+bool WtDaoImp::TableExists(BaseRequester *requester, std::string table_name)
 {
     int count = m_session.query<int>("SELECT count(1) FROM PG_CLASS").where("RELNAME = ?").bind(table_name);
     return (count > 0) ? true : false;
 }
 
-int WtDaoImp::GetNextDmVersion()
+int WtDaoImp::GetNextDmVersion(BaseRequester *requester)
 {
     int nextDmVersion = 0;
 
@@ -103,7 +103,7 @@ int WtDaoImp::GetNextDmVersion()
     return nextDmVersion;
 }
 
-void WtDaoImp::AddOrUpdateAppSetting(AppSetting &&setting)
+void WtDaoImp::AddOrUpdateAppSetting(BaseRequester *requester, AppSetting &&setting)
 {
     Wt::Dbo::ptr<Dal::AppSetting> obj =
             m_session.find<Dal::AppSetting>().where("name = ?").bind(setting.GetName());
@@ -113,14 +113,14 @@ void WtDaoImp::AddOrUpdateAppSetting(AppSetting &&setting)
     obj.modify()->SetValue(setting.GetValue());
 }
 
-Wt::Dbo::ptr<User> WtDaoImp::RegisterUser(User &loggedUser, User *user)
+Wt::Dbo::ptr<User> WtDaoImp::RegisterUser(BaseRequester *requester, User *user)
 {
-    return this->AddEnitity(user);
+    return this->AddEnitity(requester, user);
 }
 
-Wt::Dbo::ptr<User> WtDaoImp::GetUser(User &loggedUser, std::string email)
+Wt::Dbo::ptr<User> WtDaoImp::GetUser(BaseRequester *requester, std::string email)
 {
-    Wt::Dbo::ptr<User> user = nullptr;
+    Wt::Dbo::ptr<User> user;
     //user = m_session.find<Dal::User>().where("email = ? and status = ?").bind(email).bind(Status::V);
     Wt::Dbo::ptr<Dal::AuthInfo> authInfo = m_session.find<Dal::AuthInfo>().where("email = ?").bind(email);
     if (authInfo) {
@@ -129,14 +129,14 @@ Wt::Dbo::ptr<User> WtDaoImp::GetUser(User &loggedUser, std::string email)
     return user;
 }
 
-Wt::Dbo::ptr<AuthInfo> WtDaoImp::AddAuthInfo(User &loggedUser, AuthInfo *authInfo)
+Wt::Dbo::ptr<AuthInfo> WtDaoImp::AddAuthInfo(BaseRequester *requester, AuthInfo *authInfo)
 {
     Wt::Dbo::ptr<AuthInfo> authInfoAdded;
     authInfoAdded = m_session.add<AuthInfo>(authInfo);
     return authInfoAdded;
 }
 
-Wt::Dbo::ptr<AuthInfo::AuthIdentityType> WtDaoImp::AddIdentity(AuthInfo::AuthIdentityType *identity)
+Wt::Dbo::ptr<AuthInfo::AuthIdentityType> WtDaoImp::AddIdentity(BaseRequester *requester, AuthInfo::AuthIdentityType *identity)
 {
     Wt::Dbo::ptr<AuthInfo::AuthIdentityType> identityAdded =
             m_session.add<AuthInfo::AuthIdentityType>(identity);

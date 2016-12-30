@@ -55,9 +55,9 @@ string RegisterUserInput::ToString()
     return "RegisterUserInput";
 }
 
-web::json::value RegisterUserInput::Process()
+web::json::value RegisterUserInput::Process(Dal::BaseRequester *requester)
 {
-    return ServiceFacade::RegisterUser(this);
+    return ServiceFacade::RegisterUser(requester, this);
 }
 
 const std::string& RegisterUserInput::GetEmail() const

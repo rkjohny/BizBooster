@@ -23,6 +23,9 @@ Role RoleUtils::ToRole(const std::string &&role)
     if (newrole.compare(ROLE_CREATE_SUPER_USER_STR) == 0) {
         return Role::ROLE_CREATE_SUPER_USER;
     }
+    if (newrole.compare(ROLE_INTERNAL_ROOT_USER_STR) == 0) {
+        return Role::ROLE_INTERNAL_ROOT_USER;
+    }
     throw std::runtime_error("unknown roles");
 }
 
@@ -36,6 +39,10 @@ std::string RoleUtils::ToStr(const Role &role)
     switch (role) {
     case Role::ROLE_CREATE_SUPER_USER:
         return ROLE_CREATE_SUPER_USER_STR;
+        
+    case Role::ROLE_INTERNAL_ROOT_USER:
+        return ROLE_INTERNAL_ROOT_USER_STR;
+        
     default:
         throw std::runtime_error("unknown roles found");
     }

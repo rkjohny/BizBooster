@@ -26,9 +26,9 @@ class RegisterUserInput : public ApiInput<RegisterUserInput> {
 public:
     SERIALIZEABLE(RegisterUserInput);
     ~RegisterUserInput() = default;
-    
-    web::json::value Process() override;
-    
+
+    web::json::value Process(Dal::BaseRequester *requester) override;
+
     const std::string& GetEmail() const;
     void SetEmail(const std::string &email);
 
@@ -43,18 +43,9 @@ public:
 
     const std::string& GetPassword() const;
     void SetPassword(const std::string &password);
-    
+
     const std::string& GetStatus() const;
     void SetStatus(const std::string &status);
-
-private:
-    std::string m_email;
-    std::string m_name;
-    std::string m_roles;
-    std::string m_password;
-    int m_version;
-    std::string m_status;
-
 
     REGISTER_GETTER_INCLUDING_BASE_START(ApiInput<RegisterUserInput>)
     GETTER(RegisterUserInput, const std::string&, "email", &RegisterUserInput::GetEmail),
@@ -76,6 +67,14 @@ private:
 
     //REGISTER_CLASS_DEF(RegisterUserInput, "register_user", 0)
     //REGISTER_CLASS_DEF(RegisterUserInput, "RegisterUserInput", 1)
+
+private:
+    std::string m_email;
+    std::string m_name;
+    std::string m_roles;
+    std::string m_password;
+    int m_version;
+    std::string m_status;
 };
 
 } /* namespace Api */

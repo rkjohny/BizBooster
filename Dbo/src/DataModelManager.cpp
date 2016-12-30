@@ -15,7 +15,8 @@
 #include "DboDef.h"
 #include "Converter.h"
 #include "LogFactory.h"
-
+#include "BaseRequester.h"
+#include "InternalRootRequester.h"
 
 namespace Dal {
 
@@ -31,11 +32,13 @@ void DataModelManager::Run()
     auto dao = Dal::GetDao();
     size_t nextDmVersion = 0;
 
-    dao->CreateTables();
+    BaseRequester *requester = InternalRootRequester::GetInstance();
     
-    auto transaction = dao->BeginTransaction();
+    dao->CreateTables(requester);
     
-    nextDmVersion = dao->GetNextDmVersion();
+    auto transaction = dao->BeginTransaction(requester);
+    
+    nextDmVersion = dao->GetNextDmVersion(requester);
 
     FLOG_INFO("Running Data Model Manager... pending upgrade count: %u", dmUpgradeList.size() - nextDmVersion); 
 
@@ -44,10 +47,10 @@ void DataModelManager::Run()
         dmUpgradeList.at(i)->Execute();
     }
     if (i != nextDmVersion) {
-        dao->AddOrUpdateAppSetting(AppSetting(NEXT_DM_VERSION_KEY, Common::Converter::ToStr(i)));
+        dao->AddOrUpdateAppSetting(requester, AppSetting(NEXT_DM_VERSION_KEY, Common::Converter::ToStr(i)));
     }
     
-    dao->CommitTransaction(transaction);
+    dao->CommitTransaction(requester, transaction);
 }
 
 }

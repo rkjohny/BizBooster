@@ -26,9 +26,9 @@ public:
     SERIALIZEABLE(LogInInput);
 
     ~LogInInput() = default;
-    
-    web::json::value Process() override;
-    
+
+    web::json::value Process(Dal::BaseRequester *requester) override;
+
     const std::string& GetPassword() const;
 
     void SetPassword(std::string password);
@@ -48,14 +48,6 @@ public:
     bool IsRememberMe() const;
     void SetRememberMe(bool rememberMe);
 
-    
-private:
-    std::string m_userName;
-    std::string m_password;
-    bool m_useGoogleAuth;
-    bool m_useFacebookAuth;
-    bool m_rememberMe;
-
     REGISTER_GETTER_INCLUDING_BASE_START(ApiInput<LogInInput>)
     GETTER(LogInInput, const std::string&, "username", &LogInInput::GetUserName),
     GETTER(LogInInput, const std::string&, "username", &LogInInput::GetUserName),
@@ -71,6 +63,13 @@ private:
     SETTER(LogInInput, bool, "use_facebook_auth", &LogInInput::SetUseFacebookAuth),
     SETTER(LogInInput, bool, "remember_me", &LogInInput::SetRememberMe)
     REGISTER_SETTER_INCLUDING_BASE_END
+
+private:
+    std::string m_userName;
+    std::string m_password;
+    bool m_useGoogleAuth;
+    bool m_useFacebookAuth;
+    bool m_rememberMe;
 };
 
 }

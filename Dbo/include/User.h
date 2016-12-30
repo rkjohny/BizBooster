@@ -29,24 +29,25 @@ namespace Dal {
 class User;
 }
 
-//namespace Wt {
-//namespace Dbo {
-//
-//template<>
-//struct dbo_traits<Dal::User> : public dbo_default_traits {
-//
-//    static const char *versionField()
-//    {
-//        return 0;
-//    }
-//};
-//
-//}
-//}
+#if 0
+namespace Wt {
+namespace Dbo {
+
+template<>
+struct dbo_traits<Dal::User> : public dbo_default_traits {
+
+    static const char *versionField()
+    {
+        return 0;
+    }
+};
+
+}
+}
+#endif
+
 
 namespace Dal {
-
-//class User;
 
 typedef Wt::Auth::Dbo::AuthInfo<Dal::User> AuthInfo;
 
