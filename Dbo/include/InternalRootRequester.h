@@ -13,12 +13,12 @@
 #ifndef INTERNAL_ROOT_REQUESTER_H
 #define INTERNAL_ROOT_REQUESTER_H
 
-#include "BaseRequester.h"
+#include "Requester.h"
 
 
 namespace Dal {
 
-class InternalRootRequester : public BaseRequester {
+class InternalRootRequester : public Requester {
 protected:
     InternalRootRequester();
     virtual ~InternalRootRequester() = default;

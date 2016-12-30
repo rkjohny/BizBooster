@@ -19,7 +19,7 @@
 
 namespace Api {
 
-web::json::value ServiceFacade::RegisterUser(Dal::BaseRequester *requester, RegisterUserInput *input, RegisterUserOutput *output)
+web::json::value ServiceFacade::RegisterUser(Dal::Requester *requester, RegisterUserInput *input, RegisterUserOutput *output)
 {
     RegisterUserHelper helper(requester, input, output);
     //RegisterUserOutput* output = dynamic_cast<RegisterUserOutput*> (helper.Execute());
@@ -28,7 +28,7 @@ web::json::value ServiceFacade::RegisterUser(Dal::BaseRequester *requester, Regi
     return response;
 }
 
-web::json::value ServiceFacade::LogIn(Dal::BaseRequester *requester, LogInInput *input, LogInOutput *output)
+web::json::value ServiceFacade::LogIn(Dal::Requester *requester, LogInInput *input, LogInOutput *output)
 {
     LogInHelper &&helper = LogInHelper(requester, input, output);
     return helper.Execute();

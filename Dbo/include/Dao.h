@@ -17,7 +17,7 @@
 #include "User.h"
 #include "AppSetting.h"
 #include "WtSession.h"
-#include "BaseRequester.h"
+#include "Requester.h"
 
 namespace Dal {
 
@@ -31,27 +31,27 @@ protected:
 public:
     virtual ~Dao() = default;
    
-    virtual void CreateTables(BaseRequester *requester) = 0;
+    virtual void CreateTables(Requester *requester) = 0;
 
-    virtual int GetNextDmVersion(BaseRequester *requester) = 0;
+    virtual int GetNextDmVersion(Requester *requester) = 0;
 
-    virtual Wt::Dbo::Transaction BeginTransaction(BaseRequester *requester) = 0;
+    virtual Wt::Dbo::Transaction BeginTransaction(Requester *requester) = 0;
 
-    virtual bool CommitTransaction(BaseRequester *requester, Wt::Dbo::Transaction&) = 0;
+    virtual bool CommitTransaction(Requester *requester, Wt::Dbo::Transaction&) = 0;
 
-    virtual void RollbackTransaction(BaseRequester *requester, Wt::Dbo::Transaction&) = 0;
+    virtual void RollbackTransaction(Requester *requester, Wt::Dbo::Transaction&) = 0;
 
-    virtual bool TableExists(BaseRequester *requester, std::string table_name) = 0;
+    virtual bool TableExists(Requester *requester, std::string table_name) = 0;
 
-    virtual void AddOrUpdateAppSetting(BaseRequester *requester, AppSetting &&setting) = 0;
+    virtual void AddOrUpdateAppSetting(Requester *requester, AppSetting &&setting) = 0;
 
-    virtual Wt::Dbo::ptr<User> RegisterUser(BaseRequester *requester, User *user) = 0;
+    virtual Wt::Dbo::ptr<User> RegisterUser(Requester *requester, User *user) = 0;
 
-    virtual Wt::Dbo::ptr<User> GetUser(BaseRequester *requester, std::string email) = 0;
+    virtual Wt::Dbo::ptr<User> GetUser(Requester *requester, std::string email) = 0;
 
-    virtual Wt::Dbo::ptr<AuthInfo> AddAuthInfo(BaseRequester *requester, AuthInfo *authInfo) = 0;
+    virtual Wt::Dbo::ptr<AuthInfo> AddAuthInfo(Requester *requester, AuthInfo *authInfo) = 0;
     
-    virtual Wt::Dbo::ptr<AuthInfo::AuthIdentityType> AddIdentity(BaseRequester *requester, AuthInfo::AuthIdentityType *identity) = 0;
+    virtual Wt::Dbo::ptr<AuthInfo::AuthIdentityType> AddIdentity(Requester *requester, AuthInfo::AuthIdentityType *identity) = 0;
 };
 }
 

@@ -15,7 +15,7 @@
 #include "DboDef.h"
 #include "Converter.h"
 #include "LogFactory.h"
-#include "BaseRequester.h"
+#include "Requester.h"
 #include "InternalRootRequester.h"
 
 namespace Dal {
@@ -32,7 +32,7 @@ void DataModelManager::Run()
     auto dao = Dal::GetDao();
     size_t nextDmVersion = 0;
 
-    BaseRequester *requester = InternalRootRequester::GetInstance();
+    Requester *requester = InternalRootRequester::GetInstance();
     
     dao->CreateTables(requester);
     

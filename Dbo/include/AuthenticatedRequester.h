@@ -13,11 +13,11 @@
 #ifndef AUTHENTICATED_REQUESTER_H
 #define AUTHENTICATED_REQUESTER_H
 
-#include "BaseRequester.h"
+#include "Requester.h"
 
 namespace Dal {
 
-class AuthenticatedRequester : public BaseRequester {
+class AuthenticatedRequester : public Requester {
 private:
     NON_COPY_NON_MOVE_ABLE(AuthenticatedRequester);
     

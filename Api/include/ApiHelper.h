@@ -38,10 +38,10 @@ protected:
     OutputT *m_output;
     std::shared_ptr<OutputT> m_outputPtr;
     
-    Dal::BaseRequester *m_requester;
+    Dal::Requester *m_requester;
 
 public:
-    ApiHelper(Dal::BaseRequester * requester, InputT *input, OutputT *output = nullptr) :
+    ApiHelper(Dal::Requester * requester, InputT *input, OutputT *output = nullptr) :
     m_input(input), m_output(output), m_outputPtr(nullptr)
     {
         if (!m_output) {

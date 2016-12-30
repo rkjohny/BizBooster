@@ -19,13 +19,13 @@
 
 namespace Dal {
 
-class BaseRequester {
+class Requester {
 private:
-    NON_COPY_NON_MOVE_ABLE(BaseRequester);
+    NON_COPY_NON_MOVE_ABLE(Requester);
     
 public:
-    BaseRequester() = default;
-    virtual ~BaseRequester() = default;
+    Requester() = default;
+    virtual ~Requester() = default;
     
     virtual const User& GetUser() = 0;
     virtual bool HasRole(const std::string &) = 0;

@@ -30,7 +30,7 @@ private:
 public:
     ~RegisterUserHelper() = default;
 
-    RegisterUserHelper(Dal::BaseRequester *requester, RegisterUserInput *input, RegisterUserOutput *output = nullptr) :
+    RegisterUserHelper(Dal::Requester *requester, RegisterUserInput *input, RegisterUserOutput *output = nullptr) :
     ApiHelper<RegisterUserInput, RegisterUserOutput>(requester, input, output)
     {
     }

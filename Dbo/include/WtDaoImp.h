@@ -49,7 +49,7 @@ public:
     template<class C>
     typename std::enable_if<(std::is_base_of<Dal::AuditableEntity, C>::value == true ||
             std::is_base_of<Dal::User, C>::value == true), void >::type
-    OnSave(BaseRequester *requester, C *entity)
+    OnSave(Requester *requester, C *entity)
     {
         std::time_t curTime = std::time(nullptr);
         //std::tm *tm_local = std::localtime(&curTime);
@@ -69,13 +69,13 @@ public:
 
     template<class C>
     typename std::enable_if<std::is_base_of<Dal::AuditableEntity, C>::value == false, void >::type
-    OnSave(BaseRequester *requester, BaseEntity *entity)
+    OnSave(Requester *requester, BaseEntity *entity)
     {
     }
 
     template<class C>
     typename std::enable_if<std::is_base_of<Dal::BaseEntity, C>::value == true, Wt::Dbo::ptr<C> >::type
-    AddEnitity(BaseRequester *requester, C *entity)
+    AddEnitity(Requester *requester, C *entity)
     {
         this->OnSave(requester, entity);
         Wt::Dbo::ptr<C> newEntity = m_session.add(entity);
@@ -84,27 +84,27 @@ public:
 
     static std::shared_ptr<WtDaoImp> GetInstance();
 
-    void CreateTables(BaseRequester *requester) override;
+    void CreateTables(Requester *requester) override;
 
-    int GetNextDmVersion(BaseRequester *requester) override;
+    int GetNextDmVersion(Requester *requester) override;
 
-    void AddOrUpdateAppSetting(BaseRequester *requester, AppSetting &&setting) override;
+    void AddOrUpdateAppSetting(Requester *requester, AppSetting &&setting) override;
 
-    Wt::Dbo::Transaction BeginTransaction(BaseRequester *requester) override;
+    Wt::Dbo::Transaction BeginTransaction(Requester *requester) override;
 
-    bool TableExists(BaseRequester *requester, std::string table_name) override;
+    bool TableExists(Requester *requester, std::string table_name) override;
 
-    bool CommitTransaction(BaseRequester *requester, Wt::Dbo::Transaction&) override;
+    bool CommitTransaction(Requester *requester, Wt::Dbo::Transaction&) override;
 
-    void RollbackTransaction(BaseRequester *requester, Wt::Dbo::Transaction&) override;
+    void RollbackTransaction(Requester *requester, Wt::Dbo::Transaction&) override;
 
-    Wt::Dbo::ptr<User> RegisterUser(BaseRequester *requester, User *newUser) override;
+    Wt::Dbo::ptr<User> RegisterUser(Requester *requester, User *newUser) override;
 
-    Wt::Dbo::ptr<User> GetUser(BaseRequester *requester, std::string email) override;
+    Wt::Dbo::ptr<User> GetUser(Requester *requester, std::string email) override;
 
-    Wt::Dbo::ptr<AuthInfo> AddAuthInfo(BaseRequester *requester, AuthInfo *authInfo) override;
+    Wt::Dbo::ptr<AuthInfo> AddAuthInfo(Requester *requester, AuthInfo *authInfo) override;
     
-    Wt::Dbo::ptr<AuthInfo::AuthIdentityType> AddIdentity(BaseRequester *requester, AuthInfo::AuthIdentityType *identity) override;
+    Wt::Dbo::ptr<AuthInfo::AuthIdentityType> AddIdentity(Requester *requester, AuthInfo::AuthIdentityType *identity) override;
 };
 }
 

@@ -21,7 +21,7 @@
 #include "LCrypto.h"
 #include "CryptoDef.h"
 #include "AppException.h"
-#include "BaseRequester.h"
+#include "Requester.h"
 #include "InternalRootRequester.h"
 
 namespace Dal {
@@ -46,7 +46,7 @@ void DMUpgrade_1::Execute()
         user->SetRoles(Role::ROLE_CREATE_SUPER_USER);
         user->SetStatus(Status::V);
 
-        BaseRequester *requester = InternalRootRequester::GetInstance();
+        Requester *requester = InternalRootRequester::GetInstance();
         Wt::Dbo::ptr<User> userAdded = Dal::GetDao()->RegisterUser(requester, user);
 
         if (userAdded) {
