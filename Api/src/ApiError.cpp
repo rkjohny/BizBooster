@@ -14,7 +14,7 @@
 
 namespace Api {
 
-ApiError::ApiError() : m_code {AppErrorCode::SUCCESS} , m_message (SUCCESS_STR)
+ApiError::ApiError() : m_code {AppErrorCode::SUCCESS} , m_message ("Success")
 {
 }
 
