@@ -31,6 +31,9 @@ namespace Api {
         void SetError(const ApiError& error);
         ApiError GetError() const;
 
+        web::json::value GetErrorResponse() const;
+        std::string GetErrorStr() const;
+        
     private:
         ApiError m_error;
 

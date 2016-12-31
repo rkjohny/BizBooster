@@ -53,6 +53,23 @@ void SessionManager::AddSession(const std::string &token, const Dal::User &user)
     m_mutex.unlock();
 }
 
+void SessionManager::AddSession(const std::string &token, const Dal::User &user, uint64_t expiresMsc)
+{
+    m_mutex.lock();
+
+    Session *session = new Session();
+    session->SetUser(user);
+    session->ResetExpiration(expiresMsc);
+
+    auto itr = m_sessions.find(token);
+    if (itr != m_sessions.end()) {
+        delete itr->second;
+    }
+    m_sessions[token] = session;
+
+    m_mutex.unlock();
+}
+
 bool SessionManager::ResetExpiration(const std::string &token, uint64_t msec)
 {
     bool ret = false;

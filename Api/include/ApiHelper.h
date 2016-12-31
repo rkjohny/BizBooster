@@ -37,10 +37,11 @@ protected:
     InputT *m_input;
     OutputT *m_output;
     std::shared_ptr<OutputT> m_outputPtr;
-    
+
     Dal::Requester *m_requester;
 
 public:
+
     ApiHelper(Dal::Requester * requester, InputT *input, OutputT *output = nullptr) :
     m_input(input), m_output(output), m_outputPtr(nullptr)
     {
@@ -57,7 +58,7 @@ public:
     virtual ~ApiHelper() = default;
 
     virtual void ExecuteHelper() = 0;
-    
+
     virtual OutputT* GetOutput()
     {
         return m_output;
@@ -76,14 +77,20 @@ public:
         try {
             InitAndValidate();
             CheckPermission();
-            
+
             ExecuteHelper();
 
             response = m_output->Serialize();
 
-            //TODO: what to do  if commit failes
-            bool succeeded = dao->CommitTransaction(m_requester, transaction);
-
+            if (m_output->GetError().GetCode() == AppErrorCode::SUCCESS) {
+                //TODO: what to do  if commit failes
+                bool succeeded = dao->CommitTransaction(m_requester, transaction);
+            } else {
+                dao->RollbackTransaction(m_requester, transaction);
+                response = m_output->GetErrorResponse();
+                LOG_ERROR(std::string("Input: ") + m_input->Name() +
+                        " failed with with error: [" + response.serialize() + "]");
+            }
         } catch (Common::AppException &e) {
             dao->RollbackTransaction(m_requester, transaction);
             response = e.Serialize();

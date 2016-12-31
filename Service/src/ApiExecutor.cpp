@@ -21,6 +21,8 @@
 #include "Session.h"
 #include "SessionManager.h"
 #include "AppException.h"
+#include "LogInHelper.h"
+#include "InternalRootRequester.h"
 
 #include <cpprest/http_headers.h>
 
@@ -35,47 +37,55 @@ web::json::value ApiExecutor::ExecuteSingleApi(const web::http::http_request& re
     std::string apiName = utility::conversions::to_utf8string(japi.as_string());
 
     if (japi.is_string() && jdata.is_object()) {
+
         std::shared_ptr<Api::Serializable> obj = Api::SOFactory::CreateObject(apiName);
         if (obj) {
 
-            std::shared_ptr<Api::BaseInput> input = std::dynamic_pointer_cast<Api::BaseInput, Api::Serializable>(obj);
-
-            if (input) {
-                //prepare input
-                input->Deserialize(jdata);
+            if (apiName.compare("login") != 0) {
 
                 const web::http::http_headers &headers = request.headers();
                 bool hasToken = headers.has(U("Auth-Token"));
 
                 if (hasToken) {
-                    
+
                     auto itr = headers.find(U("Auth-Token"));
                     utility::string_t token_t = itr->second;
                     std::string token = utility::conversions::to_utf8string(token_t);
 
                     bool validToken = Dal::SessionManager::IsValidToken(token);
+
                     if (validToken) {
 
-                        try {
-                            Dal::SessionManager::SetPinned(token, true);
-                            Dal::SessionManager::ResetExpiration(token);
-                            Dal::Requester *requester = Dal::SessionManager::GetRequetser(token);
+                        std::shared_ptr<Api::BaseInput> input = std::dynamic_pointer_cast<Api::BaseInput, Api::Serializable>(obj);
 
-                            //execute api
-                            jresponse = input->Process(requester);
+                        if (input) {
+                            //prepare input
+                            input->Deserialize(jdata);
 
-                            Dal::SessionManager::SetPinned(token, false);
-                            
-                        } catch (Common::AppException &e) {
-                            
-                            Dal::SessionManager::SetPinned(token, false);
-                            return e.Serialize();
-                            
-                        } catch (std::exception &e) {
-                            
-                            Dal::SessionManager::SetPinned(token, false);
-                            Common::AppException ex = Common::AppException(e);
-                            return ex.Serialize();
+                            try {
+                                Dal::SessionManager::SetPinned(token, true);
+                                Dal::SessionManager::ResetExpiration(token);
+                                Dal::Requester *requester = Dal::SessionManager::GetRequetser(token);
+
+                                //execute api
+                                jresponse = input->Process(requester);
+
+                                Dal::SessionManager::SetPinned(token, false);
+
+                            } catch (Common::AppException &e) {
+
+                                Dal::SessionManager::SetPinned(token, false);
+                                return e.Serialize();
+
+                            } catch (std::exception &e) {
+
+                                Dal::SessionManager::SetPinned(token, false);
+                                Common::AppException ex = Common::AppException(e);
+                                return ex.Serialize();
+                            }
+                        } else {
+                            return Api::ApiUtils::ErrorResponse(AppErrorCode::INTERNAL_SERVER_ERROR,
+                                    "Could not cast shared pointer of Serializable to BaseInput");
                         }
                     } else {
                         return Api::ApiUtils::ErrorResponse(AppErrorCode::UNAUTHORIZED,
@@ -85,9 +95,27 @@ web::json::value ApiExecutor::ExecuteSingleApi(const web::http::http_request& re
                     return Api::ApiUtils::BadRequestResponse();
                 }
             } else {
-                return Api::ApiUtils::ErrorResponse(AppErrorCode::INTERNAL_SERVER_ERROR,
-                        "Could not cast shared pointer of Serializable to BaseInput");
+                std::shared_ptr<Api::BaseInput> input = std::dynamic_pointer_cast<Api::BaseInput, Api::Serializable>(obj);
+
+                if (input) {
+
+                    Api::LogInHelper helper(Dal::InternalRootRequester::GetInstance(), 
+                            dynamic_cast<Api::LogInInput*>(&(*input)));
+                    jresponse = helper.Execute();
+
+                    Api::LogInOutput *output = helper.GetOutput();
+
+                    if (output->GetError().GetCode() == AppErrorCode::SUCCESS) {
+
+                        Api::SessionManager::AddSession(output->GetSessionToken(),
+                                output->GetUser(), output->GetSessionExpires());
+                    }
+                } else {
+                    return Api::ApiUtils::ErrorResponse(AppErrorCode::INTERNAL_SERVER_ERROR,
+                            "Could not cast shared pointer of Serializable to BaseInput");
+                }
             }
+
         } else {
             return Api::ApiUtils::BadRequestResponse();
         }

@@ -112,8 +112,12 @@ public:
     void AddIdentity(const std::string &provider, const std::string &identity);
     void AddIdentity(const Wt::Dbo::ptr<Dal::AuthInfo::AuthIdentityType> &identity);
     
+    AuthInfo::AuthTokens GetAuthTokens() const;
+    
+    Wt::Dbo::weak_ptr<Dal::AuthInfo> GetAuthInfo() const;
+    
     void SetEmailToken(const std::string &token, const Wt::WDateTime &expires, const Wt::Auth::User::EmailTokenRole &role);
-
+    
     std::string GetEmailToken() const;
     Wt::WDateTime GetEmailTokenExpirationDate() const;
     Wt::Auth::User::EmailTokenRole GetEmailTokenRole() const;

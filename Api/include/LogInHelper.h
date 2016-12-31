@@ -26,7 +26,7 @@ private:
 
 public:
 
-    LogInHelper(Dal::Requester *requester, LogInInput *input, LogInOutput *output) :
+    LogInHelper(Dal::Requester *requester, LogInInput *input, LogInOutput *output = nullptr) :
     ApiHelper<LogInInput, LogInOutput>(requester, input, output)
     {
     }

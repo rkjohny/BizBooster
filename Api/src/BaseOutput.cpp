@@ -32,4 +32,19 @@ ApiError BaseOutput::GetError() const
     return m_error;
 }
 
+web::json::value BaseOutput::GetErrorResponse() const
+{
+    web::json::value response = web::json::value::object();
+    web::json::value error = web::json::value::object();
+    error[U("code")] = web::json::value::number(static_cast<int> (m_error.GetCode()));
+    error[U("message")] = web::json::value::string(m_error.GetMessage());
+    response[U("error")] = error;
+    return response;
+}
+
+std::string BaseOutput::GetErrorStr() const
+{
+    return GetErrorResponse().serialize();
+}
+
 } /* namespace Api */

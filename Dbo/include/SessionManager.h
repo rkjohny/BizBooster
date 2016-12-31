@@ -25,6 +25,8 @@ public:
     using Thread = Common::Thread<void>;
     
     static void AddSession(const std::string &token, const Dal::User &user);
+    
+    static void AddSession(const std::string &token, const Dal::User &user, uint64_t expiresMsc);
 
     static bool IsValidToken(const std::string &token);
     

@@ -145,7 +145,7 @@ void User::AddIdentity(const std::string &provider, const std::string &identity)
 void User::AddIdentity(const Wt::Dbo::ptr<Dal::AuthInfo::AuthIdentityType> &identity)
 {
     if (m_authInfo) {
-         m_authInfo.modify()->authIdentities().insert(identity);
+        m_authInfo.modify()->authIdentities().insert(identity);
     }
 }
 
@@ -336,6 +336,19 @@ void User::SetEmailToken(const std::string &token, const Wt::WDateTime &expires,
     if (m_authInfo) {
         m_authInfo.modify()->setEmailToken(token, expires, role);
     }
+}
+
+Wt::Dbo::weak_ptr<Dal::AuthInfo> User::GetAuthInfo() const
+{
+    return m_authInfo;
+}
+
+AuthInfo::AuthTokens User::GetAuthTokens() const
+{
+    if (m_authInfo) {
+        return m_authInfo->authTokens();
+    }
+    return AuthInfo::AuthTokens();
 }
 
 std::string User::GetEmailToken() const

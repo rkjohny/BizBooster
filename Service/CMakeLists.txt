@@ -43,7 +43,7 @@ else ()
 
     # linking libapi library as dependencies
     target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_API})
-
+    
     # linking libjson library as dependencies
     target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_JSON})
 

@@ -27,9 +27,20 @@ public:
     const Dal::User& GetUser() const;
 
     void SetUser(const Dal::User &user);
+    
+    uint64_t GetSessionExpires() const;
+
+    void SetSessionExpires(const uint64_t &sessionExpiresMsc);
+
+    const std::string& GetSessionToken() const;
+
+    void SetSessionToken(const std::string &sessionToken);
 
 private:
     Dal::User m_user;
+    
+    std::string m_sessionToken;
+    uint64_t m_sessionExpiresMsc;
 
     REGISTER_GETTER_INCLUDING_BASE_START(ApiOutput<LogInOutput>)
     GETTER(LogInOutput, const Dal::User&, "user", &LogInOutput::GetUser)

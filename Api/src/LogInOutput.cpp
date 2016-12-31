@@ -51,4 +51,24 @@ void LogInOutput::SetUser(const Dal::User &user)
     m_user.copyFrom(user);
 }
 
+uint64_t LogInOutput::GetSessionExpires() const
+{
+    return m_sessionExpiresMsc;
+}
+
+void LogInOutput::SetSessionExpires(const uint64_t &sessionExpiresMsc)
+{
+    m_sessionExpiresMsc = sessionExpiresMsc;
+}
+
+const std::string& LogInOutput::GetSessionToken() const
+{
+    return m_sessionToken;
+}
+
+void LogInOutput::SetSessionToken(const std::string &sessionToken)
+{
+    m_sessionToken = sessionToken;
+}
+
 }
