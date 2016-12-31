@@ -15,6 +15,7 @@
 #define BASE_HELPER_H
 
 #include "AppDef.h"
+#include "BaseOutput.h"
 #include <cpprest/json.h>
 
 namespace Api {
@@ -30,7 +31,7 @@ public:
 
     virtual void CheckPermission() = 0;
 
-    virtual web::json::value Execute() = 0;
+    virtual std::shared_ptr<BaseOutput> Execute() = 0;
 };
 
 }

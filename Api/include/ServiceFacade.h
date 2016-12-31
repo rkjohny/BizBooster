@@ -24,9 +24,9 @@ namespace Api {
 
 class ServiceFacade {
 public:
-    static web::json::value RegisterUser(Dal::Requester *requester, RegisterUserInput *input, RegisterUserOutput *output = nullptr);
+    static std::shared_ptr<BaseOutput> RegisterUser(Dal::Requester *requester, RegisterUserInput *input, RegisterUserOutput *output = nullptr);
     
-    static web::json::value LogIn(Dal::Requester *requester, LogInInput *input, LogInOutput *output = nullptr);
+    static std::shared_ptr<BaseOutput> LogIn(Dal::Requester *requester, LogInInput *input, LogInOutput *output = nullptr);
 
 private:
     MAKE_STATIC(ServiceFacade);

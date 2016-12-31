@@ -55,7 +55,7 @@ string RegisterUserInput::ToString()
     return "RegisterUserInput";
 }
 
-web::json::value RegisterUserInput::Process(Dal::Requester *requester)
+std::shared_ptr<BaseOutput> RegisterUserInput::Process(Dal::Requester *requester)
 {
     return ServiceFacade::RegisterUser(requester, this);
 }

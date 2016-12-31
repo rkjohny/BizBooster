@@ -19,16 +19,13 @@
 
 namespace Api {
 
-web::json::value ServiceFacade::RegisterUser(Dal::Requester *requester, RegisterUserInput *input, RegisterUserOutput *output)
+std::shared_ptr<BaseOutput> ServiceFacade::RegisterUser(Dal::Requester *requester, RegisterUserInput *input, RegisterUserOutput *output)
 {
     RegisterUserHelper helper(requester, input, output);
-    //RegisterUserOutput* output = dynamic_cast<RegisterUserOutput*> (helper.Execute());
-    web::json::value response = helper.Execute();
-    //return output;
-    return response;
+    return helper.Execute();
 }
 
-web::json::value ServiceFacade::LogIn(Dal::Requester *requester, LogInInput *input, LogInOutput *output)
+std::shared_ptr<BaseOutput> ServiceFacade::LogIn(Dal::Requester *requester, LogInInput *input, LogInOutput *output)
 {
     LogInHelper &&helper = LogInHelper(requester, input, output);
     return helper.Execute();

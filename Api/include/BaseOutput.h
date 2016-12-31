@@ -18,54 +18,64 @@
 #include "Json.h"
 
 namespace Api {
-    using namespace Json;
+using namespace Json;
 
-    class BaseOutput : public Serializable {
-    public:
-        BaseOutput();
-        virtual ~BaseOutput();
+class BaseOutput : public Serializable {
+public:
+    BaseOutput();
+    virtual ~BaseOutput();
 
-        virtual string ToString() = 0;
-        virtual string Name() = 0;
-        
-        void SetError(const ApiError& error);
-        ApiError GetError() const;
+    virtual string ToString() = 0;
+    virtual string Name() = 0;
 
-        web::json::value GetErrorResponse() const;
-        std::string GetErrorStr() const;
-        
-    private:
-        ApiError m_error;
+    void SetError(const ApiError& error);
+    ApiError GetError() const;
 
-        REGISTER_GETTER_INCLUDING_BASE_START(Serializable)
-        GETTER(BaseOutput, ApiError, "error", &BaseOutput::GetError)
-        REGISTER_GETTER_INCLUDING_BASE_END
+    const web::json::value& GetResponse() const;
+    std::string GetResponseStr() const;
 
-        REGISTER_SETTER_INCLUDING_BASE_START(Serializable)
-        SETTER(BaseOutput, const ApiError&, "error", &BaseOutput::SetError)
-        REGISTER_SETTER_INCLUDING_BASE_END
-    };
 
-    template <class T>
-    class ApiOutput : public BaseOutput {
-    public:
-        ApiOutput() = default;
-        virtual ~ApiOutput() = default;
+    web::json::value GetErrorResponse() const;
+    std::string GetErrorStr() const;
 
-        web::json::value Serialize() const override {
-            return Json::ToJson<T>(reinterpret_cast<const T*>(this));
-        }
+protected:
+    ApiError m_error;
 
-        void Deserialize(const web::json::value& jvalue) override {
-            Json::FromJson<T>(reinterpret_cast<T*> (this), jvalue);
-        }
+    web::json::value m_response;
+    
+    REGISTER_GETTER_INCLUDING_BASE_START(Serializable)
+    GETTER(BaseOutput, ApiError, "error", &BaseOutput::GetError)
+    REGISTER_GETTER_INCLUDING_BASE_END
 
-        REGISTER_GETTER_INCLUDING_BASE_START(BaseOutput)
-        REGISTER_GETTER_INCLUDING_BASE_END
+    REGISTER_SETTER_INCLUDING_BASE_START(Serializable)
+    SETTER(BaseOutput, const ApiError&, "error", &BaseOutput::SetError)
+    REGISTER_SETTER_INCLUDING_BASE_END
+};
 
-        REGISTER_SETTER_INCLUDING_BASE_START(BaseOutput)
-        REGISTER_SETTER_INCLUDING_BASE_END
-    };
+template <class T>
+class ApiOutput : public BaseOutput {
+public:
+    ApiOutput() = default;
+    virtual ~ApiOutput() = default;
+
+    web::json::value Serialize() const override
+    {
+        //m_response = Json::ToJson<T>(reinterpret_cast<const T*> (this));
+        return Json::ToJson<T>(reinterpret_cast<const T*>(this));
+        //return m_response;
+    }
+
+    void Deserialize(const web::json::value& jvalue) override
+    {
+        Json::FromJson<T>(reinterpret_cast<T*> (this), jvalue);
+    }
+
+    REGISTER_GETTER_INCLUDING_BASE_START(BaseOutput)
+    REGISTER_GETTER_INCLUDING_BASE_END
+
+    REGISTER_SETTER_INCLUDING_BASE_START(BaseOutput)
+    REGISTER_SETTER_INCLUDING_BASE_END
+};
 
 } /* namespace Api */
 

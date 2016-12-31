@@ -30,7 +30,7 @@ namespace Api {
         BaseInput();
         virtual ~BaseInput();
 
-        virtual web::json::value Process(Dal::Requester *requester) = 0;
+        virtual std::shared_ptr<BaseOutput> Process(Dal::Requester *requester) = 0;
 
         virtual string ToString() = 0;
         virtual string Name() = 0;

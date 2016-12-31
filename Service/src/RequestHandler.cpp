@@ -49,14 +49,12 @@ void RequestHandler::HandlePostRequest(web::http::http_request& request)
                         jresponse = Api::ApiUtils::BadRequestResponse();
                     }
                 } catch (Common::AppException &e) {
-                    LOG_ERROR("Failed to handle request with error: " + e.ToString());
-                    //jresponse = Api::ApiUtils::ErrorResponse(e.GetCode(), e.GetMessage());
                     jresponse = e.Serialize();
+                    LOG_ERROR("Failed to handle request with error: " + jresponse.serialize());                    
                 } catch (std::exception &e) {
                     Common::AppException ex = Common::AppException(e);
-                    LOG_ERROR("Failed to handle request with error: " + ex.ToString());
-                    //jresponse = Api::ApiUtils::ErrorResponse(ex.GetCode(), ex.GetMessage());
                     jresponse = ex.Serialize();
+                    LOG_ERROR("Failed to handle request with error: " + jresponse.serialize());                    
                 }
             })
     .wait();

@@ -27,7 +27,7 @@ public:
     SERIALIZEABLE(RegisterUserInput);
     ~RegisterUserInput() = default;
 
-    web::json::value Process(Dal::Requester *requester) override;
+    std::shared_ptr<BaseOutput> Process(Dal::Requester *requester) override;
 
     const std::string& GetEmail() const;
     void SetEmail(const std::string &email);

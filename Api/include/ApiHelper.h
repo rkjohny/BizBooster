@@ -35,31 +35,27 @@ private:
 
 protected:
     InputT *m_input;
-    OutputT *m_output;
-    std::shared_ptr<OutputT> m_outputPtr;
+    std::shared_ptr<OutputT> m_output;
 
     Dal::Requester *m_requester;
 
 public:
 
     ApiHelper(Dal::Requester * requester, InputT *input, OutputT *output = nullptr) :
-    m_input(input), m_output(output), m_outputPtr(nullptr)
+    m_input(input), m_output(nullptr), m_requester(requester)
     {
-        if (!m_output) {
-            m_outputPtr = std::make_shared<OutputT>();
-            m_output = m_outputPtr.get();
-            //m_output = new OutputT();
-            //m_outputPtr = std::shared_ptr<OutputT>(m_output);
+        if (!output) {
+            m_output = std::make_shared<OutputT>();
         } else {
+            m_output = std::shared_ptr<OutputT>(output);
         }
-        m_requester = requester;
     }
 
     virtual ~ApiHelper() = default;
 
     virtual void ExecuteHelper() = 0;
 
-    virtual OutputT* GetOutput()
+    std::shared_ptr<OutputT> GetOutput()
     {
         return m_output;
     }
@@ -69,7 +65,7 @@ public:
         return m_input;
     }
 
-    web::json::value Execute() override
+    std::shared_ptr<BaseOutput> Execute() override
     {
         web::json::value response;
         auto dao = Dal::GetDao();
@@ -80,8 +76,8 @@ public:
 
             ExecuteHelper();
 
-            response = m_output->Serialize();
-
+            m_output->Serialize();
+            
             if (m_output->GetError().GetCode() == AppErrorCode::SUCCESS) {
                 //TODO: what to do  if commit failes
                 bool succeeded = dao->CommitTransaction(m_requester, transaction);
@@ -93,20 +89,24 @@ public:
             }
         } catch (Common::AppException &e) {
             dao->RollbackTransaction(m_requester, transaction);
+            
+            m_output->SetError(ApiError(e.GetCode(), e.GetMessage()));
+            
             response = e.Serialize();
-            //response = ApiUtils::ErrorResponse(e.GetCode(), e.GetMessage());
             LOG_ERROR(std::string("Input: ") + m_input->Name() +
-                    " failed with with error: [" + e.ToString() + "]");
+                    " failed with with error: [" + response.serialize() + "]");
         } catch (std::exception &e) {
             dao->RollbackTransaction(m_requester, transaction);
             Common::AppException ex = Common::AppException(e);
+            
+            m_output->SetError(ApiError(ex.GetCode(), ex.GetMessage()));
+            
             response = ex.Serialize();
-            //response = ApiUtils::ErrorResponse(ex.GetCode(), ex.GetMessage());
             LOG_ERROR(std::string("Input: ") + m_input->Name() +
-                    " failed with with error: [" + ex.ToString() + "]");
+                    " failed with with error: [" + response.serialize() + "]");
         }
 
-        return response;
+        return m_output;
     }
 };
 

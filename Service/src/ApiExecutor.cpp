@@ -29,7 +29,8 @@
 
 namespace Rest {
 
-web::json::value ApiExecutor::ExecuteSingleApi(const web::http::http_request& request, const web::json::value &jrequest)
+web::json::value ApiExecutor::ExecuteSingleApi(const web::http::http_request& request,
+        const web::json::value &jrequest)
 {
     web::json::value jresponse;
     const web::json::value &japi = jrequest.at(JSON_API);
@@ -56,7 +57,8 @@ web::json::value ApiExecutor::ExecuteSingleApi(const web::http::http_request& re
 
                     if (validToken) {
 
-                        std::shared_ptr<Api::BaseInput> input = std::dynamic_pointer_cast<Api::BaseInput, Api::Serializable>(obj);
+                        std::shared_ptr<Api::BaseInput> input =
+                                std::dynamic_pointer_cast<Api::BaseInput, Api::Serializable>(obj);
 
                         if (input) {
                             //prepare input
@@ -67,48 +69,69 @@ web::json::value ApiExecutor::ExecuteSingleApi(const web::http::http_request& re
                                 Dal::SessionManager::ResetExpiration(token);
                                 Dal::Requester *requester = Dal::SessionManager::GetRequetser(token);
 
-                                //execute api
-                                jresponse = input->Process(requester);
+                                std::shared_ptr<Api::BaseOutput> output = input->Process(requester);
+
+                                if (output->GetError().GetCode() == AppErrorCode::SUCCESS) {
+                                    //execute api
+                                    jresponse = output->GetResponse();
+                                } else {
+                                    //jresponse = output->GetErrorResponse();
+                                    //LOG_ERROR("API: " + apiName + " failed with error [" + jresponse.serialize() + "]");
+                                }
 
                                 Dal::SessionManager::SetPinned(token, false);
 
                             } catch (Common::AppException &e) {
-
                                 Dal::SessionManager::SetPinned(token, false);
-                                return e.Serialize();
+                                jresponse = e.Serialize();
+                                LOG_ERROR("API: " + apiName + " failed with error [" + jresponse.serialize() + "]");
+                                return jresponse;
 
                             } catch (std::exception &e) {
-
                                 Dal::SessionManager::SetPinned(token, false);
                                 Common::AppException ex = Common::AppException(e);
-                                return ex.Serialize();
+                                jresponse = ex.Serialize();
+                                LOG_ERROR("API: " + apiName + " failed with error [" + jresponse.serialize() + "]");
+                                return jresponse;
                             }
                         } else {
-                            return Api::ApiUtils::ErrorResponse(AppErrorCode::INTERNAL_SERVER_ERROR,
+                            jresponse = Api::ApiUtils::ErrorResponse(AppErrorCode::INTERNAL_SERVER_ERROR,
                                     "Could not cast shared pointer of Serializable to BaseInput");
+                            LOG_ERROR("API: " + apiName + " failed with error [" + jresponse.serialize() + "]");
+                            return jresponse;
                         }
                     } else {
-                        return Api::ApiUtils::ErrorResponse(AppErrorCode::UNAUTHORIZED,
+                        jresponse = Api::ApiUtils::ErrorResponse(AppErrorCode::UNAUTHORIZED,
                                 "Unauthorized request");
+                        LOG_ERROR("API: " + apiName + " failed with error [" + jresponse.serialize() + "]");
+                        return jresponse;
                     }
                 } else {
-                    return Api::ApiUtils::BadRequestResponse();
+                    jresponse = Api::ApiUtils::BadRequestResponse();
+                    LOG_ERROR("API: " + apiName + " failed with error [" + jresponse.serialize() + "]");
+                    return jresponse;
                 }
             } else {
-                std::shared_ptr<Api::BaseInput> input = std::dynamic_pointer_cast<Api::BaseInput, Api::Serializable>(obj);
+                std::shared_ptr<Api::BaseInput> input =
+                        std::dynamic_pointer_cast<Api::BaseInput, Api::Serializable>(obj);
 
                 if (input) {
 
-                    Api::LogInHelper helper(Dal::InternalRootRequester::GetInstance(), 
-                            dynamic_cast<Api::LogInInput*>(&(*input)));
-                    jresponse = helper.Execute();
+                    Api::LogInHelper helper(Dal::InternalRootRequester::GetInstance(),
+                            dynamic_cast<Api::LogInInput*> (&(*input)));
 
-                    Api::LogInOutput *output = helper.GetOutput();
+                    std::shared_ptr<Api::LogInOutput> output =
+                            std::dynamic_pointer_cast<Api::LogInOutput, Api::BaseOutput>(helper.Execute());
 
                     if (output->GetError().GetCode() == AppErrorCode::SUCCESS) {
-
+                        
+                        jresponse = output->GetResponse();
+                        
                         Api::SessionManager::AddSession(output->GetSessionToken(),
                                 output->GetUser(), output->GetSessionExpires());
+                    } else {
+                        //jresponse = output->GetErrorResponse();
+                        //LOG_ERROR("API: " + apiName + " failed with error [" + jresponse.serialize() + "]");
                     }
                 } else {
                     return Api::ApiUtils::ErrorResponse(AppErrorCode::INTERNAL_SERVER_ERROR,

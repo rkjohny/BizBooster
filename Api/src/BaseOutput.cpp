@@ -47,4 +47,14 @@ std::string BaseOutput::GetErrorStr() const
     return GetErrorResponse().serialize();
 }
 
+const web::json::value& BaseOutput::GetResponse() const
+{
+    return m_response;
+}
+
+std::string BaseOutput::GetResponseStr() const
+{
+    return m_response.serialize();
+}
+
 } /* namespace Api */

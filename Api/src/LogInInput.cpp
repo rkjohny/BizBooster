@@ -53,7 +53,7 @@ std::string LogInInput::ToString()
     return "LoginInput";
 }
 
-web::json::value LogInInput::Process(Dal::Requester *requester)
+std::shared_ptr<BaseOutput> LogInInput::Process(Dal::Requester *requester)
 {
     return ServiceFacade::LogIn(requester, this);   
 }
