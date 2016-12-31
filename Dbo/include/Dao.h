@@ -18,6 +18,7 @@
 #include "AppSetting.h"
 #include "WtSession.h"
 #include "Requester.h"
+#include "Disposable.h"
 
 namespace Dal {
 
