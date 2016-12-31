@@ -4,7 +4,7 @@ project(BizBooster)
 
 message("Executing BizBooster::CMakeLists.txt")
 
-add_compile_options(-c -O1 -g3 -Wall -Wextra -std=c++1y)
+add_compile_options(-c -O1 -g3 -Wall -Wextra -Wno-unused-variable -Wno-unused-parameter -std=c++1y)
 set(CMAKE_BUILD_TYPE Debug)
 
 

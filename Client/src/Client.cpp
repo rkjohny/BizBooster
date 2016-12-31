@@ -34,7 +34,7 @@ TradeXClient::TradeXClient(const WEnvironment& env)
     try {
         auto propertyReader = Fio::CFReaderFactory::GetConfigReader(LANG_PROP_FILE_NAME);
         string apptitle = propertyReader->GetValueOf(LANG_PROP_KEY_APP_TITLE) + " - v" + CLIENT_VERSION;
-        setTitle(WString(std::move(apptitle)));
+        setTitle(WString(apptitle));
     } catch (AppException &e) {
         LOG_ERROR(e.GetMessage());
     }

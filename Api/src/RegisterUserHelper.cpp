@@ -27,7 +27,7 @@ void RegisterUserHelper::InitAndValidate()
     Wt::Dbo::ptr<Dal::User> user = Dal::GetDao()->GetUser(m_requester, m_input->GetEmail());
 
     if (user) {
-        throw Common::AppException(AppErrorCode::DUPLICATE_USER,
+        throw Common::AppException(AppErrorCode::USER_ALREADY_EXISTS,
                 "User with the email already exists");
     }
 }

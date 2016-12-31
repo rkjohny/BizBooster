@@ -50,7 +50,7 @@ namespace Common {
 
         static void ToLower(string& str);
 
-        static int Compare(std::string first, std::string second, bool ignore_case = false);
+        static int Compare(const std::string &first, const std::string &second, bool ignore_case = false);
     };
 
 } /* namespace Common */

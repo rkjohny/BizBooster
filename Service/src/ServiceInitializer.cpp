@@ -48,12 +48,12 @@ void ServiceInitializer::Initialize()
             PATH_SEPARATOR + server_config_reader->GetValueOf(SERVICE_LOG_FILE_NAME);
     
     Fio::OFStream* ofStream = new Fio::OFStream();
-    ofStream->SetFile(std::string(filename));
-    logger->AddStream(std::move(filename), ofStream);
+    ofStream->SetFile(filename);
+    logger->AddStream(filename, ofStream);
 
     std::string&& loglevelStr = server_config_reader->GetValueOf(SERVICE_LOG_LEVEL);
     try {
-        logger->SetLogLevel(Converter::ToInt32(std::move(loglevelStr)));
+        logger->SetLogLevel(Converter::ToInt32(loglevelStr));
     } catch (...) {
     }
 

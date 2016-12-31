@@ -16,7 +16,7 @@
 
 namespace Dal {
 
-Role RoleUtils::ToRole(const std::string &&role)
+Role RoleUtils::ToRole(const std::string &role)
 {
     std::string newrole = Common::StringUtility::Trim(role);
 
@@ -27,11 +27,6 @@ Role RoleUtils::ToRole(const std::string &&role)
         return Role::ROLE_INTERNAL_ROOT_USER;
     }
     throw std::runtime_error("unknown roles");
-}
-
-Role RoleUtils::ToRole(const std::string &role)
-{
-    return ToRole(std::move(role));
 }
 
 std::string RoleUtils::ToStr(const Role &role)
@@ -48,7 +43,7 @@ std::string RoleUtils::ToStr(const Role &role)
     }
 }
 
-std::string RoleUtils::ToStr(const std::vector<Role> &&roles, const std::string &&delimeter)
+std::string RoleUtils::ToStr(const std::vector<Role> &roles, const std::string &delimeter)
 {
     std::string rolesStr = "";
     bool first = true;
@@ -62,12 +57,7 @@ std::string RoleUtils::ToStr(const std::vector<Role> &&roles, const std::string 
     return rolesStr;
 }
 
-std::string RoleUtils::ToStr(const std::vector<Role> &roles, const std::string &delimeter)
-{
-    return ToStr(std::move(roles), std::move(delimeter));
-}
-
-std::vector<Role> RoleUtils::ToRoles(const std::string &&roles)
+std::vector<Role> RoleUtils::ToRoles(const std::string &roles)
 {
     std::vector<std::string> v_rolesStr;
     Common::StringUtility::Tokenize(v_rolesStr, roles, ",");
@@ -79,9 +69,5 @@ std::vector<Role> RoleUtils::ToRoles(const std::string &&roles)
     return v_roles;
 }
 
-std::vector<Role> RoleUtils::ToRoles(const std::string &roles)
-{
-    return ToRoles(std::move(roles));
-}
 
 }

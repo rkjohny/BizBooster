@@ -29,7 +29,7 @@ std::string StatusUtils::ToStr(const Status &status)
     }
 }
 
-Status StatusUtils::ToStatus(const std::string &&status)
+Status StatusUtils::ToStatus(const std::string &status)
 {
     if (status.compare(STATUS_V_STR) == 0) {
         return Status::V;
@@ -39,11 +39,6 @@ Status StatusUtils::ToStatus(const std::string &&status)
     }
 
     throw std::runtime_error("invalid status found");
-}
-
-Status StatusUtils::ToStatus(const std::string &status)
-{
-    return ToStatus(std::move(status));
 }
 
 }

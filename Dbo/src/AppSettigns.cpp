@@ -22,6 +22,11 @@ AppSetting::AppSetting(const std::string &&name) : m_name{std::move(name)}
 {
 }
 
+AppSetting::AppSetting(const std::string &name, const std::string &value) :
+m_name(name), m_value(value)
+{
+}
+
 AppSetting::AppSetting(const std::string &&name, const std::string &&value) :
 m_name{std::move(name)}, m_value{ std::move(value)}
 {
@@ -32,9 +37,9 @@ const std::string &AppSetting::GetName() const
     return m_name;
 }
 
-void AppSetting::SetName(std::string name)
+void AppSetting::SetName(const std::string &name)
 {
-    m_name = std::move(name);
+    m_name = name;
 }
 
 const std::string &AppSetting::GetValue() const
@@ -42,9 +47,9 @@ const std::string &AppSetting::GetValue() const
     return m_value;
 }
 
-void AppSetting::SetValue(std::string value)
+void AppSetting::SetValue(const std::string &value)
 {
-    m_value = std::move(value);
+    m_value = value;
 }
 
 }

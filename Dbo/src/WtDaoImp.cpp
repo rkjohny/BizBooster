@@ -94,7 +94,7 @@ int WtDaoImp::GetNextDmVersion(Requester *requester)
                 m_session.find<Dal::AppSetting>().where("name = ?").bind(NEXT_DM_VERSION_KEY);
         if (obj) {
             std::string value = obj->GetValue();
-            nextDmVersion = Common::Converter::ToInt32(std::move(value));
+            nextDmVersion = Common::Converter::ToInt32(value);
         }
     } catch (std::exception &e) {
         std::cout << e.what() << std::endl;

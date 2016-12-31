@@ -52,10 +52,10 @@ void BaseLogger::SetLogLevel(int level)
     }
 }
 
-void BaseLogger::AddStream(const string&& key, OStream* ostram)
+void BaseLogger::AddStream(const string &key, OStream* ostram)
 {
     m_mutex.lock();
-    auto itr = m_streamList.find(std::move(key));
+    auto itr = m_streamList.find(key);
     if (itr != m_streamList.end()) {
         // deleting, otherwise caller will not be able to delete it
         // since we are not returning itr->second
@@ -69,10 +69,10 @@ void BaseLogger::AddStream(const string&& key, OStream* ostram)
     m_mutex.unlock();
 }
 
-void BaseLogger::RemoveStream(const string&& key)
+void BaseLogger::RemoveStream(const string &key)
 {
     m_mutex.lock();
-    auto itr = m_streamList.find(std::move(key));
+    auto itr = m_streamList.find(key);
     if (itr != m_streamList.end()) {
         // deleting, otherwise caller will not be able to delete it
         // since we are not returning itr->second

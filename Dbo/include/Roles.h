@@ -40,11 +40,7 @@ public:
 
     static std::string ToStr(const Role &role);
 
-    static std::string ToStr(const std::vector<Role> &&roles, const std::string &&delimeter = ",");
-
     static std::string ToStr(const std::vector<Role> &roles, const std::string &delimeter = ",");
-
-    static std::vector<Role> ToRoles(const std::string &&roles);
 
     static std::vector<Role> ToRoles(const std::string &roles);
 };

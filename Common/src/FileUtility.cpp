@@ -21,7 +21,7 @@ void FileUtility::SplitPath(vector< string >& listPath, const string& absulateFi
     StringUtility::Tokenize(listPath, absulateFileName, PATH_SEPARATOR);
 }
 
-string FileUtility::GetNameWithoutType(const string&& absulateFileName)
+string FileUtility::GetNameWithoutType(const string& absulateFileName)
 {
     string file = "";
     auto listPath = vector< string >();

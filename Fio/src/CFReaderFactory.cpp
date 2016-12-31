@@ -25,7 +25,7 @@ void CFReaderFactory::Dispose()
     DisposeConfigReader();
 }
 
-ConfigReader* CFReaderFactory::CreateConfigReader(std::string &&key, ConFigFileType type)
+ConfigReader* CFReaderFactory::CreateConfigReader(const std::string &key, ConFigFileType type)
 {
     ConfigReader* reader = nullptr;
 
@@ -44,22 +44,22 @@ ConfigReader* CFReaderFactory::CreateConfigReader(std::string &&key, ConFigFileT
         case XML_FILE:
             throw runtime_error("Support of ConFigFileType::XML_FILE not implemented");
         }
-        cm_configReaderList[std::move(key)] = reader;
+        cm_configReaderList[key] = reader;
     }
 
     return reader;
 }
 
-ConfigReader* CFReaderFactory::GetConfigReader(std::string &&key)
+ConfigReader* CFReaderFactory::GetConfigReader(const std::string &key)
 {
-    auto itr = cm_configReaderList.find(std::move(key));
+    auto itr = cm_configReaderList.find(key);
     if (itr != cm_configReaderList.end()) {
         return itr->second;
     }
     return nullptr;
 }
 
-bool CFReaderFactory::DisposeConfigReader(std::string &&key)
+bool CFReaderFactory::DisposeConfigReader(const std::string &key)
 {
     auto itr = cm_configReaderList.find(key);
 

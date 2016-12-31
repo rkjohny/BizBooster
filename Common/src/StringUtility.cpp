@@ -13,11 +13,13 @@
 #include "StringUtility.h"
 #include "AppDef.h"
 #include <algorithm>
-#include <ctime>
+//#include <ctime>
+#include <cstring>
+#include <string>
 
-#if USE_C_FUNCTION
-#include <string.h>
-#endif
+//#if USE_C_FUNCTION
+//#include <string>
+//#endif
 
 namespace Common {
 
@@ -69,35 +71,36 @@ string StringUtility::Trim(const string& str)
 }
 
 
-void StringUtility::Tokenize(vector< string >& v, const string& str, const string& token, int n)
+void StringUtility::Tokenize(vector< string > &v, const string &str, const string &token, int n)
 {
     size_t len = str.length();
 
     if (len > 0 && n >= 0) {
         const char* t = token.c_str();
         string newStr = str; // creating a local copy
-        char* p = const_cast<char*> (newStr.c_str());
+        char* p = const_cast<char*>(newStr.c_str());
         int count = 1;
 
-#ifdef WIN32 // WINDOWS
-
-        char* context;
-        p = strtok_s(p, t, &context);
-
-        while (p && (!n || count++ <= n)) {
-            v.push_back(p);
-            p = strtok_s(nullptr, t, &context);
-        }
-#else // LINUX
-#if USE_C_FUNCTION
-        // using c function strtok
-        char* context;
-        p = strtok_r(p, t, &context);
-        while (p && (!n || count++ <= n)) {
-            v.push_back(p);
-            p = strtok_r(nullptr, t, &context);
-        }
-#else
+//#ifdef WIN32 // WINDOWS
+//
+//        char* context;
+//        p = strtok_s(p, t, &context);
+//
+//        while (p && (!n || count++ <= n)) {
+//            v.push_back(p);
+//            p = strtok_s(nullptr, t, &context);
+//        }
+//#else // LINUX
+        
+//#if USE_C_FUNCTION
+//        // using c function strtok
+//        char* context;
+//        p = strtok_r(p, t, &context);
+//        while (p && (!n || count++ <= n)) {
+//            v.push_back(p);
+//            p = strtok_r(nullptr, t, &context);
+//        }
+//#else
         // using c++ function strpbrk and strspn
         char* next = nullptr;
         do {
@@ -110,8 +113,8 @@ void StringUtility::Tokenize(vector< string >& v, const string& str, const strin
             }
             p = next;
         } while (p && *p && (!n || ++count <= n));
-#endif
-#endif
+//#endif
+//#endif
 
     }
 }
@@ -121,12 +124,18 @@ void StringUtility::ToLower(string& str)
     transform(str.begin(), str.end(), str.begin(), ::tolower);
 }
 
-int StringUtility::Compare(std::string first, std::string second, bool ignore_case)
+int StringUtility::Compare(const std::string &first, const std::string &second, bool ignore_case)
 {
     if (ignore_case) {
-        StringUtility::ToLower(first);
-        StringUtility::ToLower(second);
+        std::string lcFirst = first;
+        std::string lcSecond = second;
+    
+        StringUtility::ToLower(lcFirst);
+        StringUtility::ToLower(lcSecond);
+        
+        return lcFirst.compare(lcSecond);
     }
+    
     return first.compare(second);
 }
 

@@ -34,14 +34,16 @@ public:
     AppSetting(const std::string &&name);
 
     AppSetting(const std::string &&name, const std::string &&value);
+    
+    AppSetting(const std::string &name, const std::string &value);
 
     const std::string &GetName() const;
 
-    void SetName(std::string name);
+    void SetName(const std::string &name);
 
     const std::string &GetValue() const;
 
-    void SetValue(std::string value);
+    void SetValue(const std::string &value);
 
 
     template<class Action>
@@ -57,8 +59,8 @@ public:
     REGISTER_GETTER_END
 
     REGISTER_SETTER_START
-    SETTER(AppSetting, std::string, "name", &AppSetting::SetName),
-    SETTER(AppSetting, std::string, "value", &AppSetting::SetValue)
+    SETTER(AppSetting, const std::string&, "name", &AppSetting::SetName),
+    SETTER(AppSetting, const std::string&, "value", &AppSetting::SetValue)
     REGISTER_SETTER_END
 };
 

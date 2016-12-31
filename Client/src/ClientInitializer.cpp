@@ -43,10 +43,10 @@ void ClientInitializer::Initialize()
     string filename = configReader->GetValueOf(CLIENT_LOG_FILE_PATH_STR) + PATH_SEPARATOR + CLIENT_LOG_FILE_NAME;
     OFStream *stream = new OFStream();
     stream->SetFile(std::string(filename));
-    logger->AddStream(std::move(filename), stream);
+    logger->AddStream(filename, stream);
     string &&loglevel = configReader->GetValueOf(CLIENT_LOG_LEVEL_STR);
     try {
-        logger->SetLogLevel(Common::Converter::ToInt32(std::move(loglevel)));
+        logger->SetLogLevel(Common::Converter::ToInt32(loglevel));
     } catch (...) {
     }
 

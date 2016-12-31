@@ -18,16 +18,18 @@
 namespace Dal {
 
 class AuthenticatedRequester : public Requester {
+    friend class Session;
 private:
     NON_COPY_NON_MOVE_ABLE(AuthenticatedRequester);
     
     User m_user;
 
-public:
+protected:
     AuthenticatedRequester() = default;
     virtual ~AuthenticatedRequester() = default;
 
-    virtual void SetUser(const User&);
+public:
+    void SetUser(const User&);
     
     const User& GetUser() override;
     bool HasRole(const std::string &) override;

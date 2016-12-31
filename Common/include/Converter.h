@@ -52,7 +52,7 @@ namespace Common {
         }
 
 
-        static int64_t ToInt32(std::string&& num, int8_t base = 10) throw (std::invalid_argument, std::out_of_range);
+        static int64_t ToInt32(const std::string &num, int8_t base = 10) throw (std::invalid_argument, std::out_of_range);
 
         static std::string ToStr(int32_t n, int8_t base = 10);
         

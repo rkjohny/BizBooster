@@ -13,10 +13,10 @@
 #ifndef APP_ERROR_H
 #define APP_ERROR_H
 
-#define SUCCESS_STR "Success"
-#define BAD_REQUEST_STR "Bad request."
-#define UN_KNOWN_ERROR_STR "Unknown error."
-#define INTERNAL_SERVER_ERROR_STR "Internal server error."
+//#define SUCCESS_STR "Success"
+//#define BAD_REQUEST_STR "Bad request."
+//#define UN_KNOWN_ERROR_STR "Unknown error."
+//#define INTERNAL_SERVER_ERROR_STR "Internal server error."
 
 enum AppErrorCode {
     SUCCESS = 0x0000,
@@ -27,7 +27,8 @@ enum AppErrorCode {
     BAD_REQUEST = 5,
     INTERNAL_SERVER_ERROR = 6,
     DB_OPERATION_FAILED = 7,
-    DUPLICATE_USER = 8
+    USER_ALREADY_EXISTS = 8,
+    UNAUTHORIZED = 9
 };
 
 

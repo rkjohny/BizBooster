@@ -42,9 +42,9 @@ void RequestHandler::HandlePostRequest(web::http::http_request& request)
                     LOG_DEBUG("Added new request: " + jrequest.serialize());
 
                     if (jrequest.is_object()) {
-                        jresponse = ApiExecutor::ExecuteSingleApi(jrequest);
+                        jresponse = ApiExecutor::ExecuteSingleApi(request, jrequest);
                     } else if (jrequest.is_array()) {
-                        jresponse = ApiExecutor::ExecuteMultipleApi(jrequest);
+                        jresponse = ApiExecutor::ExecuteMultipleApi(request, jrequest);
                     } else {
                         jresponse = Api::ApiUtils::BadRequestResponse();
                     }

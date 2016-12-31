@@ -11,6 +11,7 @@
  */
 
 #include "ApiUtils.h"
+#include "AppError.h"
 
 namespace Api {
 
@@ -29,7 +30,7 @@ web::json::value ApiUtils::UnknownErrorResponse()
     web::json::value response = web::json::value::object();
     web::json::value error = web::json::value::object();
     error[U("code")] = web::json::value::number(AppErrorCode::UN_KNOWN_ERROR);
-    error[U("message")] = web::json::value::string(U(UN_KNOWN_ERROR_STR));
+    error[U("message")] = web::json::value::string(U("Unknown error."));
     response[U("error")] = error;
     return response;
 }
@@ -39,7 +40,7 @@ web::json::value ApiUtils::BadRequestResponse()
     web::json::value response = web::json::value::object();
     web::json::value error = web::json::value::object();
     error[U("code")] = web::json::value::number(AppErrorCode::BAD_REQUEST);
-    error[U("message")] = web::json::value::string(U(BAD_REQUEST_STR));
+    error[U("message")] = web::json::value::string(U("Bad request"));
     response[U("error")] = error;
     return response;
 }
@@ -49,7 +50,7 @@ web::json::value ApiUtils::InternalServerErrorResponse()
     web::json::value response = web::json::value::object();
     web::json::value error = web::json::value::object();
     error[U("code")] = web::json::value::number(AppErrorCode::INTERNAL_SERVER_ERROR);
-    error[U("message")] = web::json::value::string(U(INTERNAL_SERVER_ERROR_STR));
+    error[U("message")] = web::json::value::string(U("Internal server error."));
     response[U("error")] = error;
     return response;
 }

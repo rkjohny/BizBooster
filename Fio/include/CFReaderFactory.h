@@ -36,9 +36,9 @@ public:
 
     static void Dispose();
 
-    static ConfigReader* CreateConfigReader(std::string &&key, ConFigFileType type);
-    static ConfigReader* GetConfigReader(std::string &&key);
-    static bool DisposeConfigReader(std::string &&key);
+    static ConfigReader* CreateConfigReader(const std::string &key, ConFigFileType type);
+    static ConfigReader* GetConfigReader(const std::string &key);
+    static bool DisposeConfigReader(const std::string &key);
     static void DisposeConfigReader();
 
 private:

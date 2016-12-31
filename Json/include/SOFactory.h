@@ -42,20 +42,21 @@ namespace Json {
     class SOFactory {
     public:
 
-        static std::shared_ptr<Serializable>CreateObject(string &&key);
-        static std::vector<std::shared_ptr<Serializable>> CreateObjectArray(string &&key, const size_t size);
+        static std::shared_ptr<Serializable>CreateObject(const string &key);
+        static std::vector<std::shared_ptr<Serializable>> CreateObjectArray(const string &key, const size_t size);
 
         template< class T >
-        static void Register(string &&key) {
+        static void Register(const string &key) {
             static_assert(std::is_base_of< Serializable, T >::value, "T must be derived from Serializable");
-            Common::StringUtility::ToLower(key);
+            std::string lwKey = key;
+            Common::StringUtility::ToLower(lwKey);
 
             cm_mutex.lock();
-            cm_objectCreators[ key ] = &Create< T >;
+            cm_objectCreators[ lwKey ] = &Create< T >;
             cm_mutex.unlock();
 
             cm_mutexArr.lock();
-            cm_objectArrayCreators[ key ] = &CreateArrary< T >;
+            cm_objectArrayCreators[ lwKey ] = &CreateArrary< T >;
             cm_mutexArr.unlock();
 
             cout << cm_objectCreators.size() << endl;
@@ -63,12 +64,13 @@ namespace Json {
         }
         
         template< class T >
-        static void UnRegister(string &&key) {
+        static void UnRegister(const string &key) {
             static_assert(std::is_base_of< Serializable, T >::value, "T must be derived from Serializable");
-            Common::StringUtility::ToLower(key);
+            std::string lwKey = key;
+            Common::StringUtility::ToLower(lwKey);
             
             cm_mutex.lock();
-            auto itrObj = cm_objectCreators.find(key);
+            auto itrObj = cm_objectCreators.find(lwKey);
             if (itrObj != cm_objectCreators.end()) {
                 cm_objectCreators.erase(itrObj);
             }
@@ -76,7 +78,7 @@ namespace Json {
 
             
             cm_mutexArr.lock();
-            auto itrArr = cm_objectArrayCreators.find(std::move(key));
+            auto itrArr = cm_objectArrayCreators.find(lwKey);
             if (itrArr != cm_objectArrayCreators.end()) {
                 cm_objectArrayCreators.erase(itrArr);
             }
@@ -119,8 +121,8 @@ namespace Json {
     class ClassRegistrar {
     public:
 
-        ClassRegistrar(string &&key) {
-            SOFactory::Register< T >( std::move(key) );
+        ClassRegistrar(const string &key) {
+            SOFactory::Register< T >(key);
         }
 
     protected:

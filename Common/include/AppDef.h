@@ -41,15 +41,22 @@
 
 #define UNUSED(x) ((void)(x))
 
+// 10 minutes
+#define DEFAULT_SESSION_TIME_OUT (10 * 60 * 60)
+
+
+
 #define NON_COPY_NON_MOVE_ABLE(TYPE) \
         TYPE(TYPE&) = delete; \
         TYPE& operator=(TYPE&) = delete; \
         TYPE(TYPE&&) = delete; \
         TYPE& operator=(TYPE&&) = delete;
 
+
 #define MAKE_STATIC(TYPE) \
     TYPE() = delete; \
     ~TYPE() = delete;
+
 
 #define COPY_ABLE_MOVE_ABLE(TYPE) \
         TYPE(const TYPE &orig) { \
@@ -77,6 +84,7 @@
         void CopyFrom(TYPE &&orig); \
         void CopyFrom(const std::shared_ptr<TYPE> &orig);
  
+
 #define SERIALIZEABLE(TYPE) \
     TYPE() = default; \
     COPY_ABLE_MOVE_ABLE(TYPE) \

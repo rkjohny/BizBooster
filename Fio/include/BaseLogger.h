@@ -50,9 +50,9 @@ public:
 
     void SetLogLevel(int level);
 
-    void AddStream(const string &&key, OStream *ostram);
+    void AddStream(const string &key, OStream *ostram);
 
-    void RemoveStream(const string &&key);
+    void RemoveStream(const string &key);
 
     void Debug(const string &&prefix, const string &&message);
     void Info(const string &&prefix, const string &&message);

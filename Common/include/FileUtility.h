@@ -27,7 +27,7 @@ namespace Common {
 
     public:
         static void SplitPath(vector< string >& listName, const string& absulateFileName);
-        static string GetNameWithoutType(const string&& absulateFileName);
+        static string GetNameWithoutType(const string &absulateFileName);
     };
 
 } /* namespace Common */

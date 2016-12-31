@@ -10,37 +10,11 @@
  * magnetic storage, computer print-out or visual display.
  */
 
-#ifndef ENTITY_STATUS_H
-#define ENTITY_STATUS_H
 
-#include <string>
-#include "AppDef.h"
+#include "Thread.h"
 
-
-#define STATUS_V_STR  "V"
-#define STATUS_D_STR  "D"
+namespace Common {
 
 
-namespace Dal {
-
-enum Status
-{
-    V = 0, //valid
-    D  //deleted
-};
-
-    
-class StatusUtils {
-private:
-    MAKE_STATIC(StatusUtils);
-    
-public:
-    
-    static std::string ToStr(const Status &status);
-    
-    static Status ToStatus(const std::string &status);
-    
-};
 
 }
-#endif //ENTITY_STATUS_H

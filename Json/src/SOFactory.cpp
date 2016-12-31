@@ -18,16 +18,17 @@ mutex SOFactory::cm_mutexArr;
 SOFactory::ListCreatorsArr SOFactory::cm_objectArrayCreators;
 
 
-std::shared_ptr<Serializable> SOFactory::CreateObject(string &&key)
+std::shared_ptr<Serializable> SOFactory::CreateObject(const string &key)
 {
     std::shared_ptr<Serializable> p = nullptr;
-    Common::StringUtility::ToLower(key);
+    std::string lwKey = key;
+    Common::StringUtility::ToLower(lwKey);
 
     cout << cm_objectCreators.size() << endl;
     cout << cm_objectArrayCreators.size() << endl;
 
     cm_mutex.lock();
-    ListCreators::iterator itr = cm_objectCreators.find(std::move(key));
+    ListCreators::iterator itr = cm_objectCreators.find(lwKey);
     if (itr != cm_objectCreators.end()) {
         p = std::move( itr->second() );
     }
@@ -37,13 +38,14 @@ std::shared_ptr<Serializable> SOFactory::CreateObject(string &&key)
 }
 
 
-std::vector< std::shared_ptr<Serializable>> SOFactory::CreateObjectArray(string &&key, const size_t size)
+std::vector< std::shared_ptr<Serializable>> SOFactory::CreateObjectArray(const string &key, const size_t size)
 {
     std::vector< std::shared_ptr<Serializable>> v;
-    Common::StringUtility::ToLower(key);
+    std::string lwKey = key;
+    Common::StringUtility::ToLower(lwKey);
 
     cm_mutexArr.lock();
-    ListCreatorsArr::iterator itr = cm_objectArrayCreators.find(std::move(key));
+    ListCreatorsArr::iterator itr = cm_objectArrayCreators.find(lwKey);
     if (itr != cm_objectArrayCreators.end()) {
         v =  std::move( itr->second(size) );
     }
