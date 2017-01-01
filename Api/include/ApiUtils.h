@@ -30,7 +30,7 @@ public:
 
     static web::json::value UnknownErrorResponse();
 
-    static web::json::value InternalServerErrorResponse();
+    static web::json::value InternalServerErrorResponse();    
 };
 
 

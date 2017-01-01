@@ -91,4 +91,7 @@
     std::string ToString() const override; \
     std::string Name() const override;
 
+#define API_HELPER(TYPE) \
+    NON_COPY_NON_MOVE_ABLE(TYPE)
+
 #endif //APP_CONGIF_H

@@ -15,6 +15,7 @@
 #include "LogInInput.h"
 #include "LogInOutput.h"
 #include "LogInHelper.h"
+#include "LoggedInHelper.h"
 
 
 namespace Api {
@@ -28,6 +29,12 @@ std::shared_ptr<BaseOutput> ServiceFacade::RegisterUser(Dal::Requester *requeste
 std::shared_ptr<BaseOutput> ServiceFacade::LogIn(Dal::Requester *requester, LogInInput *input, LogInOutput *output)
 {
     LogInHelper &&helper = LogInHelper(requester, input, output);
+    return helper.Execute();
+}
+
+std::shared_ptr<BaseOutput> UserLoggedIn(Dal::Requester *requester, LoggedInInput *input, LoggedInOutput *output = nullptr)
+{
+    LoggedInHelper helper(requester, input, output);
     return helper.Execute();
 }
 

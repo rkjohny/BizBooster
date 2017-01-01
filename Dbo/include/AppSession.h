@@ -10,10 +10,11 @@
  * magnetic storage, computer print-out or visual display.
  */
 
-#ifndef SESSION_H
-#define SESSION_H
+#ifndef APP_SESSION_H
+#define APP_SESSION_H
 
 #include <ctime>
+#include <memory>
 #include "User.h"
 #include "AuthenticatedRequester.h"
 
@@ -21,15 +22,15 @@
 
 namespace Dal {
 
-class Session {
+class AppSession {
     friend class SessionManager;
 
 protected:
-    Session();
+    AppSession();
 
 public:
     bool IsExpired();
-    virtual~Session();
+    virtual~AppSession();
 
     std::weak_ptr<Dal::AuthenticatedRequester> GetRequester();
 
@@ -53,5 +54,5 @@ private:
 };
 
 }
-#endif /* SESSION_H */
+#endif /* APP_SESSION_H */
 

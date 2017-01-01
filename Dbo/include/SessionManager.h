@@ -13,9 +13,11 @@
 #ifndef SESSION_MANAGER_H
 #define SESSION_MANAGER_H
 
-#include "Session.h"
+#include "AppSession.h"
 #include "Thread.h"
+#include "AppSession.h"
 #include <mutex>
+#include <memory>
 
 namespace Dal {
 
@@ -35,9 +37,9 @@ public:
     
     static bool SetPinned(const std::string &token, volatile bool pinned);
     
-    static std::weak_ptr<Session> GetSession(const std::string &token);
+    static std::weak_ptr<Dal::AppSession> GetSession(const std::string &token);
     
-    static std::weak_ptr<AuthenticatedRequester> GetRequetser(const std::string &token);
+    static std::weak_ptr<Dal::AuthenticatedRequester> GetRequetser(const std::string &token);
     
     static void StartCleanUpThread();
     
@@ -47,7 +49,7 @@ private:
     MAKE_STATIC(SessionManager);
     
     static std::mutex m_mutex;
-    static std::map<std::string, std::shared_ptr<Session>> m_sessions;
+    static std::map<std::string, std::shared_ptr<Dal::AppSession>> m_sessions;
     
     static volatile bool m_started;
     static SessionManager::Thread m_thread;

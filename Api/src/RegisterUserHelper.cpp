@@ -34,6 +34,11 @@ void RegisterUserHelper::InitAndValidate()
 
 void RegisterUserHelper::CheckPermission()
 {
+    if (!(m_requester->HasRole(Role::ROLE_CREATE_SUPER_USER) || 
+            m_requester->HasRole(Role::ROLE_INTERNAL_ROOT_USER) ||
+            m_requester->HasRole(Role::ROLE_SYSTEM_ADMIN))) {
+        throw Common::AppException(AppErrorCode::INSIFFICIENT_PRIVILEGE, "Insufficient privilege");
+    }
 }
 
 void RegisterUserHelper::ExecuteHelper()

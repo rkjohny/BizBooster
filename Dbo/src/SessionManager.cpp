@@ -17,7 +17,7 @@
 namespace Dal {
 
 std::mutex SessionManager::m_mutex;
-std::map<std::string, std::shared_ptr<Session>> SessionManager::m_sessions;
+std::map<std::string, std::shared_ptr<AppSession>> SessionManager::m_sessions;
 volatile bool SessionManager::m_started = false;
 SessionManager::Thread SessionManager::m_thread(&SessionManager::Cleanup);
 
@@ -41,7 +41,7 @@ void SessionManager::AddSession(const std::string &token, const Dal::User &user)
 
     m_mutex.lock();
 
-    std::shared_ptr<Session> session = std::shared_ptr<Session>(new Session());
+    std::shared_ptr<Dal::AppSession> session = std::shared_ptr<Dal::AppSession>(new AppSession());
     session->SetUser(user);
 
     auto itr = m_sessions.find(token);
@@ -65,7 +65,7 @@ void SessionManager::AddSession(const std::string &token, const Dal::User &user,
     
     m_mutex.lock();
 
-    std::shared_ptr<Session> session = std::shared_ptr<Session>(new Session());
+    std::shared_ptr<Dal::AppSession> session = std::shared_ptr<Dal::AppSession>(new AppSession());
     session->SetUser(user);
     session->ResetExpiration(expiresMsc);
 
@@ -129,9 +129,9 @@ bool SessionManager::SetPinned(const std::string &token, volatile bool pinned)
     return ret;
 }
 
-std::weak_ptr<Session> SessionManager::GetSession(const std::string &token)
+std::weak_ptr<Dal::AppSession> SessionManager::GetSession(const std::string &token)
 {
-    std::weak_ptr<Session> session;
+    std::weak_ptr<Dal::AppSession> session;
     
     m_mutex.lock();
     auto itr = m_sessions.find(token);
@@ -144,9 +144,9 @@ std::weak_ptr<Session> SessionManager::GetSession(const std::string &token)
     return session;
 }
 
-std::weak_ptr<AuthenticatedRequester> SessionManager::GetRequetser(const std::string &token)
+std::weak_ptr<Dal::AuthenticatedRequester> SessionManager::GetRequetser(const std::string &token)
 {
-    std::weak_ptr<AuthenticatedRequester> requester;
+    std::weak_ptr<Dal::AuthenticatedRequester> requester;
 
     m_mutex.lock();
     auto itr = m_sessions.find(token);

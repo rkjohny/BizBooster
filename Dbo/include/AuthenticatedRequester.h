@@ -18,7 +18,7 @@
 namespace Dal {
 
 class AuthenticatedRequester : public Requester {
-    friend class Session;
+    friend class AppSession;
 private:
     NON_COPY_NON_MOVE_ABLE(AuthenticatedRequester);
 

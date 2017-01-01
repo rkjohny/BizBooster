@@ -25,7 +25,9 @@ namespace Dal {
 
 enum Role {
     ROLE_CREATE_SUPER_USER,
-    ROLE_INTERNAL_ROOT_USER
+    ROLE_INTERNAL_ROOT_USER,
+    ROLE_SYSTEM_ADMIN,
+    ROLE_PROJECT_MANAGER
 };
     
 class RoleUtils {

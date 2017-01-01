@@ -105,6 +105,8 @@ public:
     Wt::Dbo::ptr<AuthInfo> AddAuthInfo(Requester *requester, AuthInfo *authInfo) override;
     
     Wt::Dbo::ptr<AuthInfo::AuthIdentityType> AddIdentity(Requester *requester, AuthInfo::AuthIdentityType *identity) override;
+
+    Wt::Dbo::ptr<User> GetUser(Requester *requester, uint64_t id) override;
 };
 }
 

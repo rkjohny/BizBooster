@@ -29,7 +29,11 @@ enum Status
     D  //deleted
 };
 
-    
+struct StatusStr
+{
+    static constexpr char *VSTR = "V";
+};
+
 class StatusUtils {
 private:
     MAKE_STATIC(StatusUtils);

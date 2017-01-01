@@ -17,6 +17,8 @@
 #include "RegisterUserInput.h"
 #include "LogInOutput.h"
 #include "LogInInput.h"
+#include "LoggedInInput.h"
+#include "LoggedInOutput.h"
 
 namespace Api {
 
@@ -27,6 +29,8 @@ public:
     static std::shared_ptr<BaseOutput> RegisterUser(Dal::Requester *requester, RegisterUserInput *input, RegisterUserOutput *output = nullptr);
     
     static std::shared_ptr<BaseOutput> LogIn(Dal::Requester *requester, LogInInput *input, LogInOutput *output = nullptr);
+
+    static std::shared_ptr<BaseOutput> UserLoggedIn(Dal::Requester *requester, LoggedInInput *input, LoggedInOutput *output = nullptr);
 
 private:
     MAKE_STATIC(ServiceFacade);
