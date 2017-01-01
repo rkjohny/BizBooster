@@ -23,6 +23,7 @@
 #include "AppException.h"
 #include "Requester.h"
 #include "InternalRootRequester.h"
+#include "DboDef.h"
 
 namespace Dal {
 
@@ -32,13 +33,15 @@ void DMUpgrade_1::Execute()
     std::string superUserName = "admin";
     std::string superUserEmail = "admin@nilavo.com";
     std::string superUserPassword = "admin";
-    std::string superUserIdentityProvider = "loginname";
+    std::string superUserIdentityProvider = DEFAULT_LOG_IN_PROVIDER;
     std::string superUserIdentity = "admin";
 
     User *user = nullptr;
     Dal::AuthInfo *authInfo = nullptr;
     Dal::AuthInfo::AuthIdentityType *identity = nullptr;
 
+    auto dao = Dal::GetDao();
+    
     try {
         //Creating super user;
         user = new User();
@@ -47,10 +50,10 @@ void DMUpgrade_1::Execute()
         user->SetStatus(Status::V);
 
         Requester *requester = InternalRootRequester::GetInstance();
-        Wt::Dbo::ptr<User> userAdded = Dal::GetDao()->RegisterUser(requester, user);
+        Wt::Dbo::ptr<User> userAdded = dao->RegisterUser(requester, user);
 
         if (userAdded) {
-            authInfo = new AuthInfo();
+            authInfo = new Dal::AuthInfo();
 
             authInfo->setEmail(superUserEmail);
             authInfo->setUnverifiedEmail(superUserEmail);
@@ -69,10 +72,10 @@ void DMUpgrade_1::Execute()
 
             authInfo->setUser(userAdded);
 
-            Wt::Dbo::ptr<AuthInfo> authInfoAdded = Dal::GetDao()->AddAuthInfo(requester, authInfo);
+            Wt::Dbo::ptr<AuthInfo> authInfoAdded = dao->AddAuthInfo(requester, authInfo);
 
             if (authInfoAdded) {
-                identity = new AuthInfo::AuthIdentityType(superUserIdentityProvider, superUserIdentity);
+                identity = new Dal::AuthIdentity(superUserIdentityProvider, superUserIdentity);
 
                 authInfoAdded.modify()->authIdentities().insert(identity);
 

@@ -57,5 +57,21 @@ void DateTimeUtils::AddToCurrentDateTime(Wt::WDateTime &dt, int day)
     dt.setTime_t(next);
 }
 
+Wt::WDateTime DateTimeUtils::Now()
+{
+    Wt::WDateTime now;
+    std::time_t curTime = std::time(nullptr);
+    now.setTime_t(curTime);
+    return now;
+}
+
+Wt::WDateTime DateTimeUtils::AfterMSec(uint64_t msec)
+{
+    Wt::WDateTime now;
+    std::time_t curTime = std::time(nullptr);
+    curTime += msec;
+    now.setTime_t(curTime);
+    return now;
+}
 
 } /* namespace Common */

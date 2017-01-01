@@ -134,17 +134,17 @@ bool OsslHwRandGenerator::DoGetRandomBytes(uint8_t *buffer, int length)
 
 bool OsslHwRandGenerator::GetRandomBytes(std::vector<uint8_t> &bytes, int length)
 {
-    uint8_t *buffer = new uint8_t[length];
+    uint8_t *buffer = new uint8_t[length/2];
 
     m_mutex.lock();
     
     bool ret = Initialize();
     if (ret) {
-        ret = DoGetRandomBytes(buffer, length);
+        ret = DoGetRandomBytes(buffer, length/2);
     }
 
     if (ret) {
-        for (int i = 0; i < length; i++) {
+        for (int i = 0; i < length/2; i++) {
             bytes.push_back(buffer[i]);
         }
     }
@@ -158,18 +158,18 @@ bool OsslHwRandGenerator::GetRandomBytes(std::vector<uint8_t> &bytes, int length
 
 bool OsslHwRandGenerator::GetRandomBytes(std::string &bytes, int length)
 {
-    uint8_t *buffer = new uint8_t[length];
+    uint8_t *buffer = new uint8_t[length/2];
 
     m_mutex.lock();
     
     bool ret = Initialize();
     if (ret) {
-        ret = DoGetRandomBytes(buffer, length);
+        ret = DoGetRandomBytes(buffer, length/2);
     }
 
     if (ret) {
-        for (int i = 0; i < length; i++) {
-            bytes = Common::Converter::ToHexStr(buffer, length);
+        for (int i = 0; i < length/2; i++) {
+            bytes = Common::Converter::ToHexStr(buffer, length/2);
         }
     }
     Dispose();

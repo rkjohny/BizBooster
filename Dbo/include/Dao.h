@@ -48,7 +48,8 @@ public:
 
     virtual Wt::Dbo::ptr<User> RegisterUser(Requester *requester, User *user) = 0;
 
-    virtual Wt::Dbo::ptr<User> GetUser(Requester *requester, std::string email) = 0;
+    virtual Wt::Dbo::ptr<User> GetUser(Requester *requester, const std::string &provider, const std::string &identity) = 0;
+    virtual Wt::Dbo::ptr<User> GetUser(Requester *requester, const std::string &identity) = 0;
 
     virtual Wt::Dbo::ptr<AuthInfo> AddAuthInfo(Requester *requester, AuthInfo *authInfo) = 0;
     

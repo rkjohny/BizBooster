@@ -25,9 +25,8 @@
 #include <Wt/Dbo/Impl>
 #include <Wt/Auth/Dbo/AuthInfo>
 
-namespace Dal {
-class User;
-}
+#include "DboTypes.h"
+
 
 #if 0
 namespace Wt {
@@ -50,6 +49,7 @@ struct dbo_traits<Dal::User> : public dbo_default_traits {
 namespace Dal {
 
 typedef Wt::Auth::Dbo::AuthInfo<Dal::User> AuthInfo;
+typedef Wt::Auth::Dbo::AuthToken<Dal::AuthInfo> AuthToken;
 
 class User : public SerializableSimpleEntity<User> {
 private:

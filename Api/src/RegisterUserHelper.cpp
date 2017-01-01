@@ -35,7 +35,6 @@ void RegisterUserHelper::InitAndValidate()
 void RegisterUserHelper::CheckPermission()
 {
     if (!(m_requester->HasRole(Role::ROLE_CREATE_SUPER_USER) || 
-            m_requester->HasRole(Role::ROLE_INTERNAL_ROOT_USER) ||
             m_requester->HasRole(Role::ROLE_SYSTEM_ADMIN))) {
         throw Common::AppException(AppErrorCode::INSIFFICIENT_PRIVILEGE, "Insufficient privilege");
     }
@@ -48,7 +47,8 @@ void RegisterUserHelper::ExecuteHelper()
     User *user = nullptr;
     Dal::AuthInfo *authInfo = nullptr;
     Dal::AuthInfo::AuthIdentityType *identity = nullptr;
-
+    auto dao = Dal::GetDao();
+    
     LOG_DEBUG("Registering new user.");
 
     try {
@@ -58,7 +58,7 @@ void RegisterUserHelper::ExecuteHelper()
         user->SetVersion(m_input->GetVersion());
         user->SetStatusStr(m_input->GetStatus());
 
-        Wt::Dbo::ptr<User> userAdded = Dal::GetDao()->RegisterUser(m_requester, user);
+        Wt::Dbo::ptr<User> userAdded = dao->RegisterUser(m_requester, user);
 
         if (userAdded) {
             authInfo = new Dal::AuthInfo();
@@ -80,11 +80,11 @@ void RegisterUserHelper::ExecuteHelper()
 
             authInfo->setUser(userAdded);
 
-            Wt::Dbo::ptr<AuthInfo> authInfoAdded = Dal::GetDao()->AddAuthInfo(m_requester, authInfo);
+            Wt::Dbo::ptr<AuthInfo> authInfoAdded = dao->AddAuthInfo(m_requester, authInfo);
 
             if (authInfoAdded) {
                 //TODO: hard coded identity provider
-                identity = new Dal::AuthInfo::AuthIdentityType("loginname", m_input->GetEmail());
+                identity = new Dal::AuthIdentity(DEFAULT_LOG_IN_PROVIDER, m_input->GetEmail());
 
                 authInfoAdded.modify()->authIdentities().insert(identity);
 

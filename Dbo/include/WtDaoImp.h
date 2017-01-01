@@ -45,7 +45,7 @@ public:
     virtual ~WtDaoImp();
 
     void Dispose() override;
-    
+
     template<class C>
     typename std::enable_if<(std::is_base_of<Dal::AuditableEntity, C>::value == true ||
             std::is_base_of<Dal::User, C>::value == true), void >::type
@@ -57,7 +57,7 @@ public:
         Wt::WDateTime wDateTime;
         wDateTime.setTime_t(curTime);
 
-        if(entity->GetDateCreated().isNull() || !entity->GetCreatedBy()) {
+        if (entity->GetDateCreated().isNull() || !entity->GetCreatedBy()) {
             entity->SetDateCreated(wDateTime);
             //TODO: this should be requester.getUser(),
             //entity->SetCreatedBy(Wt::Dbo::ptr<C>(entity));
@@ -100,10 +100,11 @@ public:
 
     Wt::Dbo::ptr<User> RegisterUser(Requester *requester, User *newUser) override;
 
-    Wt::Dbo::ptr<User> GetUser(Requester *requester, std::string email) override;
+    Wt::Dbo::ptr<User> GetUser(Requester *requester, const std::string &provider, const std::string &identity) override;
+    Wt::Dbo::ptr<User> GetUser(Requester *requester, const std::string &identity) override;
 
     Wt::Dbo::ptr<AuthInfo> AddAuthInfo(Requester *requester, AuthInfo *authInfo) override;
-    
+
     Wt::Dbo::ptr<AuthInfo::AuthIdentityType> AddIdentity(Requester *requester, AuthInfo::AuthIdentityType *identity) override;
 
     Wt::Dbo::ptr<User> GetUser(Requester *requester, int64_t id) override;

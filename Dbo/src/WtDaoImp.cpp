@@ -118,7 +118,7 @@ Wt::Dbo::ptr<User> WtDaoImp::RegisterUser(Requester *requester, User *user)
     return this->AddEnitity(requester, user);
 }
 
-Wt::Dbo::ptr<User> WtDaoImp::GetUser(Requester *requester, std::string email)
+Wt::Dbo::ptr<User> WtDaoImp::GetUser(Requester *requester, const std::string &provider, const std::string &identity)
 {
     typedef Wt::Dbo::ptr<Dal::User> PUser;
     typedef Wt::Dbo::Query<PUser> QUsers;
@@ -126,13 +126,12 @@ Wt::Dbo::ptr<User> WtDaoImp::GetUser(Requester *requester, std::string email)
 
     PUser user;
     
-#if 0
-
+#if 1
     QUsers q = m_session.query<PUser>("select U from \"t_user\" U "
             "join \"t_auth_info\" A on U.id = A.user_id "
             "join \"t_auth_identity\" I on A.id = I.auth_info_id")
             .where("I.provider= ? and I.identity = ? and U.status = ?")
-            .bind("loginname").bind(email).bind("V");
+            .bind(provider).bind(identity).bind("V");
 
     Users users = q.resultList();
     
@@ -140,6 +139,11 @@ Wt::Dbo::ptr<User> WtDaoImp::GetUser(Requester *requester, std::string email)
 #endif
     
     return user;
+}
+
+Wt::Dbo::ptr<User> WtDaoImp::GetUser(Requester *requester, const std::string &identity)
+{
+    return GetUser(requester, DEFAULT_LOG_IN_PROVIDER, identity);
 }
 
 Wt::Dbo::ptr<AuthInfo> WtDaoImp::AddAuthInfo(Requester *requester, AuthInfo *authInfo)

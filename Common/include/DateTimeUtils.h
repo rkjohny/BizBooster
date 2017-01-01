@@ -30,6 +30,9 @@ namespace Common {
 
         static void GetCurrentDateTime(Wt::WDateTime &dt);
         static void AddToCurrentDateTime(Wt::WDateTime &dt, int day);
+        
+        static Wt::WDateTime Now();
+        static Wt::WDateTime AfterMSec(uint64_t msec);
     };
 
 } /* namespace Common */

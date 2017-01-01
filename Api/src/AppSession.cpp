@@ -13,7 +13,7 @@
 #include <map>
 
 #include "AppSession.h"
-#include "DboDef.h"
+#include "ApiDef.h"
 
 namespace Api {
 
@@ -22,7 +22,7 @@ AppSession::AppSession()
     std::time(&m_tmExpiresOn);
 
     // 30 minutes to expire
-    m_tmExpiresOn += DEFAULT_SESSION_TIME_OUT;
+    m_tmExpiresOn += DEFAULT_SESSION_TIME_OUT_IN_MSC;
 
     m_requester = std::shared_ptr<Dal::AuthenticatedRequester>(new Dal::AuthenticatedRequester());
 }
@@ -53,7 +53,7 @@ void AppSession::ResetExpiration()
 {
     std::time(&m_tmExpiresOn);
 
-    m_tmExpiresOn += DEFAULT_SESSION_TIME_OUT; 
+    m_tmExpiresOn += DEFAULT_SESSION_TIME_OUT_IN_MSC; 
 }
 
 void AppSession::ResetExpiration(uint64_t msec)

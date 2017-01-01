@@ -11,14 +11,21 @@
  */
 
 
-#ifndef APIDEF_H
-#define APIDEF_H
+#ifndef DBO_TYPES_H
+#define DBO_TYPES_H
 
-// 30 seconds
-#define MAX_SESSION_MANAGER_THREAD_SLEEP_IN_SEC 30
+namespace Dal {
 
-// 10 minutes
-#define DEFAULT_SESSION_TIME_OUT_IN_MSC (2 * 60 * 60)
+class User;
 
-#endif /* APIDEF_H */
+typedef Wt::Auth::Dbo::AuthInfo<Dal::User> AuthInfo;
+typedef Wt::Auth::Dbo::AuthToken<Dal::AuthInfo> AuthToken;
+typedef Wt::Auth::Dbo::AuthIdentity< Dal::AuthInfo > AuthIdentity;
+
+typedef Wt::Dbo::collection<Dal::AuthToken> AuthTokens;
+typedef Wt::Dbo::collection<Dal::AuthIdentity> AuthIdentities;
+
+}
+
+#endif /* DBOTYPES_H */
 

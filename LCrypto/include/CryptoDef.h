@@ -22,11 +22,16 @@
 #define PASSWORD_HASH_LENGTH 100  
 
 //column size == 20
-#define PASSWORD_SALT_LENGTH 10
+#define PASSWORD_SALT_LENGTH 20
 
 //column size = 64
-#define EMAIL_TOKEN_LENGTH 32
+#define EMAIL_TOKEN_LENGTH 64
 
+//column size = 64
+#define AUTH_TOKEN_LENGTH 32
+
+#define HASH_METHOD_SHA1 "sha1"
+#define HASH_METHOD_BCRYPT "bcrypt"
 
 #endif /* LIB_CRYPTO_DEF_H */
 

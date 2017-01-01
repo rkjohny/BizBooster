@@ -11,7 +11,7 @@
  */
 
 #include "AppSessionManager.h"
-#include "DboDef.h"
+#include "ApiDef.h"
 
 
 namespace Api {
@@ -106,7 +106,7 @@ bool AppSessionManager::ResetExpiration(const std::string &token)
     m_mutex.lock();
     auto itr = m_sessions.find(token);
     if (itr != m_sessions.end()) {
-        itr->second->ResetExpiration(DEFAULT_SESSION_TIME_OUT);
+        itr->second->ResetExpiration(DEFAULT_SESSION_TIME_OUT_IN_MSC);
         ret = true;
     }
     m_mutex.unlock();

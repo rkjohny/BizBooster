@@ -16,7 +16,7 @@
 #include "ApiHelper.h"
 #include "LogInInput.h"
 #include "LogInOutput.h"
-
+#include "User.h"
 
 namespace Api {
 
@@ -24,6 +24,9 @@ class LogInHelper : public ApiHelper<LogInInput, LogInOutput> {
 private:
     NON_COPY_NON_MOVE_ABLE(LogInHelper);
 
+    Wt::Dbo::ptr<Dal::User> m_user;
+    Wt::Dbo::weak_ptr<Dal::AuthInfo> m_authInfo; 
+    
 public:
 
     LogInHelper(Dal::Requester *requester, LogInInput *input, LogInOutput *output = nullptr) :
@@ -32,9 +35,6 @@ public:
     }
 
     ~LogInHelper() = default;
-
-    void SetInput(LogInInput *in);
-    void SetInput(LogInInput &in);
 
     void InitAndValidate() override;
 

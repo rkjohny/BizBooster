@@ -34,11 +34,7 @@
 #define COLUMN_LAST_UPDATED_BY "last_updated_by"
 
 
-// 30 seconds
-#define MAX_SESSION_MANAGER_THREAD_SLEEP_IN_SEC 30
-
-// 10 minutes
-#define DEFAULT_SESSION_TIME_OUT (10 * 60 * 60)
+#define DEFAULT_LOG_IN_PROVIDER "loginname"
 
 
 #endif
