@@ -165,8 +165,8 @@ public:
 
         Wt::Dbo::hasOne(a, m_authInfo, "user");
 
-        //Wt::Dbo::belongsTo(a, m_createdBy, "created_by");
-        //Wt::Dbo::belongsTo(a, m_lastUpdatedBy, "last_updated_by");
+        Wt::Dbo::belongsTo(a, m_createdBy, "created_by");
+        Wt::Dbo::belongsTo(a, m_lastUpdatedBy, "last_updated_by");
     }
 };
 

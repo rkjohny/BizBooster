@@ -47,13 +47,31 @@ public:
     const std::string& GetStatus() const;
     void SetStatus(const std::string &status);
 
+    
+    const std::string& GetConfirmPassword() const;
+
+    void SetConfirmPassword(const std::string& confirmPassword);
+
+    bool IsUseFaceBookAuth() const;
+
+    void SetUseFaceBookAuth(bool useFaceBookAuth);
+
+    bool IsUseGoogleAuth() const;
+
+    void SetUseGoogleAuth(bool useGoogleAuth);
+
+    
+    
     REGISTER_GETTER_INCLUDING_BASE_START(ApiInput<RegisterUserInput>)
     GETTER(RegisterUserInput, const std::string&, "email", &RegisterUserInput::GetEmail),
     GETTER(RegisterUserInput, const std::string&, "name", &RegisterUserInput::GetName),
     GETTER(RegisterUserInput, const std::string&, "roles", &RegisterUserInput::GetRoles),
     GETTER(RegisterUserInput, const std::string&, "password", &RegisterUserInput::GetPassword),
+    GETTER(RegisterUserInput, const std::string&, "confirm_password", &RegisterUserInput::GetConfirmPassword),
     GETTER(RegisterUserInput, const std::string&, "status", &RegisterUserInput::GetStatus),
-    GETTER(RegisterUserInput, int, "version", &RegisterUserInput::GetVersion)
+    GETTER(RegisterUserInput, int, "version", &RegisterUserInput::GetVersion),
+    GETTER(RegisterUserInput, bool, "use_google_auth", &RegisterUserInput::IsUseGoogleAuth),
+    GETTER(RegisterUserInput, bool, "use_facebook_auth", &RegisterUserInput::IsUseFaceBookAuth)
     REGISTER_GETTER_INCLUDING_BASE_END
 
     REGISTER_SETTER_INCLUDING_BASE_START(ApiInput<RegisterUserInput>)
@@ -61,8 +79,11 @@ public:
     SETTER(RegisterUserInput, const std::string&, "name", &RegisterUserInput::SetName),
     SETTER(RegisterUserInput, const std::string&, "roles", &RegisterUserInput::SetRoles),
     SETTER(RegisterUserInput, const std::string&, "password", &RegisterUserInput::SetPassword),
+    SETTER(RegisterUserInput, const std::string&, "password", &RegisterUserInput::SetConfirmPassword),
     SETTER(RegisterUserInput, const std::string&, "status", &RegisterUserInput::SetStatus),
-    SETTER(RegisterUserInput, const int&, "version", &RegisterUserInput::SetVersion)
+    SETTER(RegisterUserInput, const int&, "version", &RegisterUserInput::SetVersion),
+    SETTER(RegisterUserInput, bool, "use_google_auth", &RegisterUserInput::SetUseGoogleAuth),
+    SETTER(RegisterUserInput, bool, "use_facebook_auth", &RegisterUserInput::SetUseFaceBookAuth)
     REGISTER_SETTER_INCLUDING_BASE_END
 
     //REGISTER_CLASS_DEF(RegisterUserInput, "register_user", 0)
@@ -73,8 +94,13 @@ private:
     std::string m_name;
     std::string m_roles;
     std::string m_password;
+    std::string m_confirmPassword;
     int m_version;
     std::string m_status;
+    
+    
+    bool m_useGoogleAuth;
+    bool m_useFaceBookAuth;
 };
 
 } /* namespace Api */

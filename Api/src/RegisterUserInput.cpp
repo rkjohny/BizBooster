@@ -120,5 +120,35 @@ void RegisterUserInput::SetStatus(const std::string &status)
     m_status = status;
 }
 
+const std::string& RegisterUserInput::GetConfirmPassword() const
+{
+    return m_confirmPassword;
+}
+
+void RegisterUserInput::SetConfirmPassword(const std::string& confirmPassword)
+{
+    m_confirmPassword = confirmPassword;
+}
+
+bool RegisterUserInput::IsUseFaceBookAuth() const
+{
+    return m_useFaceBookAuth;
+}
+
+void RegisterUserInput::SetUseFaceBookAuth(bool useFaceBookAuth)
+{
+    m_useFaceBookAuth = useFaceBookAuth;
+}
+
+bool RegisterUserInput::IsUseGoogleAuth() const
+{
+    return m_useGoogleAuth;
+}
+
+void RegisterUserInput::SetUseGoogleAuth(bool useGoogleAuth)
+{
+    m_useGoogleAuth = useGoogleAuth;
+}
+
 } /* namespace Api */
 
