@@ -29,12 +29,12 @@ void RegisterUserOutput::CopyFrom(const std::shared_ptr<RegisterUserOutput>& ori
     m_user.copyFrom(orig->GetUser());
 }
 
-std::string RegisterUserOutput::Name()
+std::string RegisterUserOutput::Name() const
 {
     return "RegisterUserOutput";
 }
 
-std::string RegisterUserOutput::ToString()
+std::string RegisterUserOutput::ToString() const
 {
     return "RegisterUserOutput";
 }

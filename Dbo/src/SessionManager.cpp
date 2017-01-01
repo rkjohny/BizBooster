@@ -11,15 +11,13 @@
  */
 
 #include "SessionManager.h"
+#include "DboDef.h"
 
-
-#define MAX_SESSION_MANAGER_THREAD_SLEEP_IN_SEC 30
 
 namespace Dal {
 
-
 std::mutex SessionManager::m_mutex;
-std::map<std::string, Session*> SessionManager::m_sessions;
+std::map<std::string, std::shared_ptr<Session>> SessionManager::m_sessions;
 volatile bool SessionManager::m_started = false;
 SessionManager::Thread SessionManager::m_thread(&SessionManager::Cleanup);
 
@@ -30,7 +28,7 @@ bool SessionManager::IsValidToken(const std::string &token)
     m_mutex.lock();
     auto itr = m_sessions.find(token);
     if (itr != m_sessions.end()) {
-        ret = itr->second->IsExpired();
+        ret = !itr->second->IsExpired();
     }
     m_mutex.unlock();
 
@@ -39,33 +37,49 @@ bool SessionManager::IsValidToken(const std::string &token)
 
 void SessionManager::AddSession(const std::string &token, const Dal::User &user)
 {
+    bool is_pinned = false;
+
     m_mutex.lock();
 
-    Session *session = new Session();
+    std::shared_ptr<Session> session = std::shared_ptr<Session>(new Session());
     session->SetUser(user);
 
     auto itr = m_sessions.find(token);
     if (itr != m_sessions.end()) {
-        delete itr->second;
+        //delete itr->second;
+        is_pinned = itr->second->IsPinned();
+        if (!is_pinned) {
+            m_sessions.erase(itr);
+        }
     }
-    m_sessions[token] = session;
+    if (!is_pinned) {
+        m_sessions[token] = session;
+    }
 
     m_mutex.unlock();
 }
 
 void SessionManager::AddSession(const std::string &token, const Dal::User &user, uint64_t expiresMsc)
 {
+    bool is_pinned = false;
+    
     m_mutex.lock();
 
-    Session *session = new Session();
+    std::shared_ptr<Session> session = std::shared_ptr<Session>(new Session());
     session->SetUser(user);
     session->ResetExpiration(expiresMsc);
 
     auto itr = m_sessions.find(token);
     if (itr != m_sessions.end()) {
-        delete itr->second;
+        //delete itr->second;
+        is_pinned = itr->second->IsPinned();
+        if (!is_pinned) {
+            m_sessions.erase(itr);
+        }
     }
-    m_sessions[token] = session;
+    if (!is_pinned) {
+        m_sessions[token] = session;
+    }
 
     m_mutex.unlock();
 }
@@ -115,13 +129,29 @@ bool SessionManager::SetPinned(const std::string &token, volatile bool pinned)
     return ret;
 }
 
-Requester* SessionManager::GetRequetser(const std::string &token)
+std::weak_ptr<Session> SessionManager::GetSession(const std::string &token)
 {
-    Requester *requester = nullptr;
+    std::weak_ptr<Session> session;
+    
+    m_mutex.lock();
+    auto itr = m_sessions.find(token);
+    if (itr != m_sessions.end()) {
+        //itr->second->SetPinned(true);
+        session = itr->second;
+    }
+    m_mutex.unlock();
+    
+    return session;
+}
+
+std::weak_ptr<AuthenticatedRequester> SessionManager::GetRequetser(const std::string &token)
+{
+    std::weak_ptr<AuthenticatedRequester> requester;
 
     m_mutex.lock();
     auto itr = m_sessions.find(token);
     if (itr != m_sessions.end()) {
+        //itr->second->SetPinned(true);
         requester = itr->second->GetRequester();
     }
     m_mutex.unlock();
@@ -146,7 +176,7 @@ void SessionManager::Cleanup()
                     }
                 }
                 if (itr != m_sessions.end()) {
-                    delete itr->second;
+                    //delete itr->second;
                     m_sessions.erase(itr);
                 } else {
                     break;
@@ -156,7 +186,6 @@ void SessionManager::Cleanup()
         }
         m_mutex.unlock();
 
-        //30 seconds
         sleep(MAX_SESSION_MANAGER_THREAD_SLEEP_IN_SEC);
     }
 }

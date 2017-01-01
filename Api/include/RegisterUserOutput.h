@@ -26,7 +26,7 @@ namespace Api {
 
     class RegisterUserOutput : public ApiOutput<RegisterUserOutput> {
     public:
-        SERIALIZEABLE(RegisterUserOutput);
+        API_INPUT_OUTPUT(RegisterUserOutput);
         
         ~RegisterUserOutput() = default;
 

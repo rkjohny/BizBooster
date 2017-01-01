@@ -25,8 +25,8 @@ public:
     BaseOutput();
     virtual ~BaseOutput();
 
-    virtual string ToString() = 0;
-    virtual string Name() = 0;
+    virtual string ToString() const = 0;
+    virtual string Name() const = 0;
 
     void SetError(const ApiError& error);
     ApiError GetError() const;

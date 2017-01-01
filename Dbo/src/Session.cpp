@@ -13,7 +13,7 @@
 #include <map>
 
 #include "Session.h"
-
+#include "DboDef.h"
 
 namespace Dal {
 
@@ -24,14 +24,12 @@ Session::Session()
     // 30 minutes to expire
     m_tmExpiresOn += DEFAULT_SESSION_TIME_OUT;
 
-    m_requester = new Dal::AuthenticatedRequester();
+    m_requester = std::shared_ptr<Dal::AuthenticatedRequester>(new Dal::AuthenticatedRequester());
 }
 
 Session::~Session()
 {
-    if (m_requester) {
-        delete m_requester;
-    }
+
 }
 
 bool Session::IsPinned() const
@@ -52,6 +50,13 @@ bool Session::IsExpired()
     return now >= m_tmExpiresOn;
 }
 
+void Session::ResetExpiration()
+{
+    std::time(&m_tmExpiresOn);
+
+    m_tmExpiresOn += DEFAULT_SESSION_TIME_OUT; 
+}
+
 void Session::ResetExpiration(uint64_t msec)
 {
     std::time(&m_tmExpiresOn);
@@ -59,7 +64,7 @@ void Session::ResetExpiration(uint64_t msec)
     m_tmExpiresOn += msec;
 }
 
-Dal::AuthenticatedRequester *Session::GetRequester()
+std::weak_ptr<Dal::AuthenticatedRequester> Session::GetRequester()
 {
     return m_requester;
 }

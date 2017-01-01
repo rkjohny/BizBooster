@@ -32,8 +32,8 @@ namespace Api {
 
         virtual std::shared_ptr<BaseOutput> Process(Dal::Requester *requester) = 0;
 
-        virtual string ToString() = 0;
-        virtual string Name() = 0;
+        virtual string ToString() const = 0;
+        virtual string Name() const = 0;
         
         REGISTER_GETTER_INCLUDING_BASE_START(Serializable)
         REGISTER_GETTER_INCLUDING_BASE_END

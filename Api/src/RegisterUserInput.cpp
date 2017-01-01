@@ -45,12 +45,12 @@ void RegisterUserInput::CopyFrom(const std::shared_ptr<RegisterUserInput> &orig)
     m_version = orig->GetVersion();
 }
 
-string RegisterUserInput::Name()
+string RegisterUserInput::Name() const
 {
     return "RegisterUserInput";
 }
 
-string RegisterUserInput::ToString()
+string RegisterUserInput::ToString() const
 {
     return "RegisterUserInput";
 }

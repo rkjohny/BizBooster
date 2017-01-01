@@ -23,7 +23,7 @@ namespace Api {
 
 class LogInInput : public ApiInput<LogInInput> {
 public:
-    SERIALIZEABLE(LogInInput);
+    API_INPUT_OUTPUT(LogInInput);
 
     ~LogInInput() = default;
 

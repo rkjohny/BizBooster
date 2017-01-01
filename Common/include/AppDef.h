@@ -41,10 +41,6 @@
 
 #define UNUSED(x) ((void)(x))
 
-// 10 minutes
-#define DEFAULT_SESSION_TIME_OUT (10 * 60 * 60)
-
-
 
 #define NON_COPY_NON_MOVE_ABLE(TYPE) \
         TYPE(TYPE&) = delete; \
@@ -88,7 +84,11 @@
 #define SERIALIZEABLE(TYPE) \
     TYPE() = default; \
     COPY_ABLE_MOVE_ABLE(TYPE) \
-    std::string ToString() override; \
-    std::string Name() override;
+
+#define API_INPUT_OUTPUT(TYPE) \
+    TYPE() = default; \
+    COPY_ABLE_MOVE_ABLE(TYPE) \
+    std::string ToString() const override; \
+    std::string Name() const override;
 
 #endif //APP_CONGIF_H

@@ -17,35 +17,56 @@
 #include "Json.h"
 #include "SerializableT.h"
 #include "AppError.h"
+#include "AppException.h"
+#include "AppDef.h"
+
 
 namespace Api {
-    using namespace std;
+using namespace std;
 
-    class ApiError : public Json::SerializableT<ApiError> {
-    public:
-        ApiError();
-        ApiError(AppErrorCode code, const std::string &message);
+class ApiError : public Json::SerializableT<ApiError> {
+public:
+    SERIALIZEABLE(ApiError);
+    
+    ApiError(AppErrorCode code, const std::string &message);
 
-        void SetCode(AppErrorCode code);
-        void SetMessage(const string& message);
-        AppErrorCode GetCode() const;
-        const string& GetMessage() const;
+    void SetCode(AppErrorCode code);
+    void SetMessage(const string& message);
+    void SetError(AppErrorCode code, const std::string &message);
+    void SetError(const ApiError &error);
+    void SetError(ApiError &&error);
 
-        REGISTER_GETTER_INCLUDING_BASE_START(Json::SerializableT<ApiError>)
-        GETTER(ApiError, AppErrorCode, "code", &ApiError::GetCode),
-        GETTER(ApiError, const string&, "message", &ApiError::GetMessage)
-        REGISTER_GETTER_INCLUDING_BASE_END
+    void SetError(Common::AppException &e);
+    void SetError(Common::AppException &&e);
+    ApiError& operator=(Common::AppException &e);
+    ApiError& operator=(Common::AppException &&e);
+
+    void SetError(std::exception &e);
+    void SetError(std::exception &&e);
+    ApiError& operator=(std::exception &e);
+    ApiError& operator=(std::exception &&e);
+
+    AppErrorCode GetCode() const;
+    const string& GetMessage() const;
+
+    web::json::value Serialize() const;
+    std::string ToString() const;
+
+    REGISTER_GETTER_INCLUDING_BASE_START(Json::SerializableT<ApiError>)
+    GETTER(ApiError, AppErrorCode, "code", &ApiError::GetCode),
+    GETTER(ApiError, const string&, "message", &ApiError::GetMessage)
+    REGISTER_GETTER_INCLUDING_BASE_END
 
 
-        REGISTER_SETTER_INCLUDING_BASE_START(Json::SerializableT<ApiError>)
-        SETTER(ApiError, AppErrorCode, "code", &ApiError::SetCode),
-        SETTER(ApiError, const string&, "message", &ApiError::SetMessage)
-        REGISTER_SETTER_INCLUDING_BASE_END
+    REGISTER_SETTER_INCLUDING_BASE_START(Json::SerializableT<ApiError>)
+    SETTER(ApiError, AppErrorCode, "code", &ApiError::SetCode),
+    SETTER(ApiError, const string&, "message", &ApiError::SetMessage)
+    REGISTER_SETTER_INCLUDING_BASE_END
 
-    private:
-        AppErrorCode m_code;
-        string m_message;
-    };
+private:
+    AppErrorCode m_code;
+    string m_message;
+};
 
 } /* namespace Api */
 

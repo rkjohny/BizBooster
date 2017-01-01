@@ -24,7 +24,7 @@ using namespace Json;
 
 class RegisterUserInput : public ApiInput<RegisterUserInput> {
 public:
-    SERIALIZEABLE(RegisterUserInput);
+    API_INPUT_OUTPUT(RegisterUserInput);
     ~RegisterUserInput() = default;
 
     std::shared_ptr<BaseOutput> Process(Dal::Requester *requester) override;

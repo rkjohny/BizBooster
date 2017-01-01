@@ -17,6 +17,7 @@
 
 namespace Common {
 
+
 AppException::AppException(const string& message) : runtime_error(message.c_str())
 {
     m_code = AppErrorCode::UN_KNOWN_ERROR;
@@ -48,16 +49,59 @@ runtime_error(e.what() ? e.what() : message.c_str())
     SetMessage(e, message);
 }
 
-AppException::~AppException()
-{
-}
-
 AppException& AppException::operator=(AppException& e)
 {
     m_code = e.GetCode();
     m_message = e.GetMessage();
     return *this;
 }
+
+
+////////////////////////////////
+AppException::AppException(const string &&message) : runtime_error(message.c_str())
+{
+    m_code = AppErrorCode::UN_KNOWN_ERROR;
+    m_message = std::move(message);
+}
+
+AppException::AppException(AppErrorCode code, const string &&message) : runtime_error(message.c_str())
+{
+    m_code = code;
+    m_message = std::move(message);
+}
+
+AppException::AppException(const AppException &&e) : runtime_error(e.GetMessage().c_str())
+{
+    m_code = std::move(e.GetCode());
+    m_message = std::move(e.GetMessage());
+}
+
+AppException::AppException(const exception &&e, const string &&message) : runtime_error(e.what() ? e.what() : message.c_str())
+{
+    m_code = AppErrorCode::UN_KNOWN_ERROR;
+    SetMessage(std::move(e), std::move(message));
+}
+
+AppException::AppException(const exception &&e, AppErrorCode code, const string &&message) :
+runtime_error(e.what() ? e.what() : message.c_str())
+{
+    m_code = std::move(code);
+    SetMessage(e, message);
+}
+
+AppException& AppException::operator=(AppException &&e)
+{
+    m_code = std::move(e.GetCode());
+    m_message = std::move(e.GetMessage());
+    return *this;
+}
+//////////////////////////
+
+
+AppException::~AppException()
+{
+}
+
 
 AppErrorCode AppException::GetCode() const
 {
@@ -97,6 +141,23 @@ void AppException::SetMessage(const exception& e, const string &message)
             m_message = e.what();
         } else {
             m_message = message;
+        }
+    }
+}
+
+void AppException::SetMessage(const exception &&e, const string &&message)
+{
+    if (message.compare("Unknown") != 0) {
+        if (e.what()) {
+            m_message = std::move(message) + " - root cause: [" + e.what() + "]";
+        } else {
+            m_message = std::move(message);
+        }
+    } else {
+        if (e.what()) {
+            m_message = e.what();
+        } else {
+            m_message = std::move(message);
         }
     }
 }

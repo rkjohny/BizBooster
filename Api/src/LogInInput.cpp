@@ -43,12 +43,12 @@ void LogInInput::CopyFrom(const std::shared_ptr<LogInInput>& orig)
     m_useGoogleAuth = orig->IsUseGoogleAuth();
 }
 
-std::string LogInInput::Name()
+std::string LogInInput::Name() const
 {
     return "LoginInput";
 }
 
-std::string LogInInput::ToString()
+std::string LogInInput::ToString() const
 {
     return "LoginInput";
 }

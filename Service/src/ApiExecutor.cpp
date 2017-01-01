@@ -37,6 +37,8 @@ web::json::value ApiExecutor::ExecuteSingleApi(const web::http::http_request& re
     const web::json::value &jdata = jrequest.at(JSON_DATA);
     std::string apiName = utility::conversions::to_utf8string(japi.as_string());
 
+    Api::ApiError error(AppErrorCode::SUCCESS, "Success");
+
     if (japi.is_string() && jdata.is_object()) {
 
         std::shared_ptr<Api::Serializable> obj = Api::SOFactory::CreateObject(apiName);
@@ -65,78 +67,68 @@ web::json::value ApiExecutor::ExecuteSingleApi(const web::http::http_request& re
                             input->Deserialize(jdata);
 
                             try {
-                                Dal::SessionManager::SetPinned(token, true);
-                                Dal::SessionManager::ResetExpiration(token);
-                                Dal::Requester *requester = Dal::SessionManager::GetRequetser(token);
+                                auto session = Dal::SessionManager::GetSession(token).lock();
+                                if (session) {
+                                    session->ResetExpiration();
+                                    auto requester = session->GetRequester().lock();
+                                    if (requester) {
+                                        std::shared_ptr<Api::BaseOutput> output = input->Process(requester.get());
 
-                                std::shared_ptr<Api::BaseOutput> output = input->Process(requester);
-
-                                if (output->GetError().GetCode() == AppErrorCode::SUCCESS) {
-                                    //execute api
-                                    jresponse = output->GetResponse();
+                                        if (output->GetError().GetCode() == AppErrorCode::SUCCESS) {
+                                            jresponse = output->GetResponse();
+                                        } else {
+                                            error = output->GetError();
+                                        }
+                                    } else {
+                                        error.SetError(AppErrorCode::UNAUTHORIZED, "Unauthorized request");
+                                    }
                                 } else {
-                                    //jresponse = output->GetErrorResponse();
-                                    //LOG_ERROR("API: " + apiName + " failed with error [" + jresponse.serialize() + "]");
+                                    error.SetError(AppErrorCode::UNAUTHORIZED, "Unauthorized request");
                                 }
-
-                                Dal::SessionManager::SetPinned(token, false);
-
                             } catch (Common::AppException &e) {
-                                Dal::SessionManager::SetPinned(token, false);
-                                jresponse = e.Serialize();
-                                LOG_ERROR("API: " + apiName + " failed with error [" + jresponse.serialize() + "]");
-                                return jresponse;
-
+                                error.SetError(e);
                             } catch (std::exception &e) {
-                                Dal::SessionManager::SetPinned(token, false);
-                                Common::AppException ex = Common::AppException(e);
-                                jresponse = ex.Serialize();
-                                LOG_ERROR("API: " + apiName + " failed with error [" + jresponse.serialize() + "]");
-                                return jresponse;
+                                error.SetError(e);
                             }
                         } else {
-                            jresponse = Api::ApiUtils::ErrorResponse(AppErrorCode::INTERNAL_SERVER_ERROR,
+                            error.SetError(AppErrorCode::INTERNAL_SERVER_ERROR, 
                                     "Could not cast shared pointer of Serializable to BaseInput");
-                            LOG_ERROR("API: " + apiName + " failed with error [" + jresponse.serialize() + "]");
-                            return jresponse;
                         }
                     } else {
-                        jresponse = Api::ApiUtils::ErrorResponse(AppErrorCode::UNAUTHORIZED,
-                                "Unauthorized request");
-                        LOG_ERROR("API: " + apiName + " failed with error [" + jresponse.serialize() + "]");
-                        return jresponse;
+                        error.SetError(AppErrorCode::UNAUTHORIZED, "Unauthorized request");
                     }
                 } else {
-                    jresponse = Api::ApiUtils::BadRequestResponse();
-                    LOG_ERROR("API: " + apiName + " failed with error [" + jresponse.serialize() + "]");
-                    return jresponse;
+                    error.SetError(AppErrorCode::BAD_REQUEST, "Bad request");
                 }
             } else {
                 std::shared_ptr<Api::BaseInput> input =
                         std::dynamic_pointer_cast<Api::BaseInput, Api::Serializable>(obj);
 
                 if (input) {
-
                     Api::LogInHelper helper(Dal::InternalRootRequester::GetInstance(),
-                            dynamic_cast<Api::LogInInput*> (&(*input)));
+                            dynamic_cast<Api::LogInInput*> (input.get()));
 
                     std::shared_ptr<Api::LogInOutput> output =
                             std::dynamic_pointer_cast<Api::LogInOutput, Api::BaseOutput>(helper.Execute());
 
                     if (output->GetError().GetCode() == AppErrorCode::SUCCESS) {
-                        
+
                         jresponse = output->GetResponse();
-                        
+
                         Api::SessionManager::AddSession(output->GetSessionToken(),
                                 output->GetUser(), output->GetSessionExpires());
                     } else {
-                        //jresponse = output->GetErrorResponse();
-                        //LOG_ERROR("API: " + apiName + " failed with error [" + jresponse.serialize() + "]");
+                        error = output->GetError();
                     }
                 } else {
-                    return Api::ApiUtils::ErrorResponse(AppErrorCode::INTERNAL_SERVER_ERROR,
+                    error.SetError(AppErrorCode::INTERNAL_SERVER_ERROR,
                             "Could not cast shared pointer of Serializable to BaseInput");
                 }
+            }
+
+            if (error.GetCode() != AppErrorCode::SUCCESS) {
+                jresponse = error.Serialize();
+                LOG_ERROR("API: " + apiName + " failed with error [" + jresponse.serialize() + "]");
             }
 
         } else {

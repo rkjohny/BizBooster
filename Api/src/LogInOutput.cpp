@@ -31,12 +31,12 @@ void LogInOutput::CopyFrom(const std::shared_ptr<LogInOutput>& orig)
     m_user.copyFrom(orig->GetUser());
 }
 
-std::string LogInOutput::Name()
+std::string LogInOutput::Name() const
 {
     return "LogInOutput";
 }
 
-std::string LogInOutput::ToString()
+std::string LogInOutput::ToString() const
 {
     return "LogInOutput";
 }

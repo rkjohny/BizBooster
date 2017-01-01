@@ -22,10 +22,9 @@ namespace Common {
     using namespace std;
 
     class AppException : public runtime_error {
-    public:
-
+    public:        
         explicit AppException(const string& message = "Unknown");
-
+        
         explicit AppException(AppErrorCode code, const string& message = "Unknown");
 
         AppException(const AppException &e);
@@ -33,10 +32,24 @@ namespace Common {
         explicit AppException(const exception& e, const string& message = "Unknown");
 
         explicit AppException(const exception& e, AppErrorCode code, const string& message = "Unknown");
+        
+        
+        
+        explicit AppException(const string &&message = "Unknown");
+        
+        explicit AppException(AppErrorCode code, const string&& message = "Unknown");
 
+        AppException(const AppException &&e);
+
+        explicit AppException(const exception &&e, const string &&message = "Unknown");
+
+        explicit AppException(const exception &&e, AppErrorCode code, const string &&message = "Unknown");
+
+        
         virtual ~AppException();
 
-        AppException& operator=(AppException& e);
+        AppException& operator=(AppException &e);
+        AppException& operator=(AppException &&e);
 
         AppErrorCode GetCode() const;
 
@@ -50,7 +63,8 @@ namespace Common {
         AppErrorCode m_code;
         string m_message;
 
-        void SetMessage(const exception& e, const string &message);
+        void SetMessage(const exception &e, const string &message);
+        void SetMessage(const exception &&e, const string &&message);
     };
 
 } /* namespace Common */

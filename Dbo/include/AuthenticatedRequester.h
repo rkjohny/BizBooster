@@ -21,16 +21,17 @@ class AuthenticatedRequester : public Requester {
     friend class Session;
 private:
     NON_COPY_NON_MOVE_ABLE(AuthenticatedRequester);
-    
+
     User m_user;
 
 protected:
     AuthenticatedRequester() = default;
-    virtual ~AuthenticatedRequester() = default;
 
 public:
+    virtual ~AuthenticatedRequester() = default;
+
     void SetUser(const User&);
-    
+
     const User& GetUser() override;
     bool HasRole(const std::string &) override;
     bool HasRole(const Role &) override;

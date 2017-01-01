@@ -14,8 +14,6 @@
 #define SESSION_H
 
 #include <ctime>
-
-#include "AppDef.h"
 #include "User.h"
 #include "AuthenticatedRequester.h"
 
@@ -25,29 +23,32 @@ namespace Dal {
 
 class Session {
     friend class SessionManager;
-    
+
 protected:
     Session();
-    virtual~Session();
-    
+
+public:
     bool IsExpired();
-    
-    Dal::AuthenticatedRequester *GetRequester();
-    
+    virtual~Session();
+
+    std::weak_ptr<Dal::AuthenticatedRequester> GetRequester();
+
     void SetUser(const User &user);
-    
+
+    void ResetExpiration();
+
     void ResetExpiration(uint64_t msec);
-    
+
     const User& Getuser();
-   
+
     bool IsPinned() const;
 
     void SetPinned(volatile bool pinned);
 
 private:
-    Dal::AuthenticatedRequester *m_requester;    
+    std::shared_ptr<Dal::AuthenticatedRequester> m_requester;
     time_t m_tmExpiresOn;
-    
+
     volatile bool m_pinned;
 };
 
