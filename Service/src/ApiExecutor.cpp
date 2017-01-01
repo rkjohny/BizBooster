@@ -19,7 +19,7 @@
 #include "ServiceFacade.h"
 #include "ApiUtils.h"
 #include "AppSession.h"
-#include "SessionManager.h"
+#include "AppSessionManager.h"
 #include "AppException.h"
 #include "LogInHelper.h"
 #include "LoggedInHelper.h"
@@ -60,7 +60,7 @@ web::json::value ApiExecutor::ExecuteSingleApi(const web::http::http_request& re
 
                         jresponse = output->GetResponse();
 
-                        Api::SessionManager::AddSession(output->GetSessionToken(),
+                        Api::AppSessionManager::AddSession(output->GetSessionToken(),
                                 output->GetUser(), output->GetSessionExpires());
                     } else {
                         error = output->GetError();
@@ -83,7 +83,7 @@ web::json::value ApiExecutor::ExecuteSingleApi(const web::http::http_request& re
 
                         jresponse = output->GetResponse();
 
-                        Api::SessionManager::AddSession(input->GetSessionToken(), output->GetUser(), input->GetSessionExpires());
+                        Api::AppSessionManager::AddSession(input->GetSessionToken(), output->GetUser(), input->GetSessionExpires());
                     } else {
                         error = output->GetError();
                     }
@@ -101,7 +101,7 @@ web::json::value ApiExecutor::ExecuteSingleApi(const web::http::http_request& re
                     utility::string_t token_t = itr->second;
                     std::string token = utility::conversions::to_utf8string(token_t);
 
-                    bool validToken = Dal::SessionManager::IsValidToken(token);
+                    bool validToken = Api::AppSessionManager::IsValidToken(token);
 
                     if (validToken) {
 
@@ -113,7 +113,7 @@ web::json::value ApiExecutor::ExecuteSingleApi(const web::http::http_request& re
                             input->Deserialize(jdata);
 
                             try {
-                                auto session = Dal::SessionManager::GetSession(token).lock();
+                                auto session = Api::AppSessionManager::GetSession(token).lock();
                                 if (session && !session->IsExpired()) {
                                     session->ResetExpiration();
                                     auto requester = session->GetRequester().lock();

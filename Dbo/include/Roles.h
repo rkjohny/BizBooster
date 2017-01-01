@@ -18,9 +18,6 @@
 #include "AppDef.h"
 
 
-#define ROLE_CREATE_SUPER_USER_STR "ROLE_CREATE_SUPER_USER"
-#define ROLE_INTERNAL_ROOT_USER_STR "ROLE_INTERNAL_ROOT_USER"
-
 namespace Dal {
 
 enum Role {
@@ -29,7 +26,15 @@ enum Role {
     ROLE_SYSTEM_ADMIN,
     ROLE_PROJECT_MANAGER
 };
-    
+
+struct RoleStr
+{
+    static constexpr char *ROLE_CREATE_SUPER_USER = "ROLE_CREATE_SUPER_USER";
+    static constexpr char *ROLE_INTERNAL_ROOT_USER = "ROLE_INTERNAL_ROOT_USER"; 
+    static constexpr char *ROLE_SYSTEM_ADMIN = "ROLE_SYSTEM_ADMIN";
+    static constexpr char *ROLE_PROJECT_MANAGER = "ROLE_PROJECT_MANAGER";
+};
+
 class RoleUtils {
 private:
     MAKE_STATIC(RoleUtils);

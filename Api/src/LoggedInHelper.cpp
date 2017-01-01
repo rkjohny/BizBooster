@@ -11,7 +11,7 @@
  */
 
 #include "LoggedInHelper.h"
-#include "SessionManager.h"
+#include "AppSessionManager.h"
 
 namespace Api {
 

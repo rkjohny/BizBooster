@@ -20,12 +20,19 @@ Role RoleUtils::ToRole(const std::string &role)
 {
     std::string newrole = Common::StringUtility::Trim(role);
 
-    if (newrole.compare(ROLE_CREATE_SUPER_USER_STR) == 0) {
+    if (newrole.compare(RoleStr::ROLE_CREATE_SUPER_USER) == 0) {
         return Role::ROLE_CREATE_SUPER_USER;
     }
-    if (newrole.compare(ROLE_INTERNAL_ROOT_USER_STR) == 0) {
+    if (newrole.compare(RoleStr::ROLE_INTERNAL_ROOT_USER) == 0) {
         return Role::ROLE_INTERNAL_ROOT_USER;
     }
+    if (newrole.compare(RoleStr::ROLE_PROJECT_MANAGER) == 0) {
+        return Role::ROLE_PROJECT_MANAGER;
+    }
+    if (newrole.compare(RoleStr::ROLE_SYSTEM_ADMIN) == 0) {
+        return Role::ROLE_SYSTEM_ADMIN;
+    }
+
     throw std::runtime_error("unknown roles");
 }
 
@@ -33,11 +40,17 @@ std::string RoleUtils::ToStr(const Role &role)
 {
     switch (role) {
     case Role::ROLE_CREATE_SUPER_USER:
-        return ROLE_CREATE_SUPER_USER_STR;
-        
+        return RoleStr::ROLE_CREATE_SUPER_USER;
+
     case Role::ROLE_INTERNAL_ROOT_USER:
-        return ROLE_INTERNAL_ROOT_USER_STR;
-        
+        return RoleStr::ROLE_INTERNAL_ROOT_USER;
+
+    case Role::ROLE_PROJECT_MANAGER:
+        return RoleStr::ROLE_PROJECT_MANAGER;
+
+    case Role::ROLE_SYSTEM_ADMIN:
+        return RoleStr::ROLE_SYSTEM_ADMIN;
+
     default:
         throw std::runtime_error("unknown roles found");
     }

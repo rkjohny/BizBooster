@@ -17,10 +17,6 @@
 #include "AppDef.h"
 
 
-#define STATUS_V_STR  "V"
-#define STATUS_D_STR  "D"
-
-
 namespace Dal {
 
 enum Status
@@ -31,7 +27,8 @@ enum Status
 
 struct StatusStr
 {
-    static constexpr char *VSTR = "V";
+    static constexpr char *V = "V";
+    static constexpr char *D = "D";
 };
 
 class StatusUtils {

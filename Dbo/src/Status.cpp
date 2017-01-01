@@ -19,10 +19,10 @@ std::string StatusUtils::ToStr(const Status &status)
 {
     switch (status) {
     case Status::V:
-        return STATUS_V_STR;
+        return StatusStr::V;
 
     case Status::D:
-        return STATUS_D_STR;
+        return StatusStr::D;
 
     default:
         throw std::runtime_error("Invalid status");
@@ -31,10 +31,10 @@ std::string StatusUtils::ToStr(const Status &status)
 
 Status StatusUtils::ToStatus(const std::string &status)
 {
-    if (status.compare(STATUS_V_STR) == 0) {
+    if (status.compare(StatusStr::V) == 0) {
         return Status::V;
     }
-    if (status.compare(STATUS_D_STR) == 0) {
+    if (status.compare(StatusStr::D) == 0) {
         return Status::D;
     }
 

@@ -15,18 +15,25 @@
 
 #include "Requester.h"
 
+
+namespace Api
+{
+class AppSession;
+}
+
 namespace Dal {
 
 class AuthenticatedRequester : public Requester {
-    friend class AppSession;
+    friend class Api::AppSession;
+    
 private:
     NON_COPY_NON_MOVE_ABLE(AuthenticatedRequester);
 
     User m_user;
-
+    
 protected:
     AuthenticatedRequester() = default;
-
+    
 public:
     virtual ~AuthenticatedRequester() = default;
 

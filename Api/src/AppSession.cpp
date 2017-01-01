@@ -15,7 +15,7 @@
 #include "AppSession.h"
 #include "DboDef.h"
 
-namespace Dal {
+namespace Api {
 
 AppSession::AppSession()
 {
@@ -29,7 +29,6 @@ AppSession::AppSession()
 
 AppSession::~AppSession()
 {
-
 }
 
 bool AppSession::IsPinned() const
@@ -69,12 +68,12 @@ std::weak_ptr<Dal::AuthenticatedRequester> AppSession::GetRequester()
     return m_requester;
 }
 
-void AppSession::SetUser(const User &user)
+void AppSession::SetUser(const Dal::User &user)
 {
     m_requester->SetUser(user);
 }
 
-const User& AppSession::Getuser()
+const Dal::User& AppSession::Getuser()
 {
     return m_requester->GetUser();
 }

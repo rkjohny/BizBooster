@@ -20,10 +20,10 @@
 
 
 
-namespace Dal {
+namespace Api {
 
 class AppSession {
-    friend class SessionManager;
+    friend class AppSessionManager;
 
 protected:
     AppSession();
@@ -34,13 +34,13 @@ public:
 
     std::weak_ptr<Dal::AuthenticatedRequester> GetRequester();
 
-    void SetUser(const User &user);
+    void SetUser(const Dal::User &user);
 
     void ResetExpiration();
 
     void ResetExpiration(uint64_t msec);
 
-    const User& Getuser();
+    const Dal::User& Getuser();
 
     bool IsPinned() const;
 

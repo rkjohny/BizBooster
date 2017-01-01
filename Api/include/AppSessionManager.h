@@ -19,9 +19,9 @@
 #include <mutex>
 #include <memory>
 
-namespace Dal {
+namespace Api {
 
-class SessionManager {
+class AppSessionManager {
 public:
     using Thread = Common::Thread<void>;
     
@@ -37,7 +37,7 @@ public:
     
     static bool SetPinned(const std::string &token, volatile bool pinned);
     
-    static std::weak_ptr<Dal::AppSession> GetSession(const std::string &token);
+    static std::weak_ptr<AppSession> GetSession(const std::string &token);
     
     static std::weak_ptr<Dal::AuthenticatedRequester> GetRequetser(const std::string &token);
     
@@ -46,13 +46,13 @@ public:
     static void StopCleanUpThread();
     
 private:
-    MAKE_STATIC(SessionManager);
+    MAKE_STATIC(AppSessionManager);
     
     static std::mutex m_mutex;
-    static std::map<std::string, std::shared_ptr<Dal::AppSession>> m_sessions;
+    static std::map<std::string, std::shared_ptr<AppSession>> m_sessions;
     
     static volatile bool m_started;
-    static SessionManager::Thread m_thread;
+    static AppSessionManager::Thread m_thread;
     
     static void Cleanup();
     

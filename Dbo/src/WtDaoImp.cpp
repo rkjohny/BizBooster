@@ -156,12 +156,10 @@ Wt::Dbo::ptr<AuthInfo::AuthIdentityType> WtDaoImp::AddIdentity(Requester *reques
     return identityAdded;
 }
 
-Wt::Dbo::ptr<User> WtDaoImp::GetUser(Requester *requester, uint64_t id)
+Wt::Dbo::ptr<User> WtDaoImp::GetUser(Requester *requester, int64_t id)
 {
     Wt::Dbo::ptr<User> user;
-    
-    //user = m_session.find<Dal::User>().where("id = ? and status = ?").bind(id).bind("V");
-
+    user = m_session.find<Dal::User>().where("id = ? and status = ?").bind(id).bind(StatusStr::V);
     return user;
 }
 

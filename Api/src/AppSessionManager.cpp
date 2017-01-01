@@ -10,18 +10,18 @@
  * magnetic storage, computer print-out or visual display.
  */
 
-#include "SessionManager.h"
+#include "AppSessionManager.h"
 #include "DboDef.h"
 
 
-namespace Dal {
+namespace Api {
 
-std::mutex SessionManager::m_mutex;
-std::map<std::string, std::shared_ptr<AppSession>> SessionManager::m_sessions;
-volatile bool SessionManager::m_started = false;
-SessionManager::Thread SessionManager::m_thread(&SessionManager::Cleanup);
+std::mutex AppSessionManager::m_mutex;
+std::map<std::string, std::shared_ptr<AppSession>> AppSessionManager::m_sessions;
+volatile bool AppSessionManager::m_started = false;
+AppSessionManager::Thread AppSessionManager::m_thread(&AppSessionManager::Cleanup);
 
-bool SessionManager::IsValidToken(const std::string &token)
+bool AppSessionManager::IsValidToken(const std::string &token)
 {
     bool ret = false;
 
@@ -35,13 +35,13 @@ bool SessionManager::IsValidToken(const std::string &token)
     return ret;
 }
 
-void SessionManager::AddSession(const std::string &token, const Dal::User &user)
+void AppSessionManager::AddSession(const std::string &token, const Dal::User &user)
 {
     bool is_pinned = false;
 
     m_mutex.lock();
 
-    std::shared_ptr<Dal::AppSession> session = std::shared_ptr<Dal::AppSession>(new AppSession());
+    std::shared_ptr<AppSession> session = std::shared_ptr<AppSession>(new AppSession());
     session->SetUser(user);
 
     auto itr = m_sessions.find(token);
@@ -59,13 +59,13 @@ void SessionManager::AddSession(const std::string &token, const Dal::User &user)
     m_mutex.unlock();
 }
 
-void SessionManager::AddSession(const std::string &token, const Dal::User &user, uint64_t expiresMsc)
+void AppSessionManager::AddSession(const std::string &token, const Dal::User &user, uint64_t expiresMsc)
 {
     bool is_pinned = false;
     
     m_mutex.lock();
 
-    std::shared_ptr<Dal::AppSession> session = std::shared_ptr<Dal::AppSession>(new AppSession());
+    std::shared_ptr<AppSession> session = std::shared_ptr<AppSession>(new AppSession());
     session->SetUser(user);
     session->ResetExpiration(expiresMsc);
 
@@ -84,7 +84,7 @@ void SessionManager::AddSession(const std::string &token, const Dal::User &user,
     m_mutex.unlock();
 }
 
-bool SessionManager::ResetExpiration(const std::string &token, uint64_t msec)
+bool AppSessionManager::ResetExpiration(const std::string &token, uint64_t msec)
 {
     bool ret = false;
 
@@ -99,7 +99,7 @@ bool SessionManager::ResetExpiration(const std::string &token, uint64_t msec)
     return ret;
 }
 
-bool SessionManager::ResetExpiration(const std::string &token)
+bool AppSessionManager::ResetExpiration(const std::string &token)
 {
     bool ret = false;
 
@@ -114,7 +114,7 @@ bool SessionManager::ResetExpiration(const std::string &token)
     return ret;
 }
 
-bool SessionManager::SetPinned(const std::string &token, volatile bool pinned)
+bool AppSessionManager::SetPinned(const std::string &token, volatile bool pinned)
 {
     bool ret = false;
 
@@ -129,9 +129,9 @@ bool SessionManager::SetPinned(const std::string &token, volatile bool pinned)
     return ret;
 }
 
-std::weak_ptr<Dal::AppSession> SessionManager::GetSession(const std::string &token)
+std::weak_ptr<AppSession> AppSessionManager::GetSession(const std::string &token)
 {
-    std::weak_ptr<Dal::AppSession> session;
+    std::weak_ptr<AppSession> session;
     
     m_mutex.lock();
     auto itr = m_sessions.find(token);
@@ -144,7 +144,7 @@ std::weak_ptr<Dal::AppSession> SessionManager::GetSession(const std::string &tok
     return session;
 }
 
-std::weak_ptr<Dal::AuthenticatedRequester> SessionManager::GetRequetser(const std::string &token)
+std::weak_ptr<Dal::AuthenticatedRequester> AppSessionManager::GetRequetser(const std::string &token)
 {
     std::weak_ptr<Dal::AuthenticatedRequester> requester;
 
@@ -159,7 +159,7 @@ std::weak_ptr<Dal::AuthenticatedRequester> SessionManager::GetRequetser(const st
     return requester;
 }
 
-void SessionManager::Cleanup()
+void AppSessionManager::Cleanup()
 {
     m_started = true;
 
@@ -190,14 +190,14 @@ void SessionManager::Cleanup()
     }
 }
 
-void SessionManager::StartCleanUpThread()
+void AppSessionManager::StartCleanUpThread()
 {
     if (!m_started) {
         m_thread.Start();
     }
 }
 
-void SessionManager::StopCleanUpThread()
+void AppSessionManager::StopCleanUpThread()
 {
     m_started = false;
     m_thread.Join();
