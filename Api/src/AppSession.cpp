@@ -49,18 +49,33 @@ bool AppSession::IsExpired()
     return now >= m_tmExpiresOn;
 }
 
-void AppSession::ResetExpiration()
+void AppSession::ExtendExpiration()
 {
-    std::time(&m_tmExpiresOn);
-
-    m_tmExpiresOn += DEFAULT_SESSION_TIME_OUT_IN_MSC; 
+    time_t tm;
+    std::time(&tm);
+    
+    tm += DEFAULT_SESSION_TIME_OUT_IN_MSC; 
+    
+    if (tm > m_tmExpiresOn) {
+        m_tmExpiresOn = tm;
+    }
 }
 
 void AppSession::ResetExpiration(uint64_t msec)
 {
-    std::time(&m_tmExpiresOn);
+    m_tmExpiresOn = msec;
+}
 
-    m_tmExpiresOn += msec;
+void AppSession::ExtendExpiration(uint64_t msec)
+{
+    time_t tm;
+    std::time(&tm);
+    
+    tm += msec; 
+    
+    if (tm > m_tmExpiresOn) {
+        m_tmExpiresOn = tm;
+    }
 }
 
 std::weak_ptr<Dal::AuthenticatedRequester> AppSession::GetRequester()

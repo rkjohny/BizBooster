@@ -36,9 +36,11 @@ public:
 
     void SetUser(const Dal::User &user);
 
-    void ResetExpiration();
+    void ExtendExpiration();
 
     void ResetExpiration(uint64_t msec);
+
+    void ExtendExpiration(uint64_t msec);
 
     const Dal::User& Getuser();
 

@@ -46,7 +46,7 @@ void DateTimeUtils::GetCurrentDateTime(Wt::WDateTime &dt)
     dt.setTime_t(curTime);
 }
 
-void DateTimeUtils::AddToCurrentDateTime(Wt::WDateTime &dt, int day)
+void DateTimeUtils::AddMscToCurrentDateTime(Wt::WDateTime &dt, int day)
 {
     std::time_t curTime = std::time(nullptr);
     std::tm *tm_local = std::localtime(&curTime);
@@ -65,7 +65,7 @@ Wt::WDateTime DateTimeUtils::Now()
     return now;
 }
 
-Wt::WDateTime DateTimeUtils::AfterMSec(uint64_t msec)
+Wt::WDateTime DateTimeUtils::AddMscToNow(uint64_t msec)
 {
     Wt::WDateTime now;
     std::time_t curTime = std::time(nullptr);

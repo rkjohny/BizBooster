@@ -17,7 +17,7 @@
 #include "ApiDef.h"
 #include "CryptoDef.h"
 #include "Roles.h"
-
+#include "AppSessionManager.h"
 
 namespace Api {
 
@@ -33,7 +33,7 @@ void LogInHelper::InitAndValidate()
 void LogInHelper::CheckPermission()
 {
     if (!m_requester->HasRole(Dal::Role::ROLE_INTERNAL_ROOT_USER)) {
-        throw Common::AppException(AppErrorCode::INTERNAL_SERVER_ERROR, "Invalid request");
+        throw Common::AppException(AppErrorCode::INTERNAL_SERVER_ERROR, "Invalid requester");
     }
 }
 
@@ -65,13 +65,11 @@ void LogInHelper::ExecuteHelper()
                 throw Common::AppException(AppErrorCode::AUTHTICATION_FAILURE, "Invalid username password.");
             }
             Wt::WDateTime now = Common::DateTimeUtils::Now();
-            Wt::WDateTime expires = Common::DateTimeUtils::AfterMSec(DEFAULT_SESSION_TIME_OUT_IN_MSC);
+            Wt::WDateTime expires = Common::DateTimeUtils::AddMscToNow(DEFAULT_SESSION_TIME_OUT_IN_MSC);
 
             std::string authToken;
             LCrypto::GetRndGenerator()->GetRandomBytes(authToken, AUTH_TOKEN_LENGTH);
             //auto authTokenObj = new Wt::Dbo::ptr<Dal::AuthInfo::AuthTokenType>(authToken, expires);
-            //auto at = new Wt::Auth::Dbo::AuthToken<Wt::Auth::Dbo::AuthInfo<Dal::User>>(authToken, expires);
-
             auto authTokenObj = new Dal::AuthToken(authToken, expires);
 
             auto mod_authInfo = authInfo.modify();
@@ -79,6 +77,10 @@ void LogInHelper::ExecuteHelper()
             mod_authInfo->authTokens().insert(authTokenObj);
 
             m_output->SetSessionToken(authToken);
+            m_output->SetSessionExpires(static_cast<uint64_t>(expires.toTime_t()));
+            m_output->SetUser(*m_user);
+
+            Api::AppSessionManager::AddSession(authToken, *m_user, static_cast<uint64_t>(expires.toTime_t()));
         }
     } else {
         throw Common::AppException(AppErrorCode::AUTHTICATION_FAILURE, "Invalid username password.");

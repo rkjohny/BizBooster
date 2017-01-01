@@ -67,7 +67,7 @@ void RegisterUserHelper::ExecuteHelper()
             authInfo->setUnverifiedEmail(m_input->GetEmail());
 
             Wt::WDateTime now;
-            Common::DateTimeUtils::AddToCurrentDateTime(now, 2);
+            Common::DateTimeUtils::AddMscToCurrentDateTime(now, 2);
             authInfo->setEmailToken(Dal::AuthUtils::GenerateEmailToken(), now, Wt::Auth::User::EmailTokenRole::VerifyEmail);
 
             auto passwdEncoder = LCrypto::PassWordEncoder::GetInstance();

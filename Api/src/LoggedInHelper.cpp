@@ -26,12 +26,15 @@ void LoggedInHelper::InitAndValidate()
 
 void LoggedInHelper::CheckPermission()
 {
-
+    if (!m_requester->HasRole(Dal::Role::ROLE_INTERNAL_ROOT_USER)) {
+        throw Common::AppException(AppErrorCode::INTERNAL_SERVER_ERROR, "Invalid requester");
+    }
 }
 
 void LoggedInHelper::ExecuteHelper()
 {
-    //Dal::SessionManager::AddSession(m_input->GetSessionToken(), *m_user, m_input->GetSessionExpires());
+    Api::AppSessionManager::AddSession(m_input->GetSessionToken(), *m_user, m_input->GetSessionExpires());
+    m_output->SetUser(*m_user);
 }
 
 

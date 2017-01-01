@@ -30,7 +30,6 @@
 
 namespace Rest {
 
-
 web::json::value ApiExecutor::ExecuteSingleApi(const web::http::http_request& request,
         const web::json::value &jrequest)
 {
@@ -46,118 +45,61 @@ web::json::value ApiExecutor::ExecuteSingleApi(const web::http::http_request& re
         std::shared_ptr<Api::Serializable> obj = Api::SOFactory::CreateObject(apiName);
         if (obj) {
 
+            Dal::Requester *requester = nullptr;
+            std::shared_ptr<Dal::Requester> requesterPtr = nullptr;
+            std::shared_ptr<Api::AppSession> session = nullptr;
+            bool extendExpiration = false;
+
             if (apiName.compare("login") == 0) {
-                std::shared_ptr<Api::LogInInput> input =
-                        std::dynamic_pointer_cast<Api::LogInInput, Api::Serializable>(obj);
-
-                if (input) {
-                    Api::LogInHelper helper(Dal::InternalRootRequester::GetInstance(), input.get());
-
-                    std::shared_ptr<Api::LogInOutput> output =
-                            std::dynamic_pointer_cast<Api::LogInOutput, Api::BaseOutput>(helper.Execute());
-
-                    if (output->GetError().GetCode() == AppErrorCode::SUCCESS) {
-
-                        jresponse = output->GetResponse();
-
-                        Api::AppSessionManager::AddSession(output->GetSessionToken(),
-                                output->GetUser(), output->GetSessionExpires());
-                    } else {
-                        error = output->GetError();
-                    }
-                } else {
-                    error.SetError(AppErrorCode::INTERNAL_SERVER_ERROR,
-                            "Could not cast shared pointer of Serializable to BaseInput");
-                }
+                requester = Dal::InternalRootRequester::GetInstance();
             } else if (apiName.compare("loggedin") == 0) {
-                std::shared_ptr<Api::LoggedInInput> input =
-                        std::dynamic_pointer_cast<Api::LoggedInInput, Api::Serializable>(obj);
-
-                if (input) {
-                    Api::LoggedInHelper helper(Dal::InternalRootRequester::GetInstance(), input.get());
-
-                    std::shared_ptr<Api::LoggedInOutput> output =
-                            std::dynamic_pointer_cast<Api::LoggedInOutput, Api::BaseOutput>(helper.Execute());
-
-                    if (output->GetError().GetCode() == AppErrorCode::SUCCESS) {
-
-                        jresponse = output->GetResponse();
-
-                        Api::AppSessionManager::AddSession(input->GetSessionToken(), output->GetUser(), input->GetSessionExpires());
-                    } else {
-                        error = output->GetError();
-                    }
-                } else {
-                    error.SetError(AppErrorCode::INTERNAL_SERVER_ERROR,
-                            "Could not cast shared pointer of Serializable to BaseInput");
-                }
+                requester = Dal::InternalRootRequester::GetInstance();
             } else {
+                extendExpiration = true;
                 const web::http::http_headers &headers = request.headers();
                 bool hasToken = headers.has(U("Auth-Token"));
-
+                bool validToken = false;
+                std::string token = "";
                 if (hasToken) {
-
                     auto itr = headers.find(U("Auth-Token"));
                     utility::string_t token_t = itr->second;
-                    std::string token = utility::conversions::to_utf8string(token_t);
-
-                    bool validToken = Api::AppSessionManager::IsValidToken(token);
-
-                    if (validToken) {
-
-                        std::shared_ptr<Api::BaseInput> input =
-                                std::dynamic_pointer_cast<Api::BaseInput, Api::Serializable>(obj);
-
-                        if (input) {
-                            //prepare input
-                            input->Deserialize(jdata);
-
-                            try {
-                                auto session = Api::AppSessionManager::GetSession(token).lock();
-                                if (session && !session->IsExpired()) {
-                                    session->ResetExpiration();
-                                    auto requester = session->GetRequester().lock();
-                                    if (requester) {
-                                        std::shared_ptr<Api::BaseOutput> output = input->Process(requester.get());
-
-                                        if (output->GetError().GetCode() == AppErrorCode::SUCCESS) {
-                                            jresponse = output->GetResponse();
-                                        } else {
-                                            error = output->GetError();
-                                        }
-                                    } else {
-                                        error.SetError(AppErrorCode::UNAUTHORIZED, "Unauthorized request");
-                                    }
-                                } else {
-                                    error.SetError(AppErrorCode::UNAUTHORIZED, "Unauthorized request");
-                                }
-                            } catch (Common::AppException &e) {
-                                error.SetError(e);
-                            } catch (std::exception &e) {
-                                error.SetError(e);
-                            }
-                        } else {
-                            error.SetError(AppErrorCode::INTERNAL_SERVER_ERROR,
-                                    "Could not cast shared pointer of Serializable to BaseInput");
+                    token = utility::conversions::to_utf8string(token_t);
+                    validToken = Api::AppSessionManager::IsValidToken(token);
+                }
+                if (validToken) {
+                    session = Api::AppSessionManager::GetSession(token).lock();
+                    if (session && !session->IsExpired()) {
+                        requesterPtr = session->GetRequester().lock();
+                        if (requesterPtr) {
+                            requester = requesterPtr.get();
                         }
-                    } else {
-                        error.SetError(AppErrorCode::UNAUTHORIZED, "Unauthorized request");
                     }
-                } else {
-                    error.SetError(AppErrorCode::BAD_REQUEST, "Bad request");
                 }
             }
 
-            if (error.GetCode() != AppErrorCode::SUCCESS) {
-                jresponse = error.Serialize();
-                LOG_ERROR("API: " + apiName + " failed with error [" + jresponse.serialize() + "]");
+            if (requester) {
+                std::shared_ptr<Api::BaseInput> input = std::dynamic_pointer_cast<Api::BaseInput, Api::Serializable>(obj);
+                std::shared_ptr<Api::BaseOutput> output = input->Process(requester);
+                if (output->GetError().GetCode() == AppErrorCode::SUCCESS) {
+                    if (extendExpiration) {
+                        session->ExtendExpiration();
+                    }
+                } else {
+                    error.SetError(output->GetError());
+                }
+            } else {
+                error.SetError(AppErrorCode::UNAUTHORIZED, "Unauthorized requester.");
             }
-
         } else {
-            return Api::ApiUtils::BadRequestResponse();
+            error.SetError(AppErrorCode::BAD_REQUEST, "Bad request.");
         }
     } else {
-        return Api::ApiUtils::BadRequestResponse();
+        error.SetError(AppErrorCode::BAD_REQUEST, "Bad request.");
+    }
+
+    if (error.GetCode() != AppErrorCode::SUCCESS) {
+        jresponse = error.Serialize();
+        LOG_ERROR("API: " + apiName + " failed with error [" + jresponse.serialize() + "]");
     }
 
     return jresponse;
