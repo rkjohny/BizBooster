@@ -22,8 +22,8 @@ using namespace Json;
 
 class BaseOutput : public Serializable {
 public:
-    BaseOutput();
-    virtual ~BaseOutput();
+    BaseOutput() = default;
+    virtual ~BaseOutput() = default;
 
     virtual string ToString() const = 0;
     virtual string Name() const = 0;
@@ -31,8 +31,8 @@ public:
     void SetError(const ApiError& error);
     ApiError GetError() const;
 
-    const web::json::value& GetResponse() const;
-    std::string GetResponseStr() const;
+    const web::json::value& SerializedValue() const;
+    std::string SerializedStr() const;
 
 
     web::json::value GetErrorResponse() const;
@@ -41,8 +41,6 @@ public:
 protected:
     ApiError m_error;
 
-    web::json::value m_response;
-    
     REGISTER_GETTER_INCLUDING_BASE_START(Serializable)
     GETTER(BaseOutput, ApiError, "error", &BaseOutput::GetError)
     REGISTER_GETTER_INCLUDING_BASE_END
@@ -58,11 +56,11 @@ public:
     ApiOutput() = default;
     virtual ~ApiOutput() = default;
 
-    web::json::value Serialize() const override
+    const web::json::value& Serialize() override
     {
-        //m_response = Json::ToJson<T>(reinterpret_cast<const T*> (this));
-        return Json::ToJson<T>(reinterpret_cast<const T*>(this));
-        //return m_response;
+        m_serializedValue = Json::ToJson<T>(reinterpret_cast<const T*> (this));
+        //return Json::ToJson<T>(reinterpret_cast<const T*>(this));
+        return m_serializedValue;
     }
 
     void Deserialize(const web::json::value& jvalue) override

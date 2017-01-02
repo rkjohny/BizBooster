@@ -83,12 +83,12 @@ std::weak_ptr<Dal::AuthenticatedRequester> AppSession::GetRequester()
     return m_requester;
 }
 
-void AppSession::SetUser(const Dal::User &user)
+void AppSession::SetUser(Wt::Dbo::ptr<Dal::User> &user)
 {
     m_requester->SetUser(user);
 }
 
-const Dal::User& AppSession::Getuser()
+Wt::Dbo::ptr<Dal::User> AppSession::Getuser()
 {
     return m_requester->GetUser();
 }

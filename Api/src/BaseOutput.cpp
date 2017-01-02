@@ -14,13 +14,6 @@
 
 namespace Api {
 
-BaseOutput::BaseOutput()
-{
-}
-
-BaseOutput::~BaseOutput()
-{
-}
 
 void BaseOutput::SetError(const ApiError& error)
 {
@@ -47,14 +40,14 @@ std::string BaseOutput::GetErrorStr() const
     return GetErrorResponse().serialize();
 }
 
-const web::json::value& BaseOutput::GetResponse() const
+const web::json::value& BaseOutput::SerializedValue() const
 {
-    return m_response;
+    return m_serializedValue;
 }
 
-std::string BaseOutput::GetResponseStr() const
+std::string BaseOutput::SerializedStr() const
 {
-    return m_response.serialize();
+    return m_serializedValue.serialize();
 }
 
 } /* namespace Api */

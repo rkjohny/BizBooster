@@ -20,6 +20,7 @@
 #include "AuditableEntity.h"
 #include "WtSession.h"
 #include "WtPgConnection.h"
+#include "DateTimeUtils.h"
 #include <string>
 #include <memory>
 #include <Wt/Dbo/Dbo>
@@ -50,21 +51,15 @@ public:
     typename std::enable_if<(std::is_base_of<Dal::AuditableEntity, C>::value == true ||
             std::is_base_of<Dal::User, C>::value == true), void >::type
     OnSave(Requester *requester, C *entity)
-    {
-        std::time_t curTime = std::time(nullptr);
-        //std::tm *tm_local = std::localtime(&curTime);
-
-        Wt::WDateTime wDateTime;
-        wDateTime.setTime_t(curTime);
+    {        
+        auto now = Common::DateTimeUtils::Now();
 
         if (entity->GetDateCreated().isNull() || !entity->GetCreatedBy()) {
-            entity->SetDateCreated(wDateTime);
-            //TODO: this should be requester.getUser(),
-            //entity->SetCreatedBy(Wt::Dbo::ptr<C>(entity));
+            entity->SetDateCreated(now);
+            entity->SetCreatedBy(requester->GetUser());
         }
-        entity->SetDateLastUpdated(wDateTime);
-        //TODO: this should be requester.getUser(),
-        //entity->SetLastUpdatedBy(Wt::Dbo::ptr<C>(entity));
+        entity->SetDateLastUpdated(now);
+        entity->SetLastUpdatedBy(requester->GetUser());
     }
 
     template<class C>

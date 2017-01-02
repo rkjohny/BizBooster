@@ -85,9 +85,9 @@ namespace Json {
             //using GetterReturnType = typename decltype( getter )::Type;
             auto method = getter.fp;
 
-            auto getterReturnedObject = (object->*method)();
-
             cout << "Found a getter with name: " << getterName << std::endl;
+            
+            const auto &getterReturnedObject = (object->*method)();
 
             GetData(getterReturnedObject, jvalue, getterName);
         }
@@ -204,8 +204,8 @@ namespace Json {
         template <class T>
         typename std::enable_if<Is_Char<T>::Value, json::value>::type
         static ToJson(const T *object) {
-            auto str = std::string(object);
-            auto str_t = utility::string_t(std::move(str));
+            std::string str = std::string(object);
+            utility::string_t str_t = utility::string_t(std::move(str));
             cout << "Serializing object: type = char*, value = " << str_t << endl;
             return json::value(std::move(str_t));
         }
@@ -213,8 +213,8 @@ namespace Json {
         template <class T>
         typename std::enable_if<Is_Char<T>::Value, json::value>::type
         static ToJson(const T * const * object) {
-            auto str = std::string(*object);
-            auto str_t = utility::string_t(std::move(str));
+            std::string str = std::string(*object);
+            utility::string_t str_t = utility::string_t(std::move(str));
             cout << "Serializing object: type = char**, value = " << str_t << endl;
             return json::value(std::move(str_t));
         }
@@ -317,7 +317,7 @@ namespace Json {
         typename std::enable_if<Json::Is_Class<T>::Value, json::value>::type
         static ToJson(const T &&object) {
             cout << "Serializing object: type = class{}&&" << endl;
-            auto jvalue = json::value::object();
+            json::value jvalue = json::value::object();
 
             using ObjectType = typename Remove_CVRP<T>::Type;
             auto getters = ObjectType::getters;
@@ -332,7 +332,7 @@ namespace Json {
         typename std::enable_if<Json::Is_Class<T>::Value, json::value>::type
         static ToJson(const T &object) {
             cout << "Serializing object: type = class{}&" << endl;
-            auto jvalue = json::value::object();
+            json::value jvalue = json::value::object();
 
             using ObjectType = typename Remove_CVRP<T>::Type;
             auto getters = ObjectType::getters;
@@ -364,12 +364,12 @@ namespace Json {
         typename std::enable_if<Json::Is_Vector<T>::Value, json::value>::type
         static ToJson(const T &&object) {
             cout << "Serializing object: type = std::vector<>&&" << endl;
-            auto length = object.size();
-            auto jvalue = json::value::array(length);
+            std::size_t length = object.size();
+            json::value jvalue = json::value::array(length);
             size_t index = 0;
 
             if (length > 0) {
-                auto jArray = jvalue.as_array();
+                json::array &jArray = jvalue.as_array();
 
                 for (auto& arrValue : object) {
                     jArray[index++] = ToJson(arrValue);
@@ -383,12 +383,12 @@ namespace Json {
         typename std::enable_if<Json::Is_Vector<T>::Value, json::value>::type
         static ToJson(const T &object) {
             cout << "Serializing object: type = std::vector<>&" << endl;
-            auto length = object.size();
-            auto jvalue = json::value::array(length);
+            std::size_t length = object.size();
+            json::value jvalue = json::value::array(length);
             size_t index = 0;
 
             if (length > 0) {
-                auto jArray = jvalue.as_array();
+                json::array &jArray = jvalue.as_array();
 
                 for (auto& arrValue : object) {
                     jArray[index++] = ToJson(arrValue);
@@ -431,16 +431,16 @@ namespace Json {
         template <class T>
         typename std::enable_if<Is_DateTime<T>::Value, json::value>::type
         static ToJson(const T &&object) {
-            auto wstr = object.toString(); // TODO: default format used
-            auto str = wstr.toUTF8(); // TODO: UTF8 encoding used
+            Wt::WString wstr = object.toString(); // TODO: default format used
+            std::string str = wstr.toUTF8(); // TODO: UTF8 encoding used
             cout << "Serializing object: type = Wt::WDate&&, value = " << str << endl;
             return json::value(str);
         }
         template <class T>
         typename std::enable_if<Is_DateTime<T>::Value, json::value>::type
         static ToJson(const T &object) {
-            auto wstr = object.toString(); // TODO: default format used
-            auto str = wstr.toUTF8(); // TODO: UTF8 encoding used
+            Wt::WString wstr = object.toString(); // TODO: default format used
+            std::string str = wstr.toUTF8(); // TODO: UTF8 encoding used
             cout << "Serializing object: type = Wt::WDate&, value = " << str << endl;
             return json::value(str);
         }

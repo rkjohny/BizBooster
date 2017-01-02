@@ -21,7 +21,7 @@ std::string AuthUtils::GenerateEmailToken()
 {
     std::string emailToken;
 
-    LCrypto::RndGenerator *randGenerator = LCrypto::GetRndGenerator();
+    auto randGenerator = LCrypto::GetRndGenerator();
     randGenerator->GetRandomBytes(emailToken, EMAIL_TOKEN_LENGTH);
 
     return emailToken;

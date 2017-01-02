@@ -20,48 +20,54 @@
 #include "Requester.h"
 
 namespace Api {
-    using namespace std;
-    using namespace Json;
+using namespace std;
+using namespace Json;
 
-    // TODO: use forward declaration for class BaseOutput if nedded.
+// TODO: use forward declaration for class BaseOutput if nedded.
 
-    class BaseInput : public Serializable {
-    public:
-        BaseInput();
-        virtual ~BaseInput();
+class BaseInput : public Serializable {
+public:
+    BaseInput() = default;
+    virtual ~BaseInput() = default;
 
-        virtual std::shared_ptr<BaseOutput> Process(Dal::Requester *requester) = 0;
+    virtual std::shared_ptr<BaseOutput> Process(Dal::Requester *requester) = 0;
 
-        virtual string ToString() const = 0;
-        virtual string Name() const = 0;
-        
-        REGISTER_GETTER_INCLUDING_BASE_START(Serializable)
-        REGISTER_GETTER_INCLUDING_BASE_END
+    virtual string ToString() const = 0;
+    virtual string Name() const = 0;
 
-        REGISTER_SETTER_INCLUDING_BASE_START(Serializable)
-        REGISTER_SETTER_INCLUDING_BASE_END
-    };
+    REGISTER_GETTER_INCLUDING_BASE_START(Serializable)
+    REGISTER_GETTER_INCLUDING_BASE_END
 
-    template <class T>
-    class ApiInput : public BaseInput {
-    public:
-        ApiInput() = default;
-        virtual ~ApiInput() = default;
-            
-        web::json::value Serialize() const override {
-            return Json::ToJson<T>(reinterpret_cast<const T*>(this));
-        }
+    REGISTER_SETTER_INCLUDING_BASE_START(Serializable)
+    REGISTER_SETTER_INCLUDING_BASE_END
 
-        void Deserialize(const web::json::value& jvalue) override {
-            Json::FromJson<T>(reinterpret_cast<T*> (this), jvalue);
-        }
+    const web::json::value& SerializedValue() const;
+    std::string SerializedStr() const;
+};
 
-        REGISTER_GETTER_INCLUDING_BASE_START(BaseInput)
-        REGISTER_GETTER_INCLUDING_BASE_END
+template <class T>
+class ApiInput : public BaseInput {
+public:
+    ApiInput() = default;
+    virtual ~ApiInput() = default;
 
-        REGISTER_SETTER_INCLUDING_BASE_START(BaseInput)
-        REGISTER_SETTER_INCLUDING_BASE_END
-    };
+    const web::json::value& Serialize() override
+    {
+        m_serializedValue = Json::ToJson<T>(reinterpret_cast<const T*> (this));
+        return m_serializedValue;
+    }
+
+    void Deserialize(const web::json::value& jvalue) override
+    {
+        Json::FromJson<T>(reinterpret_cast<T*> (this), jvalue);
+    }
+
+    REGISTER_GETTER_INCLUDING_BASE_START(BaseInput)
+    REGISTER_GETTER_INCLUDING_BASE_END
+
+    REGISTER_SETTER_INCLUDING_BASE_START(BaseInput)
+    REGISTER_SETTER_INCLUDING_BASE_END
+};
 
 } /* namespace Api */
 

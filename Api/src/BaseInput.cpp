@@ -14,12 +14,14 @@
 
 namespace Api {
 
-BaseInput::BaseInput()
+const web::json::value& BaseInput::SerializedValue() const
 {
+    return m_serializedValue;
 }
 
-BaseInput::~BaseInput()
+std::string BaseInput::SerializedStr() const
 {
+    return m_serializedValue.serialize();
 }
 
-} /* namespace Api */
+}

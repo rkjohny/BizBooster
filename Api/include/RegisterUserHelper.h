@@ -26,6 +26,8 @@ namespace Api {
 class RegisterUserHelper : public ApiHelper <RegisterUserInput, RegisterUserOutput> {
 private:
     NON_COPY_NON_MOVE_ABLE(RegisterUserHelper);
+    
+    Wt::Dbo::ptr<Dal::User> m_user;
 
 public:
     ~RegisterUserHelper() = default;

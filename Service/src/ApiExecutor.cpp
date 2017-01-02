@@ -34,9 +34,9 @@ web::json::value ApiExecutor::ExecuteSingleApi(const web::http::http_request& re
         const web::json::value &jrequest)
 {
     web::json::value jresponse;
-    auto japi = jrequest.at(JSON_API);
-    auto jdata = jrequest.at(JSON_DATA);
-    auto apiName = utility::conversions::to_utf8string(japi.as_string());
+    const auto &japi = jrequest.at(JSON_API);
+    const auto &jdata = jrequest.at(JSON_DATA);
+    const auto apiName = utility::conversions::to_utf8string(japi.as_string());
     
     Api::ApiError error(AppErrorCode::SUCCESS, "Success");
 
@@ -44,7 +44,6 @@ web::json::value ApiExecutor::ExecuteSingleApi(const web::http::http_request& re
 
         auto obj = Api::SOFactory::CreateObject(apiName);
         if (obj) {
-
             Dal::Requester *requester = nullptr;
             std::shared_ptr<Dal::Requester> requesterPtr = nullptr;
             std::shared_ptr<Api::AppSession> session = nullptr;
@@ -55,14 +54,13 @@ web::json::value ApiExecutor::ExecuteSingleApi(const web::http::http_request& re
             } else if (apiName.compare("loggedin") == 0) {
                 requester = Dal::InternalRootRequester::GetInstance();
             } else {
-                auto headers = request.headers();
-                auto hasToken = headers.has(U("Auth-Token"));
-                auto validToken = false;
+                auto &headers = request.headers();
+                bool hasToken = headers.has(U("Auth-Token"));
+                bool validToken = false;
                 std::string token = "";
                 if (hasToken) {
                     auto itr = headers.find(U("Auth-Token"));
-                    auto token_t = itr->second;
-                    token = utility::conversions::to_utf8string(token_t);
+                    token = utility::conversions::to_utf8string(itr->second);
                     validToken = Api::AppSessionManager::IsValidToken(token);
                 }
                 if (validToken) {
@@ -84,6 +82,7 @@ web::json::value ApiExecutor::ExecuteSingleApi(const web::http::http_request& re
                 auto output = input->Process(requester);
                 
                 if (output->GetError().GetCode() == AppErrorCode::SUCCESS) {
+                    jresponse = output->SerializedValue();
                     if (extendExpiration) {
                         session->ExtendExpiration();
                     }

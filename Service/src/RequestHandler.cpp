@@ -37,7 +37,7 @@ void RequestHandler::HandlePostRequest(web::http::http_request& request)
             .then([&](pplx::task<web::json::value> task)
             {
                 try {
-                    auto jrequest = task.get();
+                    web::json::value jrequest = task.get();
 
                     LOG_DEBUG("Added new request: " + jrequest.serialize());
 

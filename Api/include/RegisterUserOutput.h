@@ -30,18 +30,18 @@ namespace Api {
         
         ~RegisterUserOutput() = default;
 
-        const User& GetUser() const;
-        void SetUser(const User& user);
+        Wt::Dbo::ptr<User> GetUser() const;
+        void SetUser(Wt::Dbo::ptr<User> &user);
 
     private:
-        User m_user;
+        Wt::Dbo::ptr<User> m_user;
 
         REGISTER_GETTER_INCLUDING_BASE_START(ApiOutput<RegisterUserOutput>)
-        GETTER(RegisterUserOutput, const User&, "user", &RegisterUserOutput::GetUser)
+        GETTER(RegisterUserOutput, Wt::Dbo::ptr<User>, "user", &RegisterUserOutput::GetUser)
         REGISTER_GETTER_INCLUDING_BASE_END
 
         REGISTER_SETTER_INCLUDING_BASE_START(ApiOutput<RegisterUserOutput>)
-        SETTER(RegisterUserOutput, const User&, "user", &RegisterUserOutput::SetUser)
+        SETTER(RegisterUserOutput, Wt::Dbo::ptr<User>&, "user", &RegisterUserOutput::SetUser)
         REGISTER_SETTER_INCLUDING_BASE_END
     };
 

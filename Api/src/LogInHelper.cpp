@@ -28,7 +28,7 @@ void LogInHelper::InitAndValidate()
     if (!m_user) {
         throw Common::AppException(AppErrorCode::AUTHTICATION_FAILURE, "Invalid username password.");
     }
-    auto authInfo = m_user->GetAuthInfo();
+    auto &authInfo = m_user->GetAuthInfo();
     m_authInfo = authInfo.lock();
 
     if (!m_authInfo) {
@@ -50,9 +50,9 @@ void LogInHelper::ExecuteHelper()
     } else if (m_input->IsUseFacebookAuth()) {
         throw Common::AppException(AppErrorCode::NOT_SUPPORTED, "Facebook authentication is not supported yet");
     } else {
-        auto passHash = m_authInfo->passwordHash();
-        auto passSalt = m_authInfo->passwordSalt();
-        auto passMethod = m_authInfo->passwordMethod();
+        auto &passHash = m_authInfo->passwordHash();
+        auto &passSalt = m_authInfo->passwordSalt();
+        auto &passMethod = m_authInfo->passwordMethod();
 
         auto hasFun = LCrypto::GetHashGenerator();
         bool valid = false;
@@ -79,9 +79,9 @@ void LogInHelper::ExecuteHelper()
 
         m_output->SetSessionToken(authToken);
         m_output->SetSessionExpires(static_cast<uint64_t> (expires.toTime_t()));
-        m_output->SetUser(*m_user);
+        m_output->SetUser(m_user);
 
-        Api::AppSessionManager::AddSession(authToken, *m_user, static_cast<uint64_t> (expires.toTime_t()));
+        Api::AppSessionManager::AddSession(authToken, m_user, static_cast<uint64_t> (expires.toTime_t()));
     }
 }
 

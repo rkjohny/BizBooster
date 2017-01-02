@@ -20,8 +20,8 @@ InternalRootRequester* InternalRootRequester::m_instance = nullptr;
 
 InternalRootRequester::InternalRootRequester()
 {
-    m_user.SetName("root");
-    m_user.SetRoles(Role::ROLE_INTERNAL_ROOT_USER);
+    //m_user- SetName("root");
+    //m_user->SetRoles(Role::ROLE_INTERNAL_ROOT_USER);
 }
 
 InternalRootRequester* InternalRootRequester::GetInstance()
@@ -32,7 +32,7 @@ InternalRootRequester* InternalRootRequester::GetInstance()
     return m_instance;
 }
 
-const User& InternalRootRequester::GetUser()
+Wt::Dbo::ptr<Dal::User> InternalRootRequester::GetUser()
 {
     return m_user;
 }

@@ -17,13 +17,12 @@ namespace Dal {
 
 Status SimpleEntity::GetStatus() const
 {
-    return m_status;
+    return StatusUtils::ToStatus(m_statusStr);
 }
 
 void SimpleEntity::SetStatus(const Status &status)
 {
-    m_status = status;
-    m_statusStr = StatusUtils::ToStr(status);
+    m_statusStr = StatusUtils::ToStr(status);;
 }
 
 const std::string& SimpleEntity::GetStatusStr() const
@@ -34,7 +33,6 @@ const std::string& SimpleEntity::GetStatusStr() const
 void SimpleEntity::SetStatusStr(const std::string &status)
 {
     m_statusStr = status;
-    m_status = StatusUtils::ToStatus(status);
 }
 
 }

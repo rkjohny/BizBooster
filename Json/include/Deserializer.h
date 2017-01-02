@@ -113,6 +113,30 @@ namespace Json {
         }
 
         /**
+         * special handling for char array.
+         * No other array type is supported. 
+         */
+        template<class T, class B>
+        static void SetData(T *object, void ( B::*SetterPtr)(char*), const json::value &jvalue) {
+            std::cout << "Setdata : void (T::*SetterPtr)(ArgT*)" << std::endl;
+            char *var;
+            FromJson(&var, jvalue);
+            (object->*SetterPtr)(var);
+        }
+        
+        /**
+         * special handling for char array.
+         * No other array type is supported. 
+         */
+        template<class T, class B>
+        static void SetData(T *object, void ( B::*SetterPtr)(const char*), const json::value &jvalue) {
+            std::cout << "Setdata : void (T::*SetterPtr)(ArgT*)" << std::endl;
+            char *var;
+            FromJson(&var, jvalue);
+            (object->*SetterPtr)(var);
+        }
+        
+        /**
          * calls the setter method with pointer type argument
          */
         template<class T, class B, class ArgT>
@@ -188,7 +212,7 @@ namespace Json {
             bool found = false;
 
             if (jvalue.has_field(U(name))) {
-                auto jval = jvalue.at(U(name));
+                const auto &jval = jvalue.at(U(name));
 
                 if (!jval.is_null()) {
                     found = true;
@@ -305,7 +329,7 @@ namespace Json {
 
         /*********************************************************************************
          * object type: bool*
-         * object should be allcated;
+         * object should be allocated;
          *
          * example of usages:
          *
@@ -329,7 +353,7 @@ namespace Json {
 
         /*********************************************************************************
          * object type: bool*
-         * object should NOT be allcated;
+         * object should NOT be allocated;
          *
          * example of usages:
          *
@@ -374,8 +398,8 @@ namespace Json {
         template<class T>
         typename std::enable_if<Is_Char<T>::Value, void>::type
         static FromJson(T *object, const json::value &jvalue) {
-            auto strT = jvalue.as_string();
-            auto str = utility::conversions::to_utf8string(strT);
+            const utility::string_t &strT = jvalue.as_string();
+            std::string str = utility::conversions::to_utf8string(strT);
             strcpy(object, str.c_str());
             std::cout << "Deserializing object: type = char*, value = " << object << std::endl;
         }
@@ -389,8 +413,8 @@ namespace Json {
         template<class T>
         typename std::enable_if<Is_Char<T>::Value, void>::type
         static FromJson(T **object, const json::value &jvalue) {
-            auto strT = jvalue.as_string();
-            auto str = utility::conversions::to_utf8string(strT);
+            const utility::string_t &strT = jvalue.as_string();
+            std::string str = utility::conversions::to_utf8string(strT);
             *object = new char [str.length() + 1];
             strcpy(*object, str.c_str());
             std::cout << "Deserializing object: type = char**, value = " << *object << std::endl;
@@ -625,6 +649,28 @@ namespace Json {
         /*///////////////////////////  VECTOR ////////////////////////////////////////////*/
 
         /***********************************************************************************
+         * special handling for vector of char*
+         ***********************************************************************************/
+        static void FromJson(std::vector<char*> *object, const json::value &jvalue) {
+            std::cout << "Deserializing object: type = vector<T>*" << std::endl;
+            for (const auto &arrItem : jvalue.as_array()) {
+                //char *var = new char[arrItem.size()];
+                char *var;
+                FromJson(&var, arrItem);
+                object->push_back(var);
+            }
+        }
+        static void FromJson(std::vector<const char*> *object, const json::value &jvalue) {
+            std::cout << "Deserializing object: type = vector<T>*" << std::endl;
+            for (const auto &arrItem : jvalue.as_array()) {
+                //char *var = new char[arrItem.size()];
+                char *var;
+                FromJson(&var, arrItem);
+                object->push_back(var);
+            }
+        }
+        
+        /***********************************************************************************
          * object type: std::vector<T*>*
          ***********************************************************************************/
         template<class T>
@@ -717,9 +763,9 @@ namespace Json {
         template<class T>
         typename std::enable_if<Is_DateTime<T>::Value, void>::type
         static FromJson(T &object, const json::value &jvalue) {
-            auto dateTimeStr = jvalue.as_string();
-            auto dateTimeWStr = dateTimeStr; //TODO: default encoding used
-            object = Wt::WDateTime::fromString(dateTimeStr); //TODO:: default format used
+            const utility::string_t &dateTimeStr = jvalue.as_string();
+            //TODO: default encoding and format used
+            object = Wt::WDateTime::fromString(utility::conversions::to_utf8string(dateTimeStr));
             std::cout << "Deserializing object: type = Wt::WDateTime&, value = " << dateTimeStr << std::endl;
         }
     };

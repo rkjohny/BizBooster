@@ -45,7 +45,7 @@ void AppInitializer::Initialize()
     auto filename = server_config_reader->GetValueOf(APP_LOG_FILE_PATH) +
             PATH_SEPARATOR + server_config_reader->GetValueOf(APP_LOG_FILE_NAME);
 
-    Fio::OFStream* ofStream = new Fio::OFStream();
+    auto ofStream = new Fio::OFStream();
     ofStream->SetFile(filename);
     logger->AddStream(filename, ofStream);
 

@@ -48,7 +48,7 @@ namespace Json {
         template< class T >
         static void Register(const string &key) {
             static_assert(std::is_base_of< Serializable, T >::value, "T must be derived from Serializable");
-            auto lwKey = key;
+            std::string lwKey = key;
             Common::StringUtility::ToLower(lwKey);
 
             cm_mutex.lock();
@@ -66,7 +66,7 @@ namespace Json {
         template< class T >
         static void UnRegister(const string &key) {
             static_assert(std::is_base_of< Serializable, T >::value, "T must be derived from Serializable");
-            auto lwKey = key;
+            std::string lwKey = key;
             Common::StringUtility::ToLower(lwKey);
             
             cm_mutex.lock();

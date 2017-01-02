@@ -14,24 +14,24 @@
 
 namespace Dal {
 
-void AuthenticatedRequester::SetUser(const User &user)
+void AuthenticatedRequester::SetUser(Wt::Dbo::ptr<Dal::User> &user)
 {
-    m_user.CopyFrom(user);
+    m_user = user;
 }
 
-const User& AuthenticatedRequester::GetUser()
+Wt::Dbo::ptr<Dal::User> AuthenticatedRequester::GetUser()
 {
     return m_user;
 }
 
 bool AuthenticatedRequester::HasRole(const std::string &role)
 {
-    return m_user.HasRole(role);
+    return m_user->HasRole(role);
 }
 
 bool AuthenticatedRequester::HasRole(const Role &role)
 {
-    return m_user.HasRole(role);
+    return m_user->HasRole(role);
 }
 
 

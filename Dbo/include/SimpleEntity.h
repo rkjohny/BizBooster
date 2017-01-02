@@ -22,7 +22,6 @@ namespace Dal {
 
 class SimpleEntity : public BaseEntity {
 protected:
-    Status m_status;
     std::string m_statusStr;
 
 public:

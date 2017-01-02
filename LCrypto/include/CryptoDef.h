@@ -28,7 +28,7 @@
 #define EMAIL_TOKEN_LENGTH 64
 
 //column size = 64
-#define AUTH_TOKEN_LENGTH 32
+#define AUTH_TOKEN_LENGTH 64
 
 #define HASH_METHOD_SHA1 "sha1"
 #define HASH_METHOD_BCRYPT "bcrypt"

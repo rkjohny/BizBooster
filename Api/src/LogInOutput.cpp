@@ -18,12 +18,16 @@ namespace Api {
 
 void LogInOutput::CopyFrom(LogInOutput&& orig)
 {
-    m_user.CopyFrom(std::move(orig.m_user));
+    m_user = orig.m_user;
+    m_sessionExpiresMsc = std::move(orig.m_sessionExpiresMsc);
+    m_sessionToken = std::move(orig.m_sessionExpiresMsc);
 }
 
 void LogInOutput::CopyFrom(const LogInOutput& orig)
 {
-    m_user.CopyFrom(orig.m_user);
+    m_user = orig.m_user;
+    m_sessionExpiresMsc = orig.m_sessionExpiresMsc;
+    m_sessionToken = orig.m_sessionExpiresMsc;
 }
 
 std::string LogInOutput::Name() const
@@ -36,14 +40,14 @@ std::string LogInOutput::ToString() const
     return "LogInOutput";
 }
 
-const Dal::User& LogInOutput::GetUser() const
+Wt::Dbo::ptr<Dal::User> LogInOutput::GetUser() const
 {
     return m_user;
 }
 
-void LogInOutput::SetUser(const Dal::User &user)
+void LogInOutput::SetUser(Wt::Dbo::ptr<Dal::User> &user)
 {
-    m_user.CopyFrom(user);
+    m_user = user;
 }
 
 uint64_t LogInOutput::GetSessionExpires() const
@@ -51,7 +55,7 @@ uint64_t LogInOutput::GetSessionExpires() const
     return m_sessionExpiresMsc;
 }
 
-void LogInOutput::SetSessionExpires(const uint64_t &sessionExpiresMsc)
+void LogInOutput::SetSessionExpires(uint64_t sessionExpiresMsc)
 {
     m_sessionExpiresMsc = sessionExpiresMsc;
 }

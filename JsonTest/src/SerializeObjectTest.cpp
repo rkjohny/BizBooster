@@ -47,9 +47,9 @@ public:
         m_id = 10;
         m_name = "rezaul";
         m_address = new string("Badda, Dhaka, Bangladesh");
-        m_age = new int( 37);
+        m_age = new int(37);
         m_score = 15.3;
-        m_city = new char( 10);
+        m_city = new char[10];
         strcpy(m_city, "Dhaka");
         m_isValid = true;
 

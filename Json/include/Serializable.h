@@ -24,7 +24,7 @@ namespace Json {
         Serializable();
         virtual ~Serializable();
 
-        virtual web::json::value Serialize() const = 0;
+        virtual const web::json::value& Serialize() = 0;
         virtual void Deserialize(const web::json::value&) = 0;
 
 
@@ -33,6 +33,9 @@ namespace Json {
 
         REGISTER_SETTER_START
         REGISTER_SETTER_END
+                
+    protected:
+        web::json::value m_serializedValue;
     };
 
 } /* namespace Api */

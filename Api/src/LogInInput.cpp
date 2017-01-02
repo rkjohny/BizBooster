@@ -15,10 +15,9 @@
 
 namespace Api {
 
-
 void LogInInput::CopyFrom(LogInInput&& orig)
 {
-     m_password = std::move(orig.m_password);
+    m_password = std::move(orig.m_password);
     m_userName = std::move(orig.m_userName);
     m_rememberMe = orig.m_rememberMe;
     m_useFacebookAuth = orig.m_useFacebookAuth;
@@ -46,7 +45,7 @@ std::string LogInInput::ToString() const
 
 std::shared_ptr<BaseOutput> LogInInput::Process(Dal::Requester *requester)
 {
-    return ServiceFacade::LogIn(requester, this);   
+    return ServiceFacade::LogIn(requester, this);
 }
 
 const std::string& LogInInput::GetPassword() const

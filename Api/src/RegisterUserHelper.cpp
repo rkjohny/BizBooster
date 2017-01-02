@@ -24,9 +24,9 @@ namespace Api {
 
 void RegisterUserHelper::InitAndValidate()
 {
-    auto user = Dal::GetDao()->GetUser(m_requester, m_input->GetEmail());
+    m_user = Dal::GetDao()->GetUser(m_requester, m_input->GetEmail());
 
-    if (user) {
+    if (m_user) {
         throw Common::AppException(AppErrorCode::USER_ALREADY_EXISTS,
                 "User with the email already exists");
     }
@@ -89,7 +89,7 @@ void RegisterUserHelper::ExecuteHelper()
 
                 LOG_DEBUG("New user registered successfully");
 
-                m_output->SetUser(*userAdded);
+                m_output->SetUser(userAdded);
 
                 LOG_DEBUG("Api output: " + m_output->Serialize().serialize());
 

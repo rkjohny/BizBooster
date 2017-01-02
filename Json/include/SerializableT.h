@@ -23,8 +23,9 @@ namespace Json {
         SerializableT() = default;
         virtual ~SerializableT() = default;
 
-        web::json::value Serialize() const override {
-            return Json::ToJson<T>(reinterpret_cast<const T*>(this));
+        const web::json::value& Serialize() override {
+            m_serializedValue = Json::ToJson<T>(reinterpret_cast<const T*>(this));
+            return m_serializedValue;
         }
 
         void Deserialize(const web::json::value& jvalue) override {

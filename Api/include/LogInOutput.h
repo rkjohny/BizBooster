@@ -24,30 +24,34 @@ public:
 
     ~LogInOutput() = default;
 
-    const Dal::User& GetUser() const;
+    Wt::Dbo::ptr<Dal::User> GetUser() const;
 
-    void SetUser(const Dal::User &user);
-    
+    void SetUser(Wt::Dbo::ptr<Dal::User> &user);
+
     uint64_t GetSessionExpires() const;
 
-    void SetSessionExpires(const uint64_t &sessionExpiresMsc);
+    void SetSessionExpires(uint64_t sessionExpiresMsc);
 
     const std::string& GetSessionToken() const;
 
     void SetSessionToken(const std::string &sessionToken);
 
 private:
-    Dal::User m_user;
-    
+    Wt::Dbo::ptr<Dal::User> m_user;
+
     std::string m_sessionToken;
     uint64_t m_sessionExpiresMsc;
 
     REGISTER_GETTER_INCLUDING_BASE_START(ApiOutput<LogInOutput>)
-    GETTER(LogInOutput, const Dal::User&, "user", &LogInOutput::GetUser)
+    GETTER(LogInOutput, Wt::Dbo::ptr<Dal::User>, "user", &LogInOutput::GetUser),
+    GETTER(LogInOutput, const std::string&, "session_token", &LogInOutput::GetSessionToken),
+    GETTER(LogInOutput, uint64_t, "session_expires", &LogInOutput::GetSessionExpires)
     REGISTER_GETTER_INCLUDING_BASE_END
 
     REGISTER_SETTER_INCLUDING_BASE_START(ApiOutput<LogInOutput>)
-    SETTER(LogInOutput, const Dal::User&, "user", &LogInOutput::SetUser)
+    SETTER(LogInOutput, Wt::Dbo::ptr<Dal::User>&, "user", &LogInOutput::SetUser),
+    SETTER(LogInOutput, const std::string&, "session_token", &LogInOutput::SetSessionToken),
+    SETTER(LogInOutput, uint64_t, "session_expires", &LogInOutput::SetSessionExpires)
     REGISTER_SETTER_INCLUDING_BASE_END
 };
 

@@ -43,7 +43,7 @@ std::string WtHashGenerator::Name(HashMethod method)
 
 bool WtHashGenerator::Verify(HashMethod method, const std::string &msg, const std::string &hash, const std::string &salt)
 {
-    auto ret = false;
+    bool ret = false;
     
     switch (method) {
     case SHA1:

@@ -21,7 +21,7 @@ SOFactory::ListCreatorsArr SOFactory::cm_objectArrayCreators;
 std::shared_ptr<Serializable> SOFactory::CreateObject(const string &key)
 {
     std::shared_ptr<Serializable> p = nullptr;
-    auto lwKey = key;
+    std::string lwKey = key;
     Common::StringUtility::ToLower(lwKey);
 
     cout << cm_objectCreators.size() << endl;
@@ -41,7 +41,7 @@ std::shared_ptr<Serializable> SOFactory::CreateObject(const string &key)
 std::vector< std::shared_ptr<Serializable>> SOFactory::CreateObjectArray(const string &key, const size_t size)
 {
     std::vector< std::shared_ptr<Serializable>> v;
-    auto lwKey = key;
+    std::string lwKey = key;
     Common::StringUtility::ToLower(lwKey);
 
     cm_mutexArr.lock();

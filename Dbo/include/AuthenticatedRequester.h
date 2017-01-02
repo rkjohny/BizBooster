@@ -29,7 +29,7 @@ class AuthenticatedRequester : public Requester {
 private:
     NON_COPY_NON_MOVE_ABLE(AuthenticatedRequester);
 
-    User m_user;
+    Wt::Dbo::ptr<Dal::User> m_user;
     
 protected:
     AuthenticatedRequester() = default;
@@ -37,9 +37,10 @@ protected:
 public:
     virtual ~AuthenticatedRequester() = default;
 
-    void SetUser(const User&);
+    void SetUser(Wt::Dbo::ptr<Dal::User>&);
 
-    const User& GetUser() override;
+    Wt::Dbo::ptr<Dal::User> GetUser() override;
+    
     bool HasRole(const std::string &) override;
     bool HasRole(const Role &) override;
 };

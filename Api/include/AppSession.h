@@ -34,7 +34,7 @@ public:
 
     std::weak_ptr<Dal::AuthenticatedRequester> GetRequester();
 
-    void SetUser(const Dal::User &user);
+    void SetUser(Wt::Dbo::ptr<Dal::User> &user);
 
     void ExtendExpiration();
 
@@ -42,7 +42,7 @@ public:
 
     void ExtendExpiration(uint64_t msec);
 
-    const Dal::User& Getuser();
+    Wt::Dbo::ptr<Dal::User> Getuser();
 
     bool IsPinned() const;
 

@@ -25,12 +25,12 @@ protected:
 
 public:
     static InternalRootRequester* GetInstance();
-    const User& GetUser() override;
+    Wt::Dbo::ptr<Dal::User> GetUser() override;
     bool HasRole(const std::string &) override;
     bool HasRole(const Role &) override;
     
 private:
-    User m_user;
+    Wt::Dbo::ptr<User> m_user;
     static InternalRootRequester *m_instance;
     
     NON_COPY_NON_MOVE_ABLE(InternalRootRequester);

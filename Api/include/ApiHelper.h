@@ -77,11 +77,9 @@ public:
             ExecuteHelper();
             
             if (m_output->GetError().GetCode() == AppErrorCode::SUCCESS) {
-                
                 m_output->Serialize();
                 //TODO: what to do  if commit failes
-                bool succeeded = dao->CommitTransaction(m_requester, transaction);
-                
+                bool succeeded = dao->CommitTransaction(m_requester, transaction);                
             } else {
                 dao->RollbackTransaction(m_requester, transaction);
                 response = m_output->GetErrorResponse();

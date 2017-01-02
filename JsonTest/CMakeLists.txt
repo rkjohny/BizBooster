@@ -10,14 +10,15 @@ set(PROJECT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 # including header files for this target
 include_directories(${PROJECT_INCLUDE_DIR})
-message("JSON_TEST_INCCUDE_DIR = ${PROJECT_INCLUDE_DIR}")
 
 #include header foles of gtest
 include_directories(${GTEST_INCLUDE_DIRS})
 
 # include libJson header files
 include_directories(${LIB_JSON_INCLUDE_DIR})
-message("LIB_JSON_INCLUDE_DIR = ${LIB_JSON_INCLUDE_DIR}")
+
+# include libJson header files
+include_directories(${LIB_COMMON_INCLUDE_DIR})
 
 # including source files
 set(JSON_TEST_SRCS

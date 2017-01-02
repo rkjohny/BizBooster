@@ -35,7 +35,7 @@ bool AppSessionManager::IsValidToken(const std::string &token)
     return ret;
 }
 
-void AppSessionManager::AddSession(const std::string &token, const Dal::User &user)
+void AppSessionManager::AddSession(const std::string &token, Wt::Dbo::ptr<Dal::User> &user)
 {
     bool is_pinned = false;
 
@@ -59,7 +59,7 @@ void AppSessionManager::AddSession(const std::string &token, const Dal::User &us
     m_mutex.unlock();
 }
 
-void AppSessionManager::AddSession(const std::string &token, const Dal::User &user, uint64_t expiresMsc)
+void AppSessionManager::AddSession(const std::string &token, Wt::Dbo::ptr<Dal::User> &user, uint64_t expiresMsc)
 {
     bool is_pinned = false;
     

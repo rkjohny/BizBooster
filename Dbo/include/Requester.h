@@ -27,7 +27,7 @@ public:
     Requester() = default;
     virtual ~Requester() = default;
     
-    virtual const User& GetUser() = 0;
+    virtual Wt::Dbo::ptr<Dal::User> GetUser() = 0;
     virtual bool HasRole(const std::string &) = 0;
     virtual bool HasRole(const Role &) = 0;
 };
