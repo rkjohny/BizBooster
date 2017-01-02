@@ -24,12 +24,12 @@ WtSession::WtSession()
             DBO_CONFIG_FILE_NAME, Fio::ConFigFileType::PROPERTY_FILE);
     config_reader->SetFile(DBO_CONFIG_FILE_NAME);
 
-    std::string db_host = config_reader->GetValueOf(DB_HOST);
-    std::string db_name = config_reader->GetValueOf(DB_NAME);
-    std::string db_user_name = config_reader->GetValueOf(DB_USER_NAME);
-    std::string db_user_pass = config_reader->GetValueOf(DB_USER_PASSWORD);
+    auto db_host = config_reader->GetValueOf(DB_HOST);
+    auto db_name = config_reader->GetValueOf(DB_NAME);
+    auto db_user_name = config_reader->GetValueOf(DB_USER_NAME);
+    auto db_user_pass = config_reader->GetValueOf(DB_USER_PASSWORD);
 
-    std::string conn_string = "host=" + db_host + " user=" + db_user_name +
+    auto conn_string = "host=" + db_host + " user=" + db_user_name +
             " password=" + db_user_pass + " dbname=" + db_name;
 
     std::cout << conn_string << std::endl;
@@ -39,11 +39,11 @@ WtSession::WtSession()
 
     setConnection(m_connection);
 
-    mapClass<Dal::AppSetting>("t_setting");
-    mapClass<Dal::User>("t_user");
-    mapClass<Dal::AuthInfo>("t_auth_info");
-    mapClass<Dal::AuthInfo::AuthIdentityType>("t_auth_identity");
-    mapClass<Dal::AuthInfo::AuthTokenType>("t_auth_token");
+    mapClass<Dal::AppSetting>("setting");
+    mapClass<Dal::User>("user");
+    mapClass<Dal::AuthInfo>("auth_info");
+    mapClass<Dal::AuthInfo::AuthIdentityType>("auth_identity");
+    mapClass<Dal::AuthInfo::AuthTokenType>("auth_token");
 }
 
 WtSession::~WtSession()

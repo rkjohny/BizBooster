@@ -41,10 +41,10 @@ Service::Service()
 
     auto server_config_reader = Fio::CFReaderFactory::GetConfigReader(SERVICE_CONFIG_FILE_NAME);
     
-    utility::string_t protocol = server_config_reader->GetValueOf(SERVICE_HOST_PROTOCOL);
-    utility::string_t host_name = server_config_reader->GetValueOf(SERVICE_HOST_NAME);
-    utility::string_t port = server_config_reader->GetValueOf(SERVICE_HOST_PORT);
-    utility::string_t path = server_config_reader->GetValueOf(SERVICE_APP_PATH);
+    auto protocol = server_config_reader->GetValueOf(SERVICE_HOST_PROTOCOL);
+    auto host_name = server_config_reader->GetValueOf(SERVICE_HOST_NAME);
+    auto port = server_config_reader->GetValueOf(SERVICE_HOST_PORT);
+    auto path = server_config_reader->GetValueOf(SERVICE_APP_PATH);
 
     utility::string_t addr = U("");
     addr.append(protocol);

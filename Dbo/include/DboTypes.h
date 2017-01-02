@@ -22,8 +22,8 @@ typedef Wt::Auth::Dbo::AuthInfo<Dal::User> AuthInfo;
 typedef Wt::Auth::Dbo::AuthToken<Dal::AuthInfo> AuthToken;
 typedef Wt::Auth::Dbo::AuthIdentity< Dal::AuthInfo > AuthIdentity;
 
-typedef Wt::Dbo::collection<Dal::AuthToken> AuthTokens;
-typedef Wt::Dbo::collection<Dal::AuthIdentity> AuthIdentities;
+typedef Wt::Dbo::collection<Wt::Dbo::ptr<Dal::AuthToken>> AuthTokens;
+typedef Wt::Dbo::collection<Wt::Dbo::ptr<Dal::AuthIdentity>> AuthIdentities;
 
 }
 

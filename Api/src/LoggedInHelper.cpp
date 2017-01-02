@@ -17,8 +17,8 @@ namespace Api {
 
 void LoggedInHelper::InitAndValidate()
 {
-    m_dao = Dal::GetDao();
-    m_user = m_dao->GetUser(m_requester, m_input->GetUserId());
+    auto dao = Dal::GetDao();
+    m_user = dao->GetUser(m_requester, m_input->GetUserId());
     if (!m_user) {
         throw Common::AppException(AppErrorCode::USER_NOT_FOUND, "User not exists");
     }

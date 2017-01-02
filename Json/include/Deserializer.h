@@ -188,7 +188,7 @@ namespace Json {
             bool found = false;
 
             if (jvalue.has_field(U(name))) {
-                const auto &jval = jvalue.at(U(name));
+                auto jval = jvalue.at(U(name));
 
                 if (!jval.is_null()) {
                     found = true;
@@ -374,8 +374,8 @@ namespace Json {
         template<class T>
         typename std::enable_if<Is_Char<T>::Value, void>::type
         static FromJson(T *object, const json::value &jvalue) {
-            utility::string_t strT = jvalue.as_string();
-            std::string str = utility::conversions::to_utf8string(strT);
+            auto strT = jvalue.as_string();
+            auto str = utility::conversions::to_utf8string(strT);
             strcpy(object, str.c_str());
             std::cout << "Deserializing object: type = char*, value = " << object << std::endl;
         }
@@ -389,8 +389,8 @@ namespace Json {
         template<class T>
         typename std::enable_if<Is_Char<T>::Value, void>::type
         static FromJson(T **object, const json::value &jvalue) {
-            utility::string_t strT = jvalue.as_string();
-            std::string str = utility::conversions::to_utf8string(strT);
+            auto strT = jvalue.as_string();
+            auto str = utility::conversions::to_utf8string(strT);
             *object = new char [str.length() + 1];
             strcpy(*object, str.c_str());
             std::cout << "Deserializing object: type = char**, value = " << *object << std::endl;
@@ -717,8 +717,8 @@ namespace Json {
         template<class T>
         typename std::enable_if<Is_DateTime<T>::Value, void>::type
         static FromJson(T &object, const json::value &jvalue) {
-            std::string dateTimeStr = jvalue.as_string();
-            Wt::WString dateTimeWStr = Wt::WString(dateTimeStr); //TODO: default encoding used
+            auto dateTimeStr = jvalue.as_string();
+            auto dateTimeWStr = dateTimeStr; //TODO: default encoding used
             object = Wt::WDateTime::fromString(dateTimeStr); //TODO:: default format used
             std::cout << "Deserializing object: type = Wt::WDateTime&, value = " << dateTimeStr << std::endl;
         }

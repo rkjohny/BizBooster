@@ -76,20 +76,33 @@
             CopyFrom(orig); \
             return *this; \
         } \
+        void CopyFrom(const std::shared_ptr<TYPE>& orig) { \
+            CopyFrom(*orig); \
+        } \
         void CopyFrom(const TYPE &orig); \
-        void CopyFrom(TYPE &&orig); \
-        void CopyFrom(const std::shared_ptr<TYPE> &orig);
+        void CopyFrom(TYPE &&orig);
+        
  
 
 #define SERIALIZEABLE(TYPE) \
     TYPE() = default; \
     COPY_ABLE_MOVE_ABLE(TYPE) \
 
-#define API_INPUT_OUTPUT(TYPE) \
+
+#define API_INPUT(TYPE) \
+    TYPE() = default; \
+    COPY_ABLE_MOVE_ABLE(TYPE) \
+    std::string ToString() const override; \
+    std::string Name() const override; \
+    std::shared_ptr<BaseOutput> Process(Dal::Requester *requester) override;
+
+#define API_OUTPUT(TYPE) \
     TYPE() = default; \
     COPY_ABLE_MOVE_ABLE(TYPE) \
     std::string ToString() const override; \
     std::string Name() const override;
+
+
 
 #define API_HELPER(TYPE) \
     NON_COPY_NON_MOVE_ABLE(TYPE)

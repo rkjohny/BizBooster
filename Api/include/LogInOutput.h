@@ -20,7 +20,7 @@ namespace Api {
 
 class LogInOutput : public ApiOutput<LogInOutput> {
 public:
-    API_INPUT_OUTPUT(LogInOutput);
+    API_OUTPUT(LogInOutput);
 
     ~LogInOutput() = default;
 

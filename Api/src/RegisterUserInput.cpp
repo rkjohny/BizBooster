@@ -36,15 +36,6 @@ void RegisterUserInput::CopyFrom(RegisterUserInput &&orig)
     m_version = std::move(orig.m_version);
 }
 
-void RegisterUserInput::CopyFrom(const std::shared_ptr<RegisterUserInput> &orig)
-{
-    m_email = orig->GetEmail();
-    m_name = orig->GetName();
-    m_password = orig->GetPassword();
-    m_roles = orig->GetRoles();
-    m_version = orig->GetVersion();
-}
-
 string RegisterUserInput::Name() const
 {
     return "RegisterUserInput";

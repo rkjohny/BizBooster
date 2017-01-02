@@ -25,6 +25,7 @@
 #include "InternalRootRequester.h"
 #include "DboDef.h"
 
+
 namespace Dal {
 
 void DMUpgrade_1::Execute()
@@ -50,7 +51,7 @@ void DMUpgrade_1::Execute()
         user->SetStatus(Status::V);
 
         Requester *requester = InternalRootRequester::GetInstance();
-        Wt::Dbo::ptr<User> userAdded = dao->RegisterUser(requester, user);
+        auto userAdded = dao->RegisterUser(requester, user);
 
         if (userAdded) {
             authInfo = new Dal::AuthInfo();
@@ -58,8 +59,7 @@ void DMUpgrade_1::Execute()
             authInfo->setEmail(superUserEmail);
             authInfo->setUnverifiedEmail(superUserEmail);
 
-            Wt::WDateTime now;
-            Common::DateTimeUtils::AddMscToCurrentDateTime(now, 2);
+            auto now = Common::DateTimeUtils::AddMscToNow(DEFAULT_SESSION_TIME_OUT_IN_MSC);
             authInfo->setEmailToken(Dal::AuthUtils::GenerateEmailToken(), now, Wt::Auth::User::EmailTokenRole::VerifyEmail);
 
             auto passwdEncoder = LCrypto::PassWordEncoder::GetInstance();
@@ -72,7 +72,7 @@ void DMUpgrade_1::Execute()
 
             authInfo->setUser(userAdded);
 
-            Wt::Dbo::ptr<AuthInfo> authInfoAdded = dao->AddAuthInfo(requester, authInfo);
+            auto authInfoAdded = dao->AddAuthInfo(requester, authInfo);
 
             if (authInfoAdded) {
                 identity = new Dal::AuthIdentity(superUserIdentityProvider, superUserIdentity);

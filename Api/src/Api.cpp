@@ -17,6 +17,8 @@
 #include "Common.h"
 #include "Dal.h"
 #include "SOFactory.h"
+#include "LogInInput.h"
+#include "LoggedInInput.h"
 
 namespace Api {
 
@@ -33,6 +35,9 @@ void LoadLibrary()
         REGISTER_CLASS(RegisterUserInput, "register_user");
         REGISTER_CLASS(RegisterUserInput, "RegisterUserInput");
         REGISTER_CLASS(RegisterUserOutput, "RegisterUserOutput");
+        
+        REGISTER_CLASS(LogInInput, "login");
+        REGISTER_CLASS(LoggedInInput, "loggedin" );
 
         g_loaded = true;
     }

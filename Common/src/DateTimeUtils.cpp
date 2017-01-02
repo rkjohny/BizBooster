@@ -41,20 +41,21 @@ string DateTimeUtils::GetTimeStamp()
 void DateTimeUtils::GetCurrentDateTime(Wt::WDateTime &dt)
 {
     std::time_t curTime = std::time(nullptr);
-    //std::tm *tm_local = std::localtime(&curTime);
-
     dt.setTime_t(curTime);
 }
 
-void DateTimeUtils::AddMscToCurrentDateTime(Wt::WDateTime &dt, int day)
+void DateTimeUtils::AddDayToCurrentDateTime(Wt::WDateTime &dt, uint32_t day)
 {
     std::time_t curTime = std::time(nullptr);
-    std::tm *tm_local = std::localtime(&curTime);
-    tm_local->tm_mday += day;
-
-    std::time_t next = std::mktime(tm_local);
-
-    dt.setTime_t(next);
+    
+    curTime += (day * 24 * 60 * 60 * 100);
+    
+//    std::tm *tm_local = std::localtime(&curTime);
+//    tm_local->tm_mday += day;
+//    std::time_t next = std::mktime(tm_local);
+//    dt.setTime_t(next);
+    
+    dt.setTime_t(curTime);
 }
 
 Wt::WDateTime DateTimeUtils::Now()

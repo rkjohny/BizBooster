@@ -115,8 +115,8 @@ const string& AppException::GetMessage() const
 
 web::json::value AppException::Serialize() const
 {
-    web::json::value response = web::json::value::object();
-    web::json::value error = web::json::value::object();
+    auto response = web::json::value::object();
+    auto error = web::json::value::object();
     error[U("code")] = web::json::value::number(static_cast<int> (m_code));
     error[U("message")] = web::json::value::string(m_message);
     response[U("error")] = error;

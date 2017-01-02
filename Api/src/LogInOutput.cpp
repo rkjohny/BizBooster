@@ -18,17 +18,12 @@ namespace Api {
 
 void LogInOutput::CopyFrom(LogInOutput&& orig)
 {
-    m_user.copyFrom(std::move(orig.m_user));
+    m_user.CopyFrom(std::move(orig.m_user));
 }
 
 void LogInOutput::CopyFrom(const LogInOutput& orig)
 {
-    m_user.copyFrom(orig.m_user);
-}
-
-void LogInOutput::CopyFrom(const std::shared_ptr<LogInOutput>& orig)
-{
-    m_user.copyFrom(orig->GetUser());
+    m_user.CopyFrom(orig.m_user);
 }
 
 std::string LogInOutput::Name() const
@@ -48,7 +43,7 @@ const Dal::User& LogInOutput::GetUser() const
 
 void LogInOutput::SetUser(const Dal::User &user)
 {
-    m_user.copyFrom(user);
+    m_user.CopyFrom(user);
 }
 
 uint64_t LogInOutput::GetSessionExpires() const

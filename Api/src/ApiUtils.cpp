@@ -17,8 +17,8 @@ namespace Api {
 
 web::json::value ApiUtils::ErrorResponse(AppErrorCode code, const std::string &message)
 {
-    web::json::value response = web::json::value::object();
-    web::json::value error = web::json::value::object();
+    auto response = web::json::value::object();
+    auto error = web::json::value::object();
     error[U("code")] = web::json::value::number(static_cast<int>(code));
     error[U("message")] = web::json::value::string(message);
     response[U("error")] = error;
@@ -27,8 +27,8 @@ web::json::value ApiUtils::ErrorResponse(AppErrorCode code, const std::string &m
 
 web::json::value ApiUtils::UnknownErrorResponse()
 {
-    web::json::value response = web::json::value::object();
-    web::json::value error = web::json::value::object();
+    auto response = web::json::value::object();
+    auto error = web::json::value::object();
     error[U("code")] = web::json::value::number(AppErrorCode::UN_KNOWN_ERROR);
     error[U("message")] = web::json::value::string(U("Unknown error."));
     response[U("error")] = error;
@@ -37,8 +37,8 @@ web::json::value ApiUtils::UnknownErrorResponse()
 
 web::json::value ApiUtils::BadRequestResponse()
 {
-    web::json::value response = web::json::value::object();
-    web::json::value error = web::json::value::object();
+    auto response = web::json::value::object();
+    auto error = web::json::value::object();
     error[U("code")] = web::json::value::number(AppErrorCode::BAD_REQUEST);
     error[U("message")] = web::json::value::string(U("Bad request"));
     response[U("error")] = error;
@@ -47,8 +47,8 @@ web::json::value ApiUtils::BadRequestResponse()
 
 web::json::value ApiUtils::InternalServerErrorResponse()
 {
-    web::json::value response = web::json::value::object();
-    web::json::value error = web::json::value::object();
+    auto response = web::json::value::object();
+    auto error = web::json::value::object();
     error[U("code")] = web::json::value::number(AppErrorCode::INTERNAL_SERVER_ERROR);
     error[U("message")] = web::json::value::string(U("Internal server error."));
     response[U("error")] = error;

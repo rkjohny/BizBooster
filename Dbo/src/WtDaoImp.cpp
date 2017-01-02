@@ -56,7 +56,7 @@ void WtDaoImp::CreateTables(Requester *requester)
         LOG_INFO("Creating Tables...");
         m_session.createTables();
     } catch (std::exception &e) {
-        LOG_DEBUG(std::string("error:") + e.what())
+        LOG_DEBUG(std::string("Ignoring: ") + e.what())
         LOG_INFO("Table already exists and will not be created.");
     }
 }
@@ -81,7 +81,7 @@ void WtDaoImp::RollbackTransaction(Requester *requester, Wt::Dbo::Transaction& t
 
 bool WtDaoImp::TableExists(Requester *requester, std::string table_name)
 {
-    int count = m_session.query<int>("SELECT count(1) FROM PG_CLASS").where("RELNAME = ?").bind(table_name);
+    auto count = m_session.query<int>("SELECT count(1) FROM PG_CLASS").where("RELNAME = ?").bind(table_name);
     return (count > 0) ? true : false;
 }
 
@@ -90,14 +90,13 @@ int WtDaoImp::GetNextDmVersion(Requester *requester)
     int nextDmVersion = 0;
 
     try {
-        Wt::Dbo::ptr<Dal::AppSetting> obj =
-                m_session.find<Dal::AppSetting>().where("name = ?").bind(NEXT_DM_VERSION_KEY);
-        if (obj) {
-            std::string value = obj->GetValue();
+        auto query = m_session.find<Dal::AppSetting>().where("name = ?").bind(NEXT_DM_VERSION_KEY);
+        auto appSettingsPtr = query.resultValue();
+        if (appSettingsPtr) {
+            auto value = appSettingsPtr->GetValue();
             nextDmVersion = Common::Converter::ToInt32(value);
         }
     } catch (std::exception &e) {
-        std::cout << e.what() << std::endl;
         nextDmVersion = 0;
     }
     return nextDmVersion;
@@ -105,12 +104,12 @@ int WtDaoImp::GetNextDmVersion(Requester *requester)
 
 void WtDaoImp::AddOrUpdateAppSetting(Requester *requester, AppSetting &&setting)
 {
-    Wt::Dbo::ptr<Dal::AppSetting> obj =
-            m_session.find<Dal::AppSetting>().where("name = ?").bind(setting.GetName());
-    if (!obj) {
-        obj = m_session.add<AppSetting>(new AppSetting(setting.GetName()));
+    auto query = m_session.find<Dal::AppSetting>().where("name = ?").bind(setting.GetName());
+    auto objPtr = query.resultValue();
+    if (!objPtr) {
+        objPtr = m_session.add<Dal::AppSetting>(new AppSetting(setting.GetName()));
     }
-    obj.modify()->SetValue(setting.GetValue());
+    objPtr.modify()->SetValue(setting.GetValue());
 }
 
 Wt::Dbo::ptr<User> WtDaoImp::RegisterUser(Requester *requester, User *user)
@@ -125,19 +124,35 @@ Wt::Dbo::ptr<User> WtDaoImp::GetUser(Requester *requester, const std::string &pr
     typedef Wt::Dbo::collection<PUser> Users;
 
     PUser user;
-    
-#if 1
-    QUsers q = m_session.query<PUser>("select U from \"t_user\" U "
-            "join \"t_auth_info\" A on U.id = A.user_id "
-            "join \"t_auth_identity\" I on A.id = I.auth_info_id")
+
+#if 0
+    QUsers q = m_session.query<PUser>("select U from \"user\" U "
+            "join \"auth_info\" A on U.id = A.user_id "
+            "join \"auth_identity\" I on A.id = I.auth_info_id")
             .where("I.provider= ? and I.identity = ? and U.status = ?")
             .bind(provider).bind(identity).bind("V");
 
     Users users = q.resultList();
-    
-    user = *(users.begin());
+
+    if (users.size() > 0) {
+        user = *(users.begin());
+    }
 #endif
-    
+
+#if 1
+    auto query = m_session.query<PUser>("select U from \"user\" U "
+            "join \"auth_info\" A on U.id = A.user_id "
+            "join \"auth_identity\" I on A.id = I.auth_info_id")
+            .where("I.provider= ? and I.identity = ? and U.status = ?")
+            .bind(provider).bind(identity).bind("V");
+
+    auto users = query.resultList();
+
+    if (users.size() > 0) {
+        user = *(users.begin());
+    }
+#endif
+
     return user;
 }
 
@@ -148,23 +163,29 @@ Wt::Dbo::ptr<User> WtDaoImp::GetUser(Requester *requester, const std::string &id
 
 Wt::Dbo::ptr<AuthInfo> WtDaoImp::AddAuthInfo(Requester *requester, AuthInfo *authInfo)
 {
-    Wt::Dbo::ptr<AuthInfo> authInfoAdded;
-    authInfoAdded = m_session.add<AuthInfo>(authInfo);
-    return authInfoAdded;
+    //    Wt::Dbo::ptr<AuthInfo> authInfoAdded;
+    //    authInfoAdded = m_session.add<AuthInfo>(authInfo);
+    //    return authInfoAdded;
+
+    return m_session.add<AuthInfo>(authInfo);
 }
 
 Wt::Dbo::ptr<AuthInfo::AuthIdentityType> WtDaoImp::AddIdentity(Requester *requester, AuthInfo::AuthIdentityType *identity)
 {
-    Wt::Dbo::ptr<AuthInfo::AuthIdentityType> identityAdded =
-            m_session.add<AuthInfo::AuthIdentityType>(identity);
-    return identityAdded;
+    //    Wt::Dbo::ptr<AuthInfo::AuthIdentityType> identityAdded =
+    //            m_session.add<AuthInfo::AuthIdentityType>(identity);
+    //    return identityAdded;
+
+    return m_session.add<AuthInfo::AuthIdentityType>(identity);
 }
 
 Wt::Dbo::ptr<User> WtDaoImp::GetUser(Requester *requester, int64_t id)
 {
-    Wt::Dbo::ptr<User> user;
-    user = m_session.find<Dal::User>().where("id = ? and status = ?").bind(id).bind(StatusStr::V);
-    return user;
+    //    Wt::Dbo::ptr<User> user;
+    //    user = m_session.find<Dal::User>().where("id = ? and status = ?").bind(id).bind(StatusStr::V);
+    //    return user;
+
+    return m_session.find<Dal::User>().where("id = ? and status = ?").bind(id).bind(StatusStr::V);
 }
 
 }

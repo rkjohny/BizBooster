@@ -11,7 +11,7 @@
  */
 
 #include "AppSessionManager.h"
-#include "ApiDef.h"
+#include "DboDef.h"
 
 
 namespace Api {
@@ -41,7 +41,7 @@ void AppSessionManager::AddSession(const std::string &token, const Dal::User &us
 
     m_mutex.lock();
 
-    std::shared_ptr<AppSession> session = std::shared_ptr<AppSession>(new AppSession());
+    auto session = std::shared_ptr<AppSession>(new AppSession());
     session->SetUser(user);
 
     auto itr = m_sessions.find(token);
@@ -65,7 +65,7 @@ void AppSessionManager::AddSession(const std::string &token, const Dal::User &us
     
     m_mutex.lock();
 
-    std::shared_ptr<AppSession> session = std::shared_ptr<AppSession>(new AppSession());
+    auto session = std::shared_ptr<AppSession>(new AppSession());
     session->SetUser(user);
     session->ResetExpiration(expiresMsc);
 

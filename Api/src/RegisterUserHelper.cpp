@@ -24,7 +24,7 @@ namespace Api {
 
 void RegisterUserHelper::InitAndValidate()
 {
-    Wt::Dbo::ptr<Dal::User> user = Dal::GetDao()->GetUser(m_requester, m_input->GetEmail());
+    auto user = Dal::GetDao()->GetUser(m_requester, m_input->GetEmail());
 
     if (user) {
         throw Common::AppException(AppErrorCode::USER_ALREADY_EXISTS,
@@ -46,7 +46,7 @@ void RegisterUserHelper::ExecuteHelper()
 
     User *user = nullptr;
     Dal::AuthInfo *authInfo = nullptr;
-    Dal::AuthInfo::AuthIdentityType *identity = nullptr;
+    Dal::AuthIdentity *identity = nullptr;
     auto dao = Dal::GetDao();
     
     LOG_DEBUG("Registering new user.");
@@ -58,7 +58,7 @@ void RegisterUserHelper::ExecuteHelper()
         user->SetVersion(m_input->GetVersion());
         user->SetStatusStr(m_input->GetStatus());
 
-        Wt::Dbo::ptr<User> userAdded = dao->RegisterUser(m_requester, user);
+        auto userAdded = dao->RegisterUser(m_requester, user);
 
         if (userAdded) {
             authInfo = new Dal::AuthInfo();
@@ -66,8 +66,7 @@ void RegisterUserHelper::ExecuteHelper()
             authInfo->setEmail(m_input->GetEmail());
             authInfo->setUnverifiedEmail(m_input->GetEmail());
 
-            Wt::WDateTime now;
-            Common::DateTimeUtils::AddMscToCurrentDateTime(now, 2);
+            auto now = Common::DateTimeUtils::AddMscToNow(DEFAULT_SESSION_TIME_OUT_IN_MSC);
             authInfo->setEmailToken(Dal::AuthUtils::GenerateEmailToken(), now, Wt::Auth::User::EmailTokenRole::VerifyEmail);
 
             auto passwdEncoder = LCrypto::PassWordEncoder::GetInstance();
@@ -80,7 +79,7 @@ void RegisterUserHelper::ExecuteHelper()
 
             authInfo->setUser(userAdded);
 
-            Wt::Dbo::ptr<AuthInfo> authInfoAdded = dao->AddAuthInfo(m_requester, authInfo);
+            auto authInfoAdded = dao->AddAuthInfo(m_requester, authInfo);
 
             if (authInfoAdded) {
                 //TODO: hard coded identity provider

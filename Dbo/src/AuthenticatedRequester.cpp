@@ -16,7 +16,7 @@ namespace Dal {
 
 void AuthenticatedRequester::SetUser(const User &user)
 {
-    m_user.copyFrom(user);
+    m_user.CopyFrom(user);
 }
 
 const User& AuthenticatedRequester::GetUser()

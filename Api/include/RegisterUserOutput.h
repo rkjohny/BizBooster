@@ -26,7 +26,7 @@ namespace Api {
 
     class RegisterUserOutput : public ApiOutput<RegisterUserOutput> {
     public:
-        API_INPUT_OUTPUT(RegisterUserOutput);
+        API_OUTPUT(RegisterUserOutput);
         
         ~RegisterUserOutput() = default;
 

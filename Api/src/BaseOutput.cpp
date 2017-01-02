@@ -34,8 +34,8 @@ ApiError BaseOutput::GetError() const
 
 web::json::value BaseOutput::GetErrorResponse() const
 {
-    web::json::value response = web::json::value::object();
-    web::json::value error = web::json::value::object();
+    auto response = web::json::value::object();
+    auto error = web::json::value::object();
     error[U("code")] = web::json::value::number(static_cast<int> (m_error.GetCode()));
     error[U("message")] = web::json::value::string(m_error.GetMessage());
     response[U("error")] = error;

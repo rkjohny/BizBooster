@@ -18,6 +18,7 @@
 #include "CryptoDef.h"
 #include "Roles.h"
 #include "AppSessionManager.h"
+#include "DboDef.h"
 
 namespace Api {
 
@@ -27,7 +28,12 @@ void LogInHelper::InitAndValidate()
     if (!m_user) {
         throw Common::AppException(AppErrorCode::AUTHTICATION_FAILURE, "Invalid username password.");
     }
-    m_authInfo = m_user->GetAuthInfo();
+    auto authInfo = m_user->GetAuthInfo();
+    m_authInfo = authInfo.lock();
+
+    if (!m_authInfo) {
+        throw Common::AppException(AppErrorCode::AUTHTICATION_FAILURE, "Invalid username password.");
+    }
 }
 
 void LogInHelper::CheckPermission()
@@ -39,53 +45,44 @@ void LogInHelper::CheckPermission()
 
 void LogInHelper::ExecuteHelper()
 {
-    m_authInfo = m_user->GetAuthInfo();
-    auto authInfo = m_authInfo.lock();
-
-    if (authInfo) {
-        if (m_input->IsUseFacebookAuth()) {
-            throw Common::AppException(AppErrorCode::NOT_SUPPORTED, "Google authentication is not supported yet");
-        } else if (m_input->IsUseFacebookAuth()) {
-            throw Common::AppException(AppErrorCode::NOT_SUPPORTED, "Facebook authentication is not supported yet");
-        } else {
-            std::string passHash = authInfo->passwordHash();
-            std::string passSalt = authInfo->passwordSalt();
-            std::string passMethod = authInfo->passwordMethod();
-
-            auto hasFun = LCrypto::GetHashGenerator();
-            bool valid = false;
-
-            if (passMethod.compare(HASH_METHOD_BCRYPT) == 0) {
-                valid = hasFun->Verify(LCrypto::HashGenerator::HashMethod::BCRYPT, m_input->GetPassword(), passHash, passSalt);
-            } else if (passMethod.compare(HASH_METHOD_SHA1) == 0) {
-                valid = hasFun->Verify(LCrypto::HashGenerator::HashMethod::SHA1, m_input->GetPassword(), passHash, passSalt);
-            }
-
-            if (!valid) {
-                throw Common::AppException(AppErrorCode::AUTHTICATION_FAILURE, "Invalid username password.");
-            }
-            Wt::WDateTime now = Common::DateTimeUtils::Now();
-            Wt::WDateTime expires = Common::DateTimeUtils::AddMscToNow(DEFAULT_SESSION_TIME_OUT_IN_MSC);
-
-            std::string authToken;
-            LCrypto::GetRndGenerator()->GetRandomBytes(authToken, AUTH_TOKEN_LENGTH);
-            //auto authTokenObj = new Wt::Dbo::ptr<Dal::AuthInfo::AuthTokenType>(authToken, expires);
-            auto authTokenObj = new Dal::AuthToken(authToken, expires);
-
-            auto mod_authInfo = authInfo.modify();
-            mod_authInfo->setLastLoginAttempt(now);
-            mod_authInfo->authTokens().insert(authTokenObj);
-
-            m_output->SetSessionToken(authToken);
-            m_output->SetSessionExpires(static_cast<uint64_t>(expires.toTime_t()));
-            m_output->SetUser(*m_user);
-
-            Api::AppSessionManager::AddSession(authToken, *m_user, static_cast<uint64_t>(expires.toTime_t()));
-        }
+    if (m_input->IsUseFacebookAuth()) {
+        throw Common::AppException(AppErrorCode::NOT_SUPPORTED, "Google authentication is not supported yet");
+    } else if (m_input->IsUseFacebookAuth()) {
+        throw Common::AppException(AppErrorCode::NOT_SUPPORTED, "Facebook authentication is not supported yet");
     } else {
-        throw Common::AppException(AppErrorCode::AUTHTICATION_FAILURE, "Invalid username password.");
-    }
+        auto passHash = m_authInfo->passwordHash();
+        auto passSalt = m_authInfo->passwordSalt();
+        auto passMethod = m_authInfo->passwordMethod();
 
+        auto hasFun = LCrypto::GetHashGenerator();
+        bool valid = false;
+
+        if (passMethod.compare(HASH_METHOD_BCRYPT) == 0) {
+            valid = hasFun->Verify(LCrypto::HashGenerator::HashMethod::BCRYPT, m_input->GetPassword(), passHash, passSalt);
+        } else if (passMethod.compare(HASH_METHOD_SHA1) == 0) {
+            valid = hasFun->Verify(LCrypto::HashGenerator::HashMethod::SHA1, m_input->GetPassword(), passHash, passSalt);
+        }
+
+        if (!valid) {
+            throw Common::AppException(AppErrorCode::AUTHTICATION_FAILURE, "Invalid username password.");
+        }
+        auto now = Common::DateTimeUtils::Now();
+        auto expires = Common::DateTimeUtils::AddMscToNow(DEFAULT_SESSION_TIME_OUT_IN_MSC);
+
+        std::string authToken;
+        LCrypto::GetRndGenerator()->GetRandomBytes(authToken, AUTH_TOKEN_LENGTH);
+        //auto authTokenObj = new Wt::Dbo::ptr<Dal::AuthInfo::AuthTokenType>(authToken, expires);
+        auto authTokenObj = new Dal::AuthToken(authToken, expires);
+
+        m_authInfo.modify()->setLastLoginAttempt(now);
+        m_authInfo.modify()->authTokens().insert(authTokenObj);
+
+        m_output->SetSessionToken(authToken);
+        m_output->SetSessionExpires(static_cast<uint64_t> (expires.toTime_t()));
+        m_output->SetUser(*m_user);
+
+        Api::AppSessionManager::AddSession(authToken, *m_user, static_cast<uint64_t> (expires.toTime_t()));
+    }
 }
 
 }

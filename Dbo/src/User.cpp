@@ -11,6 +11,7 @@
  */
 
 #include <Wt/Auth/Identity>
+#include <Wt/WTheme>
 
 #include "User.h"
 #include "PassWordEncoder.h"
@@ -20,7 +21,7 @@ DBO_INSTANTIATE_TEMPLATES(Dal::User);
 
 namespace Dal {
 
-void User::copyFrom(const User& user)
+void User::CopyFrom(const User &user)
 {
     m_id = user.m_id;
     m_version = user.m_version;
@@ -36,7 +37,7 @@ void User::copyFrom(const User& user)
             user.GetPasswordSalt());
 }
 
-void User::copyFrom(User&& user)
+void User::CopyFrom(User &&user)
 {
     m_id = std::move(user.m_id);
     m_version = std::move(user.m_version);
@@ -52,49 +53,21 @@ void User::copyFrom(User&& user)
             user.GetPasswordSalt());
 }
 
-User::User()
-{
-}
-
-User::User(const User &user)
-{
-    copyFrom(user);
-}
-
-User::User(User &&user)
-{
-    copyFrom(std::move(user));
-}
-
-User::~User()
-{
-}
-
-User& User::operator=(const User &user)
-{
-    copyFrom(user);
-    return *this;
-}
-
-User& User::operator=(const User &&user)
-{
-    copyFrom(std::move(user));
-    return *this;
-}
-
 void User::SetStatus(const Status &status)
 {
     m_status = status;
     m_statusStr = StatusUtils::ToStr(status);
 
-    if (m_authInfo) {
+    auto authInfo = m_authInfo.lock();
+
+    if (authInfo) {
         switch (m_status) {
         case Status::V:
-            m_authInfo.modify()->setStatus(Wt::Auth::User::Status::Normal);
+            authInfo.modify()->setStatus(Wt::Auth::User::Status::Normal);
             break;
 
         default:
-            m_authInfo.modify()->setStatus(Wt::Auth::User::Status::Disabled);
+            authInfo.modify()->setStatus(Wt::Auth::User::Status::Disabled);
             break;
         }
     }
@@ -105,27 +78,31 @@ void User::SetStatusStr(const std::string &status)
     m_status = StatusUtils::ToStatus(status);
     m_statusStr = status;
 
-    if (m_authInfo) {
+    auto authInfo = m_authInfo.lock();
+
+    if (authInfo) {
         switch (m_status) {
         case Status::V:
-            m_authInfo.modify()->setStatus(Wt::Auth::User::Status::Normal);
+            authInfo.modify()->setStatus(Wt::Auth::User::Status::Normal);
             break;
 
         default:
-            m_authInfo.modify()->setStatus(Wt::Auth::User::Status::Disabled);
+            authInfo.modify()->setStatus(Wt::Auth::User::Status::Disabled);
             break;
         }
     }
 }
 
-std::string User::GetEmail() const
+const std::string& User::GetEmail() const
 {
-    std::string email = "";
-
-    if (m_authInfo) {
-        email = m_authInfo->email();
-    }
-    return email;
+//    std::string email = "";    
+//
+//    if (m_authInfo) {
+//        email = m_authInfo->email();
+//    }
+//    return email;
+    
+    return m_authInfo->email();
 }
 
 const std::string &User::GetName() const
@@ -135,41 +112,49 @@ const std::string &User::GetName() const
 
 void User::AddIdentity(const std::string &provider, const std::string &identity)
 {
-    if (m_authInfo) {
+    auto authInfo = m_authInfo.lock();
+    
+    if (authInfo) {
         Wt::Dbo::ptr<Dal::AuthInfo::AuthIdentityType> idenPtr =
                 Wt::Dbo::ptr<Dal::AuthInfo::AuthIdentityType>(new Dal::AuthInfo::AuthIdentityType(provider, identity));
-        m_authInfo.modify()->authIdentities().insert(idenPtr);
+        authInfo.modify()->authIdentities().insert(idenPtr);
     }
 }
 
 void User::AddIdentity(const Wt::Dbo::ptr<Dal::AuthInfo::AuthIdentityType> &identity)
 {
-    if (m_authInfo) {
-        m_authInfo.modify()->authIdentities().insert(identity);
+    auto authInfo = m_authInfo.lock();
+    
+    if (authInfo) {
+        authInfo.modify()->authIdentities().insert(identity);
     }
 }
 
 void User::SetEmail(const std::string &email)
 {
-    if (m_authInfo) {
-        //auto authInfo = dynamic_cast< Wt::Dbo::ptr<AuthInfo> >(m_authInfo);
-        auto authInfo = m_authInfo.modify();
-        authInfo->setEmail(email);
+    auto authInfo = m_authInfo.lock();
+    
+    if (authInfo) {
+        authInfo.modify()->setEmail(email);
     }
 }
 
-std::string User::GetUnverifiedEmail() const
+const std::string& User::GetUnverifiedEmail() const
 {
-    if (m_authInfo) {
-        return m_authInfo->unverifiedEmail();
-    }
-    return "";
+//    if (m_authInfo) {
+//        return m_authInfo->unverifiedEmail();
+//    }
+//    return "";
+    
+    return m_authInfo->unverifiedEmail();
 }
 
 void User::SetUnverifiedEmail(const std::string &email)
 {
-    if (m_authInfo) {
-        m_authInfo.modify()->setUnverifiedEmail(email);
+    auto authInfo = m_authInfo.lock();
+    
+    if (authInfo) {
+        authInfo.modify()->setUnverifiedEmail(email);
     }
 }
 
@@ -178,70 +163,84 @@ void User::SetName(const std::string &name)
     m_name = name;
 }
 
-const std::string User::GetPassword() const
+const std::string& User::GetPassword() const
 {
-    std::string passwd = "";
-
-    if (m_authInfo) {
-        passwd = m_authInfo->passwordHash();
-    }
-    return passwd;
+//    std::string passwd = "";
+//
+//    if (m_authInfo) {
+//        passwd = m_authInfo->passwordHash();
+//    }
+//    return passwd;
+    
+    return m_authInfo->passwordHash();
 }
 
 void User::SetPassword(const std::string &password)
 {
-    if (m_authInfo) {
+    auto authInfo = m_authInfo.lock();
+    
+    if (authInfo) {
         //TODO: generate salt
         auto passwdEncoder = LCrypto::PassWordEncoder::GetInstance();
-        std::string salt = passwdEncoder->GenerateSalt();
+        auto salt = passwdEncoder->GenerateSalt();
         auto hash = passwdEncoder->Encode(password, salt);
         auto hashMethod = passwdEncoder->HashMethodName();
-        m_authInfo.modify()->setPassword(hash, hashMethod, salt);
+        authInfo.modify()->setPassword(hash, hashMethod, salt);
     }
 }
 
 void User::SetPassword(const std::string &hash, const std::string &hashMethod, const std::string salt)
 {
-    if (m_authInfo) {
-        m_authInfo.modify()->setPassword(hash, hashMethod, salt);
+    auto authInfo = m_authInfo.lock();
+    
+    if (authInfo) {
+        authInfo.modify()->setPassword(hash, hashMethod, salt);
     }
 }
 
 void User::SetPasswordHash(const std::string &hash, const std::string &hashMethod, const std::string &salt)
 {
-    if (m_authInfo) {
-        m_authInfo.modify()->setPassword(hash, hashMethod, salt);
+    auto authInfo = m_authInfo.lock();
+    
+    if (authInfo) {
+        authInfo.modify()->setPassword(hash, hashMethod, salt);
     }
 }
 
-std::string User::GetPassWordHash() const
+const std::string& User::GetPassWordHash() const
 {
-    std::string hash = "";
-
-    if (m_authInfo) {
-        hash = m_authInfo->passwordHash();
-    }
-    return hash;
+//    std::string hash = "";
+//
+//    if (m_authInfo) {
+//        hash = m_authInfo->passwordHash();
+//    }
+//    return hash;
+    
+    return m_authInfo->passwordHash();
 }
 
-std::string User::GetPasswordSalt() const
+const std::string& User::GetPasswordSalt() const
 {
-    std::string salt = "";
-
-    if (m_authInfo) {
-        salt = m_authInfo->passwordSalt();
-    }
-    return salt;
+//    std::string salt = "";
+//
+//    if (m_authInfo) {
+//        salt = m_authInfo->passwordSalt();
+//    }
+//    return salt;
+    
+    return m_authInfo->passwordSalt();
 }
 
-std::string User::GetPasswordHashMethod() const
+const std::string& User::GetPasswordHashMethod() const
 {
-    std::string method = "";
-
-    if (m_authInfo) {
-        method = m_authInfo->passwordMethod();
-    }
-    return method;
+//    std::string method = "";
+//
+//    if (m_authInfo) {
+//        method = m_authInfo->passwordMethod();
+//    }
+//    return method;
+    
+    return m_authInfo->passwordMethod();
 }
 
 bool User::HasRole(const std::string &role)
@@ -333,61 +332,77 @@ void User::SetRoles(std::vector<Role> roles)
 
 void User::SetEmailToken(const std::string &token, const Wt::WDateTime &expires, const Wt::Auth::User::EmailTokenRole &role)
 {
-    if (m_authInfo) {
-        m_authInfo.modify()->setEmailToken(token, expires, role);
+    auto authInfo = m_authInfo.lock();
+    
+    if (authInfo) {
+        authInfo.modify()->setEmailToken(token, expires, role);
     }
 }
 
-Wt::Dbo::weak_ptr<Dal::AuthInfo> User::GetAuthInfo() const
+const Wt::Dbo::weak_ptr<Dal::AuthInfo>& User::GetAuthInfo() const
 {
     return m_authInfo;
 }
 
-AuthInfo::AuthTokens User::GetAuthTokens() const
+const Dal::AuthTokens& User::GetAuthTokens() const
 {
-    if (m_authInfo) {
-        return m_authInfo->authTokens();
-    }
-    return AuthInfo::AuthTokens();
+//    if (m_authInfo) {
+//        return m_authInfo->authTokens();
+//    }
+//    return AuthInfo::AuthTokens();
+    
+    return m_authInfo->authTokens();
 }
 
-std::string User::GetEmailToken() const
+Wt::Auth::User::EmailTokenRole User::GetEmailToken() const
 {
-    if (m_authInfo) {
-        m_authInfo->emailTokenRole();
-    }
-    return "";
+//    if (m_authInfo) {
+//        m_authInfo->emailTokenRole();
+//    }
+//    return "";
+    
+    return m_authInfo->emailTokenRole();
 }
 
-Wt::WDateTime User::GetEmailTokenExpirationDate() const
+const Wt::WDateTime& User::GetEmailTokenExpirationDate() const
 {
-    if (m_authInfo) {
-        return m_authInfo->emailTokenExpires();
-    }
-    return Wt::WDateTime();
+//    if (m_authInfo) {
+//        return m_authInfo->emailTokenExpires();
+//    }
+//    return Wt::WDateTime();
+    
+    return m_authInfo->emailTokenExpires();
 }
 
 Wt::Auth::User::EmailTokenRole User::GetEmailTokenRole() const
 {
-    if (m_authInfo) {
-        return m_authInfo->emailTokenRole();
-    }
-    //TODO:: what to return when AuthInfo not exists
-    return Wt::Auth::User::EmailTokenRole::VerifyEmail;
+//    if (m_authInfo) {
+//        return m_authInfo->emailTokenRole();
+//    }
+//    //TODO:: what to return when AuthInfo not exists
+//    return Wt::Auth::User::EmailTokenRole::VerifyEmail;
+    
+    return m_authInfo->emailTokenRole();
 }
 
 Wt::Auth::User::Status User::GetAuthInfoStatus() const
 {
-    if (m_authInfo) {
-        return m_authInfo->status();
-    }
-    return Wt::Auth::User::Status::Disabled;
+//    if (m_authInfo) {
+//        return m_authInfo->status();
+//    }
+//    return Wt::Auth::User::Status::Disabled;
+    
+    return m_authInfo->status();
 }
 
 void User::SetAuthInfoStatus(const Wt::Auth::User::Status &status)
 {
-    if (m_authInfo) {
-        m_authInfo.modify()->setStatus(status);
+    auto authInfo = m_authInfo.lock();
+    
+    if (authInfo) {
+        authInfo.modify()->setStatus(status);
     }
 }
+
+
 }

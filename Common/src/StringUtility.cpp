@@ -56,8 +56,9 @@ string StringUtility::GetTabLineStr()
 
 string StringUtility::Trim(const string& str)
 {
-    const char* p = str.c_str();
-    size_t front = 0, rear = str.length();
+    auto p = str.c_str();
+    size_t front = 0;
+    auto rear = str.length();
 
     while (front < rear && (p[ front ] == ' '|| p[ front ] == '\r' || p[ front ] == '\n' || p[ front ] == '\t')) {
         ++front;
@@ -73,7 +74,7 @@ string StringUtility::Trim(const string& str)
 
 void StringUtility::Tokenize(vector< string > &v, const string &str, const string &token, int n)
 {
-    size_t len = str.length();
+    auto len = str.length();
 
     if (len > 0 && n >= 0) {
         const char* t = token.c_str();
@@ -127,8 +128,8 @@ void StringUtility::ToLower(string& str)
 int StringUtility::Compare(const std::string &first, const std::string &second, bool ignore_case)
 {
     if (ignore_case) {
-        std::string lcFirst = first;
-        std::string lcSecond = second;
+        auto lcFirst = first;
+        auto lcSecond = second;
     
         StringUtility::ToLower(lcFirst);
         StringUtility::ToLower(lcSecond);

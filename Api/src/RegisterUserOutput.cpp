@@ -16,17 +16,12 @@ namespace Api {
 
 void RegisterUserOutput::CopyFrom(RegisterUserOutput&& orig)
 {
-    m_user.copyFrom(std::move(orig.m_user));
+    m_user.CopyFrom(std::move(orig.m_user));
 }
 
 void RegisterUserOutput::CopyFrom(const RegisterUserOutput& orig)
 {
-    m_user.copyFrom(orig.m_user);
-}
-
-void RegisterUserOutput::CopyFrom(const std::shared_ptr<RegisterUserOutput>& orig)
-{
-    m_user.copyFrom(orig->GetUser());
+    m_user.CopyFrom(orig.m_user);
 }
 
 std::string RegisterUserOutput::Name() const
@@ -46,7 +41,7 @@ const User& RegisterUserOutput::GetUser() const
 
 void RegisterUserOutput::SetUser(const User& user) 
 {
-    m_user.copyFrom(user);
+    m_user.CopyFrom(user);
 }
 
 } /* namespace Api */

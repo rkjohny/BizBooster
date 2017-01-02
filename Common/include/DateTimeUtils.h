@@ -29,7 +29,7 @@ namespace Common {
         static string GetTimeStamp();
 
         static void GetCurrentDateTime(Wt::WDateTime &dt);
-        static void AddMscToCurrentDateTime(Wt::WDateTime &dt, int day);
+        static void AddDayToCurrentDateTime(Wt::WDateTime &dt, uint32_t day);
         
         static Wt::WDateTime Now();
         static Wt::WDateTime AddMscToNow(uint64_t msec);

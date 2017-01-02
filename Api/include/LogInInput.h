@@ -23,15 +23,13 @@ namespace Api {
 
 class LogInInput : public ApiInput<LogInInput> {
 public:
-    API_INPUT_OUTPUT(LogInInput);
+    API_INPUT(LogInInput);
 
     ~LogInInput() = default;
 
-    std::shared_ptr<BaseOutput> Process(Dal::Requester *requester) override;
-
     const std::string& GetPassword() const;
 
-    void SetPassword(std::string password);
+    void SetPassword(const std::string &password);
 
     bool IsUseFacebookAuth() const;
 
@@ -43,22 +41,22 @@ public:
 
     const std::string& GetUserName() const;
 
-    void SetUserName(std::string userName);
+    void SetUserName(const std::string &userName);
 
     bool IsRememberMe() const;
     void SetRememberMe(bool rememberMe);
 
     REGISTER_GETTER_INCLUDING_BASE_START(ApiInput<LogInInput>)
-    GETTER(LogInInput, const std::string&, "username", &LogInInput::GetUserName),
-    GETTER(LogInInput, const std::string&, "username", &LogInInput::GetUserName),
+    GETTER(LogInInput, const std::string&, "user_name", &LogInInput::GetUserName),
+    GETTER(LogInInput, const std::string&, "password", &LogInInput::GetPassword),
     GETTER(LogInInput, bool, "use_google_auth", &LogInInput::IsUseFacebookAuth),
     GETTER(LogInInput, bool, "use_facebook_auth", &LogInInput::IsUseGoogleAuth),
     GETTER(LogInInput, bool, "remember_me", &LogInInput::IsRememberMe)
     REGISTER_GETTER_INCLUDING_BASE_END
 
     REGISTER_SETTER_INCLUDING_BASE_START(ApiInput<LogInInput>)
-    SETTER(LogInInput, std::string, "username", &LogInInput::SetUserName),
-    SETTER(LogInInput, std::string, "password", &LogInInput::SetPassword),
+    SETTER(LogInInput, const std::string&, "user_name", &LogInInput::SetUserName),
+    SETTER(LogInInput, const std::string&, "password", &LogInInput::SetPassword),
     SETTER(LogInInput, bool, "use_google_auth", &LogInInput::SetUseGoogleAuth),
     SETTER(LogInInput, bool, "use_facebook_auth", &LogInInput::SetUseFacebookAuth),
     SETTER(LogInInput, bool, "remember_me", &LogInInput::SetRememberMe)

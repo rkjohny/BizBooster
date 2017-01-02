@@ -36,5 +36,11 @@
 
 #define DEFAULT_LOG_IN_PROVIDER "loginname"
 
+// 30 seconds
+#define MAX_SESSION_MANAGER_THREAD_SLEEP_IN_SEC 30
+
+// 10 minutes
+#define DEFAULT_SESSION_TIME_OUT_IN_MSC (2 * 60 * 60)
+
 
 #endif

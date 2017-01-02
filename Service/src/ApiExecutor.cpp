@@ -34,39 +34,39 @@ web::json::value ApiExecutor::ExecuteSingleApi(const web::http::http_request& re
         const web::json::value &jrequest)
 {
     web::json::value jresponse;
-    const web::json::value &japi = jrequest.at(JSON_API);
-    const web::json::value &jdata = jrequest.at(JSON_DATA);
-    std::string apiName = utility::conversions::to_utf8string(japi.as_string());
-
+    auto japi = jrequest.at(JSON_API);
+    auto jdata = jrequest.at(JSON_DATA);
+    auto apiName = utility::conversions::to_utf8string(japi.as_string());
+    
     Api::ApiError error(AppErrorCode::SUCCESS, "Success");
 
     if (japi.is_string() && jdata.is_object()) {
 
-        std::shared_ptr<Api::Serializable> obj = Api::SOFactory::CreateObject(apiName);
+        auto obj = Api::SOFactory::CreateObject(apiName);
         if (obj) {
 
             Dal::Requester *requester = nullptr;
             std::shared_ptr<Dal::Requester> requesterPtr = nullptr;
             std::shared_ptr<Api::AppSession> session = nullptr;
-            bool extendExpiration = false;
+            auto extendExpiration = false;
 
             if (apiName.compare("login") == 0) {
                 requester = Dal::InternalRootRequester::GetInstance();
             } else if (apiName.compare("loggedin") == 0) {
                 requester = Dal::InternalRootRequester::GetInstance();
             } else {
-                extendExpiration = true;
-                const web::http::http_headers &headers = request.headers();
-                bool hasToken = headers.has(U("Auth-Token"));
-                bool validToken = false;
+                auto headers = request.headers();
+                auto hasToken = headers.has(U("Auth-Token"));
+                auto validToken = false;
                 std::string token = "";
                 if (hasToken) {
                     auto itr = headers.find(U("Auth-Token"));
-                    utility::string_t token_t = itr->second;
+                    auto token_t = itr->second;
                     token = utility::conversions::to_utf8string(token_t);
                     validToken = Api::AppSessionManager::IsValidToken(token);
                 }
                 if (validToken) {
+                    extendExpiration = true;
                     session = Api::AppSessionManager::GetSession(token).lock();
                     if (session && !session->IsExpired()) {
                         requesterPtr = session->GetRequester().lock();
@@ -78,8 +78,11 @@ web::json::value ApiExecutor::ExecuteSingleApi(const web::http::http_request& re
             }
 
             if (requester) {
-                std::shared_ptr<Api::BaseInput> input = std::dynamic_pointer_cast<Api::BaseInput, Api::Serializable>(obj);
-                std::shared_ptr<Api::BaseOutput> output = input->Process(requester);
+                auto input = std::dynamic_pointer_cast<Api::BaseInput, Api::Serializable>(obj);
+                
+                input->Deserialize(jdata);
+                auto output = input->Process(requester);
+                
                 if (output->GetError().GetCode() == AppErrorCode::SUCCESS) {
                     if (extendExpiration) {
                         session->ExtendExpiration();
@@ -107,7 +110,7 @@ web::json::value ApiExecutor::ExecuteSingleApi(const web::http::http_request& re
 
 web::json::value ApiExecutor::ExecuteMultipleApi(const web::http::http_request& request, const web::json::value &jrequests)
 {
-    web::json::value responses = web::json::value::array();
+    auto responses = web::json::value::array();
     int index = 0;
     for (auto &jrequest : jrequests.as_array()) {
         responses[index++] = ExecuteSingleApi(request, jrequest);

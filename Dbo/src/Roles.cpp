@@ -18,7 +18,7 @@ namespace Dal {
 
 Role RoleUtils::ToRole(const std::string &role)
 {
-    std::string newrole = Common::StringUtility::Trim(role);
+    auto newrole = Common::StringUtility::Trim(role);
 
     if (newrole.compare(RoleStr::ROLE_CREATE_SUPER_USER) == 0) {
         return Role::ROLE_CREATE_SUPER_USER;

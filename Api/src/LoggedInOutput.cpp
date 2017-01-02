@@ -18,12 +18,12 @@ namespace Api {
 
 void LoggedInOutput::CopyFrom(LoggedInOutput &&orig)
 {
-    m_user.copyFrom(std::move(orig.m_user));
+    m_user.CopyFrom(std::move(orig.m_user));
 }
 
 void LoggedInOutput::CopyFrom(const LoggedInOutput &orig)
 {
-    m_user.copyFrom(orig.m_user);
+    m_user.CopyFrom(orig.m_user);
 }
 
 LoggedInOutput::~LoggedInOutput()

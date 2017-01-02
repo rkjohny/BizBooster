@@ -42,21 +42,21 @@ void AppInitializer::Initialize()
     auto logger = Fio::LogFactory::GetLogger(APP_LOGGER);
 
     // Adding file stream to logger
-    std::string filename = server_config_reader->GetValueOf(APP_LOG_FILE_PATH) +
+    auto filename = server_config_reader->GetValueOf(APP_LOG_FILE_PATH) +
             PATH_SEPARATOR + server_config_reader->GetValueOf(APP_LOG_FILE_NAME);
 
     Fio::OFStream* ofStream = new Fio::OFStream();
     ofStream->SetFile(filename);
     logger->AddStream(filename, ofStream);
 
-    std::string loglevelStr = server_config_reader->GetValueOf(APP_LOG_LEVEL);
+    auto loglevelStr = server_config_reader->GetValueOf(APP_LOG_LEVEL);
     try {
         logger->SetLogLevel(Common::Converter::ToInt32(loglevelStr));
     } catch (...) {
     }
 
     // Adding standard output (console) stream
-    Fio::OSTDStream *ostdStream = new Fio::OSTDStream();
+    auto ostdStream = new Fio::OSTDStream();
     logger->AddStream("standard_output_stram", ostdStream);
 
     /* load rest of libraries*/

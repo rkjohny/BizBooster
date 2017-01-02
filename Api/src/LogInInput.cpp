@@ -34,15 +34,6 @@ void LogInInput::CopyFrom(const LogInInput& orig)
     m_useGoogleAuth = orig.m_useGoogleAuth;
 }
 
-void LogInInput::CopyFrom(const std::shared_ptr<LogInInput>& orig)
-{
-    m_password = orig->GetPassword();
-    m_userName = orig->GetUserName();
-    m_rememberMe = orig->IsRememberMe();
-    m_useFacebookAuth = orig->IsUseFacebookAuth();
-    m_useGoogleAuth = orig->IsUseGoogleAuth();
-}
-
 std::string LogInInput::Name() const
 {
     return "LoginInput";
@@ -63,9 +54,9 @@ const std::string& LogInInput::GetPassword() const
     return m_password;
 }
 
-void LogInInput::SetPassword(std::string password)
+void LogInInput::SetPassword(const std::string &password)
 {
-    m_password = std::move(password);
+    m_password = password;
 }
 
 bool LogInInput::IsUseFacebookAuth() const
@@ -93,9 +84,9 @@ const std::string& LogInInput::GetUserName() const
     return m_userName;
 }
 
-void LogInInput::SetUserName(std::string userName)
+void LogInInput::SetUserName(const std::string& userName)
 {
-    m_userName = std::move(userName);
+    m_userName = userName;
 }
 
 bool LogInInput::IsRememberMe() const

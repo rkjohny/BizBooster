@@ -20,9 +20,9 @@ namespace Api {
 
 class LoggedInInput : public ApiInput<LoggedInInput> {
 public:
-    API_INPUT_OUTPUT(LoggedInInput);
+    API_INPUT(LoggedInInput);
 
-    virtual ~LoggedInInput();
+    virtual ~LoggedInInput() = default;
 
     uint64_t GetSessionExpires() const;
 

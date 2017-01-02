@@ -43,7 +43,6 @@ public:
 
 private:
     Wt::Dbo::ptr<Dal::User> m_user;
-    std::shared_ptr<Dal::Dao> m_dao;
 };
 
 }

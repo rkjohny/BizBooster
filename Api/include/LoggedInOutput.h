@@ -23,7 +23,7 @@ namespace Api {
 
 class LoggedInOutput : public Api::ApiOutput<LoggedInOutput> {
 public:
-    API_INPUT_OUTPUT(LoggedInOutput);
+    API_OUTPUT(LoggedInOutput);
 
     virtual ~LoggedInOutput();
 

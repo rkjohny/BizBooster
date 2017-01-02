@@ -32,7 +32,7 @@ void DataModelManager::Run()
     auto dao = Dal::GetDao();
     size_t nextDmVersion = 0;
 
-    Requester *requester = InternalRootRequester::GetInstance();
+    auto requester = InternalRootRequester::GetInstance();
     
     dao->CreateTables(requester);
     

@@ -24,10 +24,8 @@ using namespace Json;
 
 class RegisterUserInput : public ApiInput<RegisterUserInput> {
 public:
-    API_INPUT_OUTPUT(RegisterUserInput);
+    API_INPUT(RegisterUserInput);
     ~RegisterUserInput() = default;
-
-    std::shared_ptr<BaseOutput> Process(Dal::Requester *requester) override;
 
     const std::string& GetEmail() const;
     void SetEmail(const std::string &email);

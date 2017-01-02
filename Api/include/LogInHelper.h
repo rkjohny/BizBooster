@@ -25,7 +25,7 @@ private:
     NON_COPY_NON_MOVE_ABLE(LogInHelper);
 
     Wt::Dbo::ptr<Dal::User> m_user;
-    Wt::Dbo::weak_ptr<Dal::AuthInfo> m_authInfo; 
+    Wt::Dbo::ptr<Dal::AuthInfo> m_authInfo; 
     
 public:
 

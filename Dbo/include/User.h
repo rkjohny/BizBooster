@@ -53,7 +53,6 @@ typedef Wt::Auth::Dbo::AuthToken<Dal::AuthInfo> AuthToken;
 
 class User : public SerializableSimpleEntity<User> {
 private:
-
     std::string m_name;
     std::string m_rolesStr;
     std::vector<Role> m_roles;
@@ -67,30 +66,24 @@ private:
     Wt::Dbo::weak_ptr<Dal::AuthInfo> m_authInfo;
     
 public:
-    User();
-    User(const User&);
-    User(User&&);
-    ~User();
-    User& operator=(const User&);
-    User& operator=(const User&&);
-    void copyFrom(const User&);
-    void copyFrom(User&&);
+    SERIALIZEABLE(User);
+    ~User() = default;
 
     void InitAuthInfo();
     
     bool HasRole(const std::string &);
     bool HasRole(const Role &);
 
-    std::string GetEmail() const;
+    const std::string& GetEmail() const;
     void SetEmail(const std::string &email);
     
-    std::string GetUnverifiedEmail() const;
+    const std::string& GetUnverifiedEmail() const;
     void SetUnverifiedEmail(const std::string &email);
     
     const std::string& GetName() const;
     void SetName(const std::string &name);
     
-    const std::string GetPassword() const;
+    const std::string& GetPassword() const;
     void SetPassword(const std::string &password);
     
     void SetPassword(const std::string &hash, const std::string &hashMethod, const std::string salt);
@@ -105,21 +98,21 @@ public:
     void SetRoles(std::vector<Role> roles);
     
     void SetPasswordHash(const std::string &hash, const std::string &hashMethod, const std::string &salt);
-    std::string GetPassWordHash() const;
-    std::string GetPasswordSalt() const;
-    std::string GetPasswordHashMethod() const;
+    const std::string& GetPassWordHash() const;
+    const std::string& GetPasswordSalt() const;
+    const std::string& GetPasswordHashMethod() const;
 
     void AddIdentity(const std::string &provider, const std::string &identity);
     void AddIdentity(const Wt::Dbo::ptr<Dal::AuthInfo::AuthIdentityType> &identity);
     
-    AuthInfo::AuthTokens GetAuthTokens() const;
+    const Dal::AuthTokens& GetAuthTokens() const;
     
-    Wt::Dbo::weak_ptr<Dal::AuthInfo> GetAuthInfo() const;
+    const Wt::Dbo::weak_ptr<Dal::AuthInfo>& GetAuthInfo() const;
     
     void SetEmailToken(const std::string &token, const Wt::WDateTime &expires, const Wt::Auth::User::EmailTokenRole &role);
     
-    std::string GetEmailToken() const;
-    Wt::WDateTime GetEmailTokenExpirationDate() const;
+    Wt::Auth::User::EmailTokenRole GetEmailToken() const;
+    const Wt::WDateTime& GetEmailTokenExpirationDate() const;
     Wt::Auth::User::EmailTokenRole GetEmailTokenRole() const;
     
     void SetDateCreated(Wt::WDateTime &dt);
@@ -140,7 +133,7 @@ public:
     REGISTER_GETTER_INCLUDING_BASE_START(SerializableSimpleEntity<User>)
     GETTER(User, const Wt::WDateTime&, COLUMN_DATE_CREATED, &User::GetDateCreated),
     GETTER(User, const Wt::WDateTime&, COLUMN_DATE_LAST_UPDATED, &User::GetDateLastUpdated),
-    GETTER(User, std::string, "email", &User::GetEmail),
+    GETTER(User, const std::string&, "email", &User::GetEmail),
     GETTER(User, const std::string&, "name", &User::GetName),
     GETTER(User, const std::string&, "roles", &User::GetRolesStr)
     REGISTER_GETTER_INCLUDING_BASE_END

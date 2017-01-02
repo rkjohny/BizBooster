@@ -12,6 +12,7 @@
 
 
 #include "LoggedInInput.h"
+#include "ServiceFacade.h"
 
 namespace Api {
 
@@ -27,10 +28,6 @@ void LoggedInInput::CopyFrom(const LoggedInInput &orig)
     m_userId = orig.m_userId;
     m_sessionExpires = orig.m_sessionExpires;
     m_sessionToken = orig.m_sessionToken;
-}
-
-LoggedInInput::~LoggedInInput()
-{
 }
 
 uint64_t LoggedInInput::GetSessionExpires() const
@@ -71,6 +68,11 @@ std::string LoggedInInput::Name() const
 std::string LoggedInInput::ToString() const
 {
     return "LoggedInInput";
+}
+
+std::shared_ptr<BaseOutput> LoggedInInput::Process(Dal::Requester* requester)
+{
+    return ServiceFacade::UserLoggedIn(requester, this);
 }
 
 
