@@ -20,6 +20,8 @@
 #include <Wt/WPushButton>
 #include <Wt/WText>
 
+#include "LoginWidget.h"
+
 namespace WebApp {
 
 class Application : public Wt::WApplication {
@@ -27,6 +29,7 @@ public:
     Application(const Wt::WEnvironment &env);
 
 private:
+    WebApp::LoginWidget *m_loginWidge;
 };
 
 }

@@ -81,5 +81,6 @@ else ()
     target_link_libraries(${PROJECT_NAME} PUBLIC dl)
 
     configure_file(app.properties ${EXECUTABLE_OUTPUT_PATH}/ COPYONLY UNIX)
+    configure_file(wt_config.xml ${EXECUTABLE_OUTPUT_PATH}/ COPYONLY UNIX)
 
 endif ()

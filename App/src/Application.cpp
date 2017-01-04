@@ -23,11 +23,17 @@ namespace WebApp {
 
 Application::Application(const Wt::WEnvironment &env) : Wt::WApplication(env)
 {
-    root()->addWidget(new Wt::WText("Hello World")); // show some text
+    //root()->addWidget(new Wt::WText("Hello World")); // show some text
+
+    root()->addStyleClass("container");
+    setTheme(new Wt::WBootstrapTheme());
+
+    useStyleSheet("css/style.css");
+
+    m_loginWidge = new WebApp::LoginWidget(root());
 }
 
 } /* end namespace */
-
 
 Wt::WApplication* createApplication(const Wt::WEnvironment &env)
 {
@@ -37,9 +43,9 @@ Wt::WApplication* createApplication(const Wt::WEnvironment &env)
 int main(int argc, char **argv)
 {
     try {
-        
+
         WebApp::AppInitializer::Initialize();
-        
+
         Wt::WServer server(argc, argv, WTHTTP_CONFIGURATION);
 
         server.addEntryPoint(Wt::Application, createApplication);
@@ -51,6 +57,6 @@ int main(int argc, char **argv)
     } catch (std::exception &e) {
         std::cerr << "exception: " << e.what() << std::endl;
     }
-    
+
     return 0;
 }
