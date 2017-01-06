@@ -11,26 +11,48 @@
  */
 
 #include "Application.h"
-
+#include "LogInWidget.h"
 
 #include <Wt/WServer>
 #include <Wt/WBootstrapTheme>
 
 
 #include "AppInitializer.h"
+#include "AppContainer.h"
 
 namespace WebApp {
 
-Application::Application(const Wt::WEnvironment &env) : Wt::WApplication(env)
+Application::Application(const Wt::WEnvironment &env) : Wt::WApplication(env) , 
+        m_session(&AppContainer::GetAuthService())
 {
-    //root()->addWidget(new Wt::WText("Hello World")); // show some text
-
+    AppInitializer::Initialize();
+    
     root()->addStyleClass("container");
     setTheme(new Wt::WBootstrapTheme());
 
-    useStyleSheet("css/style.css");
+    useStyleSheet(appRoot() + "resource/css/style.css");
+    useStyleSheet(appRoot() + "resource/css/app.css");
+    messageResourceBundle().use(appRoot() + "resource/lang/strings");
+    messageResourceBundle().use(appRoot() + "resource/template/templates");
 
-    m_loginWidge = new WebApp::LoginWidget(root());
+//    messageResourceBundle().use(appRoot() + "strings");
+//    messageResourceBundle().use(appRoot() + "templates");
+    
+    
+    //root()->setContentAlignment(Wt::AlignmentFlag::AlignCenter);
+    
+    AppContainer::ConfigureAuthService();
+    
+    LogInWidget *logInWidget = new LogInWidget(m_session);
+
+    logInWidget->model()->addPasswordAuth(&AppContainer::GetPasswordService());
+    
+    //logInWidget->model()->addOAuth(Session::oAuth());
+    logInWidget->setRegistrationEnabled(true);
+
+    logInWidget->processEnvironment();
+
+    root()->addWidget(logInWidget);
 }
 
 } /* end namespace */

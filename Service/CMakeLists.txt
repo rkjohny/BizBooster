@@ -45,10 +45,10 @@ else ()
     target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_API})
     
     # linking libjson library as dependencies
-    target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_JSON})
+    target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_DBO})
 
     # linking libjson library as dependencies
-    target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_DBO})
+    target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_JSON})
 
     # linking liblcrypto library as dependencies
     target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_LCRYPTO})

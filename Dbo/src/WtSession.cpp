@@ -18,7 +18,7 @@
 
 namespace Dal {
 
-WtSession::WtSession()
+WtSession::WtSession(Wt::Auth::AuthService *service)
 {
     auto config_reader = Fio::CFReaderFactory::CreateConfigReader(
             DBO_CONFIG_FILE_NAME, Fio::ConFigFileType::PROPERTY_FILE);
@@ -44,6 +44,8 @@ WtSession::WtSession()
     mapClass<Dal::AuthInfo>("auth_info");
     mapClass<Dal::AuthInfo::AuthIdentityType>("auth_identity");
     mapClass<Dal::AuthInfo::AuthTokenType>("auth_token");
+    
+    m_users = std::make_shared<Dal::UserDatabase>(*this, service);
 }
 
 WtSession::~WtSession()
@@ -59,6 +61,16 @@ void WtSession::Dispose()
         this->flush();
         m_isDosposed = true;
     }
+}
+
+Dal::UserDatabase& WtSession::GetUserDB()
+{
+    return *m_users;
+}
+
+Wt::Auth::Login& WtSession::GetLogIn()
+{
+    return m_login;
 }
 
 }

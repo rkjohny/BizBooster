@@ -14,6 +14,9 @@
 #ifndef DBO_TYPES_H
 #define DBO_TYPES_H
 
+#include <Wt/Auth/Dbo/AuthInfo>
+#include <Wt/Auth/Dbo/UserDatabase>
+
 namespace Dal {
 
 class User;
@@ -24,6 +27,8 @@ typedef Wt::Auth::Dbo::AuthIdentity< Dal::AuthInfo > AuthIdentity;
 
 typedef Wt::Dbo::collection<Wt::Dbo::ptr<Dal::AuthToken>> AuthTokens;
 typedef Wt::Dbo::collection<Wt::Dbo::ptr<Dal::AuthIdentity>> AuthIdentities;
+
+typedef Wt::Auth::Dbo::UserDatabase<Dal::AuthInfo> UserDatabase;
 
 }
 

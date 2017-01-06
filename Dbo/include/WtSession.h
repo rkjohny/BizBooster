@@ -15,23 +15,32 @@
 
 #include "AppDef.h"
 #include "WtPgConnection.h"
+#include "DboTypes.h"
+
 #include <Wt/Dbo/Dbo>
+#include <Wt/Auth/Login>
 
 namespace Dal {
 
 class WtSession : public Wt::Dbo::Session, public Common::Disposable {
 public:
 
-    WtSession();
+    WtSession(Wt::Auth::AuthService *service = nullptr);
     
     virtual ~WtSession();
 
     void Dispose() override;
 
+    Dal::UserDatabase& GetUserDB();
+    Wt::Auth::Login& GetLogIn();
+    
 private:
     NON_COPY_NON_MOVE_ABLE(WtSession);
 
     WtPgConnection m_connection;
+
+    std::shared_ptr<Dal::UserDatabase> m_users;
+    Wt::Auth::Login m_login;
 };
 
 }

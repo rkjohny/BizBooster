@@ -41,12 +41,18 @@ else ()
     #including liblcrypto include directory
     include_directories(${LIB_LCRYPTO_INCLUDE_DIR})
 
+    #including libdbo include directory
+    include_directories(${LIB_DBO_INCLUDE_DIR})
+
 
     file(GLOB APP_HEADERS ${PROJECT_INCLUDE_DIR}/*.h)
     file(GLOB APP_SOURCES ${PROJECT_SOURCE_DIR}/*.cpp)
 
     #creating target server
     add_executable(${PROJECT_NAME} ${APP_SOURCES} ${APP_HEADERS})
+
+    # linking libjson library as dependencies
+    target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_DBO})
 
     # linking libjson library as dependencies
     target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_JSON})
@@ -64,11 +70,11 @@ else ()
     target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_CPP_REST})
 
     # linking witty for databse ORM
+    target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_WITTY_HTTP})
     target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_WITTY})
     target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_WITTY_DBO})
     target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_WITTY_PG_SQL})
-    target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_WITTY_HTTP})
-
+    
     target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_BOOST})
 
 #    target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_SSL})

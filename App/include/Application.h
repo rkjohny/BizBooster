@@ -20,7 +20,8 @@
 #include <Wt/WPushButton>
 #include <Wt/WText>
 
-#include "LoginWidget.h"
+#include "DboTypes.h"
+#include "LogInWidget.h"
 
 namespace WebApp {
 
@@ -29,7 +30,8 @@ public:
     Application(const Wt::WEnvironment &env);
 
 private:
-    WebApp::LoginWidget *m_loginWidge;
+    Dal::WtSession m_session;
+
 };
 
 }
