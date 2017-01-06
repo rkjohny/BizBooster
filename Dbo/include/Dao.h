@@ -56,6 +56,8 @@ public:
     virtual Wt::Dbo::ptr<AuthInfo::AuthIdentityType> AddIdentity(Requester *requester, AuthInfo::AuthIdentityType *identity) = 0;
 
     virtual Wt::Dbo::ptr<User> GetUser(Requester *requester, int64_t id) = 0;
+    
+    virtual Dal::UserDatabase& GetUserDB() = 0;
 };
 }
 

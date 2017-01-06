@@ -21,7 +21,7 @@ namespace Dal {
     void LoadLibrary();
     void ReleaseLibrary();
 
-    std::shared_ptr<Dao> GetDao();
+    Dao* GetDao();
 };
 
 

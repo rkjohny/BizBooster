@@ -14,11 +14,14 @@
 #include "CFReaderFactory.h"
 #include "DboDef.h"
 #include "AppSetting.h"
+#include "AuthServices.h"
 
 
 namespace Dal {
 
-WtSession::WtSession(Wt::Auth::AuthService *service)
+WtSession *WtSession::m_instance = nullptr;;
+
+WtSession::WtSession()
 {
     auto config_reader = Fio::CFReaderFactory::CreateConfigReader(
             DBO_CONFIG_FILE_NAME, Fio::ConFigFileType::PROPERTY_FILE);
@@ -45,7 +48,15 @@ WtSession::WtSession(Wt::Auth::AuthService *service)
     mapClass<Dal::AuthInfo::AuthIdentityType>("auth_identity");
     mapClass<Dal::AuthInfo::AuthTokenType>("auth_token");
     
-    m_users = std::make_shared<Dal::UserDatabase>(*this, service);
+    m_users = std::make_shared<Dal::UserDatabase>(*this, &AuthServices::GetAuthService());
+}
+
+WtSession* WtSession::GetInstance()
+{
+    if (!m_instance) {
+        m_instance = new WtSession();
+    }
+    return m_instance;
 }
 
 WtSession::~WtSession()
@@ -66,11 +77,6 @@ void WtSession::Dispose()
 Dal::UserDatabase& WtSession::GetUserDB()
 {
     return *m_users;
-}
-
-Wt::Auth::Login& WtSession::GetLogIn()
-{
-    return m_login;
 }
 
 }

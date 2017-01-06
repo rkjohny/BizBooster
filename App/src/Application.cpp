@@ -18,12 +18,11 @@
 
 
 #include "AppInitializer.h"
-#include "AppContainer.h"
+#include "AuthServices.h"
 
 namespace WebApp {
 
-Application::Application(const Wt::WEnvironment &env) : Wt::WApplication(env) , 
-        m_session(&AppContainer::GetAuthService())
+Application::Application(const Wt::WEnvironment &env) : Wt::WApplication(env)
 {
     AppInitializer::Initialize();
     
@@ -37,15 +36,14 @@ Application::Application(const Wt::WEnvironment &env) : Wt::WApplication(env) ,
 
 //    messageResourceBundle().use(appRoot() + "strings");
 //    messageResourceBundle().use(appRoot() + "templates");
-    
-    
+        
     //root()->setContentAlignment(Wt::AlignmentFlag::AlignCenter);
     
-    AppContainer::ConfigureAuthService();
+//    Dal::AuthServices::ConfigureAuthService();
     
-    LogInWidget *logInWidget = new LogInWidget(m_session);
+    LogInWidget *logInWidget = new LogInWidget(m_login);
 
-    logInWidget->model()->addPasswordAuth(&AppContainer::GetPasswordService());
+    logInWidget->model()->addPasswordAuth(&Dal::AuthServices::GetPasswordService());
     
     //logInWidget->model()->addOAuth(Session::oAuth());
     logInWidget->setRegistrationEnabled(true);

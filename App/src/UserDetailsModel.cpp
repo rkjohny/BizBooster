@@ -13,8 +13,7 @@ namespace WebApp {
 const Wt::WFormModel::Field
 UserDetailsModel::FavouritePetField = "favourite-pet";
 
-UserDetailsModel::UserDetailsModel(Dal::WtSession& session, Wt::WObject *parent)
-: Wt::WFormModel(parent), m_session(session)
+UserDetailsModel::UserDetailsModel(Wt::WObject *parent) : Wt::WFormModel(parent)
 {
     //addField(FavouritePetField, Wt::WString::tr("favourite-pet-info"));
 }

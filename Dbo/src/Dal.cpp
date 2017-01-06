@@ -18,6 +18,7 @@
 #include "DataModelManager.h"
 #include "LogFactory.h"
 #include "CFReaderFactory.h"
+#include "AuthServices.h"
 
 namespace Dal {
 
@@ -28,6 +29,8 @@ void LoadLibrary()
     if (!g_loaded) {
         Json::LoadLibrary();
 
+        AuthServices::ConfigureAuthService();
+        
         LOG_DEBUG("Registering User calss...");
         REGISTER_CLASS(User, "user");
 
@@ -37,10 +40,10 @@ void LoadLibrary()
 
         //Initializing Dbo objects
         Dal::GetDao();
-        
+
         //Run data model, data model it will create tables; 
         DataModelManager().Run();
-        
+
         g_loaded = true;
     }
 }
@@ -52,20 +55,16 @@ void ReleaseLibrary()
         UNREGISTER_CLASS(User, "user");
 
         Fio::CFReaderFactory::DisposeConfigReader(DBO_CONFIG_FILE_NAME);
-        
+
         Dal::GetDao()->Dispose();
-        
+
         g_loaded = false;
     }
 }
 
-std::shared_ptr<Dao> GetDao()
+Dao* GetDao()
 {
-#ifdef WT_DBO
     return WtDaoImp::GetInstance();
-#else
-    return nullptr;
-#endif
 }
 
 }

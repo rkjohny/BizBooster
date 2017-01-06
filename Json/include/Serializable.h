@@ -21,8 +21,8 @@ namespace Json {
 
     class Serializable {
     public:
-        Serializable();
-        virtual ~Serializable();
+        Serializable() = default;
+        virtual ~Serializable() = default;
 
         virtual const web::json::value& Serialize() = 0;
         virtual void Deserialize(const web::json::value&) = 0;

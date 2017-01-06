@@ -18,12 +18,11 @@ class UserDetailsModel : public Wt::WFormModel
 public:
   static const Field FavouritePetField;
 
-  UserDetailsModel(Dal::WtSession& session, Wt::WObject *parent = 0);
+  UserDetailsModel(Wt::WObject *parent = 0);
 
-  void save(const Wt::Auth::User& user);
+  void save(const Wt::Auth::User &user);
 
 private:
-  Dal::WtSession& m_session;
 };
 
 }

@@ -10,41 +10,37 @@
 
 namespace WebApp {
 
-
-RegistrationView::RegistrationView(Dal::WtSession& session,
-				   Wt::Auth::AuthWidget *authWidget)
-  : Wt::Auth::RegistrationWidget(authWidget),
-    m_session(session)
+RegistrationView::RegistrationView(Wt::Auth::AuthWidget *authWidget) : Wt::Auth::RegistrationWidget(authWidget)
 {
-  setTemplateText(tr("template.registration"));
-  m_detailsModel = new UserDetailsModel(m_session, this);
+    setTemplateText(tr("template.registration"));
+    m_detailsModel = new UserDetailsModel(this);
 
-  updateView(m_detailsModel);
+    updateView(m_detailsModel);
 }
 
 Wt::WWidget *RegistrationView::createFormWidget(Wt::WFormModel::Field field)
 {
-  if (field == UserDetailsModel::FavouritePetField)
-    return new Wt::WLineEdit();
-  else
-    return Wt::Auth::RegistrationWidget::createFormWidget(field);
+    if (field == UserDetailsModel::FavouritePetField)
+        return new Wt::WLineEdit();
+    else
+        return Wt::Auth::RegistrationWidget::createFormWidget(field);
 }
 
 bool RegistrationView::validate()
 {
-  bool result = Wt::Auth::RegistrationWidget::validate();
+    bool result = Wt::Auth::RegistrationWidget::validate();
 
-  updateModel(m_detailsModel);
-  if (!m_detailsModel->validate())
-    result = false;
-  updateView(m_detailsModel);
+    updateModel(m_detailsModel);
+    if (!m_detailsModel->validate())
+        result = false;
+    updateView(m_detailsModel);
 
-  return result;
+    return result;
 }
 
 void RegistrationView::registerUserDetails(Wt::Auth::User& user)
 {
-  m_detailsModel->save(user);
+    m_detailsModel->save(user);
 }
 
 }

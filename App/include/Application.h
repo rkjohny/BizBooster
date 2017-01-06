@@ -30,8 +30,7 @@ public:
     Application(const Wt::WEnvironment &env);
 
 private:
-    Dal::WtSession m_session;
-
+    Wt::Auth::Login m_login;
 };
 
 }

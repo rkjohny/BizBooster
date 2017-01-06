@@ -16,7 +16,7 @@ namespace WebApp {
 class LogInWidget : public Wt::Auth::AuthWidget
 {
 public:
-  LogInWidget(Dal::WtSession& session);
+  LogInWidget(Wt::Auth::Login &login);
 
   /* We will use a custom registration view */
   virtual Wt::WWidget* CreateRegistrationView(const Wt::Auth::Identity& id);
@@ -24,7 +24,7 @@ public:
   void HandleAuthEvent();
   
 private:
-  Dal::WtSession &m_session;
+  Wt::Auth::Login &m_login;
 };
 
 }

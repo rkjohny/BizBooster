@@ -21,6 +21,7 @@
 #include "OSTDStream.h"
 #include "Json.h"
 #include "LCrypto.h"
+#include "Dal.h"
 
 #include <string>
 
@@ -62,6 +63,7 @@ void AppInitializer::Initialize()
     /* load rest of libraries*/
     Json::LoadLibrary();
     LCrypto::LoadLibrary();
+    Dal::LoadLibrary();
 }
 
 

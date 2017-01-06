@@ -17,21 +17,19 @@ namespace WebApp {
 class RegistrationView : public Wt::Auth::RegistrationWidget
 {
 public:
-  RegistrationView(Dal::WtSession& session, Wt::Auth::AuthWidget *authWidget = nullptr);
+  RegistrationView(Wt::Auth::AuthWidget *authWidget = nullptr);
 
   /* specialize to create user details fields */
-  virtual Wt::WWidget *createFormWidget(Wt::WFormModel::Field field);
+  Wt::WWidget *createFormWidget(Wt::WFormModel::Field field) override;
 
 protected:
   /* specialize to also validate the user details */
-  virtual bool validate();
+  bool validate() override;
 
   /* specialize to register user details */
-  virtual void registerUserDetails(Wt::Auth::User& user);
+  void registerUserDetails(Wt::Auth::User& user) override;
 
 private:
-  Dal::WtSession& m_session;
-
   UserDetailsModel *m_detailsModel;
 };
 

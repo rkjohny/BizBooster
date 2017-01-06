@@ -36,13 +36,12 @@ class WtDaoImp : public Dao {
 private:
     NON_COPY_NON_MOVE_ABLE(WtDaoImp);
 
-    static std::shared_ptr<WtDaoImp> m_instance;
-    Dal::WtSession m_session;
-
-protected:
-    WtDaoImp();
+    static WtDaoImp* m_instance;
+    Dal::WtSession* m_session;
 
 public:
+    WtDaoImp();
+    
     virtual ~WtDaoImp();
 
     void Dispose() override;
@@ -73,11 +72,11 @@ public:
     AddEnitity(Requester *requester, C *entity)
     {
         this->OnSave(requester, entity);
-        Wt::Dbo::ptr<C> newEntity = m_session.add(entity);
+        Wt::Dbo::ptr<C> newEntity = m_session->add(entity);
         return newEntity;
     }
 
-    static std::shared_ptr<WtDaoImp> GetInstance();
+    static WtDaoImp* GetInstance();
 
     void CreateTables(Requester *requester) override;
 
@@ -103,6 +102,8 @@ public:
     Wt::Dbo::ptr<AuthInfo::AuthIdentityType> AddIdentity(Requester *requester, AuthInfo::AuthIdentityType *identity) override;
 
     Wt::Dbo::ptr<User> GetUser(Requester *requester, int64_t id) override;
+    
+    Dal::UserDatabase& GetUserDB() override;
 };
 }
 

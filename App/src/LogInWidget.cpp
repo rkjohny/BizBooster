@@ -6,18 +6,20 @@
 
 #include "LogInWidget.h"
 #include "RegistrationView.h"
-#include "AppContainer.h"
+#include "AuthServices.h"
+#include "Dao.h"
+#include "Dal.h"
 
 namespace WebApp {
 
-LogInWidget::LogInWidget(Dal::WtSession &session) : Wt::Auth::AuthWidget(AppContainer::GetAuthService(),
-session.GetUserDB(), session.GetLogIn()), m_session(session)
+LogInWidget::LogInWidget(Wt::Auth::Login &login) :
+Wt::Auth::AuthWidget(Dal::AuthServices::GetAuthService(), Dal::GetDao()->GetUserDB(), login), m_login(login)
 {
 }
 
 Wt::WWidget* LogInWidget::CreateRegistrationView(const Wt::Auth::Identity& id)
 {
-    RegistrationView *w = new RegistrationView(m_session, this);
+    RegistrationView *w = new RegistrationView(this);
     Wt::Auth::RegistrationModel *model = createRegistrationModel();
 
     if (id.isValid())
@@ -29,8 +31,8 @@ Wt::WWidget* LogInWidget::CreateRegistrationView(const Wt::Auth::Identity& id)
 
 void LogInWidget::HandleAuthEvent()
 {
-    if (m_session.GetLogIn().loggedIn()) {
-        Wt::log("notice") << "User " << m_session.GetLogIn().user().id()
+    if (m_login.loggedIn()) {
+        Wt::log("notice") << "User " << m_login.user().id()
                 << " logged in.";
         //Wt::Dbo::Transaction t(m_session);
         //dbo::ptr<User> user = m_session.GetAuthUser();
