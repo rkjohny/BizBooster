@@ -8,6 +8,7 @@
 #define USER_DETAILS_MODEL_H_
 
 #include <Wt/WFormModel>
+#include <Wt/Auth/Login>
 
 #include "WtSession.h"
 
@@ -18,11 +19,12 @@ class UserDetailsModel : public Wt::WFormModel
 public:
   static const Field FavouritePetField;
 
-  UserDetailsModel(Wt::WObject *parent = 0);
+  UserDetailsModel(Wt::Auth::Login &login, Wt::WObject *parent = 0);
 
   void save(const Wt::Auth::User &user);
 
 private:
+    Wt::Auth::Login &m_login;
 };
 
 }

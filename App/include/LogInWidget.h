@@ -19,10 +19,8 @@ public:
   LogInWidget(Wt::Auth::Login &login);
 
   /* We will use a custom registration view */
-  virtual Wt::WWidget* CreateRegistrationView(const Wt::Auth::Identity& id);
+  Wt::WWidget* createRegistrationView(const Wt::Auth::Identity& id) override;
 
-  void HandleAuthEvent();
-  
 private:
   Wt::Auth::Login &m_login;
 };

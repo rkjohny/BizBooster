@@ -9,6 +9,7 @@
 #include "AuthServices.h"
 #include "Dao.h"
 #include "Dal.h"
+#include "InternalRootRequester.h"
 
 namespace WebApp {
 
@@ -17,9 +18,9 @@ Wt::Auth::AuthWidget(Dal::AuthServices::GetAuthService(), Dal::GetDao()->GetUser
 {
 }
 
-Wt::WWidget* LogInWidget::CreateRegistrationView(const Wt::Auth::Identity& id)
+Wt::WWidget* LogInWidget::createRegistrationView(const Wt::Auth::Identity& id)
 {
-    RegistrationView *w = new RegistrationView(this);
+    RegistrationView *w = new RegistrationView(m_login, this);
     Wt::Auth::RegistrationModel *model = createRegistrationModel();
 
     if (id.isValid())
@@ -29,16 +30,5 @@ Wt::WWidget* LogInWidget::CreateRegistrationView(const Wt::Auth::Identity& id)
     return w;
 }
 
-void LogInWidget::HandleAuthEvent()
-{
-    if (m_login.loggedIn()) {
-        Wt::log("notice") << "User " << m_login.user().id()
-                << " logged in.";
-        //Wt::Dbo::Transaction t(m_session);
-        //dbo::ptr<User> user = m_session.GetAuthUser();
-        //Wt::log("notice") << "(Favourite pet: " << user->favouritePet << ")";
-    } else
-        Wt::log("notice") << "User logged out.";
-}
 
 }

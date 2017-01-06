@@ -10,10 +10,11 @@
 
 namespace WebApp {
 
-RegistrationView::RegistrationView(Wt::Auth::AuthWidget *authWidget) : Wt::Auth::RegistrationWidget(authWidget)
+RegistrationView::RegistrationView(Wt::Auth::Login &login, Wt::Auth::AuthWidget *authWidget) : 
+Wt::Auth::RegistrationWidget(authWidget), m_login(login)
 {
     setTemplateText(tr("template.registration"));
-    m_detailsModel = new UserDetailsModel(this);
+    m_detailsModel = new UserDetailsModel(m_login, this);
 
     updateView(m_detailsModel);
 }

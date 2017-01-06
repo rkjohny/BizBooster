@@ -126,22 +126,8 @@ Wt::Dbo::ptr<User> WtDaoImp::GetUser(Requester *requester, const std::string &pr
 
     PUser user;
 
-#if 0
-    QUsers q = m_session->query<PUser>("select U from \"user\" U "
-            "join \"auth_info\" A on U.id = A.user_id "
-            "join \"auth_identity\" I on A.id = I.auth_info_id")
-            .where("I.provider= ? and I.identity = ? and U.status = ?")
-            .bind(provider).bind(identity).bind("V");
-
-    Users users = q.resultList();
-
-    if (users.size() > 0) {
-        user = *(users.begin());
-    }
-#endif
-
 #if 1
-    auto query = m_session->query<PUser>("select U from \"user\" U "
+    QUsers query = m_session->query<PUser>("select U from \"user\" U "
             "join \"auth_info\" A on U.id = A.user_id "
             "join \"auth_identity\" I on A.id = I.auth_info_id")
             .where("I.provider= ? and I.identity = ? and U.status = ?")
@@ -164,29 +150,35 @@ Wt::Dbo::ptr<User> WtDaoImp::GetUser(Requester *requester, const std::string &id
 
 Wt::Dbo::ptr<AuthInfo> WtDaoImp::AddAuthInfo(Requester *requester, AuthInfo *authInfo)
 {
-    //    Wt::Dbo::ptr<AuthInfo> authInfoAdded;
-    //    authInfoAdded = m_session->add<AuthInfo>(authInfo);
-    //    return authInfoAdded;
-
     return m_session->add<AuthInfo>(authInfo);
 }
 
 Wt::Dbo::ptr<AuthInfo::AuthIdentityType> WtDaoImp::AddIdentity(Requester *requester, AuthInfo::AuthIdentityType *identity)
 {
-    //    Wt::Dbo::ptr<AuthInfo::AuthIdentityType> identityAdded =
-    //            m_session->add<AuthInfo::AuthIdentityType>(identity);
-    //    return identityAdded;
-
     return m_session->add<AuthInfo::AuthIdentityType>(identity);
 }
 
 Wt::Dbo::ptr<User> WtDaoImp::GetUser(Requester *requester, int64_t id)
 {
-    //    Wt::Dbo::ptr<User> user;
-    //    user = m_session->find<Dal::User>().where("id = ? and status = ?").bind(id).bind(StatusStr::V);
-    //    return user;
-
     return m_session->find<Dal::User>().where("id = ? and status = ?").bind(id).bind(StatusStr::V);
+}
+
+Wt::Dbo::ptr<User> WtDaoImp::GetUser(Requester *requester, const Wt::Auth::User &authUser)
+{
+    Wt::Dbo::ptr<User> user;
+            
+    Wt::Dbo::ptr<Dal::AuthInfo> authInfo = GetUserDB().find(authUser);
+    if (authInfo) {
+        user = authInfo->user();
+
+        if (!user) {
+            user = Wt::Dbo::ptr<Dal::User>(new Dal::User());
+            RegisterUser(requester, user.modify());
+            authInfo.modify()->setUser(user);
+            return user;
+        }
+    }
+    return user;
 }
 
 Dal::UserDatabase& WtDaoImp::GetUserDB()

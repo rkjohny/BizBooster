@@ -102,6 +102,7 @@ public:
     Wt::Dbo::ptr<AuthInfo::AuthIdentityType> AddIdentity(Requester *requester, AuthInfo::AuthIdentityType *identity) override;
 
     Wt::Dbo::ptr<User> GetUser(Requester *requester, int64_t id) override;
+    Wt::Dbo::ptr<User> GetUser(Requester *requester, const Wt::Auth::User &authUser) override;
     
     Dal::UserDatabase& GetUserDB() override;
 };

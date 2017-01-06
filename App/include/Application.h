@@ -29,6 +29,8 @@ class Application : public Wt::WApplication {
 public:
     Application(const Wt::WEnvironment &env);
 
+    void HandleAuthEvent();
+    
 private:
     Wt::Auth::Login m_login;
 };

@@ -6,6 +6,8 @@
 
 #include "UserDetailsModel.h"
 #include "User.h"
+#include "Dal.h"
+#include "InternalRootRequester.h"
 
 
 namespace WebApp {
@@ -13,15 +15,30 @@ namespace WebApp {
 const Wt::WFormModel::Field
 UserDetailsModel::FavouritePetField = "favourite-pet";
 
-UserDetailsModel::UserDetailsModel(Wt::WObject *parent) : Wt::WFormModel(parent)
+UserDetailsModel::UserDetailsModel(Wt::Auth::Login &login, Wt::WObject *parent) :
+Wt::WFormModel(parent), m_login(login)
 {
     //addField(FavouritePetField, Wt::WString::tr("favourite-pet-info"));
 }
 
 void UserDetailsModel::save(const Wt::Auth::User& authUser)
 {
-    //Wt::Dbo::ptr<Dal::User> user = session_.user(authUser);
-    //user.modify()->favouritePet = valueText(FavouritePetField).toUTF8();
+
+
+    if (m_login.loggedIn()) {
+        auto dao = Dal::GetDao();
+        auto requester = Dal::InternalRootRequester::GetInstance();
+        auto transaction = dao->BeginTransaction(requester);
+
+        auto &authUser = m_login.user();
+        auto user = dao->GetUser(requester, authUser);
+        
+        if (user && user.get()) {
+            //user.modify()->favouritePet = valueText(FavouritePetField).toUTF8();
+        }
+
+        dao->CommitTransaction(requester, transaction);
+    }
 }
 
 }

@@ -8,6 +8,7 @@
 #define REGISTRATION_VIEW_H_
 
 #include <Wt/Auth/RegistrationWidget>
+#include <Wt/Auth/Login>
 
 #include "UserDetailsModel.h"
 #include "WtSession.h"
@@ -17,7 +18,7 @@ namespace WebApp {
 class RegistrationView : public Wt::Auth::RegistrationWidget
 {
 public:
-  RegistrationView(Wt::Auth::AuthWidget *authWidget = nullptr);
+  RegistrationView(Wt::Auth::Login &login, Wt::Auth::AuthWidget *authWidget = nullptr);
 
   /* specialize to create user details fields */
   Wt::WWidget *createFormWidget(Wt::WFormModel::Field field) override;
@@ -31,6 +32,7 @@ protected:
 
 private:
   UserDetailsModel *m_detailsModel;
+  Wt::Auth::Login &m_login;
 };
 
 }
