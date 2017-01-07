@@ -38,8 +38,8 @@ void AuthServices::ConfigureAuthService()
     if (!m_authServiceConfigured) {
         m_authService.setAuthTokensEnabled(true, "logincookie");
         m_authService.setEmailVerificationEnabled(true);
-        m_authService.setEmailVerificationRequired(true);
-        //m_authService.setIdentityPolicy(Wt::Auth::IdentityPolicy::EmailAddressIdentity);
+        //m_authService.setEmailVerificationRequired(true);
+        m_authService.setIdentityPolicy(Wt::Auth::IdentityPolicy::EmailAddressIdentity);
 
         Wt::Auth::PasswordVerifier *verifier = new Wt::Auth::PasswordVerifier();
         verifier->addHashFunction(new Wt::Auth::BCryptHashFunction(7));

@@ -37,12 +37,7 @@ Application::Application(const Wt::WEnvironment &env) : Wt::WApplication(env)
     messageResourceBundle().use(appRoot() + "resource/lang/strings");
     messageResourceBundle().use(appRoot() + "resource/template/templates");
 
-    //    messageResourceBundle().use(appRoot() + "strings");
-    //    messageResourceBundle().use(appRoot() + "templates");
-
     //root()->setContentAlignment(Wt::AlignmentFlag::AlignCenter);
-
-    //    Dal::AuthServices::ConfigureAuthService();
 
     m_login.changed().connect(this, &Application::HandleAuthEvent);
     
