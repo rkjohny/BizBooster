@@ -32,15 +32,18 @@ Application::Application(const Wt::WEnvironment &env) : Wt::WApplication(env)
     root()->addStyleClass("container");
     setTheme(new Wt::WBootstrapTheme());
 
-    useStyleSheet(appRoot() + "resource/css/style.css");
-    useStyleSheet(appRoot() + "resource/css/app.css");
-    messageResourceBundle().use(appRoot() + "resource/lang/strings");
-    messageResourceBundle().use(appRoot() + "resource/template/templates");
+    useStyleSheet(appRoot() + "resources/css/style.css");
+    useStyleSheet(appRoot() + "resources/css/app.css");
+    messageResourceBundle().use(appRoot() + "resources/lang/strings");
+    messageResourceBundle().use(appRoot() + "resources/template/templates");
+
+    //    messageResourceBundle().use(appRoot() + "strings");
+    //    messageResourceBundle().use(appRoot() + "templates");
 
     //root()->setContentAlignment(Wt::AlignmentFlag::AlignCenter);
 
     m_login.changed().connect(this, &Application::HandleAuthEvent);
-    
+
     LogInWidget *logInWidget = new LogInWidget(m_login);
 
     logInWidget->model()->addPasswordAuth(&Dal::AuthServices::GetPasswordService());

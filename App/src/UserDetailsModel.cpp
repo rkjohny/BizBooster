@@ -18,13 +18,11 @@ UserDetailsModel::FavouritePetField = "favourite-pet";
 UserDetailsModel::UserDetailsModel(Wt::Auth::Login &login, Wt::WObject *parent) :
 Wt::WFormModel(parent), m_login(login)
 {
-    //addField(FavouritePetField, Wt::WString::tr("favourite-pet-info"));
+    addField(FavouritePetField, Wt::WString::tr("favourite-pet-info"));
 }
 
 void UserDetailsModel::save(const Wt::Auth::User& authUser)
 {
-
-
     if (m_login.loggedIn()) {
         auto dao = Dal::GetDao();
         auto requester = Dal::InternalRootRequester::GetInstance();
