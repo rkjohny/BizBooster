@@ -36,6 +36,7 @@ Application::Application(const Wt::WEnvironment &env) : Wt::WApplication(env)
     useStyleSheet(appRoot() + "resources/css/app.css");
     messageResourceBundle().use(appRoot() + "resources/lang/strings");
     messageResourceBundle().use(appRoot() + "resources/template/templates");
+    //messageResourceBundle().use(appRoot() + "resources/template/auth_template");
 
     //    messageResourceBundle().use(appRoot() + "strings");
     //    messageResourceBundle().use(appRoot() + "templates");
@@ -44,7 +45,7 @@ Application::Application(const Wt::WEnvironment &env) : Wt::WApplication(env)
 
     m_login.changed().connect(this, &Application::HandleAuthEvent);
 
-    LogInWidget *logInWidget = new LogInWidget(m_login);
+    LogInWidget *logInWidget = new LogInWidget(root(), m_login);
 
     logInWidget->model()->addPasswordAuth(&Dal::AuthServices::GetPasswordService());
 
