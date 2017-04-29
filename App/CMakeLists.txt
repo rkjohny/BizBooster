@@ -83,11 +83,13 @@ else ()
 #    target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_SSL})
 #    target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_CRYPTO})
 
-    target_link_libraries(${PROJECT_NAME} PUBLIC /usr/lib/x86_64-linux-gnu/libssl.a)
-    target_link_libraries(${PROJECT_NAME} PUBLIC /usr/lib/x86_64-linux-gnu/libcrypto.a)
+    target_link_libraries(${PROJECT_NAME} PUBLIC /usr/local/ssl/lib/libssl.a)
+    target_link_libraries(${PROJECT_NAME} PUBLIC /usr/local/ssl/lib/libcrypto.a)
 
     target_link_libraries(${PROJECT_NAME} PUBLIC z)
     target_link_libraries(${PROJECT_NAME} PUBLIC dl)
+
+    target_link_libraries(${PROJECT_NAME} PUBLIC pthread)
 
     configure_file(app.properties ${EXECUTABLE_OUTPUT_PATH}/ COPYONLY UNIX)
     configure_file(wt_config.xml ${EXECUTABLE_OUTPUT_PATH}/ COPYONLY UNIX)

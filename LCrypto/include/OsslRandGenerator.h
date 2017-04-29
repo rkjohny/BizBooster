@@ -13,7 +13,10 @@
 #ifndef OPEN_SSLRNG_H
 #define OPEN_SSLRNG_H
 
+
 #include "RndGenerator.h"
+#include "CryptoDef.h"
+
 
 namespace LCrypto {
 

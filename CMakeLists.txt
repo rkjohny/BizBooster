@@ -10,7 +10,7 @@ set(CMAKE_BUILD_TYPE Debug)
 
 # setting the output path
 #TODO: how to get the path from where cmake commade was given without hard coding build
-set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/binary)
+set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/Binary)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
@@ -21,7 +21,7 @@ set(LIB_COMMON common)
 set(LIB_FIO fio)
 set(LIB_LCRYPTO lcrypto)
 set(LIB_JSON json)
-#set(LIB_JSON_TEST jsontester)
+set(LIB_JSON_TEST jsontester)
 set(LIB_DBO dbo)
 set(LIB_API api)
 set(SERVICE service)
@@ -35,13 +35,14 @@ set(GTEST GTest)
 set(BOOST boost_system)
 set(SSL ssl)
 set(CRYPTO crypto)
-set(CRYPT crypt)
-set(WITTY wt)
-set(WITTY_HTTP wthttp)
-set(WITTY_FCGI wtfcgi)
-set(WITTY_DBO wtdbo)
-set(WITTY_PG_SQL wtdbopostgres)
-set(WITTY_EXT wtext)
+#set(CRYPT crypt)
+set(PTHREAD, pthread)
+set(WITTY wtd)
+set(WITTY_HTTP wthttpd)
+#set(WITTY_FCGI wtfcgid)
+set(WITTY_DBO wtdbod)
+set(WITTY_PG_SQL wtdbopostgresd)
+#set(WITTY_EXT wtext)
 
 # setting search path for librraies
 link_directories(${PROJECT_BINARY_DIR})
@@ -130,11 +131,18 @@ endif()
 
 
 # Locate libcrypyo
-find_library(LIB_CRYPT ${CRYPT} REQUIRED)
-message ("LIB_CRYPT = ${LIB_CRYPT}")
-if (NOT LIB_CRYPT)
-    message(FATAL_ERROR "libcrypt not found.")
-endif()
+#find_library(LIB_CRYPT ${CRYPT} REQUIRED)
+#message ("LIB_CRYPT = ${LIB_CRYPT}")
+#if (NOT LIB_CRYPT)
+#    message(FATAL_ERROR "libcrypt not found.")
+#endif()
+
+# Locate libpthread
+#find_library(LIB_PTHREAD ${PTHREAD} REQUIRED)
+#message ("LIB_PTHREAD = ${LIB_PTHREAD}")
+#if (NOT LIB_PTHREAD)
+#    message(FATAL_ERROR "libpthread not found.")
+#endif()
 
 
 # add common, Json, Dal, and Api first beacuse they will export the librray header locations which will be used by JsonTest, Server and Client
