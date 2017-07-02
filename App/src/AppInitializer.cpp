@@ -2,7 +2,7 @@
  * Author: Rezaul Karim
  * Email: rkjohny@gmail.com
  *
- * Copyright (C) 20016 Rezaul Karim (rkjohny@gmail.com) all rights reserved.
+ * Copyright (C) 2017 Rezaul Karim (rkjohny@gmail.com) all rights reserved.
  *
  * The information contained here-in is the property of Rezaul Karim and is not to be
  * disclosed or used without prior written permission of Rezaul Karim. This copyright
@@ -11,21 +11,21 @@
  */
 
 #include "AppInitializer.h"
-#include "WAppDef.h"
-#include "AppDef.h"
+#include "BizBoosterDef.h"
+#include "AppCommonDef.h"
 #include "Converter.h"
-#include "Common.h"
-#include "LogFactory.h"
+#include "LibCommon.h"
+#include "LoggerFactory.h"
 #include "CFReaderFactory.h"
 #include "OFStream.h"
 #include "OSTDStream.h"
 #include "Json.h"
-#include "LCrypto.h"
-#include "Dal.h"
+#include "LibCipher.h"
+#include "LibCruxdb.h"
 
 #include <string>
 
-namespace WebApp {
+namespace BizBooster {
 
 void AppInitializer::Initialize()
 {
@@ -34,19 +34,19 @@ void AppInitializer::Initialize()
     
     // Initializing config reader and reading server config file
     auto server_config_reader =
-            Fio::CFReaderFactory::CreateConfigReader(APP_CONFIG_FILE_NAME,
-            Fio::ConFigFileType::PROPERTY_FILE);
+            Logfig::CFReaderFactory::CreateConfigReader(APP_CONFIG_FILE_NAME,
+            Logfig::ConFigFileType::PROPERTY_FILE);
 
     server_config_reader->SetFile(APP_CONFIG_FILE_NAME);
 
     // creating server logger
-    auto logger = Fio::LogFactory::GetLogger(APP_LOGGER);
+    auto logger = Logfig::LoggerFactory::GetLogger(APP_LOGGER);
 
     // Adding file stream to logger
     auto filename = server_config_reader->GetValueOf(APP_LOG_FILE_PATH) +
             PATH_SEPARATOR + server_config_reader->GetValueOf(APP_LOG_FILE_NAME);
 
-    auto ofStream = new Fio::OFStream();
+    auto ofStream = new Logfig::OFStream();
     ofStream->SetFile(filename);
     logger->AddStream(filename, ofStream);
 
@@ -57,13 +57,13 @@ void AppInitializer::Initialize()
     }
 
     // Adding standard output (console) stream
-    auto ostdStream = new Fio::OSTDStream();
+    auto ostdStream = new Logfig::OSTDStream();
     logger->AddStream("standard_output_stram", ostdStream);
 
     /* load rest of libraries*/
-    Json::LoadLibrary();
-    LCrypto::LoadLibrary();
-    Dal::LoadLibrary();
+    Cmarshal::Json::LoadLibrary();
+    Cipher::LoadLibrary();
+    Cruxdb::LoadLibrary();
 }
 
 

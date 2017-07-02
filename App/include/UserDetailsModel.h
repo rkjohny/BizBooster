@@ -12,7 +12,7 @@
 
 #include "WtSession.h"
 
-namespace WebApp {
+namespace BizBooster {
 
 class UserDetailsModel : public Wt::WFormModel
 {

@@ -2,7 +2,7 @@
  * Author: Rezaul Karim
  * Email: rkjohny@gmail.com
  *
- * Copyright (C) 20016 Rezaul Karim (rkjohny@gmail.com) all rights reserved.
+ * Copyright (C) 2017 Rezaul Karim (rkjohny@gmail.com) all rights reserved.
  *
  * The information contained here-in is the property of Rezaul Karim and is not to be
  * disclosed or used without prior written permission of Rezaul Karim. This copyright
@@ -19,11 +19,11 @@
 #include "AppInitializer.h"
 #include "AuthServices.h"
 #include "InternalRootRequester.h"
-#include "Dal.h"
+#include "LibCruxdb.h"
 
 
 
-namespace WebApp {
+namespace BizBooster {
 
 Application::Application(const Wt::WEnvironment &env) : Wt::WApplication(env)
 {
@@ -47,7 +47,7 @@ Application::Application(const Wt::WEnvironment &env) : Wt::WApplication(env)
 
     LogInWidget *logInWidget = new LogInWidget(root(), m_login);
 
-    logInWidget->model()->addPasswordAuth(&Dal::AuthServices::GetPasswordService());
+    logInWidget->model()->addPasswordAuth(&Cruxdb::AuthServices::GetPasswordService());
 
     //logInWidget->model()->addOAuth(Session::oAuth());
     logInWidget->setRegistrationEnabled(true);
@@ -63,8 +63,8 @@ void Application::HandleAuthEvent()
         Wt::log("notice") << "User " << m_login.user().id()
                 << " logged in.";
 
-        auto dao = Dal::GetDao();
-        auto requester = Dal::InternalRootRequester::GetInstance();
+        auto dao = Cruxdb::GetDao();
+        auto requester = Cruxdb::InternalRootRequester::GetInstance();
         auto transaction = dao->BeginTransaction(requester);
 
         auto &authUser = m_login.user();
@@ -84,14 +84,14 @@ void Application::HandleAuthEvent()
 
 Wt::WApplication* createApplication(const Wt::WEnvironment &env)
 {
-    return new WebApp::Application(env);
+    return new BizBooster::Application(env);
 }
 
 int main(int argc, char **argv)
 {
     try {
 
-        WebApp::AppInitializer::Initialize();
+        BizBooster::AppInitializer::Initialize();
 
         Wt::WServer server(argc, argv, WTHTTP_CONFIGURATION);
 

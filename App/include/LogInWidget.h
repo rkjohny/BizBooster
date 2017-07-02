@@ -11,7 +11,7 @@
 
 #include <Wt/Auth/AuthWidget>
 
-namespace WebApp {
+namespace BizBooster {
 
 class LogInWidget : public Wt::Auth::AuthWidget
 {

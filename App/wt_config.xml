@@ -279,7 +279,7 @@
 
 	<!-- DoS prevention: limit plain HTML sessions
 
-           This is a simple measure which avoids Denial-of-Service
+           This is a simple measure which avoids DenialPantoonvice
            attacks on plain HTML sessions, which are easy to mount in
            particular in the case of progressive bootstrap mode.
 
@@ -294,7 +294,7 @@
 
 	<!-- DoS prevention: adds a puzzle to validate Ajax sessions
 
-           This is a simple measure which avoids Denial-of-Service
+           This is a simple measure which avoids DenialPantoonvice
            attacks on Ajax sessions.
 
            When enabled, a puzzle needs to be solved in the first Ajax

@@ -12,9 +12,9 @@
 
 cmake_minimum_required(VERSION 2.6)
 
-message("Executing SERVER::CMakeLists.txt")
+message("Executing APP::CMakeLists.txt")
 
-project(${WEB_APP} CXX)
+project(${BIZ_BOOSTER_APP} CXX)
 
 
 if (TARGET ${PROJECT_NAME})
@@ -33,16 +33,16 @@ else ()
     include_directories(${LIB_COMMON_INCLUDE_DIR})
 
     # including libjson include directory
-    include_directories(${LIB_JSON_INCLUDE_DIR})
+    include_directories(${LIB_CMARSHAL_INCLUDE_DIR})
 
     #including libfio include directory
-    include_directories(${LIB_FIO_INCLUDE_DIR})
+    include_directories(${LIB_LOGFIG_INCLUDE_DIR})
 
     #including liblcrypto include directory
-    include_directories(${LIB_LCRYPTO_INCLUDE_DIR})
+    include_directories(${LIB_CIPHER_INCLUDE_DIR})
 
     #including libdbo include directory
-    include_directories(${LIB_DBO_INCLUDE_DIR})
+    include_directories(${LIB_CRUXDB_INCLUDE_DIR})
 
 
     file(GLOB APP_HEADERS ${PROJECT_INCLUDE_DIR}/*.h)
@@ -55,16 +55,16 @@ else ()
     add_executable(${PROJECT_NAME} ${APP_SOURCES} ${APP_HEADERS})
 
     # linking libjson library as dependencies
-    target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_DBO})
+    target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_BIZ_BOOSTER_SQLDB})
 
     # linking libjson library as dependencies
-    target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_JSON})
+    target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_CMARSHAL})
 
     # linking liblcrypto library as dependencies
-    target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_LCRYPTO})
+    target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_CIPHER})
 
     # linking libjson library as dependencies
-    target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_FIO})
+    target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_LOGFIG})
 
     # linking libcommon library as dependencies
     target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_COMMON})
@@ -83,15 +83,19 @@ else ()
 #    target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_SSL})
 #    target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_CRYPTO})
 
-    target_link_libraries(${PROJECT_NAME} PUBLIC /usr/local/ssl/lib/libssl.a)
-    target_link_libraries(${PROJECT_NAME} PUBLIC /usr/local/ssl/lib/libcrypto.a)
+#    target_link_libraries(${PROJECT_NAME} PUBLIC /usr/local/ssl/lib/libssl.a)
+#    target_link_libraries(${PROJECT_NAME} PUBLIC /usr/local/ssl/lib/libcrypto.a)
+
+    target_link_libraries(${PROJECT_NAME} PUBLIC /usr/lib/x86_64-linux-gnu/libssl.a)
+    target_link_libraries(${PROJECT_NAME} PUBLIC /usr/lib/x86_64-linux-gnu/libcrypto.a)
+
 
     target_link_libraries(${PROJECT_NAME} PUBLIC z)
     target_link_libraries(${PROJECT_NAME} PUBLIC dl)
 
     target_link_libraries(${PROJECT_NAME} PUBLIC pthread)
 
-    configure_file(app.properties ${EXECUTABLE_OUTPUT_PATH}/ COPYONLY UNIX)
+    configure_file(bizbooster.properties ${EXECUTABLE_OUTPUT_PATH}/ COPYONLY UNIX)
     configure_file(wt_config.xml ${EXECUTABLE_OUTPUT_PATH}/ COPYONLY UNIX)
 
 

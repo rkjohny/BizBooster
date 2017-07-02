@@ -8,7 +8,7 @@
 
 #include <Wt/WLineEdit>
 
-namespace WebApp {
+namespace BizBooster {
 
 RegistrationView::RegistrationView(Wt::Auth::Login &login, Wt::Auth::AuthWidget *authWidget) : 
 Wt::Auth::RegistrationWidget(authWidget), m_login(login)

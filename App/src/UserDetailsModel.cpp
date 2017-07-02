@@ -6,11 +6,11 @@
 
 #include "UserDetailsModel.h"
 #include "User.h"
-#include "Dal.h"
+#include "LibCruxdb.h"
 #include "InternalRootRequester.h"
 
 
-namespace WebApp {
+namespace BizBooster {
 
 const Wt::WFormModel::Field
 UserDetailsModel::FavouritePetField = "favourite-pet";
@@ -24,8 +24,8 @@ Wt::WFormModel(parent), m_login(login)
 void UserDetailsModel::save(const Wt::Auth::User& authUser)
 {
     if (m_login.loggedIn()) {
-        auto dao = Dal::GetDao();
-        auto requester = Dal::InternalRootRequester::GetInstance();
+        auto dao = Cruxdb::GetDao();
+        auto requester = Cruxdb::InternalRootRequester::GetInstance();
         auto transaction = dao->BeginTransaction(requester);
 
         auto &authUser = m_login.user();

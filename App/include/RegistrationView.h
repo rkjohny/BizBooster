@@ -13,7 +13,7 @@
 #include "UserDetailsModel.h"
 #include "WtSession.h"
 
-namespace WebApp {
+namespace BizBooster {
 
 class RegistrationView : public Wt::Auth::RegistrationWidget
 {

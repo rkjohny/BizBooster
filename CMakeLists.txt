@@ -17,16 +17,24 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
 
 # list of all projects
+# Common module
 set(LIB_COMMON common)
-set(LIB_FIO fio)
-set(LIB_LCRYPTO lcrypto)
-set(LIB_JSON json)
-set(LIB_JSON_TEST jsontester)
-set(LIB_DBO dbo)
-set(LIB_API api)
-set(SERVICE service)
-set(WEB_APP bizbooster)
-set(CLIENT client)
+
+# Logger and Config reader/writer module
+set(LIB_LOGFIG logfig)
+# Crypto Cpipher module
+set(LIB_CIPHER cipher)
+# JSON serialization module
+set(LIB_CMARSHAL cmarshal)
+set(LIB_CMARSHAL_TEST cmarshaltester)
+# SQL DB module
+set(LIB_BIZ_BOOSTER_SQLDB cruxdb)
+# API module
+set(LIB_BIZ_BOOSTER_API mocxygen)
+# Pantoon Rest Service module
+set(BIZ_BOOSTER_REST_SERVICE pantoon)
+# Application module
+set(BIZ_BOOSTER_APP bizbooster)
 
 
 # third party library used
@@ -145,22 +153,22 @@ endif()
 #endif()
 
 
-# add common, Json, Dal, and Api first beacuse they will export the librray header locations which will be used by JsonTest, Server and Client
-#include Common first, before Json
+# add common, Cmarshal, Cruxdb, and Mocxygen first beacuse they will export the librray header locations which will be used by CmarshalTest, Server and Client
+#include Common first, before Cmarshal
 add_subdirectory(Common)
-add_subdirectory(Fio)
-add_subdirectory(LCrypto)
-add_subdirectory(Json)
-add_subdirectory(JsonTest)
-add_subdirectory(Dbo)
-add_subdirectory(Api)
-add_subdirectory(Service)
+add_subdirectory(Logfig)
+add_subdirectory(Cipher)
+add_subdirectory(Cmarshal)
+add_subdirectory(CmarshalTest)
+add_subdirectory(Cruxdb)
+add_subdirectory(Mocxygen)
+add_subdirectory(Pantoon)
 add_subdirectory(App)
-#add_subdirectory(Client)
+
 
 
 # setting linking dependices explecitely
-# add_dependencies(JsonTest Json)
+# add_dependencies(CmarshalTest Cmarshal)
 
 # installing tagrget BizBooster
 # install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION /usr/local/bin)
