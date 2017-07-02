@@ -32,7 +32,7 @@ void DMUpgrade_1::Execute()
 {
     //TODO: hard coded super user info 
     std::string superUserName = "admin";
-    std::string superUserEmail = "admin@nilavo.com";
+    std::string superUserEmail = "admin@bizbooster.com";
     std::string superUserPassword = "admin";
     std::string superUserIdentityProvider = DEFAULT_LOG_IN_PROVIDER;
     std::string superUserIdentity = "admin";
