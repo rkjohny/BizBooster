@@ -28,6 +28,23 @@ namespace Cmarshal {
             MAKE_STATIC(Deserializer);
 
 
+
+            /**
+             * calls the setter method with type = boost::optional<T>
+             */
+            template<class T, class B, class ArgT>
+            static void
+            SetData(T *object, void (B::*SetterPtr)(const boost::optional<ArgT> &), const json::value &jvalue) {
+                std::cout << "Setdata : void (T::*SetterPtr)(const ArgT)" << std::endl;
+
+                using Type = typename Remove_CVR<ArgT>::Type;
+
+                boost::optional<Type> var;
+                FromJson(var, jvalue);
+                (object->*SetterPtr)(var);
+            }
+
+
             /**
              * calls the setter method with type = Wt::Dbo::ptr<T>
              */
@@ -38,7 +55,7 @@ namespace Cmarshal {
 
                 using Type = typename Remove_CVR<ArgT>::Type;
 
-                Wt::Dbo::ptr<Type> var = Wt::Dbo::ptr<Type>(new Type());
+                Wt::Dbo::ptr<Type> var; // = Wt::Dbo::ptr<Type>(new Type());
                 FromJson(var, jvalue);
                 (object->*SetterPtr)(var);
             }
@@ -201,11 +218,11 @@ namespace Cmarshal {
              */
             template<size_t iteration, class T>
             static void DoDeserialize(T *object, const json::value &jvalue) {
-                using Type = typename Remove_CVR<T>::Type;
-                auto setters = Type::setters;
+                using BaseObjectType = typename Remove_CVR<T>::Type;
+                auto setters = BaseObjectType::setters;
                 auto setter = std::get<iteration>(setters);
 
-                using ClassT = typename Remove_CVR<typename decltype(setter) ::Class>::Type;
+                using DrivedObjectType = typename Remove_CVR<typename decltype(setter) ::Class>::Type;
                 //using ArgT = typename decltype( setter ) ::Type;
                 auto name = setter.name;
                 auto fp = setter.fp;
@@ -218,8 +235,8 @@ namespace Cmarshal {
 
                     if (!jval.is_null()) {
                         found = true;
-                        // either Type and ClassT are same type or ClassT is base of Type
-                        SetData<Type, ClassT>(object, fp, jval);
+                        // either BaseObjectType and DrivedObjectType are same type or DrivedObjectType is base of BaseObjectType
+                        SetData<BaseObjectType, DrivedObjectType>(object, fp, jval);
                     }
                 }
 
@@ -756,26 +773,59 @@ namespace Cmarshal {
                 FromJson(*object, jvalue);
             }
 
-            /***********************************************************************************
-            * object type: Wt::Dbo::ptr<T>
-            ***********************************************************************************/
-            template<class T>
-            static void FromJson(Wt::Dbo::ptr<T> &object, const json::value &jvalue) {
-                std::cout << "Deserializing object: type = Wt::Cruxdb::ptr<T> &" << std::endl;
-                FromJson(const_cast<T *>(object.get()), jvalue);
-            }
-
             /********************************************************************************
              * object type: Wt::WDateTime
              ********************************************************************************/
             template<class T>
-            typename std::enable_if<Is_DateTime<T>::Value, void>::type
+            typename std::enable_if<Is_WtDateTime<T>::Value, void>::type
             static FromJson(T &object, const json::value &jvalue) {
                 const utility::string_t &dateTimeStr = jvalue.as_string();
                 //TODO: default encoding and format used
                 object = Wt::WDateTime::fromString(utility::conversions::to_utf8string(dateTimeStr));
                 std::cout << "Deserializing object: type = Wt::WDateTime&, value = " << dateTimeStr << std::endl;
             }
+
+            /***********************************************************************************
+            * object type: Wt::Dbo::ptr<T>
+            ***********************************************************************************/
+            template<class T>
+            static void FromJson(Wt::Dbo::ptr<T> &object, const json::value &jvalue) {
+                std::cout << "Deserializing object: type = Wt::Dbo::ptr<T> &" << std::endl;
+
+                //FromJson(const_cast<T *>(object.get()), jvalue);
+
+                using Type = typename Remove_CVR<T>::Type;
+                Type *var = new Type();
+                FromJson(var, jvalue);
+                object.reset(var);
+            }
+
+            /***********************************************************************************
+            * object type: boost::optional<T>
+            ***********************************************************************************/
+            template<class T>
+            static void FromJson(boost::optional<T> &object, const json::value &jvalue) {
+                std::cout << "Deserializing object: type = boost::optional<T> &" << std::endl;
+
+                using Type = typename Remove_CVR<T>::Type;
+                Type var = Type();
+                FromJson(var, jvalue);
+                object = var;
+            }
+
+            template<class T>
+            static void FromJson(boost::optional<T*> &object, const json::value &jvalue) {
+                std::cout << "Deserializing object: type = boost::optional<T> &" << std::endl;
+
+                using Type = typename Remove_CVR<T>::Type;
+                Type *var = new Type();
+                FromJson(var, jvalue);
+                if (object) {
+                    delete *object;
+                }
+                object = var;
+            }
+
         };
 
     } //namspace Json

@@ -33,9 +33,6 @@ namespace Mocxygen {
         Wt::Dbo::ptr<User> GetUser() const;
         void SetUser(Wt::Dbo::ptr<User> &user);
 
-    private:
-        Wt::Dbo::ptr<User> m_user;
-
         REGISTER_GETTER_INCLUDING_BASE_START(ApiOutput<RegisterUserOutput>)
         GETTER(RegisterUserOutput, Wt::Dbo::ptr<User>, "user", &RegisterUserOutput::GetUser)
         REGISTER_GETTER_INCLUDING_BASE_END
@@ -43,6 +40,9 @@ namespace Mocxygen {
         REGISTER_SETTER_INCLUDING_BASE_START(ApiOutput<RegisterUserOutput>)
         SETTER(RegisterUserOutput, Wt::Dbo::ptr<User>&, "user", &RegisterUserOutput::SetUser)
         REGISTER_SETTER_INCLUDING_BASE_END
+
+    private:
+        Wt::Dbo::ptr<User> m_user;
     };
 
 } /* namespace Mocxygen */

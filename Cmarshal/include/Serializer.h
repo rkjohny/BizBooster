@@ -23,6 +23,7 @@
 
 #include <iostream>
 #include <Wt/WDateTime>
+#include <boost/optional.hpp>
 
 namespace Cmarshal {
     namespace Json {
@@ -38,6 +39,15 @@ namespace Cmarshal {
             MAKE_STATIC(Serializer);
 
             template<class T>
+            static void GetData(const boost::optional<T> &object, json::value &jvalue, const char *name) {
+                if (object) {
+                    jvalue[utility::string_t(U(name))] = ToJson(object);
+                } else {
+                    cout << "value is null and will be ignored." << endl;
+                }
+            }
+
+            template<class T>
             static void GetData(const Wt::WDateTime &object, json::value &jvalue, const char *name) {
                 if (!object.isNull()) {
                     jvalue[utility::string_t(U(name))] = ToJson(object);
@@ -48,7 +58,7 @@ namespace Cmarshal {
 
             template<class T>
             static void GetData(const Wt::Dbo::ptr<T> &object, json::value &jvalue, const char *name) {
-                if (object.get()) {
+                if (object) {
                     jvalue[utility::string_t(U(name))] = ToJson(object);
                 } else {
                     cout << "value is null and will be ignored." << endl;
@@ -413,23 +423,9 @@ namespace Cmarshal {
                 return ToJson(**object);
             }
 
-
-            ///////////////////// Wt::Dbo::ptr<T> ///////////////////////////////////
-            template<class T>
-            static json::value ToJson(const Wt::Dbo::ptr<T> &&object) {
-                cout << "Serializing object: type = Wt::Cruxdb::ptr&&" << endl;
-                return ToJson(*object);
-            }
-
-            template<class T>
-            static json::value ToJson(const Wt::Dbo::ptr<T> &object) {
-                cout << "Serializing object: type = Wt::Cruxdb::ptr&" << endl;
-                return ToJson(*object);
-            }
-
             /////////////////////////////// wWt::WDatetime ///////////////////////////////
             template<class T>
-            typename std::enable_if<Is_DateTime<T>::Value, json::value>::type
+            typename std::enable_if<Is_WtDateTime<T>::Value, json::value>::type
             static ToJson(const T &&object) {
                 Wt::WString wstr = object.toString(); // TODO: default format used
                 std::string str = wstr.toUTF8(); // TODO: UTF8 encoding used
@@ -438,12 +434,51 @@ namespace Cmarshal {
             }
 
             template<class T>
-            typename std::enable_if<Is_DateTime<T>::Value, json::value>::type
+            typename std::enable_if<Is_WtDateTime<T>::Value, json::value>::type
             static ToJson(const T &object) {
                 Wt::WString wstr = object.toString(); // TODO: default format used
                 std::string str = wstr.toUTF8(); // TODO: UTF8 encoding used
                 cout << "Serializing object: type = Wt::WDate&, value = " << str << endl;
                 return json::value(str);
+            }
+
+            ///////////////////// Wt::Dbo::ptr<T> ///////////////////////////////////
+            template<class T>
+            static json::value ToJson(const Wt::Dbo::ptr<T> &&object) {
+                cout << "Serializing object: type = Wt::Dbo::ptr&&" << endl;
+                if (object) {
+                    return ToJson(*object);
+                }
+                return json::value();
+            }
+
+            template<class T>
+            static json::value ToJson(const Wt::Dbo::ptr<T> &object) {
+                cout << "Serializing object: type = Wt::Dbo::ptr&" << endl;
+                if (object) {
+                    return ToJson(*object);
+                }
+                return json::value();
+            }
+
+
+            ///////////////////// boost::optional<T> ///////////////////////////////////
+            template<class T>
+            static json::value ToJson(const boost::optional<T> &&object) {
+                cout << "Serializing object: type = Wt::Dbo::ptr&&" << endl;
+                if (object) {
+                    return ToJson(*object);
+                }
+                return json::value();
+            }
+
+            template<class T>
+            static json::value ToJson(const boost::optional<T> &object) {
+                cout << "Serializing object: type = Wt::Dbo::ptr&&" << endl;
+                if (object) {
+                    return ToJson(*object);
+                }
+                return json::value();
             }
         };
 

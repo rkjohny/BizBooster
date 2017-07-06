@@ -39,7 +39,8 @@ set(CMARSHAL_TEST_SRCS
         ${PROJECT_SOURCE_DIR}/DeserializeDrivedClassTest.cpp
         ${PROJECT_SOURCE_DIR}/SerializeDoublePointerTest.cpp
         ${PROJECT_SOURCE_DIR}/DeserializeRvalueReferenceTest.cpp
-        ${PROJECT_SOURCE_DIR}/EnumTest.cpp)
+        ${PROJECT_SOURCE_DIR}/EnumTest.cpp
+        ${PROJECT_SOURCE_DIR}/BoostOptionalTest.cpp)
 
 
 # creating JonTest target

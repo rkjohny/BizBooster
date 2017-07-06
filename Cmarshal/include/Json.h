@@ -26,23 +26,23 @@ namespace Cmarshal {
     namespace Json {
 
 #define REGISTER_GETTER_START \
-        public: static constexpr auto getters = std::make_tuple(
+        static constexpr auto getters = std::make_tuple(
 #define GETTER(CLASS, RETURN_TYPE, NAME, FP) Cmarshal::Json::Getter<CLASS, RETURN_TYPE>(FP, NAME)
 #define REGISTER_GETTER_END );
 
 
 #define REGISTER_SETTER_START \
-        public: static constexpr auto setters = std::make_tuple(
+        static constexpr auto setters = std::make_tuple(
 #define SETTER(CLASS, ARG_TYPE, NAME, FP) Cmarshal::Json::Setter<CLASS, ARG_TYPE>(FP, NAME)
 #define REGISTER_SETTER_END );
 
 
 #define REGISTER_GETTER_INCLUDING_BASE_START(BASE_CLASS) \
-        public: static constexpr auto getters = std::tuple_cat(BASE_CLASS::getters, std::make_tuple (
+        static constexpr auto getters = std::tuple_cat(BASE_CLASS::getters, std::make_tuple (
 #define REGISTER_GETTER_INCLUDING_BASE_END ));
 
 #define REGISTER_SETTER_INCLUDING_BASE_START(BASE_CLASS) \
-        public: static constexpr auto setters = std::tuple_cat(BASE_CLASS::setters, std::make_tuple (
+        static constexpr auto setters = std::tuple_cat(BASE_CLASS::setters, std::make_tuple (
 #define REGISTER_SETTER_INCLUDING_BASE_END ));
 
 

@@ -36,12 +36,6 @@ public:
 
     void SetSessionToken(const std::string &sessionToken);
 
-private:
-    Wt::Dbo::ptr<Cruxdb::User> m_user;
-
-    std::string m_sessionToken;
-    uint64_t m_sessionExpiresMsc;
-
     REGISTER_GETTER_INCLUDING_BASE_START(ApiOutput<LogInOutput>)
     GETTER(LogInOutput, Wt::Dbo::ptr<Cruxdb::User>, "user", &LogInOutput::GetUser),
     GETTER(LogInOutput, const std::string&, "session_token", &LogInOutput::GetSessionToken),
@@ -53,6 +47,12 @@ private:
     SETTER(LogInOutput, const std::string&, "session_token", &LogInOutput::SetSessionToken),
     SETTER(LogInOutput, uint64_t, "session_expires", &LogInOutput::SetSessionExpires)
     REGISTER_SETTER_INCLUDING_BASE_END
+
+private:
+    Wt::Dbo::ptr<Cruxdb::User> m_user;
+
+    std::string m_sessionToken;
+    uint64_t m_sessionExpiresMsc;
 };
 
 }

@@ -39,26 +39,26 @@ namespace  Cmarshal {
  * Type Wt::WDateTime
  */
         template<class T>
-        struct Is_DataTime_Type {
+        struct Is_WtDateTime_Type {
             static const bool Value = false;
         };
 
         template<>
-        struct Is_DataTime_Type<Wt::WDateTime> {
+        struct Is_WtDateTime_Type<Wt::WDateTime> {
             static const bool Value = true;
         };
 
         template<>
-        struct Is_DataTime_Type<const Wt::WDateTime> {
+        struct Is_WtDateTime_Type<const Wt::WDateTime> {
             static const bool Value = true;
         };
 
         template<class T>
-        struct Is_DateTime {
+        struct Is_WtDateTime {
         private:
             typedef typename Remove_CVR<T>::Type U;
         public:
-            static const bool Value = Is_DataTime_Type<U>::Value;
+            static const bool Value = Is_WtDateTime_Type<U>::Value;
         };
 
 /**
@@ -480,7 +480,7 @@ namespace  Cmarshal {
                     (Is_Integer<U>::Value) ||
                     (Is_Decimal<U>::Value) ||
                     (Is_String<U>::Value) ||
-                    (Is_DateTime<U>::Value)
+                    (Is_WtDateTime<U>::Value)
             );
         };
 
@@ -533,7 +533,6 @@ namespace  Cmarshal {
         public:
             static constexpr bool Value = (
                     (!Is_Vector<U>::Value) &&
-                    //(!Is_String<U>::Value) &&
                     (!Is_Premitive<U>::Value) &&
                     //(!std::is_enum<U>::value) &&
                     (std::is_class<U>::value)

@@ -23,11 +23,12 @@ namespace CmarshalTest {
         using namespace Cmarshal::Json;
 
         class EmptyClass {
-        REGISTER_GETTER_START
-            REGISTER_GETTER_END
+        public:
+            REGISTER_GETTER_START
+                REGISTER_GETTER_END
 
-        REGISTER_SETTER_START
-            REGISTER_SETTER_END
+            REGISTER_SETTER_START
+                REGISTER_SETTER_END
         };
 
         TEST(EmptyClassTest, EmptyObject) {
