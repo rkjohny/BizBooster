@@ -31,9 +31,9 @@ class ConfigReader : public Common::SharedObject, public Common::Disposable {
 public:
     virtual std::string GetValueOf(const std::string& key) = 0;
 
-    virtual void ReloadFile() throw (Common::AppException) = 0;
+    virtual void ReloadFile() noexcept(false) = 0;
 
-    virtual void SetFile(const std::string& fileName) throw (Common::AppException) = 0;
+    virtual void SetFile(const std::string& fileName) noexcept(false) = 0;
 
     void SetType(ConFigFileType type);
     ConFigFileType GetType() const;

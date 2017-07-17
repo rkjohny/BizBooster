@@ -21,7 +21,7 @@ public:
     constexpr DMUpgrade() = default;
     virtual ~DMUpgrade() = default;
 
-    virtual void Execute() = 0;
+    virtual void Execute() noexcept(false) = 0;
 };
 
 }

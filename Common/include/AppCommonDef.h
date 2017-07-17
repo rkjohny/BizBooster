@@ -79,10 +79,10 @@
         void CopyFrom(const std::shared_ptr<TYPE>& orig) { \
             CopyFrom(*orig); \
         } \
-        void CopyFrom(const TYPE &orig); \
-        void CopyFrom(TYPE &&orig);
-        
- 
+        virtual void CopyFrom(const TYPE &orig); \
+        virtual void CopyFrom(const TYPE &&orig);
+
+
 
 #define SERIALIZEABLE(TYPE) \
     TYPE() = default; \
@@ -94,14 +94,13 @@
     COPY_ABLE_MOVE_ABLE(TYPE) \
     std::string ToString() const override; \
     std::string Name() const override; \
-    std::shared_ptr<BaseOutput> Process(Cruxdb::Requester *requester) override;
+    std::shared_ptr<AbstractBaseOutput> Process(Cruxdb::Requester *requester) override;
 
 #define API_OUTPUT(TYPE) \
     TYPE() = default; \
     COPY_ABLE_MOVE_ABLE(TYPE) \
     std::string ToString() const override; \
     std::string Name() const override;
-
 
 
 #define API_HELPER(TYPE) \

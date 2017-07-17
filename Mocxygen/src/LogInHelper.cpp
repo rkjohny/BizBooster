@@ -22,67 +22,70 @@
 
 namespace Mocxygen {
 
-void LogInHelper::InitAndValidate()
-{
-    m_user = Cruxdb::GetDao()->GetUser(m_requester, m_input->GetUserName());
-    if (!m_user) {
-        throw Common::AppException(AppErrorCode::AUTHTICATION_FAILURE, "Invalid username password.");
-    }
-    auto &authInfo = m_user->GetAuthInfo();
-    m_authInfo = authInfo.lock();
 
-    if (!m_authInfo) {
-        throw Common::AppException(AppErrorCode::AUTHTICATION_FAILURE, "Invalid username password.");
-    }
-}
-
-void LogInHelper::CheckPermission()
-{
-    if (!m_requester->HasRole(Cruxdb::Role::ROLE_INTERNAL_ROOT_USER)) {
-        throw Common::AppException(AppErrorCode::INTERNAL_SERVER_ERROR, "Invalid requester");
-    }
-}
-
-void LogInHelper::ExecuteHelper()
-{
-    if (m_input->IsUseFacebookAuth()) {
-        throw Common::AppException(AppErrorCode::NOT_SUPPORTED, "Google authentication is not supported yet");
-    } else if (m_input->IsUseFacebookAuth()) {
-        throw Common::AppException(AppErrorCode::NOT_SUPPORTED, "Facebook authentication is not supported yet");
-    } else {
-        auto &passHash = m_authInfo->passwordHash();
-        auto &passSalt = m_authInfo->passwordSalt();
-        auto &passMethod = m_authInfo->passwordMethod();
-
-        auto hasFun = Cipher::GetHashGenerator();
-        bool valid = false;
-
-        if (passMethod.compare(HASH_METHOD_BCRYPT) == 0) {
-            valid = hasFun->Verify(Cipher::HashGenerator::HashMethod::BCRYPT, m_input->GetPassword(), passHash, passSalt);
-        } else if (passMethod.compare(HASH_METHOD_SHA1) == 0) {
-            valid = hasFun->Verify(Cipher::HashGenerator::HashMethod::SHA1, m_input->GetPassword(), passHash, passSalt);
+    void LogInHelper::ExecuteHelper() noexcept(false) {
+        if (!m_requester->HasRole(Cruxdb::Role::ROLE_INTERNAL_ROOT_USER)) {
+            throw Common::AppException(AppErrorCode::INTERNAL_SERVER_ERROR, "Invalid requester");
         }
 
-        if (!valid) {
-            throw Common::AppException(AppErrorCode::AUTHTICATION_FAILURE, "Invalid username password.");
+        if (m_input->GetUserName()) {
+            m_user = Cruxdb::GetUserService()->GetUser(m_requester, *m_input->GetUserName());
+            if (!m_user) {
+                throw Common::AppException(AppErrorCode::AUTHTICATION_FAILURE, "Invalid username password.");
+            }
+            auto &authInfo = m_user->GetAuthInfo();
+            m_authInfo = authInfo.lock();
+
+            if (!m_authInfo) {
+                throw Common::AppException(AppErrorCode::AUTHTICATION_FAILURE, "Invalid username password.");
+            }
+
+            if (m_input->IsUseFacebookAuth()) {
+                throw Common::AppException(AppErrorCode::NOT_SUPPORTED, "Google authentication is not supported yet");
+            } else if (m_input->IsUseFacebookAuth()) {
+                throw Common::AppException(AppErrorCode::NOT_SUPPORTED, "Facebook authentication is not supported yet");
+            } else {
+                auto &passHash = m_authInfo->passwordHash();
+                auto &passSalt = m_authInfo->passwordSalt();
+                auto &passMethod = m_authInfo->passwordMethod();
+
+                auto hasFun = Cipher::GetHashGenerator();
+                bool valid = false;
+
+                if (m_input->GetPassword()) {
+                    if (passMethod.compare(HASH_METHOD_BCRYPT) == 0) {
+                        valid = hasFun->Verify(Cipher::HashGenerator::HashMethod::BCRYPT, *m_input->GetPassword(),
+                                               passHash,
+                                               passSalt);
+
+                    } else if (passMethod.compare(HASH_METHOD_SHA1) == 0) {
+                        valid = hasFun->Verify(Cipher::HashGenerator::HashMethod::SHA1, *m_input->GetPassword(),
+                                               passHash,
+                                               passSalt);
+                    }
+                }
+
+                if (!valid) {
+                    throw Common::AppException(AppErrorCode::AUTHTICATION_FAILURE, "Invalid username password.");
+                }
+                auto now = Common::DateTimeUtils::Now();
+                auto expires = Common::DateTimeUtils::AddMscToNow(DEFAULT_SESSION_TIME_OUT_IN_MSC);
+
+                std::string authToken;
+                Cipher::GetRndGenerator()->GetRandomBytes(authToken, AUTH_TOKEN_LENGTH);
+                //auto authTokenObj = new Wt::Cruxdb::ptr<Cruxdb::AuthInfo::AuthTokenType>(authToken, expires);
+                auto authTokenObj = new Cruxdb::AuthToken(authToken, expires);
+
+                m_authInfo.modify()->setLastLoginAttempt(now);
+                m_authInfo.modify()->authTokens().insert(authTokenObj);
+
+                m_output->SetSessionToken(authToken);
+                m_output->SetSessionExpires(static_cast<uint64_t> (expires.toTime_t()));
+                m_output->SetEntity(m_user);
+
+                Mocxygen::AppSessionManager::AddSession(authToken, m_user, static_cast<uint64_t> (expires.toTime_t()));
+            }
         }
-        auto now = Common::DateTimeUtils::Now();
-        auto expires = Common::DateTimeUtils::AddMscToNow(DEFAULT_SESSION_TIME_OUT_IN_MSC);
-
-        std::string authToken;
-        Cipher::GetRndGenerator()->GetRandomBytes(authToken, AUTH_TOKEN_LENGTH);
-        //auto authTokenObj = new Wt::Cruxdb::ptr<Cruxdb::AuthInfo::AuthTokenType>(authToken, expires);
-        auto authTokenObj = new Cruxdb::AuthToken(authToken, expires);
-
-        m_authInfo.modify()->setLastLoginAttempt(now);
-        m_authInfo.modify()->authTokens().insert(authTokenObj);
-
-        m_output->SetSessionToken(authToken);
-        m_output->SetSessionExpires(static_cast<uint64_t> (expires.toTime_t()));
-        m_output->SetUser(m_user);
-
-        Mocxygen::AppSessionManager::AddSession(authToken, m_user, static_cast<uint64_t> (expires.toTime_t()));
     }
-}
 
 }

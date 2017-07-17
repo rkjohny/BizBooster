@@ -13,7 +13,9 @@
 #ifndef LIB_CRUXDB_H
 #define LIB_CRUXDB_H
 
-#include "Dao.h"
+#include "BaseService.h"
+#include "UserService.h"
+#include "AppSettingService.h"
 #include <memory>
 
 namespace Cruxdb {
@@ -21,7 +23,9 @@ namespace Cruxdb {
     void LoadLibrary();
     void ReleaseLibrary();
 
-    Dao* GetDao();
+    BaseService * GetBaseService();
+    UserService * GetUserService();
+    AppSettingService *GetAppSettingService();
 };
 
 

@@ -15,7 +15,7 @@
 #ifndef REGISTER_USER_OUTPUT_H
 #define REGISTER_USER_OUTPUT_H
 
-#include "BaseOutput.h"
+#include "AbstractBaseOutput.h"
 #include "User.h"
 
 
@@ -24,25 +24,19 @@ namespace Mocxygen {
     using namespace Cmarshal::Json;
     using namespace Cruxdb;
 
-    class RegisterUserOutput : public ApiOutput<RegisterUserOutput> {
+    class SaveUserOutput : public AbstractApiSaveEntityOutput<SaveUserOutput, Cruxdb::User> {
+    private:
+        using SaveUserOutputT = AbstractApiSaveEntityOutput<SaveUserOutput, Cruxdb::User>;
     public:
-        API_OUTPUT(RegisterUserOutput);
+        API_OUTPUT(SaveUserOutput);
         
-        ~RegisterUserOutput() = default;
+        ~SaveUserOutput() = default;
 
-        Wt::Dbo::ptr<User> GetUser() const;
-        void SetUser(Wt::Dbo::ptr<User> &user);
-
-        REGISTER_GETTER_INCLUDING_BASE_START(ApiOutput<RegisterUserOutput>)
-        GETTER(RegisterUserOutput, Wt::Dbo::ptr<User>, "user", &RegisterUserOutput::GetUser)
+        REGISTER_GETTER_INCLUDING_BASE_START(SaveUserOutputT)
         REGISTER_GETTER_INCLUDING_BASE_END
 
-        REGISTER_SETTER_INCLUDING_BASE_START(ApiOutput<RegisterUserOutput>)
-        SETTER(RegisterUserOutput, Wt::Dbo::ptr<User>&, "user", &RegisterUserOutput::SetUser)
+        REGISTER_SETTER_INCLUDING_BASE_START(SaveUserOutputT)
         REGISTER_SETTER_INCLUDING_BASE_END
-
-    private:
-        Wt::Dbo::ptr<User> m_user;
     };
 
 } /* namespace Mocxygen */

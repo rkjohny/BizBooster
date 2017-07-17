@@ -13,14 +13,14 @@
 #ifndef LOGIN_HELPER_H
 #define LOGIN_HELPER_H
 
-#include "ApiHelper.h"
+#include "AbstractApiHelper.h"
 #include "LogInInput.h"
 #include "LogInOutput.h"
 #include "User.h"
 
 namespace Mocxygen {
 
-class LogInHelper : public ApiHelper<LogInInput, LogInOutput> {
+class LogInHelper : public AbstractApiHelper<LogInInput, LogInOutput> {
 private:
     NON_COPY_NON_MOVE_ABLE(LogInHelper);
 
@@ -30,17 +30,13 @@ private:
 public:
 
     LogInHelper(Cruxdb::Requester *requester, LogInInput *input, LogInOutput *output = nullptr) :
-    ApiHelper<LogInInput, LogInOutput>(requester, input, output)
+    AbstractApiHelper<LogInInput, LogInOutput>(requester, input, output)
     {
     }
 
     ~LogInHelper() = default;
 
-    void InitAndValidate() override;
-
-    void CheckPermission() override;
-
-    void ExecuteHelper() override;
+    void ExecuteHelper() noexcept(false) override;
 };
 
 }

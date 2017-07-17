@@ -10,18 +10,24 @@
  * magnetic storage, computer print-out or visual display.
  */
 
-#include "BaseInput.h"
 
-namespace Mocxygen {
+#ifndef CRUXDB_APPSETTING_SERVICE_H
+#define CRUXDB_APPSETTING_SERVICE_H
 
-const web::json::value& BaseInput::SerializedValue() const
-{
-    return m_serializedValue;
+
+#include "BaseService.h"
+
+namespace Cruxdb {
+
+    class AppSettingService : public BaseService {
+    private:
+        static AppSettingService *m_instance;
+
+    public:
+        static AppSettingService *GetInstance();
+        void AddOrUpdateAppSetting(Requester *requester, AppSetting &&setting);
+
+    };
 }
 
-std::string BaseInput::SerializedStr() const
-{
-    return m_serializedValue.serialize();
-}
-
-}
+#endif //CRUXDB_APPSETTING_SERVICE_H

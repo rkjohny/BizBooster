@@ -23,7 +23,7 @@
 //web::json::value AbstractHelper<InputT, OutputT>::Execute()
 //{
 //    web::json::value response;
-//    auto dao = Cruxdb::GetDao();
+//    auto dao = Cruxdb::GetUserService();
 //    auto transaction = dao->BeginTransaction();
 //    try {
 //        InitAndValidate();

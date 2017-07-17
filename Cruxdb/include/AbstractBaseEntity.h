@@ -14,17 +14,17 @@
 #ifndef BASE_ENTITY_H
 #define BASE_ENTITY_H
 
-#include "Serializable.h"
+#include "AbstractSerializable.h"
 #include "Json.h"
 #include "CruxdbDef.h"
 
 
 namespace Cruxdb {
 
-class BaseEntity : public Cmarshal::Json::Serializable {
+class AbstractBaseEntity : public Cmarshal::Json::AbstractSerializable {
 public:
-    BaseEntity() = default;
-    virtual ~BaseEntity() = default;
+    AbstractBaseEntity() = default;
+    virtual ~AbstractBaseEntity() = default;
 
     int64_t m_id;
     int m_version;
@@ -35,14 +35,14 @@ public:
     virtual int GetVersion() const;
     virtual void SetVersion(int v);
 
-    REGISTER_GETTER_INCLUDING_BASE_START(Cmarshal::Json::Serializable)
-    GETTER(BaseEntity, int64_t, COLUMN_ID , &BaseEntity::GetId),
-    GETTER(BaseEntity, int, COLUMN_VERSION, &BaseEntity::GetVersion)
+    REGISTER_GETTER_INCLUDING_BASE_START(Cmarshal::Json::AbstractSerializable )
+    GETTER(AbstractBaseEntity, int64_t, COLUMN_ID , &AbstractBaseEntity::GetId),
+    GETTER(AbstractBaseEntity, int, COLUMN_VERSION, &AbstractBaseEntity::GetVersion)
     REGISTER_GETTER_INCLUDING_BASE_END
 
-    REGISTER_SETTER_INCLUDING_BASE_START(Cmarshal::Json::Serializable)
-    SETTER(BaseEntity, long, COLUMN_ID, &BaseEntity::SetId),
-    SETTER(BaseEntity, int, COLUMN_VERSION, &BaseEntity::SetVersion)
+    REGISTER_SETTER_INCLUDING_BASE_START(Cmarshal::Json::AbstractSerializable)
+    SETTER(AbstractBaseEntity, long, COLUMN_ID, &AbstractBaseEntity::SetId),
+    SETTER(AbstractBaseEntity, int, COLUMN_VERSION, &AbstractBaseEntity::SetVersion)
     REGISTER_SETTER_INCLUDING_BASE_END
 };
 

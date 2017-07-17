@@ -36,10 +36,10 @@ public:
 
     static void Dispose();
 
-    static ConfigReader* CreateConfigReader(const std::string &key, ConFigFileType type);
+    static ConfigReader* CreateConfigReader(const std::string &key, ConFigFileType type) noexcept(false);
     static ConfigReader* GetConfigReader(const std::string &key);
-    static bool DisposeConfigReader(const std::string &key);
-    static void DisposeConfigReader();
+    static bool DisposeConfigReader(const std::string &key) noexcept(false);
+    static void DisposeConfigReader() noexcept(false);
 
 private:
     MAKE_STATIC(CFReaderFactory);

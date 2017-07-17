@@ -20,27 +20,25 @@ namespace Cmarshal {
     namespace Json {
         using namespace std;
 
-        class Serializable {
+        class AbstractSerializable {
         public:
-            Serializable() = default;
+            AbstractSerializable() = default;
 
-            virtual ~Serializable() = default;
+            virtual ~AbstractSerializable() = default;
 
-            virtual const web::json::value &Serialize() = 0;
+            virtual web::json::value &Serialize() = 0;
 
             virtual void Deserialize(const web::json::value &) = 0;
 
-
-        REGISTER_GETTER_START
+            REGISTER_GETTER_START
             REGISTER_GETTER_END
 
-        REGISTER_SETTER_START
+            REGISTER_SETTER_START
             REGISTER_SETTER_END
 
         protected:
             web::json::value m_serializedValue;
         };
-
     } /* namespace Json */
 }  /* namespace Cmarshal */
 

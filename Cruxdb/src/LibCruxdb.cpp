@@ -14,7 +14,7 @@
 #include "LibCruxdb.h"
 #include "SOFactory.h"
 #include "CruxdbDef.h"
-#include "WtDaoImp.h"
+#include "UserService.h"
 #include "DataModelManager.h"
 #include "LoggerFactory.h"
 #include "CFReaderFactory.h"
@@ -22,49 +22,57 @@
 
 namespace Cruxdb {
 
-static bool g_loaded = false;
+    static bool g_loaded = false;
 
-void LoadLibrary()
-{
-    if (!g_loaded) {
-        Cmarshal::Json::LoadLibrary();
+    void LoadLibrary() {
+        if (!g_loaded) {
+            Cmarshal::Json::LoadLibrary();
 
-        AuthServices::ConfigureAuthService();
-        
-        LOG_DEBUG("Registering User calss...");
-        REGISTER_CLASS(User, "user");
+            AuthServices::ConfigureAuthService();
 
-        auto config_reader = Logfig::CFReaderFactory::CreateConfigReader(
-                DBO_CONFIG_FILE_NAME, Logfig::ConFigFileType::PROPERTY_FILE);
-        config_reader->SetFile(DBO_CONFIG_FILE_NAME);
+            LOG_DEBUG("Registering User calss...");
+            REGISTER_CLASS(User, "user");
 
-        //Initializing Cruxdb objects
-        Cruxdb::GetDao();
+            auto config_reader = Logfig::CFReaderFactory::CreateConfigReader(
+                    DBO_CONFIG_FILE_NAME, Logfig::ConFigFileType::PROPERTY_FILE);
+            config_reader->SetFile(DBO_CONFIG_FILE_NAME);
 
-        //Run data model, data model it will create tables; 
-        DataModelManager().Run();
+            //Initializing Cruxdb objects
+            Cruxdb::GetUserService();
+            Cruxdb::GetAppSettingService();
 
-        g_loaded = true;
+            //Run data model, data model it will create tables;
+            DataModelManager().Run();
+
+            g_loaded = true;
+        }
     }
-}
 
-void ReleaseLibrary()
-{
-    if (g_loaded) {
+    void ReleaseLibrary() {
+        if (g_loaded) {
 
-        UNREGISTER_CLASS(User, "user");
+            UNREGISTER_CLASS(User, "user");
 
-        Logfig::CFReaderFactory::DisposeConfigReader(DBO_CONFIG_FILE_NAME);
+            Logfig::CFReaderFactory::DisposeConfigReader(DBO_CONFIG_FILE_NAME);
 
-        Cruxdb::GetDao()->Dispose();
+            Cruxdb::GetUserService()->Dispose();
+            Cruxdb::GetAppSettingService()->Dispose();
 
-        g_loaded = false;
+            g_loaded = false;
+        }
     }
-}
 
-Dao* GetDao()
-{
-    return WtDaoImp::GetInstance();
-}
+
+    BaseService *GetBaseService() {
+        return BaseService::GetInstance();
+    }
+
+    UserService *GetUserService() {
+        return UserService::GetInstance();
+    }
+
+    AppSettingService *GetAppSettingService() {
+        return AppSettingService::GetInstance();
+    }
 
 }

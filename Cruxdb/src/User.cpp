@@ -36,7 +36,7 @@ void User::CopyFrom(const User &user)
             user.GetPasswordSalt());
 }
 
-void User::CopyFrom(User &&user)
+void User::CopyFrom(const User &&user)
 {
     m_id = std::move(user.m_id);
     m_version = std::move(user.m_version);

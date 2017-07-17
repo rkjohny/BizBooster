@@ -27,13 +27,13 @@ private:
     std::string m_value;
 
 public:
-    AppSetting() = default;
+    AppSetting();
     
     AppSetting(const std::string &name);
         
-    AppSetting(const std::string &&name);
+    AppSetting(std::string &&name);
 
-    AppSetting(const std::string &&name, const std::string &&value);
+    AppSetting(std::string &&name, std::string &&value);
     
     AppSetting(const std::string &name, const std::string &value);
 

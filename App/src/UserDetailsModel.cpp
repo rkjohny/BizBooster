@@ -24,18 +24,18 @@ Wt::WFormModel(parent), m_login(login)
 void UserDetailsModel::save(const Wt::Auth::User& authUser)
 {
     if (m_login.loggedIn()) {
-        auto dao = Cruxdb::GetDao();
+        auto userService = Cruxdb::GetUserService();
         auto requester = Cruxdb::InternalRootRequester::GetInstance();
-        auto transaction = dao->BeginTransaction(requester);
+        auto transaction = userService->BeginTransaction(requester);
 
         auto &authUser = m_login.user();
-        auto user = dao->GetUser(requester, authUser);
+        auto user = userService->GetUser(requester, authUser);
         
         if (user && user.get()) {
             //user.modify()->favouritePet = valueText(FavouritePetField).toUTF8();
         }
 
-        dao->CommitTransaction(requester, transaction);
+        userService->CommitTransaction(requester, transaction);
     }
 }
 

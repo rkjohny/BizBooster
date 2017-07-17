@@ -13,18 +13,18 @@
 #ifndef SERIALIZABLE_ENTITY_H
 #define SERIALIZABLE_ENTITY_H
 
-#include "AuditableEntity.h"
+#include "AbstractAuditableEntity.h"
 #include "Json.h"
 
 namespace Cruxdb {
 
     template <class T>
-    class SerializableAuditableEntity : public AuditableEntity {
+    class SerializableAuditableEntity : public AbstractAuditableEntity {
     public:
         SerializableAuditableEntity() = default;
         virtual ~SerializableAuditableEntity() = default;
 
-        const web::json::value& Serialize() override {
+        web::json::value& Serialize() override {
             m_serializedValue = Cmarshal::Json::ToJson<T>(reinterpret_cast<const T*>(this));
             return m_serializedValue;
         }
@@ -34,10 +34,10 @@ namespace Cruxdb {
         }
 
 
-        REGISTER_GETTER_INCLUDING_BASE_START(AuditableEntity)
+        REGISTER_GETTER_INCLUDING_BASE_START(AbstractAuditableEntity)
         REGISTER_GETTER_INCLUDING_BASE_END
 
-        REGISTER_SETTER_INCLUDING_BASE_START(AuditableEntity)
+        REGISTER_SETTER_INCLUDING_BASE_START(AbstractAuditableEntity)
         REGISTER_SETTER_INCLUDING_BASE_END
     };
 }

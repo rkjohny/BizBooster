@@ -25,7 +25,7 @@ void CFReaderFactory::Dispose()
     DisposeConfigReader();
 }
 
-ConfigReader* CFReaderFactory::CreateConfigReader(const std::string &key, ConFigFileType type)
+ConfigReader* CFReaderFactory::CreateConfigReader(const std::string &key, ConFigFileType type) noexcept(false)
 {
     ConfigReader* reader = nullptr;
 
@@ -59,7 +59,7 @@ ConfigReader* CFReaderFactory::GetConfigReader(const std::string &key)
     return nullptr;
 }
 
-bool CFReaderFactory::DisposeConfigReader(const std::string &key)
+bool CFReaderFactory::DisposeConfigReader(const std::string &key) noexcept(false)
 {
     auto itr = cm_configReaderList.find(key);
 
@@ -78,7 +78,7 @@ bool CFReaderFactory::DisposeConfigReader(const std::string &key)
     return false;
 }
 
-void CFReaderFactory::DisposeConfigReader()
+void CFReaderFactory::DisposeConfigReader() noexcept(false)
 {
     for (auto &reader : cm_configReaderList) {
 

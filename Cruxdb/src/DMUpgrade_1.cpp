@@ -28,7 +28,7 @@
 
 namespace Cruxdb {
 
-void DMUpgrade_1::Execute()
+void DMUpgrade_1::Execute() noexcept(false)
 {
     //TODO: hard coded super user info 
     std::string superUserName = "admin";
@@ -41,7 +41,7 @@ void DMUpgrade_1::Execute()
     Cruxdb::AuthInfo *authInfo = nullptr;
     Cruxdb::AuthInfo::AuthIdentityType *identity = nullptr;
 
-    auto dao = Cruxdb::GetDao();
+    auto dao = Cruxdb::GetUserService();
     
     try {
         //Creating super user;
@@ -51,7 +51,7 @@ void DMUpgrade_1::Execute()
         user->SetStatus(Status::V);
 
         Requester *requester = InternalRootRequester::GetInstance();
-        auto userAdded = dao->RegisterUser(requester, user);
+        auto userAdded = dao->SaveEntity(requester, user);
 
         if (userAdded) {
             authInfo = new Cruxdb::AuthInfo();
@@ -80,7 +80,7 @@ void DMUpgrade_1::Execute()
                 authInfoAdded.modify()->authIdentities().insert(identity);
 
                 // Wt::Cruxdb::ptr<AuthInfo::AuthIdentityType> identityAdded =
-                // Cruxdb::GetDao()->AddIdentity(identity);
+                // Cruxdb::GetUserService()->AddIdentity(identity);
             } else {
                 throw Common::AppException(AppErrorCode::DB_OPERATION_FAILED,
                         "Database operation of adding auth info of super user failed");

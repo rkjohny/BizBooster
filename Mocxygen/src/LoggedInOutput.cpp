@@ -12,44 +12,31 @@
 
 
 #include "LoggedInOutput.h"
-#include "User.h"
+
 
 namespace Mocxygen {
 
-void LoggedInOutput::CopyFrom(LoggedInOutput &&orig)
-{
-    m_user.CopyFrom(std::move(orig.m_user));
-}
+    LoggedInOutput::~LoggedInOutput() {
+    }
 
-void LoggedInOutput::CopyFrom(const LoggedInOutput &orig)
-{
-    m_user.CopyFrom(orig.m_user);
-}
+    void LoggedInOutput::CopyFrom(const LoggedInOutput &&orig) {
+        if (orig.m_entity) {
+            m_entity = std::move(orig.m_entity);
+        }
+    }
 
-LoggedInOutput::~LoggedInOutput()
-{
-}
+    void LoggedInOutput::CopyFrom(const LoggedInOutput &orig) {
+        if (orig.m_entity) {
+            m_entity = Wt::Dbo::ptr<Cruxdb::User>(new Cruxdb::User(*orig.m_entity));
+        }
+    }
 
-const Cruxdb::User& LoggedInOutput::GetUser() const
-{
-    return m_user;
-}
+    string LoggedInOutput::Name() const {
+        return "LoggedInOutput";
+    }
 
-void LoggedInOutput::SetUser(const Cruxdb::User &user)
-{
-    m_user = user;
-}
-
-string LoggedInOutput::Name() const
-{
-    return "LoggedInOutput";
-}
-
-string LoggedInOutput::ToString() const
-{
-    return "LoggedInOutput";
-}
-
-
+    string LoggedInOutput::ToString() const  {
+        return "LoggedInOutput";
+    }
 }
 

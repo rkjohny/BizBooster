@@ -13,46 +13,38 @@
 #ifndef LOGGED_IN_INPUT_H
 #define LOGGED_IN_INPUT_H
 
-#include "BaseInput.h"
+#include "AbstractBaseInput.h"
 #include "AppCommonDef.h"
 
 namespace Mocxygen {
 
-class LoggedInInput : public ApiInput<LoggedInInput> {
+class LoggedInInput : public AbstractApiGetEntityInput<LoggedInInput> {
 public:
     API_INPUT(LoggedInInput);
 
     virtual ~LoggedInInput() = default;
 
-    uint64_t GetSessionExpires() const;
+    const boost::optional<string> & GetSessionToken() const;
 
-    void SetSessionExpires(uint64_t expires);
+    void SetSessionToken(const boost::optional<string> &sessionToken);
 
-    const std::string& GetSessionToken() const;
+    const boost::optional<uint64_t> & GetSessionExpiresInMS() const;
 
-    void SetSessionToken(const std::string &sessionToken);
+    void SetSessionExpires(const boost::optional<uint64_t> &sessionExpires);
 
-    uint64_t GetUserId() const;
-
-    void SetUserId(uint64_t userId);
-    
-
-    REGISTER_GETTER_INCLUDING_BASE_START(ApiInput<LoggedInInput>)
-    GETTER(LoggedInInput, uint64_t, "user_id", &LoggedInInput::GetUserId),
-    GETTER(LoggedInInput, uint64_t, "session_expires", &LoggedInInput::GetSessionExpires),
-    GETTER(LoggedInInput, const std::string&, "session_token", &LoggedInInput::GetSessionToken)
+    REGISTER_GETTER_INCLUDING_BASE_START(AbstractApiGetEntityInput<LoggedInInput>)
+    GETTER(LoggedInInput,  const boost::optional<uint64_t> &, "sessionExpires", &LoggedInInput::GetSessionExpiresInMS),
+    GETTER(LoggedInInput,  const boost::optional<string> &, "sessionToken", &LoggedInInput::GetSessionToken)
     REGISTER_GETTER_INCLUDING_BASE_END
 
-    REGISTER_SETTER_INCLUDING_BASE_START(ApiInput<LoggedInInput>)
-    SETTER(LoggedInInput, uint64_t, "user_id", &LoggedInInput::SetUserId),
-    SETTER(LoggedInInput, uint64_t, "session_expires", &LoggedInInput::SetSessionExpires),
-    SETTER(LoggedInInput, const std::string&, "session_token", &LoggedInInput::SetSessionToken)
+    REGISTER_SETTER_INCLUDING_BASE_START(AbstractApiGetEntityInput<LoggedInInput>)
+    SETTER(LoggedInInput,  const boost::optional<uint64_t>&, "sessionExpires", &LoggedInInput::SetSessionExpires),
+    SETTER(LoggedInInput,  const boost::optional<string>&, "sessionToken", &LoggedInInput::SetSessionToken)
     REGISTER_SETTER_INCLUDING_BASE_END
 
 private:
-    uint64_t m_userId;
-    std::string m_sessionToken;
-    uint64_t m_sessionExpires;
+    boost::optional<std::string> m_sessionToken;
+    boost::optional<uint64_t> m_sessionExpires;
 };
 
 }

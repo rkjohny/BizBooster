@@ -10,30 +10,29 @@
  * magnetic storage, computer print-out or visual display.
  */
 
+#include "AbstractSimpleEntity.h"
 
-#ifndef BASE_HELPER_H
-#define BASE_HELPER_H
+namespace Cruxdb {
 
-#include "AppCommonDef.h"
-#include "BaseOutput.h"
-#include <cpprest/json.h>
 
-namespace Mocxygen {
+Status AbstractSimpleEntity::GetStatus() const
+{
+    return StatusUtils::ToStatus(m_statusStr);
+}
 
-class BaseHelper {
-public:
-    NON_COPY_NON_MOVE_ABLE(BaseHelper);
+void AbstractSimpleEntity::SetStatus(const Status &status)
+{
+    m_statusStr = StatusUtils::ToStr(status);;
+}
+
+const std::string& AbstractSimpleEntity::GetStatusStr() const
+{
+    return m_statusStr;
+}
     
-    BaseHelper() = default;
-    virtual ~BaseHelper() = default;
-
-    virtual void InitAndValidate() = 0;
-
-    virtual void CheckPermission() = 0;
-
-    virtual std::shared_ptr<BaseOutput> Execute() = 0;
-};
+void AbstractSimpleEntity::SetStatusStr(const std::string &status)
+{
+    m_statusStr = status;
+}
 
 }
-#endif /* BASE_HELPER_H */
-

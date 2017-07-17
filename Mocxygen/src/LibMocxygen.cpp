@@ -12,8 +12,8 @@
 
 #include "LibMocxygen.h"
 #include "Json.h"
-#include "RegisterUserInput.h"
-#include "RegisterUserOutput.h"
+#include "SaveUserInput.h"
+#include "SaveUserOutput.h"
 #include "LibCommon.h"
 #include "LibCruxdb.h"
 #include "SOFactory.h"
@@ -32,10 +32,8 @@ void LoadLibrary()
 
         Cruxdb::LoadLibrary();
 
-        REGISTER_CLASS(RegisterUserInput, "register_user");
-        REGISTER_CLASS(RegisterUserInput, "RegisterUserInput");
-        REGISTER_CLASS(RegisterUserOutput, "RegisterUserOutput");
-        
+        REGISTER_CLASS(SaveUserInput, "register_user");
+        REGISTER_CLASS(SaveUserInput, "SaveUserInput");
         REGISTER_CLASS(LogInInput, "login");
         REGISTER_CLASS(LoggedInInput, "loggedin" );
 
@@ -47,9 +45,10 @@ void ReleaseLibrary()
 {
     if (g_loaded) {
 
-        UNREGISTER_CLASS(RegisterUserInput, "register_user");
-        UNREGISTER_CLASS(RegisterUserInput, "RegisterUserInput");
-        UNREGISTER_CLASS(RegisterUserOutput, "RegisterUserOutput");
+        UNREGISTER_CLASS(SaveUserInput, "register_user");
+        UNREGISTER_CLASS(SaveUserInput, "SaveUserInput");
+        REGISTER_CLASS(LogInInput, "login");
+        REGISTER_CLASS(LoggedInInput, "loggedin" );
         
         Cruxdb::ReleaseLibrary();
         

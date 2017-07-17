@@ -15,7 +15,7 @@
 
 namespace Cruxdb {
 
-std::string StatusUtils::ToStr(const Status &status)
+std::string StatusUtils::ToStr(const Status &status) noexcept(false)
 {
     switch (status) {
     case Status::V:
@@ -29,7 +29,7 @@ std::string StatusUtils::ToStr(const Status &status)
     }
 }
 
-Status StatusUtils::ToStatus(const std::string &status)
+Status StatusUtils::ToStatus(const std::string &status) noexcept(false)
 {
     if (status.compare(StatusStr::V) == 0) {
         return Status::V;

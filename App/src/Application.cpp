@@ -63,7 +63,7 @@ void Application::HandleAuthEvent()
         Wt::log("notice") << "User " << m_login.user().id()
                 << " logged in.";
 
-        auto dao = Cruxdb::GetDao();
+        auto dao = Cruxdb::GetUserService();
         auto requester = Cruxdb::InternalRootRequester::GetInstance();
         auto transaction = dao->BeginTransaction(requester);
 

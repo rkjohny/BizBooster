@@ -15,33 +15,28 @@
 #ifndef REGISTER_USER_HELPER_H
 #define REGISTER_USER_HELPER_H
 
-#include "ApiHelper.h"
-#include "RegisterUserInput.h"
-#include "RegisterUserOutput.h"
+#include "AbstractApiHelper.h"
+#include "SaveUserInput.h"
+#include "SaveUserOutput.h"
 
 namespace Mocxygen {
 
-//TODO: Use forrward declaration of class RegisterUserInput if needed.
 
-class RegisterUserHelper : public ApiHelper <RegisterUserInput, RegisterUserOutput> {
+class SaveUserHelper : public AbstractApiHelper <SaveUserInput, SaveUserOutput> {
 private:
-    NON_COPY_NON_MOVE_ABLE(RegisterUserHelper);
+    NON_COPY_NON_MOVE_ABLE(SaveUserHelper);
     
     Wt::Dbo::ptr<Cruxdb::User> m_user;
 
 public:
-    ~RegisterUserHelper() = default;
+    ~SaveUserHelper() = default;
 
-    RegisterUserHelper(Cruxdb::Requester *requester, RegisterUserInput *input, RegisterUserOutput *output = nullptr) :
-    ApiHelper<RegisterUserInput, RegisterUserOutput>(requester, input, output)
+    SaveUserHelper(Cruxdb::Requester *requester, SaveUserInput *input, SaveUserOutput *output = nullptr) :
+    AbstractApiHelper<SaveUserInput, SaveUserOutput>(requester, input, output)
     {
     }
-    
-    void InitAndValidate() override;
 
-    void CheckPermission() override;
-
-    void ExecuteHelper() override;
+    void ExecuteHelper() noexcept(false) override;
 };
 
 } /* namespace Mocxygen */

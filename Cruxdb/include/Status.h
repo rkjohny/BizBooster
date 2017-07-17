@@ -37,9 +37,9 @@ private:
     
 public:
     
-    static std::string ToStr(const Status &status);
+    static std::string ToStr(const Status &status) noexcept(false);
     
-    static Status ToStatus(const std::string &status);
+    static Status ToStatus(const std::string &status) noexcept(false);
     
 };
 

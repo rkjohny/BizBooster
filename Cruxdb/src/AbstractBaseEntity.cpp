@@ -10,24 +10,24 @@
  * magnetic storage, computer print-out or visual display.
  */
 
-#include "BaseEntity.h"
+#include "AbstractBaseEntity.h"
 
 using namespace Cruxdb;
 
-long BaseEntity::GetId() const {
+long AbstractBaseEntity::GetId() const {
     return m_id;
 }
 
-void BaseEntity::SetId(int64_t id) {
+void AbstractBaseEntity::SetId(int64_t id) {
     this->m_id = id;
 }
 
-int BaseEntity::GetVersion() const
+int AbstractBaseEntity::GetVersion() const
 {
     return m_version;
 }
 
-void BaseEntity::SetVersion(int v)
+void AbstractBaseEntity::SetVersion(int v)
 {
     m_version = v;
 }

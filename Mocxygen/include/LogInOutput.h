@@ -13,46 +13,38 @@
 #ifndef LOGIN_OUTPUT_H
 #define LOGIN_OUTPUT_H
 
-#include "BaseOutput.h"
+#include "AbstractBaseOutput.h"
 #include "User.h"
 
 namespace Mocxygen {
 
-class LogInOutput : public ApiOutput<LogInOutput> {
+class LogInOutput : public  AbstractApiGetEntityOutput<LogInOutput, Cruxdb::User> {
 public:
     API_OUTPUT(LogInOutput);
 
     ~LogInOutput() = default;
 
-    Wt::Dbo::ptr<Cruxdb::User> GetUser() const;
+    const boost::optional<uint64_t> & GetSessionExpiresInMS() const;
 
-    void SetUser(Wt::Dbo::ptr<Cruxdb::User> &user);
+    void SetSessionExpires(const boost::optional<uint64_t> &sessionExpiresMsc);
 
-    uint64_t GetSessionExpires() const;
+    const boost::optional<string> & GetSessionToken() const;
 
-    void SetSessionExpires(uint64_t sessionExpiresMsc);
+    void SetSessionToken(const boost::optional<string> &sessionToken);
 
-    const std::string& GetSessionToken() const;
-
-    void SetSessionToken(const std::string &sessionToken);
-
-    REGISTER_GETTER_INCLUDING_BASE_START(ApiOutput<LogInOutput>)
-    GETTER(LogInOutput, Wt::Dbo::ptr<Cruxdb::User>, "user", &LogInOutput::GetUser),
-    GETTER(LogInOutput, const std::string&, "session_token", &LogInOutput::GetSessionToken),
-    GETTER(LogInOutput, uint64_t, "session_expires", &LogInOutput::GetSessionExpires)
+    REGISTER_GETTER_INCLUDING_BASE_START(AbstractApiOutput<LogInOutput>)
+    GETTER(LogInOutput, const boost::optional<string> &, "sessionToken", &LogInOutput::GetSessionToken),
+    GETTER(LogInOutput, const boost::optional<uint64_t> &, "sessionExpires", &LogInOutput::GetSessionExpiresInMS)
     REGISTER_GETTER_INCLUDING_BASE_END
 
-    REGISTER_SETTER_INCLUDING_BASE_START(ApiOutput<LogInOutput>)
-    SETTER(LogInOutput, Wt::Dbo::ptr<Cruxdb::User>&, "user", &LogInOutput::SetUser),
-    SETTER(LogInOutput, const std::string&, "session_token", &LogInOutput::SetSessionToken),
-    SETTER(LogInOutput, uint64_t, "session_expires", &LogInOutput::SetSessionExpires)
+    REGISTER_SETTER_INCLUDING_BASE_START(AbstractApiOutput<LogInOutput>)
+    SETTER(LogInOutput, const boost::optional<string> &, "sessionToken", &LogInOutput::SetSessionToken),
+    SETTER(LogInOutput, const boost::optional<uint64_t> &, "sessionExpires", &LogInOutput::SetSessionExpires)
     REGISTER_SETTER_INCLUDING_BASE_END
 
 private:
-    Wt::Dbo::ptr<Cruxdb::User> m_user;
-
-    std::string m_sessionToken;
-    uint64_t m_sessionExpiresMsc;
+    boost::optional<std::string> m_sessionToken;
+    boost::optional<uint64_t> m_sessionExpiresMsc;
 };
 
 }

@@ -13,7 +13,7 @@
 #ifndef API_EXECUTOR_H
 #define API_EXECUTOR_H
 
-#include "BaseInput.h"
+#include "AbstractBaseInput.h"
 
 #include <cpprest/json.h>
 #include "cpprest/http_listener.h"

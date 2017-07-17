@@ -15,7 +15,7 @@
 #define ABSTRACT_HELPER_H
 
 
-#include "BaseHelper.h"
+#include "AbstractBaseHelper.h"
 #include "AppCommonDef.h"
 #include "LibCruxdb.h"
 #include "AppException.h"
@@ -26,12 +26,11 @@
 
 namespace Mocxygen {
 
-//TODO: Use Forward declaration class BaseInput and BaseOutput if needed.
 
 template<class InputT, class OutputT>
-class ApiHelper : public BaseHelper {
+class AbstractApiHelper : public AbstractBaseHelper {
 private:
-    NON_COPY_NON_MOVE_ABLE(ApiHelper);
+    NON_COPY_NON_MOVE_ABLE(AbstractApiHelper);
 
 protected:
     InputT *m_input;
@@ -41,7 +40,7 @@ protected:
 
 public:
 
-    ApiHelper(Cruxdb::Requester * requester, InputT *input, OutputT *output = nullptr) :
+    AbstractApiHelper(Cruxdb::Requester * requester, InputT *input, OutputT *output = nullptr) :
     m_input(input), m_output(nullptr), m_requester(requester)
     {
         if (!output) {
@@ -51,7 +50,7 @@ public:
         }
     }
 
-    virtual ~ApiHelper() = default;
+    virtual ~AbstractApiHelper() = default;
 
     virtual void ExecuteHelper() = 0;
 
@@ -60,19 +59,17 @@ public:
         return m_output;
     }
 
-    virtual InputT* Getinput()
+    virtual InputT* GetInput()
     {
         return m_input;
     }
 
-    std::shared_ptr<BaseOutput> Execute() override
+    std::shared_ptr<AbstractBaseOutput> Execute() override
     {
         web::json::value response;
-        auto dao = Cruxdb::GetDao();
+        auto dao = Cruxdb::GetUserService();
         auto transaction = dao->BeginTransaction(m_requester);
         try {
-            InitAndValidate();
-            CheckPermission();
 
             ExecuteHelper();
             

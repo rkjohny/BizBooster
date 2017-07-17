@@ -29,16 +29,17 @@ DataModelManager::DataModelManager()
 
 void DataModelManager::Run()
 {
-    auto dao = Cruxdb::GetDao();
+    auto baseService = Cruxdb::GetBaseService();
+
     size_t nextDmVersion = 0;
 
     auto requester = InternalRootRequester::GetInstance();
     
-    dao->CreateTables(requester);
+    baseService->CreateTables(requester);
     
-    auto transaction = dao->BeginTransaction(requester);
+    auto transaction = baseService->BeginTransaction(requester);
     
-    nextDmVersion = dao->GetNextDmVersion(requester);
+    nextDmVersion = baseService->GetNextDmVersion(requester);
 
     FLOG_INFO("Running Data Model Manager... pending upgrade count: %u", dmUpgradeList.size() - nextDmVersion); 
 
@@ -47,10 +48,10 @@ void DataModelManager::Run()
         dmUpgradeList.at(i)->Execute();
     }
     if (i != nextDmVersion) {
-        dao->AddOrUpdateAppSetting(requester, AppSetting(NEXT_DM_VERSION_KEY, Common::Converter::ToStr(i)));
+        Cruxdb::GetAppSettingService()->AddOrUpdateAppSetting(requester, AppSetting(NEXT_DM_VERSION_KEY, Common::Converter::ToStr(i)));
     }
     
-    dao->CommitTransaction(requester, transaction);
+    baseService->CommitTransaction(requester, transaction);
 }
 
 }

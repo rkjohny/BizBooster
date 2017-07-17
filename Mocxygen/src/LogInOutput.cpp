@@ -16,18 +16,30 @@
 
 namespace Mocxygen {
 
-void LogInOutput::CopyFrom(LogInOutput&& orig)
+void LogInOutput::CopyFrom(const LogInOutput&& orig)
 {
-    m_user = orig.m_user;
-    m_sessionExpiresMsc = std::move(orig.m_sessionExpiresMsc);
-    m_sessionToken = std::move(orig.m_sessionExpiresMsc);
+    if (orig.m_entity) {
+        m_entity = std::move(orig.m_entity);
+    }
+    if (orig.m_sessionExpiresMsc) {
+        m_sessionExpiresMsc = std::move(orig.m_sessionExpiresMsc);
+    }
+    if (orig.m_sessionToken) {
+        m_sessionToken = std::move(orig.m_sessionToken);
+    }
 }
 
 void LogInOutput::CopyFrom(const LogInOutput& orig)
 {
-    m_user = orig.m_user;
-    m_sessionExpiresMsc = orig.m_sessionExpiresMsc;
-    m_sessionToken = orig.m_sessionExpiresMsc;
+    if (orig.m_entity) {
+        m_entity = Wt::Dbo::ptr<Cruxdb::User>(new Cruxdb::User(*orig.m_entity));
+    }
+    if (orig.m_sessionExpiresMsc) {
+        m_sessionExpiresMsc = *orig.m_sessionExpiresMsc;
+    }
+    if (orig.m_sessionToken) {
+        m_sessionToken = *orig.m_sessionToken;
+    }
 }
 
 std::string LogInOutput::Name() const
@@ -40,32 +52,22 @@ std::string LogInOutput::ToString() const
     return "LogInOutput";
 }
 
-Wt::Dbo::ptr<Cruxdb::User> LogInOutput::GetUser() const
-{
-    return m_user;
-}
-
-void LogInOutput::SetUser(Wt::Dbo::ptr<Cruxdb::User> &user)
-{
-    m_user = user;
-}
-
-uint64_t LogInOutput::GetSessionExpires() const
+const boost::optional<uint64_t> & LogInOutput::GetSessionExpiresInMS() const
 {
     return m_sessionExpiresMsc;
 }
 
-void LogInOutput::SetSessionExpires(uint64_t sessionExpiresMsc)
+void LogInOutput::SetSessionExpires(const boost::optional<uint64_t> &sessionExpiresMsc)
 {
     m_sessionExpiresMsc = sessionExpiresMsc;
 }
 
-const std::string& LogInOutput::GetSessionToken() const
+const boost::optional<string> & LogInOutput::GetSessionToken() const
 {
-    return m_sessionToken;
+    return  m_sessionToken;
 }
 
-void LogInOutput::SetSessionToken(const std::string &sessionToken)
+void LogInOutput::SetSessionToken(const boost::optional<string> &sessionToken)
 {
     m_sessionToken = sessionToken;
 }

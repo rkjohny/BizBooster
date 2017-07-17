@@ -12,68 +12,63 @@
 
 
 #include "LoggedInInput.h"
-#include "ServiceFacade.h"
+#include "Api.h"
 
 namespace Mocxygen {
 
-void LoggedInInput::CopyFrom(LoggedInInput&& orig)
-{
-    m_userId = std::move(orig.m_userId);
-    m_sessionExpires = std::move(orig.m_sessionExpires);
-    m_sessionToken = std::move(orig.m_sessionToken);
-}
+    void LoggedInInput::CopyFrom(const LoggedInInput &&orig) {
+        if (orig.m_Id) {
+            m_Id = std::move(orig.m_Id);
+        }
+        if (orig.m_sessionExpires) {
+            m_sessionExpires = std::move(orig.m_sessionExpires);
+        }
+        if (orig.m_sessionToken) {
+            m_sessionToken = std::move(orig.m_sessionToken);
+        }
+    }
 
-void LoggedInInput::CopyFrom(const LoggedInInput &orig)
-{
-    m_userId = orig.m_userId;
-    m_sessionExpires = orig.m_sessionExpires;
-    m_sessionToken = orig.m_sessionToken;
-}
+    void LoggedInInput::CopyFrom(const LoggedInInput &orig) {
+        if (orig.m_Id) {
+            m_Id = *orig.m_Id;
+        }
+        if (orig.m_sessionExpires) {
+            m_sessionExpires = *orig.m_sessionExpires;
+        }
+        if (orig.m_sessionToken) {
+            m_sessionToken = *orig.m_sessionToken;
+        }
+    }
 
-uint64_t LoggedInInput::GetSessionExpires() const
-{
-    return m_sessionExpires;
-}
 
-void LoggedInInput::SetSessionExpires(uint64_t expires)
-{
-    m_sessionExpires = expires;
-}
+    std::string LoggedInInput::Name() const {
+        return "LoggedInInput";
+    }
 
-const std::string& LoggedInInput::GetSessionToken() const
-{
-    return m_sessionToken;
-}
+    std::string LoggedInInput::ToString() const {
+        return "LoggedInInput";
+    }
 
-void LoggedInInput::SetSessionToken(const std::string &sessionToken)
-{
-    m_sessionToken = sessionToken;
-}
+    std::shared_ptr<AbstractBaseOutput> LoggedInInput::Process(Cruxdb::Requester *requester) {
+        return Api::UserLoggedIn(requester, this);
+    }
 
-uint64_t LoggedInInput::GetUserId() const
-{
-    return m_userId;
-}
 
-void LoggedInInput::SetUserId(uint64_t userId)
-{
-    m_userId = userId;
-}
+    const boost::optional<string> & LoggedInInput::GetSessionToken() const {
+        return m_sessionToken;
+    }
 
-std::string LoggedInInput::Name() const
-{
-    return "LoggedInInput";
-}
+    void LoggedInInput::SetSessionToken(const boost::optional<string> &sessionToken) {
+        LoggedInInput::m_sessionToken = sessionToken;
+    }
 
-std::string LoggedInInput::ToString() const
-{
-    return "LoggedInInput";
-}
+    const boost::optional<uint64_t> & LoggedInInput::GetSessionExpiresInMS() const {
+        return m_sessionExpires;
+    }
 
-std::shared_ptr<BaseOutput> LoggedInInput::Process(Cruxdb::Requester* requester)
-{
-    return ServiceFacade::UserLoggedIn(requester, this);
-}
+    void LoggedInInput::SetSessionExpires(const boost::optional<uint64_t> &sessionExpires) {
+        LoggedInInput::m_sessionExpires = sessionExpires;
+    }
 
 
 }

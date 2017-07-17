@@ -28,15 +28,15 @@ namespace Logfig {
     public:
         string GetValueOf(const string& key) override;
 
-        void ReloadFile() throw (Common::AppException) override;
+        void ReloadFile() noexcept(false) override;
 
-        void SetFile(const string& fileName) throw (Common::AppException) override;
+        void SetFile(const string& fileName) noexcept(false) override;
 
     protected:
         BasePropertyReader();
         virtual ~BasePropertyReader();
 
-        void LoadFile(const string& fileName) throw (Common::AppException);
+        void LoadFile(const string& fileName) noexcept(false);
         void Dispose() override;
 
     private:

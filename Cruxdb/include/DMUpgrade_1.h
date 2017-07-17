@@ -23,7 +23,7 @@ class DMUpgrade_1 : public DMUpgrade {
 public:
     constexpr DMUpgrade_1() = default;
 
-    void Execute() override;
+    void Execute() noexcept(false) override;
 };
 
 }

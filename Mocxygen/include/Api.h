@@ -13,8 +13,8 @@
 #ifndef _SERVICE_FACADE_H_
 #define _SERVICE_FACADE_H_
 
-#include "RegisterUserOutput.h"
-#include "RegisterUserInput.h"
+#include "SaveUserOutput.h"
+#include "SaveUserInput.h"
 #include "LogInOutput.h"
 #include "LogInInput.h"
 #include "LoggedInInput.h"
@@ -22,18 +22,19 @@
 
 namespace Mocxygen {
 
-//TODO: Use forward declaration for class RegisterUserInput if needed
+//TODO: Use forward declaration for class SaveUserInput if needed
 
-class ServiceFacade {
+class Api {
 public:
-    static std::shared_ptr<RegisterUserOutput> RegisterUser(Cruxdb::Requester *requester, RegisterUserInput *input, RegisterUserOutput *output = nullptr);
+    static std::shared_ptr<SaveUserOutput> SaveUser(Cruxdb::Requester *requester, SaveUserInput *input,
+                                                    SaveUserOutput *output = nullptr);
     
     static std::shared_ptr<LogInOutput> LogIn(Cruxdb::Requester *requester, LogInInput *input, LogInOutput *output = nullptr);
 
     static std::shared_ptr<LoggedInOutput> UserLoggedIn(Cruxdb::Requester *requester, LoggedInInput *input, LoggedInOutput *output = nullptr);
 
 private:
-    MAKE_STATIC(ServiceFacade);
+    MAKE_STATIC(Api);
 };
 
 } /* namespace Mocxygen */

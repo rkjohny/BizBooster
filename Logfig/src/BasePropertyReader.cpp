@@ -36,7 +36,7 @@ void BasePropertyReader::Dispose()
     m_mutex.unlock();
 }
 
-void BasePropertyReader::SetFile(const string& filename) throw ( Common::AppException)
+void BasePropertyReader::SetFile(const string& filename) noexcept(false)
 {
     m_mutex.lock();
     m_fileName = filename;
@@ -45,7 +45,7 @@ void BasePropertyReader::SetFile(const string& filename) throw ( Common::AppExce
     m_mutex.unlock();
 }
 
-void BasePropertyReader::ReloadFile() throw ( Common::AppException)
+void BasePropertyReader::ReloadFile() noexcept(false)
 {
     m_mutex.lock();
     LoadFile(m_fileName);
@@ -53,7 +53,7 @@ void BasePropertyReader::ReloadFile() throw ( Common::AppException)
     m_mutex.unlock();
 }
 
-void BasePropertyReader::LoadFile(const string& filename) throw ( Common::AppException)
+void BasePropertyReader::LoadFile(const string& filename) noexcept(false)
 {
     try {
         ifstream infs(filename.c_str());

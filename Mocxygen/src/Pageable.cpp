@@ -10,29 +10,23 @@
  * magnetic storage, computer print-out or visual display.
  */
 
-#include "SimpleEntity.h"
+#include "Pageable.h"
 
-namespace Cruxdb {
+namespace Mocxygen {
 
+    int Pageable::GetPageNumver() const {
+        return m_pageNumber;
+    }
 
-Status SimpleEntity::GetStatus() const
-{
-    return StatusUtils::ToStatus(m_statusStr);
-}
+    void Pageable::SetpageNumber(int pageNumber) {
+        m_pageNumber = pageNumber;
+    }
 
-void SimpleEntity::SetStatus(const Status &status)
-{
-    m_statusStr = StatusUtils::ToStr(status);;
-}
+    int Pageable::GetItemPerPage() const {
+        return m_itemPerPage;
+    }
 
-const std::string& SimpleEntity::GetStatusStr() const
-{
-    return m_statusStr;
-}
-    
-void SimpleEntity::SetStatusStr(const std::string &status)
-{
-    m_statusStr = status;
-}
-
+    void Pageable::SetItemPerPage(int itemperPage) {
+        m_itemPerPage = itemperPage;
+    }
 }

@@ -9,14 +9,14 @@
 #include "LogInWidget.h"
 #include "RegistrationView.h"
 #include "AuthServices.h"
-#include "Dao.h"
+#include "BaseService.h"
 #include "LibCruxdb.h"
 #include "InternalRootRequester.h"
 
 namespace BizBooster {
 
 LogInWidget::LogInWidget(Wt::WContainerWidget *parent, Wt::Auth::Login &login) :
-Wt::Auth::AuthWidget(Cruxdb::AuthServices::GetAuthService(), Cruxdb::GetDao()->GetUserDB(), login), m_login(login)
+Wt::Auth::AuthWidget(Cruxdb::AuthServices::GetAuthService(), Cruxdb::GetUserService()->GetUserDB(), login), m_login(login)
 {
 //    Wt::WTemplate *t = new Wt::WTemplate(Wt::WString::tr("auth_template.xml"));
 //    

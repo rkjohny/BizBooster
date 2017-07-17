@@ -15,23 +15,19 @@
 
 namespace Mocxygen {
 
-void LoggedInHelper::InitAndValidate()
+
+void LoggedInHelper::ExecuteHelper() noexcept(false)
 {
-    auto dao = Cruxdb::GetDao();
-    m_user = dao->GetUser(m_requester, m_input->GetUserId());
-    if (!m_user) {
-        throw Common::AppException(AppErrorCode::USER_NOT_FOUND, "User not exists");
+    auto userService = Cruxdb::GetUserService();
+    if (m_input->GetId() && m_input->GetSessionToken() && m_input->GetSessionExpiresInMS()) {
+        m_user = userService->GetUser(m_requester, *m_input->GetId());
+        if (!m_user) {
+            throw Common::AppException(AppErrorCode::USER_NOT_FOUND, "User not exists");
+        }
+
+        Mocxygen::AppSessionManager::AddSession(*m_input->GetSessionToken(), m_user, *m_input->GetSessionExpiresInMS());
+        m_output->SetEntity(m_user);
     }
-}
-
-void LoggedInHelper::CheckPermission()
-{
-}
-
-void LoggedInHelper::ExecuteHelper()
-{
-    Mocxygen::AppSessionManager::AddSession(m_input->GetSessionToken(), m_user, m_input->GetSessionExpires());
-    m_output->SetUser(*m_user);
 }
 
 

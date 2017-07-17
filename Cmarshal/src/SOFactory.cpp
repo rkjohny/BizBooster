@@ -19,8 +19,8 @@ namespace Cmarshal {
         SOFactory::ListCreatorsArr SOFactory::cm_objectArrayCreators;
 
 
-        std::shared_ptr<Serializable> SOFactory::CreateObject(const string &key) {
-            std::shared_ptr<Serializable> p = nullptr;
+        std::shared_ptr<AbstractSerializable> SOFactory::CreateObject(const string &key) {
+            std::shared_ptr<AbstractSerializable> p = nullptr;
             std::string lwKey = key;
             Common::StringUtility::ToLower(lwKey);
 
@@ -38,8 +38,8 @@ namespace Cmarshal {
         }
 
 
-        std::vector<std::shared_ptr<Serializable>> SOFactory::CreateObjectArray(const string &key, const size_t size) {
-            std::vector<std::shared_ptr<Serializable>> v;
+        std::vector<std::shared_ptr<AbstractSerializable>> SOFactory::CreateObjectArray(const string &key, const size_t size) {
+            std::vector<std::shared_ptr<AbstractSerializable>> v;
             std::string lwKey = key;
             Common::StringUtility::ToLower(lwKey);
 

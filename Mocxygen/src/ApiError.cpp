@@ -15,7 +15,7 @@
 
 namespace Mocxygen {
 
-void ApiError::CopyFrom(ApiError &&orig)
+void ApiError::CopyFrom(const ApiError &&orig)
 {
     SetError(std::move(orig));
 }

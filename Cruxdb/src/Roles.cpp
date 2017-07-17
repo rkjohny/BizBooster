@@ -16,7 +16,7 @@
 
 namespace Cruxdb {
 
-Role RoleUtils::ToRole(const std::string &role)
+Role RoleUtils::ToRole(const std::string &role) noexcept(false)
 {
     auto newrole = Common::StringUtility::Trim(role);
 
@@ -36,7 +36,7 @@ Role RoleUtils::ToRole(const std::string &role)
     throw std::runtime_error("unknown roles");
 }
 
-std::string RoleUtils::ToStr(const Role &role)
+std::string RoleUtils::ToStr(const Role &role) noexcept(false)
 {
     switch (role) {
     case Role::ROLE_CREATE_SUPER_USER:
@@ -56,7 +56,7 @@ std::string RoleUtils::ToStr(const Role &role)
     }
 }
 
-std::string RoleUtils::ToStr(const std::vector<Role> &roles, const std::string &delimeter)
+std::string RoleUtils::ToStr(const std::vector<Role> &roles, const std::string &delimeter) noexcept(false)
 {
     std::string rolesStr = "";
     bool first = true;
@@ -70,7 +70,7 @@ std::string RoleUtils::ToStr(const std::vector<Role> &roles, const std::string &
     return rolesStr;
 }
 
-std::vector<Role> RoleUtils::ToRoles(const std::string &roles)
+std::vector<Role> RoleUtils::ToRoles(const std::string &roles) noexcept(false)
 {
     std::vector<std::string> v_rolesStr;
     Common::StringUtility::Tokenize(v_rolesStr, roles, ",");

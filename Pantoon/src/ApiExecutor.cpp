@@ -14,9 +14,9 @@
 #include "ApiExecutor.h"
 #include "AppCommonDef.h"
 #include "SOFactory.h"
-#include "RegisterUserInput.h"
-#include "RegisterUserOutput.h"
-#include "ServiceFacade.h"
+#include "SaveUserInput.h"
+#include "SaveUserOutput.h"
+#include "Api.h"
 #include "ApiUtils.h"
 #include "AppSession.h"
 #include "AppSessionManager.h"
@@ -76,7 +76,7 @@ web::json::value ApiExecutor::ExecuteSingleApi(const web::http::http_request& re
             }
 
             if (requester) {
-                auto input = std::dynamic_pointer_cast<Mocxygen::BaseInput, Mocxygen::Serializable>(obj);
+                auto input = std::dynamic_pointer_cast<Mocxygen::AbstractBaseInput, Mocxygen::AbstractSerializable>(obj);
                 
                 input->Deserialize(jdata);
                 auto output = input->Process(requester);

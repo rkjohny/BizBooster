@@ -16,7 +16,7 @@
 
 namespace Common {
 
-int64_t Converter::ToInt32(const std::string &num, int8_t base) throw (std::invalid_argument, std::out_of_range)
+int64_t Converter::ToInt32(const std::string &num, int8_t base) noexcept(false)
 {
 #if __WORDSIZE == 32
     return std::strtoull(num.c_str(), nullptr, base);

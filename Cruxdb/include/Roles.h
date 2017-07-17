@@ -41,15 +41,15 @@ private:
 
     static Role ToRole(const std::string &&role);
     
-    static Role ToRole(const std::string &role);
+    static Role ToRole(const std::string &role) noexcept(false);
 
 public:
 
-    static std::string ToStr(const Role &role);
+    static std::string ToStr(const Role &role) noexcept(false);
 
-    static std::string ToStr(const std::vector<Role> &roles, const std::string &delimeter = ",");
+    static std::string ToStr(const std::vector<Role> &roles, const std::string &delimeter = ",") noexcept(false);
 
-    static std::vector<Role> ToRoles(const std::string &roles);
+    static std::vector<Role> ToRoles(const std::string &roles) noexcept(false);
 };
 
 }

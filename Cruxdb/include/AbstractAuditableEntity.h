@@ -14,7 +14,7 @@
 #define AUDITABLE_ENTITY_H
 
 #include <Wt/WDateTime>
-#include "SimpleEntity.h"
+#include "AbstractSimpleEntity.h"
 #include "User.h"
 #include "Json.h"
 
@@ -24,10 +24,10 @@
 namespace Cruxdb {
 
 
-class AuditableEntity : public SimpleEntity {
+class AbstractAuditableEntity : public AbstractSimpleEntity {
 public:
-    AuditableEntity() = default;
-    virtual ~AuditableEntity() = default;
+    AbstractAuditableEntity() = default;
+    virtual ~AbstractAuditableEntity() = default;
 
     virtual void SetDateCreated(Wt::WDateTime &dt);
     virtual const Wt::WDateTime& GetDateCreated() const;
@@ -48,18 +48,18 @@ protected:
     Wt::Dbo::ptr<Cruxdb::User> m_createdBy;
     Wt::Dbo::ptr<Cruxdb::User> m_lastUpdatedBy;
 
-    REGISTER_GETTER_INCLUDING_BASE_START(SimpleEntity)
-    GETTER(AuditableEntity, const Wt::WDateTime& , COLUMN_DATE_CREATED, &AuditableEntity::GetDateCreated),
-    GETTER(AuditableEntity, const Wt::WDateTime& , COLUMN_DATE_LAST_UPDATED, &AuditableEntity::GetDateLastUpdated),
-    GETTER(AuditableEntity, Wt::Dbo::ptr<Cruxdb::User>, COLUMN_CREATED_BY, &AuditableEntity::GetCreatedBy),
-    GETTER(AuditableEntity, Wt::Dbo::ptr<Cruxdb::User>, COLUMN_LAST_UPDATED_BY, &AuditableEntity::GetLastUpdatedBy)
+    REGISTER_GETTER_INCLUDING_BASE_START(AbstractSimpleEntity)
+    GETTER(AbstractAuditableEntity, const Wt::WDateTime& , COLUMN_DATE_CREATED, &AbstractAuditableEntity::GetDateCreated),
+    GETTER(AbstractAuditableEntity, const Wt::WDateTime& , COLUMN_DATE_LAST_UPDATED, &AbstractAuditableEntity::GetDateLastUpdated),
+    GETTER(AbstractAuditableEntity, Wt::Dbo::ptr<Cruxdb::User>, COLUMN_CREATED_BY, &AbstractAuditableEntity::GetCreatedBy),
+    GETTER(AbstractAuditableEntity, Wt::Dbo::ptr<Cruxdb::User>, COLUMN_LAST_UPDATED_BY, &AbstractAuditableEntity::GetLastUpdatedBy)
     REGISTER_GETTER_INCLUDING_BASE_END
 
-    REGISTER_SETTER_INCLUDING_BASE_START(SimpleEntity)
-    SETTER(AuditableEntity, Wt::WDateTime&, COLUMN_DATE_CREATED, &AuditableEntity::SetDateCreated),
-    SETTER(AuditableEntity, Wt::WDateTime&, COLUMN_DATE_LAST_UPDATED, &AuditableEntity::SetDateLastUpdated),
-    SETTER(AuditableEntity, Wt::Dbo::ptr<Cruxdb::User>&, COLUMN_CREATED_BY, &AuditableEntity::SetCreatedBy),
-    SETTER(AuditableEntity, Wt::Dbo::ptr<Cruxdb::User>&, COLUMN_LAST_UPDATED_BY, &AuditableEntity::SetLastUpdatedBy)
+    REGISTER_SETTER_INCLUDING_BASE_START(AbstractSimpleEntity)
+    SETTER(AbstractAuditableEntity, Wt::WDateTime&, COLUMN_DATE_CREATED, &AbstractAuditableEntity::SetDateCreated),
+    SETTER(AbstractAuditableEntity, Wt::WDateTime&, COLUMN_DATE_LAST_UPDATED, &AbstractAuditableEntity::SetDateLastUpdated),
+    SETTER(AbstractAuditableEntity, Wt::Dbo::ptr<Cruxdb::User>&, COLUMN_CREATED_BY, &AbstractAuditableEntity::SetCreatedBy),
+    SETTER(AbstractAuditableEntity, Wt::Dbo::ptr<Cruxdb::User>&, COLUMN_LAST_UPDATED_BY, &AbstractAuditableEntity::SetLastUpdatedBy)
     REGISTER_SETTER_INCLUDING_BASE_END
 };
 

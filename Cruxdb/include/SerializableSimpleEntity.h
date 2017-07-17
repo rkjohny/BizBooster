@@ -5,19 +5,19 @@
 #ifndef SERIALIZABLE_SIMPLE_ENTITY_H
 #define SERIALIZABLE_SIMPLE_ENTITY_H
 
-#include "SimpleEntity.h"
+#include "AbstractSimpleEntity.h"
 
 
 namespace Cruxdb {
 
 template <class T>
-class SerializableSimpleEntity : public SimpleEntity
+class SerializableSimpleEntity : public AbstractSimpleEntity
 {
 public:
     SerializableSimpleEntity() = default;
     virtual ~SerializableSimpleEntity() = default;
 
-    const web::json::value& Serialize() override {
+    web::json::value& Serialize() override {
         m_serializedValue = Cmarshal::Json::ToJson<T>(reinterpret_cast<const T*>(this));
         return m_serializedValue;
     }
@@ -27,10 +27,10 @@ public:
     }
 
 
-    REGISTER_GETTER_INCLUDING_BASE_START(SimpleEntity)
+    REGISTER_GETTER_INCLUDING_BASE_START(AbstractSimpleEntity)
     REGISTER_GETTER_INCLUDING_BASE_END
 
-    REGISTER_SETTER_INCLUDING_BASE_START(SimpleEntity)
+    REGISTER_SETTER_INCLUDING_BASE_START(AbstractSimpleEntity)
     REGISTER_SETTER_INCLUDING_BASE_END
 };
 

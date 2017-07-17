@@ -13,19 +13,19 @@
 #ifndef CMARSHAL_JSON_SERIALIZABLE_T_H
 #define CMARSHAL_JSON_SERIALIZABLE_T_H
 
-#include "Serializable.h"
+#include "AbstractSerializable.h"
 
 namespace Cmarshal {
     namespace Json {
 
         template<class T>
-        class SerializableT : public Serializable {
+        class SerializableT : public AbstractSerializable {
         public:
             SerializableT() = default;
 
             virtual ~SerializableT() = default;
 
-            const web::json::value &Serialize() override {
+            web::json::value &Serialize() override {
                 m_serializedValue = Json::ToJson<T>(reinterpret_cast<const T *>(this));
                 return m_serializedValue;
             }
@@ -34,10 +34,10 @@ namespace Cmarshal {
                 Json::FromJson<T>(reinterpret_cast<T *> (this), jvalue);
             }
 
-        REGISTER_GETTER_INCLUDING_BASE_START(Serializable)
+        REGISTER_GETTER_INCLUDING_BASE_START(AbstractSerializable)
             REGISTER_GETTER_INCLUDING_BASE_END
 
-        REGISTER_SETTER_INCLUDING_BASE_START(Serializable)
+        REGISTER_SETTER_INCLUDING_BASE_START(AbstractSerializable)
             REGISTER_SETTER_INCLUDING_BASE_END
         };
     }
