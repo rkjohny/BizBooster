@@ -23,26 +23,20 @@
 namespace Cruxdb {
 
 class WtSession : public Wt::Dbo::Session, public Common::Disposable {
+private:
+    MAKE_SINGLE_TON(WtSession)
+    
 public:
     void Dispose() override;
-
     Cruxdb::UserDatabase& GetUserDB();
-
-    static WtSession* GetInstance();
     
 protected:
     WtSession();
-
     virtual ~WtSession();
 
 private:
-    NON_COPY_NON_MOVE_ABLE(WtSession);
-
     WtPgConnection m_connection;
-
-    std::shared_ptr<Cruxdb::UserDatabase> m_users;
-    
-    static WtSession *m_instance;
+    std::shared_ptr<Cruxdb::UserDatabase> m_users;    
 };
 
 }

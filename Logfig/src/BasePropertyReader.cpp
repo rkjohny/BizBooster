@@ -12,7 +12,7 @@
 
 #include <fstream>
 #include "BasePropertyReader.h"
-#include "StringUtility.h"
+#include "StringUtils.h"
 #include "AppCommonDef.h"
 
 namespace Logfig {
@@ -29,9 +29,9 @@ BasePropertyReader::~BasePropertyReader()
 void BasePropertyReader::Dispose()
 {
     m_mutex.lock();
-    if (!m_isDosposed) {
+    if (!m_isDisposed) {
         m_properties.clear();
-        m_isDosposed = true;
+        m_isDisposed = true;
     }
     m_mutex.unlock();
 }
@@ -41,7 +41,7 @@ void BasePropertyReader::SetFile(const string& filename) noexcept(false)
     m_mutex.lock();
     m_fileName = filename;
     LoadFile(filename);
-    m_isDosposed = false;
+    m_isDisposed = false;
     m_mutex.unlock();
 }
 
@@ -49,7 +49,7 @@ void BasePropertyReader::ReloadFile() noexcept(false)
 {
     m_mutex.lock();
     LoadFile(m_fileName);
-    m_isDosposed = false;
+    m_isDisposed = false;
     m_mutex.unlock();
 }
 
@@ -62,7 +62,7 @@ void BasePropertyReader::LoadFile(const string& filename) noexcept(false)
 
         try {
             while (getline(infs, line)) {
-                line = Common::StringUtility::Trim(line);
+                line = Common::StringUtils::Trim(line);
                 if (line.length() == 0 || line.at(0) == '#') {
                     continue;
                 }
@@ -71,7 +71,7 @@ void BasePropertyReader::LoadFile(const string& filename) noexcept(false)
                 //pos must be valid index and cannot be the first and last index
                 if (pos > 0 && pos < line.size() - 1) {
                     vector< string > listValue = vector< string >();
-                    Common::StringUtility::Tokenize(listValue, line, PAIR_SEPERATOR, 2);
+                    Common::StringUtils::Tokenize(listValue, line, PAIR_SEPERATOR, 2);
                     if (listValue.size() >= 2) {
                         m_properties[ listValue[ 0 ] ] = listValue[ 1 ];
                     }
@@ -93,7 +93,7 @@ string BasePropertyReader::GetValueOf(const string& key)
 {
     string value = "";
     m_mutex.lock();
-    if (!m_isDosposed) {
+    if (!m_isDisposed) {
         if (m_properties.find(key) != m_properties.end()) {
             value = m_properties[ key ];
         }

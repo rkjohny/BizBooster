@@ -21,6 +21,9 @@
 namespace Cipher {
 
 class HashGenerator : public Common::Disposable {
+private:
+    NON_COPY_NON_MOVE_ABLE(HashGenerator);
+    
 public:
     enum HashMethod {
         SHA1,
@@ -35,7 +38,6 @@ public:
 protected:
     HashGenerator() = default;
     virtual ~HashGenerator() = default;
-    NON_COPY_NON_MOVE_ABLE(HashGenerator);
 };
 
 }

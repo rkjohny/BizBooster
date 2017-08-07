@@ -21,16 +21,24 @@
 
 namespace Cipher {
 
-class RndGenerator : public Common::SingleTon {
+class RndGenerator : public Common::Disposable {
+private:
+    NON_COPY_NON_MOVE_ABLE(RndGenerator);
+    
 public:
     virtual bool Initialize() = 0;
     virtual bool GetRandomBytes(std::vector<uint8_t> &bytes, int length) = 0;
     virtual bool GetRandomBytes(std::string &bytes, int length) = 0;
     
+    bool IsInitialized() const {
+        return m_isInitialized;
+    }
+
 protected:
-    RndGenerator() = default; 
+    RndGenerator() : m_isInitialized(false) {}
     virtual ~RndGenerator() = default;
-    NON_COPY_NON_MOVE_ABLE(RndGenerator);    
+    bool m_isInitialized;
+    
 };
 
 }

@@ -13,7 +13,7 @@
 #ifndef CMARSHAL_JSON_SO_FACTOTY_H
 #define CMARSHAL_JSON_SO_FACTOTY_H
 
-#include "StringUtility.h"
+#include "StringUtils.h"
 #include <string>
 #include <map>
 #include <mutex>
@@ -50,7 +50,7 @@ namespace  Cmarshal {
             static void Register(const string &key) {
                 static_assert(std::is_base_of<AbstractSerializable, T>::value, "T must be derived from AbstractSerializable");
                 std::string lwKey = key;
-                Common::StringUtility::ToLower(lwKey);
+                Common::StringUtils::ToLower(lwKey);
 
                 cm_mutex.lock();
                 cm_objectCreators[lwKey] = &Create<T>;
@@ -68,7 +68,7 @@ namespace  Cmarshal {
             static void UnRegister(const string &key) {
                 static_assert(std::is_base_of<AbstractSerializable, T>::value, "T must be derived from AbstractSerializable");
                 std::string lwKey = key;
-                Common::StringUtility::ToLower(lwKey);
+                Common::StringUtils::ToLower(lwKey);
 
                 cm_mutex.lock();
                 auto itrObj = cm_objectCreators.find(lwKey);

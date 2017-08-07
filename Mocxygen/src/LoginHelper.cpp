@@ -10,7 +10,7 @@
  * magnetic storage, computer print-out or visual display.
  */
 
-#include "LogInHelper.h"
+#include "LoginHelper.h"
 #include "LibCruxdb.h"
 #include "LibCipher.h"
 #include "DateTimeUtils.h"
@@ -23,7 +23,7 @@
 namespace Mocxygen {
 
 
-    void LogInHelper::ExecuteHelper() noexcept(false) {
+    void LoginHelper::ExecuteHelper() noexcept(false) {
         if (!m_requester->HasRole(Cruxdb::Role::ROLE_INTERNAL_ROOT_USER)) {
             throw Common::AppException(AppErrorCode::INTERNAL_SERVER_ERROR, "Invalid requester");
         }

@@ -36,7 +36,6 @@ private:
     MAKE_STATIC(StatusUtils);
     
 public:
-    
     static std::string ToStr(const Status &status) noexcept(false);
     
     static Status ToStatus(const std::string &status) noexcept(false);

@@ -13,6 +13,9 @@
 #ifndef APP_COMMON_DEF_H
 #define APP_COMMON_DEF_H
 
+#include "SingleTon.h"
+
+
 #if defined(WIN32) || defined(_WIN32)
 #define WINDOWS
 #else
@@ -86,8 +89,7 @@
 
 #define SERIALIZEABLE(TYPE) \
     TYPE() = default; \
-    COPY_ABLE_MOVE_ABLE(TYPE) \
-
+    COPY_ABLE_MOVE_ABLE(TYPE)
 
 #define API_INPUT(TYPE) \
     TYPE() = default; \
@@ -104,6 +106,10 @@
 
 
 #define API_HELPER(TYPE) \
+    NON_COPY_NON_MOVE_ABLE(TYPE)
+
+#define MAKE_SINGLE_TON(TYPE) \
+    friend class Common::SingleTon<TYPE>; \
     NON_COPY_NON_MOVE_ABLE(TYPE)
 
 #endif //APP_COMMON_DEF_H

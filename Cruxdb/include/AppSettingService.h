@@ -21,12 +21,14 @@ namespace Cruxdb {
 
     class AppSettingService : public BaseService {
     private:
-        static AppSettingService *m_instance;
-
+        MAKE_SINGLE_TON(AppSettingService)
+    
+    protected:
+        AppSettingService() = default;
+        virtual ~AppSettingService() = default;
+        
     public:
-        static AppSettingService *GetInstance();
         void AddOrUpdateAppSetting(Requester *requester, AppSetting &&setting);
-
     };
 }
 

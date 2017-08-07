@@ -23,9 +23,9 @@
 namespace Common {
     using namespace std;
 
-    class StringUtility {
+    class StringUtils {
     private:
-        MAKE_STATIC(StringUtility);
+        MAKE_STATIC(StringUtils);
 
         static string cm_newLineStr;
         static string cm_tabStr;

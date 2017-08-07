@@ -26,15 +26,16 @@ public:
     AbstractBaseEntity() = default;
     virtual ~AbstractBaseEntity() = default;
 
-    int64_t m_id;
-    int m_version;
-
     virtual int64_t GetId() const;
     virtual void SetId(int64_t id);
 
     virtual int GetVersion() const;
     virtual void SetVersion(int v);
 
+protected:
+    int64_t m_id;
+    int m_version;
+    
     REGISTER_GETTER_INCLUDING_BASE_START(Cmarshal::Json::AbstractSerializable )
     GETTER(AbstractBaseEntity, int64_t, COLUMN_ID , &AbstractBaseEntity::GetId),
     GETTER(AbstractBaseEntity, int, COLUMN_VERSION, &AbstractBaseEntity::GetVersion)

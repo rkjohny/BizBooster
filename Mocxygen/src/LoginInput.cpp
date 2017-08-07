@@ -10,12 +10,12 @@
  * magnetic storage, computer print-out or visual display.
  */
 
-#include "LogInInput.h"
+#include "LoginInput.h"
 #include "Api.h"
 
 namespace Mocxygen {
 
-    void LogInInput::CopyFrom(const LogInInput &&orig) {
+    void LoginInput::CopyFrom(const LoginInput &&orig) {
         if (orig.m_password) {
             m_password = std::move(orig.m_password);
         }
@@ -33,7 +33,7 @@ namespace Mocxygen {
         }
     }
 
-    void LogInInput::CopyFrom(const LogInInput &orig) {
+    void LoginInput::CopyFrom(const LoginInput &orig) {
         if (orig.m_password) {
             m_password = *orig.m_password;
         }
@@ -51,55 +51,55 @@ namespace Mocxygen {
         }
     }
 
-    std::string LogInInput::Name() const {
+    std::string LoginInput::Name() const {
         return "LoginInput";
     }
 
-    std::string LogInInput::ToString() const {
+    std::string LoginInput::ToString() const {
         return "LoginInput";
     }
 
-    std::shared_ptr<AbstractBaseOutput> LogInInput::Process(Cruxdb::Requester *requester) {
+    std::shared_ptr<AbstractBaseOutput> LoginInput::Process(Cruxdb::Requester *requester) {
         return Api::LogIn(requester, this);
     }
 
-    const boost::optional<string> & LogInInput::GetPassword() const {
+    const boost::optional<string> & LoginInput::GetPassword() const {
         return m_password;
     }
 
-    void LogInInput::SetPassword(const boost::optional<std::string> &password) {
+    void LoginInput::SetPassword(const boost::optional<std::string> &password) {
         m_password = password;
     }
 
-    const boost::optional<bool> & LogInInput::IsUseFacebookAuth() const {
+    const boost::optional<bool> & LoginInput::IsUseFacebookAuth() const {
         return m_useFacebookAuth;
     }
 
-    void LogInInput::SetUseFacebookAuth(const boost::optional<bool> &useFacebookAuth) {
+    void LoginInput::SetUseFacebookAuth(const boost::optional<bool> &useFacebookAuth) {
         m_useFacebookAuth = useFacebookAuth;
     }
 
-    const boost::optional<bool> & LogInInput::IsUseGoogleAuth() const {
+    const boost::optional<bool> & LoginInput::IsUseGoogleAuth() const {
         return m_useGoogleAuth;
     }
 
-    void LogInInput::SetUseGoogleAuth(const boost::optional<bool> &useGoogleAuth) {
+    void LoginInput::SetUseGoogleAuth(const boost::optional<bool> &useGoogleAuth) {
         m_useGoogleAuth = useGoogleAuth;
     }
 
-    const boost::optional<string> & LogInInput::GetUserName() const {
+    const boost::optional<string> & LoginInput::GetUserName() const {
         return m_userName;
     }
 
-    void LogInInput::SetUserName(const boost::optional<std::string> &userName) {
+    void LoginInput::SetUserName(const boost::optional<std::string> &userName) {
         m_userName = userName;
     }
 
-    const boost::optional<bool> & LogInInput::IsRememberMe() const {
+    const boost::optional<bool> & LoginInput::IsRememberMe() const {
         return m_rememberMe;
     }
 
-    void LogInInput::SetRememberMe(const boost::optional<bool> &rememberMe) {
+    void LoginInput::SetRememberMe(const boost::optional<bool> &rememberMe) {
         m_rememberMe = rememberMe;
     }
 

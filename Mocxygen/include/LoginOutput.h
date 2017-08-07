@@ -18,11 +18,11 @@
 
 namespace Mocxygen {
 
-class LogInOutput : public  AbstractApiGetEntityOutput<LogInOutput, Cruxdb::User> {
+class LoginOutput : public  AbstractApiGetEntityOutput<LoginOutput, Cruxdb::User> {
 public:
-    API_OUTPUT(LogInOutput);
+    API_OUTPUT(LoginOutput);
 
-    ~LogInOutput() = default;
+    ~LoginOutput() = default;
 
     const boost::optional<uint64_t> & GetSessionExpiresInMS() const;
 
@@ -32,14 +32,14 @@ public:
 
     void SetSessionToken(const boost::optional<string> &sessionToken);
 
-    REGISTER_GETTER_INCLUDING_BASE_START(AbstractApiOutput<LogInOutput>)
-    GETTER(LogInOutput, const boost::optional<string> &, "sessionToken", &LogInOutput::GetSessionToken),
-    GETTER(LogInOutput, const boost::optional<uint64_t> &, "sessionExpires", &LogInOutput::GetSessionExpiresInMS)
+    REGISTER_GETTER_INCLUDING_BASE_START(AbstractApiOutput<LoginOutput>)
+    GETTER(LoginOutput, const boost::optional<string> &, "sessionToken", &LoginOutput::GetSessionToken),
+    GETTER(LoginOutput, const boost::optional<uint64_t> &, "sessionExpires", &LoginOutput::GetSessionExpiresInMS)
     REGISTER_GETTER_INCLUDING_BASE_END
 
-    REGISTER_SETTER_INCLUDING_BASE_START(AbstractApiOutput<LogInOutput>)
-    SETTER(LogInOutput, const boost::optional<string> &, "sessionToken", &LogInOutput::SetSessionToken),
-    SETTER(LogInOutput, const boost::optional<uint64_t> &, "sessionExpires", &LogInOutput::SetSessionExpires)
+    REGISTER_SETTER_INCLUDING_BASE_START(AbstractApiOutput<LoginOutput>)
+    SETTER(LoginOutput, const boost::optional<string> &, "sessionToken", &LoginOutput::SetSessionToken),
+    SETTER(LoginOutput, const boost::optional<uint64_t> &, "sessionExpires", &LoginOutput::SetSessionExpires)
     REGISTER_SETTER_INCLUDING_BASE_END
 
 private:

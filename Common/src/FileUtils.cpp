@@ -10,29 +10,29 @@
  * magnetic storage, computer print-out or visual display.
  */
 
-#include "FileUtility.h"
-#include "StringUtility.h"
+#include "FileUtils.h"
+#include "StringUtils.h"
 #include "AppCommonDef.h"
 
 namespace Common {
 
-void FileUtility::SplitPath(vector< string >& listPath, const string& absulateFileName)
+void FileUtils::SplitPath(vector< string >& listPath, const string& absulateFileName)
 {
-    StringUtility::Tokenize(listPath, absulateFileName, PATH_SEPARATOR);
+    StringUtils::Tokenize(listPath, absulateFileName, PATH_SEPARATOR);
 }
 
-string FileUtility::GetNameWithoutType(const string& absulateFileName)
+string FileUtils::GetNameWithoutType(const string& absulateFileName)
 {
     string file = "";
     auto listPath = std::vector< string >();
 
-    StringUtility::Tokenize(listPath, absulateFileName, PATH_SEPARATOR);
+    StringUtils::Tokenize(listPath, absulateFileName, PATH_SEPARATOR);
     if (listPath.size() > 0) {
         file = listPath[ listPath.size() - 1 ];
     }
 
     listPath.clear();
-    StringUtility::Tokenize(listPath, file, FILE_TYPE_SEPERATOR);
+    StringUtils::Tokenize(listPath, file, FILE_TYPE_SEPERATOR);
 
 #if 0
     //eliminating extension

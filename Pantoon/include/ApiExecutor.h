@@ -21,13 +21,13 @@
 namespace Pantoon {
 
     class ApiExecutor {
+    private:
+        MAKE_STATIC(ApiExecutor);
+        
     public:
         static web::json::value ExecuteSingleApi(const web::http::http_request& request, const web::json::value &jrequest);
 
         static web::json::value ExecuteMultipleApi(const web::http::http_request& request, const web::json::value &jrequests);
-        
-    private:
-        MAKE_STATIC(ApiExecutor);
     };
 
 

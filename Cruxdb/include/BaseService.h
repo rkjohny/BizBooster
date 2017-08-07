@@ -24,21 +24,17 @@
 namespace Cruxdb {
 
 class BaseService : public Common::Disposable {
-private:    
-    NON_COPY_NON_MOVE_ABLE(BaseService);
-    static BaseService *m_instance;
-
+private:
+    MAKE_SINGLE_TON(BaseService)
+    
 protected:
     Cruxdb::WtSession* m_session;
-
-public:
+    
     BaseService();
-
     virtual ~BaseService();
 
-    void Dispose();
-
-    static BaseService *GetInstance();
+public:
+    void Dispose() override;
 
     virtual void CreateTables(Requester *requester);
 

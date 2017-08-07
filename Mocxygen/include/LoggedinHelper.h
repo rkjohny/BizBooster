@@ -14,8 +14,8 @@
 #define LOGGED_IN_HELPER_H
 
 #include "AbstractApiHelper.h"
-#include "LoggedInInput.h"
-#include "LoggedInOutput.h"
+#include "LoggedinInput.h"
+#include "LoggedinOutput.h"
 #include "AppCommonDef.h"
 #include "LibCruxdb.h"
 #include "BaseService.h"
@@ -23,17 +23,18 @@
 
 namespace Mocxygen {
 
-class LoggedInHelper : public Mocxygen::AbstractApiHelper<Mocxygen::LoggedInInput, Mocxygen::LoggedInOutput> {
+class LoggedinHelper : public Mocxygen::AbstractApiHelper<Mocxygen::LoggedinInput, Mocxygen::LoggedinOutput> {
+private:
+    API_HELPER(LoggedinHelper);
+    
 public:
-    API_HELPER(LoggedInHelper);
-
-    LoggedInHelper(Cruxdb::Requester *requester, LoggedInInput *input, LoggedInOutput *output = nullptr) :
-    AbstractApiHelper<LoggedInInput, LoggedInOutput>(requester, input, output)
+    LoggedinHelper(Cruxdb::Requester *requester, LoggedinInput *input, LoggedinOutput *output = nullptr) :
+    AbstractApiHelper<LoggedinInput, LoggedinOutput>(requester, input, output)
     {
 
     }
 
-    virtual ~LoggedInHelper() = default;
+    virtual ~LoggedinHelper() = default;
 
     void ExecuteHelper() noexcept(false) override;
 

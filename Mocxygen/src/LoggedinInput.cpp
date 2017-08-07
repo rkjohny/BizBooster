@@ -11,12 +11,12 @@
  */
 
 
-#include "LoggedInInput.h"
+#include "LoggedinInput.h"
 #include "Api.h"
 
 namespace Mocxygen {
 
-    void LoggedInInput::CopyFrom(const LoggedInInput &&orig) {
+    void LoggedinInput::CopyFrom(const LoggedinInput &&orig) {
         if (orig.m_Id) {
             m_Id = std::move(orig.m_Id);
         }
@@ -28,7 +28,7 @@ namespace Mocxygen {
         }
     }
 
-    void LoggedInInput::CopyFrom(const LoggedInInput &orig) {
+    void LoggedinInput::CopyFrom(const LoggedinInput &orig) {
         if (orig.m_Id) {
             m_Id = *orig.m_Id;
         }
@@ -41,33 +41,33 @@ namespace Mocxygen {
     }
 
 
-    std::string LoggedInInput::Name() const {
+    std::string LoggedinInput::Name() const {
         return "LoggedInInput";
     }
 
-    std::string LoggedInInput::ToString() const {
+    std::string LoggedinInput::ToString() const {
         return "LoggedInInput";
     }
 
-    std::shared_ptr<AbstractBaseOutput> LoggedInInput::Process(Cruxdb::Requester *requester) {
+    std::shared_ptr<AbstractBaseOutput> LoggedinInput::Process(Cruxdb::Requester *requester) {
         return Api::UserLoggedIn(requester, this);
     }
 
 
-    const boost::optional<string> & LoggedInInput::GetSessionToken() const {
+    const boost::optional<string> & LoggedinInput::GetSessionToken() const {
         return m_sessionToken;
     }
 
-    void LoggedInInput::SetSessionToken(const boost::optional<string> &sessionToken) {
-        LoggedInInput::m_sessionToken = sessionToken;
+    void LoggedinInput::SetSessionToken(const boost::optional<string> &sessionToken) {
+        LoggedinInput::m_sessionToken = sessionToken;
     }
 
-    const boost::optional<uint64_t> & LoggedInInput::GetSessionExpiresInMS() const {
+    const boost::optional<uint64_t> & LoggedinInput::GetSessionExpiresInMS() const {
         return m_sessionExpires;
     }
 
-    void LoggedInInput::SetSessionExpires(const boost::optional<uint64_t> &sessionExpires) {
-        LoggedInInput::m_sessionExpires = sessionExpires;
+    void LoggedinInput::SetSessionExpires(const boost::optional<uint64_t> &sessionExpires) {
+        LoggedinInput::m_sessionExpires = sessionExpires;
     }
 
 

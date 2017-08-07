@@ -15,21 +15,11 @@
 
 namespace Cruxdb {
 
-    UserService *UserService::m_instance = nullptr;
-
     UserService::UserService() {
     }
 
     UserService::~UserService() {
     }
-
-    UserService *UserService::GetInstance() {
-        if (UserService::m_instance == nullptr) {
-            UserService::m_instance = new UserService();
-        }
-        return UserService::m_instance;
-    }
-
 
     Wt::Dbo::ptr<User>
     UserService::GetUser(Requester *requester, const std::string &provider, const std::string &identity) {

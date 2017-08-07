@@ -24,7 +24,7 @@ namespace Mocxygen {
 
 class SaveUserHelper : public AbstractApiHelper <SaveUserInput, SaveUserOutput> {
 private:
-    NON_COPY_NON_MOVE_ABLE(SaveUserHelper);
+    API_HELPER(SaveUserHelper);
     
     Wt::Dbo::ptr<Cruxdb::User> m_user;
 

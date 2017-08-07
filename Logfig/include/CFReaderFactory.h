@@ -22,16 +22,20 @@
 namespace Logfig {
 
 class CFReaderFactory {
+private:
+    MAKE_STATIC(CFReaderFactory);
+    
+    static std::map<std::string, ConfigReader*> cm_configReaderList;
+    
 public:    
-
     class PropertyReader : public BasePropertyReader {
         friend class CFReaderFactory;
-
+    private:
+        NON_COPY_NON_MOVE_ABLE(PropertyReader);
+        
     protected:
         ~PropertyReader() = default;
-        PropertyReader() = default;
-
-        NON_COPY_NON_MOVE_ABLE(PropertyReader);
+        PropertyReader() = default;        
     };
 
     static void Dispose();
@@ -40,11 +44,6 @@ public:
     static ConfigReader* GetConfigReader(const std::string &key);
     static bool DisposeConfigReader(const std::string &key) noexcept(false);
     static void DisposeConfigReader() noexcept(false);
-
-private:
-    MAKE_STATIC(CFReaderFactory);
-
-    static std::map<std::string, ConfigReader*> cm_configReaderList;
 };
 
 } /* namespace Common */

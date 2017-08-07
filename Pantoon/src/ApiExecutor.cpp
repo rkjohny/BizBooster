@@ -21,8 +21,8 @@
 #include "AppSession.h"
 #include "AppSessionManager.h"
 #include "AppException.h"
-#include "LogInHelper.h"
-#include "LoggedInHelper.h"
+#include "LoginHelper.h"
+#include "LoggedinHelper.h"
 #include "InternalRootRequester.h"
 
 #include <cpprest/http_headers.h>
@@ -50,9 +50,9 @@ web::json::value ApiExecutor::ExecuteSingleApi(const web::http::http_request& re
             auto extendExpiration = false;
 
             if (apiName.compare("login") == 0) {
-                requester = Cruxdb::InternalRootRequester::GetInstance();
+                requester = Common::SingleTon<Cruxdb::InternalRootRequester>::GetInstance();
             } else if (apiName.compare("loggedin") == 0) {
-                requester = Cruxdb::InternalRootRequester::GetInstance();
+                requester = Common::SingleTon<Cruxdb::InternalRootRequester>::GetInstance();
             } else {
                 auto &headers = request.headers();
                 bool hasToken = headers.has(U("Auth-Token"));

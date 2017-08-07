@@ -18,11 +18,11 @@
 
 namespace Mocxygen {
 
-class LoggedInInput : public AbstractApiGetEntityInput<LoggedInInput> {
+class LoggedinInput : public AbstractApiGetEntityInput<LoggedinInput> {
 public:
-    API_INPUT(LoggedInInput);
+    API_INPUT(LoggedinInput);
 
-    virtual ~LoggedInInput() = default;
+    virtual ~LoggedinInput() = default;
 
     const boost::optional<string> & GetSessionToken() const;
 
@@ -32,14 +32,14 @@ public:
 
     void SetSessionExpires(const boost::optional<uint64_t> &sessionExpires);
 
-    REGISTER_GETTER_INCLUDING_BASE_START(AbstractApiGetEntityInput<LoggedInInput>)
-    GETTER(LoggedInInput,  const boost::optional<uint64_t> &, "sessionExpires", &LoggedInInput::GetSessionExpiresInMS),
-    GETTER(LoggedInInput,  const boost::optional<string> &, "sessionToken", &LoggedInInput::GetSessionToken)
+    REGISTER_GETTER_INCLUDING_BASE_START(AbstractApiGetEntityInput<LoggedinInput>)
+    GETTER(LoggedinInput,  const boost::optional<uint64_t> &, "sessionExpires", &LoggedinInput::GetSessionExpiresInMS),
+    GETTER(LoggedinInput,  const boost::optional<string> &, "sessionToken", &LoggedinInput::GetSessionToken)
     REGISTER_GETTER_INCLUDING_BASE_END
 
-    REGISTER_SETTER_INCLUDING_BASE_START(AbstractApiGetEntityInput<LoggedInInput>)
-    SETTER(LoggedInInput,  const boost::optional<uint64_t>&, "sessionExpires", &LoggedInInput::SetSessionExpires),
-    SETTER(LoggedInInput,  const boost::optional<string>&, "sessionToken", &LoggedInInput::SetSessionToken)
+    REGISTER_SETTER_INCLUDING_BASE_START(AbstractApiGetEntityInput<LoggedinInput>)
+    SETTER(LoggedinInput,  const boost::optional<uint64_t>&, "sessionExpires", &LoggedinInput::SetSessionExpires),
+    SETTER(LoggedinInput,  const boost::optional<string>&, "sessionToken", &LoggedinInput::SetSessionToken)
     REGISTER_SETTER_INCLUDING_BASE_END
 
 private:

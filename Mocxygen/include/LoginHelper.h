@@ -14,27 +14,27 @@
 #define LOGIN_HELPER_H
 
 #include "AbstractApiHelper.h"
-#include "LogInInput.h"
-#include "LogInOutput.h"
+#include "LoginInput.h"
+#include "LoginOutput.h"
 #include "User.h"
 
 namespace Mocxygen {
 
-class LogInHelper : public AbstractApiHelper<LogInInput, LogInOutput> {
+class LoginHelper : public AbstractApiHelper<LoginInput, LoginOutput> {
 private:
-    NON_COPY_NON_MOVE_ABLE(LogInHelper);
+    API_HELPER(LoginHelper);
 
     Wt::Dbo::ptr<Cruxdb::User> m_user;
     Wt::Dbo::ptr<Cruxdb::AuthInfo> m_authInfo;
     
 public:
 
-    LogInHelper(Cruxdb::Requester *requester, LogInInput *input, LogInOutput *output = nullptr) :
-    AbstractApiHelper<LogInInput, LogInOutput>(requester, input, output)
+    LoginHelper(Cruxdb::Requester *requester, LoginInput *input, LoginOutput *output = nullptr) :
+    AbstractApiHelper<LoginInput, LoginOutput>(requester, input, output)
     {
     }
 
-    ~LogInHelper() = default;
+    ~LoginHelper() = default;
 
     void ExecuteHelper() noexcept(false) override;
 };

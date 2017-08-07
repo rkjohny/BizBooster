@@ -52,6 +52,10 @@ namespace Cruxdb {
 //typedef Wt::Auth::Cruxdb::AuthToken<Cruxdb::AuthInfo> AuthToken;
 
 class User : public SerializableSimpleEntity<User> {
+public:
+    SERIALIZEABLE(User);
+    ~User() = default;
+    
 private:
     std::string m_name;
     std::string m_rolesStr;
@@ -64,10 +68,7 @@ private:
 
     Wt::Dbo::weak_ptr<Cruxdb::AuthInfo> m_authInfo;
     
-public:
-    SERIALIZEABLE(User);
-    ~User() = default;
-
+public: 
     bool HasRole(const std::string &) const;
     bool HasRole(const Role &) const;
 

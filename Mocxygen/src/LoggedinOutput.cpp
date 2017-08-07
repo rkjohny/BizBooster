@@ -11,31 +11,31 @@
  */
 
 
-#include "LoggedInOutput.h"
+#include "LoggedinOutput.h"
 
 
 namespace Mocxygen {
 
-    LoggedInOutput::~LoggedInOutput() {
+    LoggedinOutput::~LoggedinOutput() {
     }
 
-    void LoggedInOutput::CopyFrom(const LoggedInOutput &&orig) {
+    void LoggedinOutput::CopyFrom(const LoggedinOutput &&orig) {
         if (orig.m_entity) {
             m_entity = std::move(orig.m_entity);
         }
     }
 
-    void LoggedInOutput::CopyFrom(const LoggedInOutput &orig) {
+    void LoggedinOutput::CopyFrom(const LoggedinOutput &orig) {
         if (orig.m_entity) {
             m_entity = Wt::Dbo::ptr<Cruxdb::User>(new Cruxdb::User(*orig.m_entity));
         }
     }
 
-    string LoggedInOutput::Name() const {
+    string LoggedinOutput::Name() const {
         return "LoggedInOutput";
     }
 
-    string LoggedInOutput::ToString() const  {
+    string LoggedinOutput::ToString() const  {
         return "LoggedInOutput";
     }
 }

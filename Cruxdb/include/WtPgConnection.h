@@ -22,13 +22,13 @@
 namespace Cruxdb {
 
 class WtPgConnection : public Wt::Dbo::backend::Postgres, public Common::Disposable {
+private:
+    NON_COPY_NON_MOVE_ABLE(WtPgConnection);
+    
 public:
     WtPgConnection() = default;
     virtual ~WtPgConnection();
     void Dispose() override;
-
-private:
-    NON_COPY_NON_MOVE_ABLE(WtPgConnection);
 };
 
 }

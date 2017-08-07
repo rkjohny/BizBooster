@@ -18,11 +18,11 @@
 namespace BizBooster {
 
 class AppInitializer {
-public:
-    static void Initialize();
-    
 private:
     MAKE_STATIC(AppInitializer);
+    
+public:
+    static void Initialize();
 };
 
 }

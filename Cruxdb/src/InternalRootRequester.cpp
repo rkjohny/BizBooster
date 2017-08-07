@@ -16,20 +16,10 @@
 
 namespace Cruxdb {
 
-InternalRootRequester* InternalRootRequester::m_instance = nullptr;
-
 InternalRootRequester::InternalRootRequester()
 {
     //m_user- SetName("root");
     //m_user->SetRoles(Role::ROLE_INTERNAL_ROOT_USER);
-}
-
-InternalRootRequester* InternalRootRequester::GetInstance()
-{
-    if (!m_instance) {
-        m_instance = new InternalRootRequester();
-    }
-    return m_instance;
 }
 
 Wt::Dbo::ptr<Cruxdb::User> InternalRootRequester::GetUser()

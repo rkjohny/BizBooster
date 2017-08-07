@@ -83,11 +83,11 @@ else ()
 #    target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_SSL})
 #    target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_CRYPTO})
 
-    target_link_libraries(${PROJECT_NAME} PUBLIC /usr/local/ssl/lib/libssl.a)
-    target_link_libraries(${PROJECT_NAME} PUBLIC /usr/local/ssl/lib/libcrypto.a)
+#    target_link_libraries(${PROJECT_NAME} PUBLIC /usr/local/ssl/lib/libssl.a)
+#    target_link_libraries(${PROJECT_NAME} PUBLIC /usr/local/ssl/lib/libcrypto.a)
 
-#    target_link_libraries(${PROJECT_NAME} PUBLIC /usr/lib/x86_64-linux-gnu/libssl.a)
-#    target_link_libraries(${PROJECT_NAME} PUBLIC /usr/lib/x86_64-linux-gnu/libcrypto.a)
+    target_link_libraries(${PROJECT_NAME} PUBLIC /usr/lib/x86_64-linux-gnu/libssl.a)
+    target_link_libraries(${PROJECT_NAME} PUBLIC /usr/lib/x86_64-linux-gnu/libcrypto.a)
 
 
     target_link_libraries(${PROJECT_NAME} PUBLIC z)

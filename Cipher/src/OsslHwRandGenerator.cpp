@@ -34,9 +34,9 @@ extern void OPENSSL_cpuid_setup(void);
 
 namespace Cipher {
 
-OsslHwRandGenerator* OsslHwRandGenerator::m_instance = nullptr;
 ENGINE* OsslHwRandGenerator::engFoundById = nullptr;
 ENGINE* OsslHwRandGenerator::engInitialized = nullptr;
+std::mutex OsslHwRandGenerator::m_mutex;
 
 OsslHwRandGenerator::OsslHwRandGenerator()
 {
@@ -180,14 +180,6 @@ bool OsslHwRandGenerator::GetRandomBytes(std::string &bytes, int length)
     return ret;
 }
 
-RndGenerator* OsslHwRandGenerator::GetInstance()
-{
-    if (!m_instance) {
-        m_instance = new OsslHwRandGenerator();
-    }
-    return m_instance;
-}
-
 void OsslHwRandGenerator::Dispose()
 {
     if (engInitialized)
@@ -201,6 +193,9 @@ void OsslHwRandGenerator::Dispose()
     engFoundById = nullptr;
 
     ENGINE_cleanup();
+    
+    m_isInitialized = false;
+    m_isDisposed = true;
 }
 
 }

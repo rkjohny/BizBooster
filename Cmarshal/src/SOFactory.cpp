@@ -22,7 +22,7 @@ namespace Cmarshal {
         std::shared_ptr<AbstractSerializable> SOFactory::CreateObject(const string &key) {
             std::shared_ptr<AbstractSerializable> p = nullptr;
             std::string lwKey = key;
-            Common::StringUtility::ToLower(lwKey);
+            Common::StringUtils::ToLower(lwKey);
 
             cout << cm_objectCreators.size() << endl;
             cout << cm_objectArrayCreators.size() << endl;
@@ -41,7 +41,7 @@ namespace Cmarshal {
         std::vector<std::shared_ptr<AbstractSerializable>> SOFactory::CreateObjectArray(const string &key, const size_t size) {
             std::vector<std::shared_ptr<AbstractSerializable>> v;
             std::string lwKey = key;
-            Common::StringUtility::ToLower(lwKey);
+            Common::StringUtils::ToLower(lwKey);
 
             cm_mutexArr.lock();
             ListCreatorsArr::iterator itr = cm_objectArrayCreators.find(lwKey);

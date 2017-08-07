@@ -12,7 +12,7 @@
 
 
 #include "ServiceInitializer.h"
-#include "StringUtility.h"
+#include "StringUtils.h"
 #include "OFStream.h"
 #include "OSTDStream.h"
 #include "CFReaderFactory.h"

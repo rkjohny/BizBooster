@@ -22,6 +22,9 @@
 namespace Mocxygen {
 
 class AppSessionManager {
+private:
+    MAKE_STATIC(AppSessionManager);
+    
 public:
     using Thread = Common::Thread<void>;
     
@@ -46,8 +49,6 @@ public:
     static void StopCleanUpThread();
     
 private:
-    MAKE_STATIC(AppSessionManager);
-    
     static std::mutex m_mutex;
     static std::map<std::string, std::shared_ptr<AppSession>> m_sessions;
     

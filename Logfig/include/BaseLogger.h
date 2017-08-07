@@ -25,19 +25,16 @@ using namespace std;
 
 class BaseLogger : public Common::SharedObject, public Common::Disposable {
 private:
+    NON_COPY_NON_MOVE_ABLE(BaseLogger);
 
     map<string, OStream *> m_streamList;
-    int m_logLevel;
-
-    NON_COPY_NON_MOVE_ABLE(BaseLogger);
+    int m_logLevel;   
 
 protected:
     BaseLogger();
-
     virtual ~BaseLogger();
 
 public:
-
     enum LogLevel {
         LOG_LEVEL_ERROR = 0,
         LOG_LEVEL_WARNING = 1,

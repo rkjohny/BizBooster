@@ -28,6 +28,9 @@ enum ConFigFileType {
 };
 
 class ConfigReader : public Common::SharedObject, public Common::Disposable {
+private:
+    NON_COPY_NON_MOVE_ABLE(ConfigReader);
+    
 public:
     virtual std::string GetValueOf(const std::string& key) = 0;
 
@@ -39,12 +42,9 @@ public:
     ConFigFileType GetType() const;
     
 protected:
-
     ConfigReader(ConFigFileType type);
     virtual ~ConfigReader() = default;
-
-    NON_COPY_NON_MOVE_ABLE(ConfigReader);
-
+    
     ConFigFileType m_type;
 };
 

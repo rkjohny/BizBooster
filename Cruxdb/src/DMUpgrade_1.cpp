@@ -13,7 +13,7 @@
 #include "DMUpgrade_1.h"
 #include <memory>
 #include <string>
-#include <PassWordEncoder.h>
+#include <PasswordEncoder.h>
 #include "DateTimeUtils.h"
 #include "AuthUtils.h"
 #include "LibCruxdb.h"
@@ -50,7 +50,7 @@ void DMUpgrade_1::Execute() noexcept(false)
         user->SetRoles(Role::ROLE_CREATE_SUPER_USER);
         user->SetStatus(Status::V);
 
-        Requester *requester = InternalRootRequester::GetInstance();
+        Requester *requester = Common::SingleTon<InternalRootRequester>::GetInstance();
         auto userAdded = dao->SaveEntity(requester, user);
 
         if (userAdded) {
@@ -62,7 +62,7 @@ void DMUpgrade_1::Execute() noexcept(false)
             auto now = Common::DateTimeUtils::AddMscToNow(DEFAULT_SESSION_TIME_OUT_IN_MSC);
             authInfo->setEmailToken(Cruxdb::AuthUtils::GenerateEmailToken(), now, Wt::Auth::User::EmailTokenRole::VerifyEmail);
 
-            auto passwdEncoder = Cipher::PassWordEncoder::GetInstance();
+            auto passwdEncoder = Cipher::GetPasswordEncoder();
             auto salt = passwdEncoder->GenerateSalt();
             auto hash = passwdEncoder->Encode(superUserPassword, salt);
             auto hashMethod = passwdEncoder->HashMethodName();

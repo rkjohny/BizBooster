@@ -19,14 +19,14 @@
 #include "User.h"
 
 namespace Mocxygen {
-    class LoggedInOutput : public Mocxygen::AbstractApiGetEntityOutput<LoggedInOutput, Cruxdb::User> {
+    class LoggedinOutput : public Mocxygen::AbstractApiGetEntityOutput<LoggedinOutput, Cruxdb::User> {
     private:
-        using LoggedInOutputT = Mocxygen::AbstractApiGetEntityOutput<LoggedInOutput, Cruxdb::User>;
+        using LoggedInOutputT = Mocxygen::AbstractApiGetEntityOutput<LoggedinOutput, Cruxdb::User>;
 
     public:
-        API_OUTPUT(LoggedInOutput);
+        API_OUTPUT(LoggedinOutput);
 
-        virtual ~LoggedInOutput();
+        virtual ~LoggedinOutput();
 
 
         REGISTER_GETTER_INCLUDING_BASE_START(LoggedInOutputT)

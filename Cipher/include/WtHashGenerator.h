@@ -24,10 +24,12 @@
 namespace Cipher {
 
 class WtHashGenerator : public HashGenerator {
-protected:
+private:
+    MAKE_SINGLE_TON(WtHashGenerator)
+    
+protected:   
     WtHashGenerator();
     virtual ~WtHashGenerator();
-    NON_COPY_NON_MOVE_ABLE(WtHashGenerator);
     
 public:
     std::string Name(HashMethod method) override;
@@ -37,13 +39,9 @@ public:
 
     void Dispose() override;
     
-    static WtHashGenerator *GetInstance();
-
 private:
     Wt::Auth::BCryptHashFunction m_bcryptHash;
     Wt::Auth::SHA1HashFunction m_sha1Hash;
-    
-    static WtHashGenerator *m_instance;
 };
 
 }

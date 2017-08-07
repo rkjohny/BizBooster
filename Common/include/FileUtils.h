@@ -21,9 +21,9 @@
 namespace Common {
     using namespace std;
 
-    class FileUtility {
+    class FileUtils {
     private:
-        MAKE_STATIC(FileUtility);
+        MAKE_STATIC(FileUtils);
 
     public:
         static void SplitPath(vector< string >& listName, const string& absulateFileName);

@@ -10,7 +10,7 @@
  * magnetic storage, computer print-out or visual display.
  */
 
-#include "StringUtility.h"
+#include "StringUtils.h"
 #include "AppCommonDef.h"
 #include <algorithm>
 //#include <ctime>
@@ -26,35 +26,35 @@ namespace Common {
 //creation of static variable,
 //note that cm_newLineStr and cm_tabStr should be created before cm_initializer, the order is important
 //because the constructor of cm_initializer will use these two variables
-string StringUtility::cm_newLineStr;
-string StringUtility::cm_tabStr;
-StringUtility::Initializer StringUtility::cm_initializer;
+string StringUtils::cm_newLineStr;
+string StringUtils::cm_tabStr;
+StringUtils::Initializer StringUtils::cm_initializer;
 
-StringUtility::Initializer::Initializer()
+StringUtils::Initializer::Initializer()
 {
     //crates new line string
     m_ss << m_ss.widen('\n');
-    StringUtility::cm_newLineStr = m_ss.str();
+    StringUtils::cm_newLineStr = m_ss.str();
 
     //clear the buffer
     m_ss.str("");
 
     //create tab string
     m_ss << m_ss.widen('\t');
-    StringUtility::cm_tabStr = m_ss.str();
+    StringUtils::cm_tabStr = m_ss.str();
 }
 
-string StringUtility::GetNewLineStr()
+string StringUtils::GetNewLineStr()
 {
     return cm_newLineStr;
 }
 
-string StringUtility::GetTabLineStr()
+string StringUtils::GetTabLineStr()
 {
     return cm_tabStr;
 }
 
-string StringUtility::Trim(const string& str)
+string StringUtils::Trim(const string& str)
 {
     auto p = str.c_str();
     size_t front = 0;
@@ -72,7 +72,7 @@ string StringUtility::Trim(const string& str)
 }
 
 
-void StringUtility::Tokenize(vector< string > &v, const string &str, const string &token, int n)
+void StringUtils::Tokenize(vector< string > &v, const string &str, const string &token, int n)
 {
     auto len = str.length();
 
@@ -120,19 +120,19 @@ void StringUtility::Tokenize(vector< string > &v, const string &str, const strin
     }
 }
 
-void StringUtility::ToLower(string& str)
+void StringUtils::ToLower(string& str)
 {
     transform(str.begin(), str.end(), str.begin(), ::tolower);
 }
 
-int StringUtility::Compare(const std::string &first, const std::string &second, bool ignore_case)
+int StringUtils::Compare(const std::string &first, const std::string &second, bool ignore_case)
 {
     if (ignore_case) {
         auto lcFirst = first;
         auto lcSecond = second;
     
-        StringUtility::ToLower(lcFirst);
-        StringUtility::ToLower(lcSecond);
+        StringUtils::ToLower(lcFirst);
+        StringUtils::ToLower(lcSecond);
         
         return lcFirst.compare(lcSecond);
     }

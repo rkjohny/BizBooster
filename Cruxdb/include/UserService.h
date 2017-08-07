@@ -34,17 +34,13 @@ namespace Cruxdb {
 
 class UserService : public BaseService {
 private:
-    NON_COPY_NON_MOVE_ABLE(UserService);
-
-    static UserService* m_instance;
-
-public:
-    UserService();
+    MAKE_SINGLE_TON(UserService)
     
+protected:
+    UserService();
     virtual ~UserService();
 
-    static UserService* GetInstance();
-
+public:
     Wt::Dbo::ptr<User> GetUser(Requester *requester, const std::string &provider, const std::string &identity);
     Wt::Dbo::ptr<User> GetUser(Requester *requester, const std::string &identity);
 

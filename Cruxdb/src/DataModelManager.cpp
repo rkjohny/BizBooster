@@ -33,7 +33,7 @@ void DataModelManager::Run()
 
     size_t nextDmVersion = 0;
 
-    auto requester = InternalRootRequester::GetInstance();
+    auto requester = Common::SingleTon<InternalRootRequester>::GetInstance();
     
     baseService->CreateTables(requester);
     

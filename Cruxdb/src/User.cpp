@@ -14,8 +14,9 @@
 #include <Wt/WTheme>
 
 #include "User.h"
-#include "PassWordEncoder.h"
+#include "PasswordEncoder.h"
 #include "Roles.h"
+#include "LibCipher.h"
 
 DBO_INSTANTIATE_TEMPLATES(Cruxdb::User);
 
@@ -172,7 +173,7 @@ void User::SetPassword(const std::string &password)
     auto authInfo = m_authInfo.lock();
 
     if (authInfo) {
-        auto passwdEncoder = Cipher::PassWordEncoder::GetInstance();
+        auto passwdEncoder = Cipher::GetPasswordEncoder();
         auto salt = passwdEncoder->GenerateSalt();
         auto hash = passwdEncoder->Encode(password, salt);
         auto hashMethod = passwdEncoder->HashMethodName();

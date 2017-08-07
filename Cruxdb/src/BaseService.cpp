@@ -16,20 +16,9 @@
 #include "LoggerFactory.h"
 
 namespace Cruxdb {
-
-    BaseService *BaseService::m_instance = nullptr;
-
-    BaseService *BaseService::GetInstance()
+    
+    BaseService::BaseService() : m_session(Common::SingleTon<WtSession>::GetInstance())
     {
-        if (!m_instance) {
-            m_instance = new BaseService();
-        }
-        return m_instance;
-    }
-
-    BaseService::BaseService()
-    {
-        m_session = WtSession::GetInstance();
     }
 
     BaseService::~BaseService() {

@@ -19,12 +19,12 @@
 namespace Cruxdb {
 
 class AuthUtils {
+private:
+    MAKE_STATIC(AuthUtils);
+    
 public:
     static std::string GenerateEmailToken();
 
-
-private:
-    MAKE_STATIC(AuthUtils);
 };
 
 }

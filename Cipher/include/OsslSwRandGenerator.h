@@ -18,15 +18,14 @@
 namespace Cipher {
 
 class OsslSwRandGenerator : public OsslRandGenerator {
+    MAKE_SINGLE_TON(OsslHwRandGenerator);
 public:
 
-
+    
 protected:
     OsslSwRandGenerator();
     virtual ~OsslSwRandGenerator();
-    NON_COPY_NON_MOVE_ABLE(OsslSwRandGenerator);
 
-    static OsslSwRandGenerator* m_instance;
 };
 
 }

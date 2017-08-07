@@ -16,7 +16,8 @@
 #include "LoggerFactory.h"
 #include "DateTimeUtils.h"
 #include "AuthUtils.h"
-#include "PassWordEncoder.h"
+#include "PasswordEncoder.h"
+#include "LibCipher.h"
 #include <Wt/Dbo/WtSqlTraits>
 #include <BlockExecutor.h>
 
@@ -98,7 +99,7 @@ namespace Mocxygen {
                 authInfo->setEmailToken(Cruxdb::AuthUtils::GenerateEmailToken(), now,
                                         Wt::Auth::User::EmailTokenRole::VerifyEmail);
 
-                auto passwdEncoder = Cipher::PassWordEncoder::GetInstance();
+                auto passwdEncoder = Cipher::GetPasswordEncoder();
                 auto salt = passwdEncoder->GenerateSalt();
                 auto hash = passwdEncoder->Encode(*(m_input->GetPassword()), salt);
                 auto hashMethod = passwdEncoder->HashMethodName();

@@ -21,9 +21,10 @@
 namespace Cruxdb {
 
 class AuthServices {
-public:
+private:
     MAKE_STATIC(AuthServices);
 
+public:
     static Wt::Auth::AuthService &GetAuthService();
 
     static Wt::Auth::PasswordService &GetPasswordService();

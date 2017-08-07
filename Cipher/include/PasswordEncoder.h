@@ -23,9 +23,11 @@
 
 namespace Cipher {
 
-class PassWordEncoder : public Common::SingleTon {
+class PasswordEncoder : public Common::Disposable {
+private:
+    MAKE_SINGLE_TON(PasswordEncoder)
+    
 public:
-    static PassWordEncoder* GetInstance();
     std::string Encode(const std::string &passwd, const std::string &salt);
     bool Match(const std::string &passwd, const std::string &hash, const std::string &salt);
     
@@ -35,15 +37,13 @@ public:
     
     void Dispose() override;
     
+protected:
+    PasswordEncoder();
+    virtual ~PasswordEncoder();
+
 private:
     HashGenerator *m_hasGenerator;
     RndGenerator *m_randGenerator;
-    
-    static PassWordEncoder *m_instance;
-    
-    PassWordEncoder();
-    virtual ~PassWordEncoder();
-    NON_COPY_NON_MOVE_ABLE(PassWordEncoder);
 };
 
 }

@@ -16,16 +16,6 @@
 
 namespace Cruxdb {
 
-    AppSettingService *AppSettingService::m_instance = nullptr;
-
-    AppSettingService *AppSettingService::GetInstance() {
-        if (m_instance) {
-            return m_instance;
-        }
-        m_instance = new AppSettingService();
-        return m_instance;
-    }
-
     void AppSettingService::AddOrUpdateAppSetting(Requester *requester, AppSetting &&setting)
     {
         auto query = m_session->find<Cruxdb::AppSetting>().where("name = ?").bind(setting.GetName());
@@ -35,5 +25,4 @@ namespace Cruxdb {
         }
         objPtr.modify()->SetValue(setting.GetValue());
     }
-
 }

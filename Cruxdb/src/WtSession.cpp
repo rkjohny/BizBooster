@@ -19,8 +19,6 @@
 
 namespace Cruxdb {
 
-WtSession *WtSession::m_instance = nullptr;;
-
 WtSession::WtSession()
 {
     auto config_reader = Logfig::CFReaderFactory::CreateConfigReader(
@@ -51,14 +49,6 @@ WtSession::WtSession()
     m_users = std::make_shared<Cruxdb::UserDatabase>(*this, &AuthServices::GetAuthService());
 }
 
-WtSession* WtSession::GetInstance()
-{
-    if (!m_instance) {
-        m_instance = new WtSession();
-    }
-    return m_instance;
-}
-
 WtSession::~WtSession()
 {
     Dispose();
@@ -66,11 +56,11 @@ WtSession::~WtSession()
 
 void WtSession::Dispose()
 {
-    if (!m_isDosposed) {
+    if (!m_isDisposed) {
         m_connection.Dispose();
         //Just flush the session, we are not closing connection.
         this->flush();
-        m_isDosposed = true;
+        m_isDisposed = true;
     }
 }
 

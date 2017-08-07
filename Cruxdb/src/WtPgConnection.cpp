@@ -22,8 +22,8 @@ WtPgConnection::~WtPgConnection()
 
 void WtPgConnection::Dispose()
 {
-    if (!m_isDosposed) {
-        m_isDosposed = true;
+    if (!m_isDisposed) {
+        m_isDisposed = true;
     }
 }
 

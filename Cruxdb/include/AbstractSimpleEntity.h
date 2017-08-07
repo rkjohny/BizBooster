@@ -21,9 +21,6 @@
 namespace Cruxdb {
 
 class AbstractSimpleEntity : public AbstractBaseEntity {
-protected:
-    std::string m_statusStr;
-
 public:
     AbstractSimpleEntity() = default;
     virtual ~AbstractSimpleEntity() = default;
@@ -33,6 +30,9 @@ public:
     
     virtual const std::string& GetStatusStr() const;
     virtual void SetStatusStr(const std::string &status);
+    
+protected:
+    std::string m_statusStr;
     
     REGISTER_GETTER_INCLUDING_BASE_START(AbstractBaseEntity)
     GETTER(AbstractSimpleEntity, const std::string&, COLUMN_STATUS, &AbstractSimpleEntity::GetStatusStr)

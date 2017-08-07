@@ -21,11 +21,11 @@
 
 namespace Mocxygen {
 
-class LogInInput : public AbstractApiGetEntityInput<LogInInput> {
+class LoginInput : public AbstractApiGetEntityInput<LoginInput> {
 public:
-    API_INPUT(LogInInput);
+    API_INPUT(LoginInput);
 
-    ~LogInInput() = default;
+    ~LoginInput() = default;
 
     const boost::optional<string> & GetPassword() const;
 
@@ -46,20 +46,20 @@ public:
     const boost::optional<bool> & IsRememberMe() const;
     void SetRememberMe(const boost::optional<bool> &rememberMe);
 
-    REGISTER_GETTER_INCLUDING_BASE_START(AbstractApiGetEntityInput<LogInInput>)
-    GETTER(LogInInput, const boost::optional<std::string>&, "userName", &LogInInput::GetUserName),
-    GETTER(LogInInput, const boost::optional<std::string>&, "password", &LogInInput::GetPassword),
-    GETTER(LogInInput, const boost::optional<bool>&, "useGoogleAuth", &LogInInput::IsUseFacebookAuth),
-    GETTER(LogInInput, const boost::optional<bool>&, "useFacebookAuth", &LogInInput::IsUseGoogleAuth),
-    GETTER(LogInInput, const boost::optional<bool>&, "rememberMme", &LogInInput::IsRememberMe)
+    REGISTER_GETTER_INCLUDING_BASE_START(AbstractApiGetEntityInput<LoginInput>)
+    GETTER(LoginInput, const boost::optional<std::string>&, "userName", &LoginInput::GetUserName),
+    GETTER(LoginInput, const boost::optional<std::string>&, "password", &LoginInput::GetPassword),
+    GETTER(LoginInput, const boost::optional<bool>&, "useGoogleAuth", &LoginInput::IsUseFacebookAuth),
+    GETTER(LoginInput, const boost::optional<bool>&, "useFacebookAuth", &LoginInput::IsUseGoogleAuth),
+    GETTER(LoginInput, const boost::optional<bool>&, "rememberMme", &LoginInput::IsRememberMe)
     REGISTER_GETTER_INCLUDING_BASE_END
 
-    REGISTER_SETTER_INCLUDING_BASE_START(AbstractApiGetEntityInput<LogInInput>)
-    SETTER(LogInInput, const boost::optional<std::string>&, "userName", &LogInInput::SetUserName),
-    SETTER(LogInInput, const boost::optional<std::string>&, "password", &LogInInput::SetPassword),
-    SETTER(LogInInput, const boost::optional<bool>&, "useGoogleAuth", &LogInInput::SetUseGoogleAuth),
-    SETTER(LogInInput, const boost::optional<bool>&, "useFacebookAuth", &LogInInput::SetUseFacebookAuth),
-    SETTER(LogInInput, const boost::optional<bool>&, "rememberMme", &LogInInput::SetRememberMe)
+    REGISTER_SETTER_INCLUDING_BASE_START(AbstractApiGetEntityInput<LoginInput>)
+    SETTER(LoginInput, const boost::optional<std::string>&, "userName", &LoginInput::SetUserName),
+    SETTER(LoginInput, const boost::optional<std::string>&, "password", &LoginInput::SetPassword),
+    SETTER(LoginInput, const boost::optional<bool>&, "useGoogleAuth", &LoginInput::SetUseGoogleAuth),
+    SETTER(LoginInput, const boost::optional<bool>&, "useFacebookAuth", &LoginInput::SetUseFacebookAuth),
+    SETTER(LoginInput, const boost::optional<bool>&, "rememberMme", &LoginInput::SetRememberMe)
     REGISTER_SETTER_INCLUDING_BASE_END
 
 private:

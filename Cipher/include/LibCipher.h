@@ -16,6 +16,7 @@
 
 #include "HashGenerator.h"
 #include "RndGenerator.h"
+#include "PasswordEncoder.h"
 
 namespace Cipher {
 
@@ -25,6 +26,8 @@ void ReleaseLibrary();
 HashGenerator *GetHashGenerator();
 
 RndGenerator *GetRndGenerator();
+
+PasswordEncoder *GetPasswordEncoder();
 
 }
 

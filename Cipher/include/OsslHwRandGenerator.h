@@ -15,12 +15,15 @@
 
 #include <openssl/ossl_typ.h>
 #include "OsslRandGenerator.h"
+#include <mutex>
 
 namespace Cipher {
 
 //TODO: it is test code (very early state) and not completed, we can initialize 
 //      and dispose once at application load and dispose time respectively.
 class OsslHwRandGenerator : public OsslRandGenerator {
+    MAKE_SINGLE_TON(OsslHwRandGenerator);
+    
 private:
     bool Initialize() override;
     void Dispose() override;
@@ -28,21 +31,18 @@ private:
     bool DoGetRandomBytes(uint8_t *buff, int length);
 
 public:
-    static RndGenerator* GetInstance();
     bool GetRandomBytes(std::vector<uint8_t> &bytes, int length) override;
     bool GetRandomBytes(std::string &bytes, int length) override;
 
 protected:
     OsslHwRandGenerator();
-    virtual ~OsslHwRandGenerator();
-    NON_COPY_NON_MOVE_ABLE(OsslHwRandGenerator);
+    virtual ~OsslHwRandGenerator();    
 
     // These point to the same engine. One is used for ENGINE_finish, and
     // the other is used for ENGINE_free.
     static ENGINE *engFoundById;
     static ENGINE *engInitialized;
-    
-    static OsslHwRandGenerator* m_instance;
+    static std::mutex m_mutex;
 };
 
 }

@@ -21,9 +21,10 @@ namespace Mocxygen {
 
 
 class ApiUtils {
-public:
+private:
     MAKE_STATIC(ApiUtils);
     
+public:
     static web::json::value ErrorResponse(AppErrorCode code, const std::string &message);
 
     static web::json::value BadRequestResponse();

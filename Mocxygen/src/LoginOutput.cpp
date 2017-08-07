@@ -10,13 +10,13 @@
  * magnetic storage, computer print-out or visual display.
  */
 
-#include "LogInOutput.h"
+#include "LoginOutput.h"
 #include "User.h"
-#include "LogInHelper.h"
+#include "LoginHelper.h"
 
 namespace Mocxygen {
 
-void LogInOutput::CopyFrom(const LogInOutput&& orig)
+void LoginOutput::CopyFrom(const LoginOutput&& orig)
 {
     if (orig.m_entity) {
         m_entity = std::move(orig.m_entity);
@@ -29,7 +29,7 @@ void LogInOutput::CopyFrom(const LogInOutput&& orig)
     }
 }
 
-void LogInOutput::CopyFrom(const LogInOutput& orig)
+void LoginOutput::CopyFrom(const LoginOutput& orig)
 {
     if (orig.m_entity) {
         m_entity = Wt::Dbo::ptr<Cruxdb::User>(new Cruxdb::User(*orig.m_entity));
@@ -42,32 +42,32 @@ void LogInOutput::CopyFrom(const LogInOutput& orig)
     }
 }
 
-std::string LogInOutput::Name() const
+std::string LoginOutput::Name() const
 {
     return "LogInOutput";
 }
 
-std::string LogInOutput::ToString() const
+std::string LoginOutput::ToString() const
 {
     return "LogInOutput";
 }
 
-const boost::optional<uint64_t> & LogInOutput::GetSessionExpiresInMS() const
+const boost::optional<uint64_t> & LoginOutput::GetSessionExpiresInMS() const
 {
     return m_sessionExpiresMsc;
 }
 
-void LogInOutput::SetSessionExpires(const boost::optional<uint64_t> &sessionExpiresMsc)
+void LoginOutput::SetSessionExpires(const boost::optional<uint64_t> &sessionExpiresMsc)
 {
     m_sessionExpiresMsc = sessionExpiresMsc;
 }
 
-const boost::optional<string> & LogInOutput::GetSessionToken() const
+const boost::optional<string> & LoginOutput::GetSessionToken() const
 {
     return  m_sessionToken;
 }
 
-void LogInOutput::SetSessionToken(const boost::optional<string> &sessionToken)
+void LoginOutput::SetSessionToken(const boost::optional<string> &sessionToken)
 {
     m_sessionToken = sessionToken;
 }

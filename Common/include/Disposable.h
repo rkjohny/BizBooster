@@ -14,16 +14,18 @@
 #define DISPOSABLE_H
 
 namespace Common {
-
     class Disposable {
     protected:
-        bool m_isDosposed;
-        bool m_isInitialized;
-
+        bool m_isDisposed;
+        
     public:
         Disposable();
         virtual ~Disposable();
         virtual void Dispose() = 0;
+        
+        bool IsDisposed() const {
+            return m_isDisposed;
+        }
     };
 
 } /* namespace Common */

@@ -17,8 +17,8 @@
 #include "LibCommon.h"
 #include "LibCruxdb.h"
 #include "SOFactory.h"
-#include "LogInInput.h"
-#include "LoggedInInput.h"
+#include "LoginInput.h"
+#include "LoggedinInput.h"
 
 namespace Mocxygen {
 
@@ -32,10 +32,10 @@ void LoadLibrary()
 
         Cruxdb::LoadLibrary();
 
-        REGISTER_CLASS(SaveUserInput, "register_user");
+        REGISTER_CLASS(SaveUserInput, "save_user");
         REGISTER_CLASS(SaveUserInput, "SaveUserInput");
-        REGISTER_CLASS(LogInInput, "login");
-        REGISTER_CLASS(LoggedInInput, "loggedin" );
+        REGISTER_CLASS(LoginInput, "login");
+        REGISTER_CLASS(LoggedinInput, "loggedin" );
 
         g_loaded = true;
     }
@@ -47,8 +47,8 @@ void ReleaseLibrary()
 
         UNREGISTER_CLASS(SaveUserInput, "register_user");
         UNREGISTER_CLASS(SaveUserInput, "SaveUserInput");
-        REGISTER_CLASS(LogInInput, "login");
-        REGISTER_CLASS(LoggedInInput, "loggedin" );
+        REGISTER_CLASS(LoginInput, "login");
+        REGISTER_CLASS(LoggedinInput, "loggedin" );
         
         Cruxdb::ReleaseLibrary();
         

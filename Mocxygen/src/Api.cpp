@@ -12,10 +12,10 @@
 
 #include "Api.h"
 #include "SaveUserHelper.h"
-#include "LogInInput.h"
-#include "LogInOutput.h"
-#include "LogInHelper.h"
-#include "LoggedInHelper.h"
+#include "LoginInput.h"
+#include "LoginOutput.h"
+#include "LoginHelper.h"
+#include "LoggedinHelper.h"
 
 
 namespace Mocxygen {
@@ -27,16 +27,16 @@ std::shared_ptr<SaveUserOutput> Api::SaveUser(Cruxdb::Requester *requester, Save
     return std::dynamic_pointer_cast<SaveUserOutput, AbstractBaseOutput>(helper.Execute());
 }
 
-std::shared_ptr<LogInOutput> Api::LogIn(Cruxdb::Requester *requester, LogInInput *input, LogInOutput *output)
+std::shared_ptr<LoginOutput> Api::LogIn(Cruxdb::Requester *requester, LoginInput *input, LoginOutput *output)
 {
-    LogInHelper &&helper = LogInHelper(requester, input, output);
-    return std::dynamic_pointer_cast<LogInOutput, AbstractBaseOutput>(helper.Execute());
+    LoginHelper &&helper = LoginHelper(requester, input, output);
+    return std::dynamic_pointer_cast<LoginOutput, AbstractBaseOutput>(helper.Execute());
 }
 
-std::shared_ptr<LoggedInOutput> Api::UserLoggedIn(Cruxdb::Requester *requester, LoggedInInput *input, LoggedInOutput *output)
+std::shared_ptr<LoggedinOutput> Api::UserLoggedIn(Cruxdb::Requester *requester, LoggedinInput *input, LoggedinOutput *output)
 {
-    LoggedInHelper helper(requester, input, output);
-    return std::dynamic_pointer_cast<LoggedInOutput, AbstractBaseOutput>(helper.Execute());
+    LoggedinHelper helper(requester, input, output);
+    return std::dynamic_pointer_cast<LoggedinOutput, AbstractBaseOutput>(helper.Execute());
 }
 
 } /* namespace Mocxygen */

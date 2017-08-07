@@ -21,9 +21,10 @@
 namespace Mocxygen {
 
 class AbstractBaseHelper {
-public:
+private:
     NON_COPY_NON_MOVE_ABLE(AbstractBaseHelper);
     
+public:    
     AbstractBaseHelper() = default;
     virtual ~AbstractBaseHelper() = default;
 

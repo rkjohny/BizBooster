@@ -38,7 +38,7 @@ void ReleaseLibrary()
 HashGenerator *GetHashGenerator()
 {
 #ifdef WT_HASH_FUNCTION
-    return WtHashGenerator::GetInstance();
+    return Common::SingleTon<WtHashGenerator>::GetInstance();
 #else
     return nullptr;
 #endif
@@ -47,10 +47,15 @@ HashGenerator *GetHashGenerator()
 RndGenerator *GetRndGenerator()
 {
 #ifdef OPEN_SSL_CRYPTO_ENGINE
-    return OsslHwRandGenerator::GetInstance();
+    return Common::SingleTon<OsslHwRandGenerator>::GetInstance();
 #else
     return nullptr;
 #endif
+}
+
+PasswordEncoder *GetPasswordEncoder()
+{
+    return Common::SingleTon<PasswordEncoder>::GetInstance();
 }
 
 }

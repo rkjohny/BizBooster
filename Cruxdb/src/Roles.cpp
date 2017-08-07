@@ -11,14 +11,14 @@
  */
 
 #include "Roles.h"
-#include "StringUtility.h"
+#include "StringUtils.h"
 #include <stdexcept>
 
 namespace Cruxdb {
 
 Role RoleUtils::ToRole(const std::string &role) noexcept(false)
 {
-    auto newrole = Common::StringUtility::Trim(role);
+    auto newrole = Common::StringUtils::Trim(role);
 
     if (newrole.compare(RoleStr::ROLE_CREATE_SUPER_USER) == 0) {
         return Role::ROLE_CREATE_SUPER_USER;
@@ -73,7 +73,7 @@ std::string RoleUtils::ToStr(const std::vector<Role> &roles, const std::string &
 std::vector<Role> RoleUtils::ToRoles(const std::string &roles) noexcept(false)
 {
     std::vector<std::string> v_rolesStr;
-    Common::StringUtility::Tokenize(v_rolesStr, roles, ",");
+    Common::StringUtils::Tokenize(v_rolesStr, roles, ",");
 
     std::vector<Role> v_roles;
     for (auto &role : v_rolesStr) {

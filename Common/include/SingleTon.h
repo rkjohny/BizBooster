@@ -20,14 +20,32 @@
 namespace Common {
 
 
-class SingleTon : public Common::Disposable {
+template<class T>
+class SingleTon {
 protected:
+    static T *m_instance;
+    
     SingleTon() = default;
     virtual ~SingleTon() = default;
     
-    std::mutex m_mutex;
+    static std::mutex m_mutex;
     
+public:
+    static T* GetInstance() {
+        m_mutex.lock();
+        if (!m_instance) {
+            m_instance = new T();
+        }
+        m_mutex.unlock();
+        return m_instance;
+    }    
 };
+
+template<class T>
+T* SingleTon<T>::m_instance = nullptr;
+
+template<class T>
+std::mutex SingleTon<T>::m_mutex;
 
 }
 #endif /* SINGLE_TON_H */

@@ -10,13 +10,13 @@
  * magnetic storage, computer print-out or visual display.
  */
 
-#include "LoggedInHelper.h"
+#include "LoggedinHelper.h"
 #include "AppSessionManager.h"
 
 namespace Mocxygen {
 
 
-void LoggedInHelper::ExecuteHelper() noexcept(false)
+void LoggedinHelper::ExecuteHelper() noexcept(false)
 {
     auto userService = Cruxdb::GetUserService();
     if (m_input->GetId() && m_input->GetSessionToken() && m_input->GetSessionExpiresInMS()) {

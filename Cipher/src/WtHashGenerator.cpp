@@ -14,8 +14,6 @@
 
 namespace Cipher {
 
-WtHashGenerator* WtHashGenerator::m_instance = nullptr;
-
 WtHashGenerator::WtHashGenerator() : m_bcryptHash(BCRYPT_ITERATION)
 {
     
@@ -75,17 +73,10 @@ std::string WtHashGenerator::Generate(HashMethod method, const std::string &msg,
 
 void WtHashGenerator::Dispose()
 {
-    if (!m_isDosposed) {
-        m_isDosposed = true;
+    if (!m_isDisposed) {
+        //do stuff
+        m_isDisposed = true;
     }
-}
-
-WtHashGenerator *WtHashGenerator::GetInstance()
-{
-    if (!m_instance) {
-        m_instance = new WtHashGenerator();
-    }
-    return m_instance;
 }
 
 }

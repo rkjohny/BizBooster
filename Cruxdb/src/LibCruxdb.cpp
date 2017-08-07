@@ -64,15 +64,15 @@ namespace Cruxdb {
 
 
     BaseService *GetBaseService() {
-        return BaseService::GetInstance();
+        return  Common::SingleTon<BaseService>::GetInstance();
     }
 
     UserService *GetUserService() {
-        return UserService::GetInstance();
+        return Common::SingleTon<UserService>::GetInstance();
     }
 
     AppSettingService *GetAppSettingService() {
-        return AppSettingService::GetInstance();
+        return Common::SingleTon<AppSettingService>::GetInstance();
     }
 
 }

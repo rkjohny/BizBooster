@@ -15,26 +15,26 @@
 
 #include "SaveUserOutput.h"
 #include "SaveUserInput.h"
-#include "LogInOutput.h"
-#include "LogInInput.h"
-#include "LoggedInInput.h"
-#include "LoggedInOutput.h"
+#include "LoginOutput.h"
+#include "LoginInput.h"
+#include "LoggedinInput.h"
+#include "LoggedinOutput.h"
 
 namespace Mocxygen {
 
 //TODO: Use forward declaration for class SaveUserInput if needed
 
 class Api {
+private:
+    MAKE_STATIC(Api);
+    
 public:
     static std::shared_ptr<SaveUserOutput> SaveUser(Cruxdb::Requester *requester, SaveUserInput *input,
                                                     SaveUserOutput *output = nullptr);
     
-    static std::shared_ptr<LogInOutput> LogIn(Cruxdb::Requester *requester, LogInInput *input, LogInOutput *output = nullptr);
+    static std::shared_ptr<LoginOutput> LogIn(Cruxdb::Requester *requester, LoginInput *input, LoginOutput *output = nullptr);
 
-    static std::shared_ptr<LoggedInOutput> UserLoggedIn(Cruxdb::Requester *requester, LoggedInInput *input, LoggedInOutput *output = nullptr);
-
-private:
-    MAKE_STATIC(Api);
+    static std::shared_ptr<LoggedinOutput> UserLoggedIn(Cruxdb::Requester *requester, LoggedinInput *input, LoggedinOutput *output = nullptr);
 };
 
 } /* namespace Mocxygen */

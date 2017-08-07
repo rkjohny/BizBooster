@@ -30,8 +30,8 @@
         Logfig::LoggerFactory::GetLogger(APP_LOGGER)->Info(__FILE__, __LINE__, message);
 
 #define LOG_WARNING(message) \
-    if (Fio::LogFactory::GetLogger(APP_LOGGER)->GetLogLevel() >= Fio::BaseLogger::LogLevel::LOG_LEVEL_WARNING) \
-        Fio::LogFactory::GetLogger(APP_LOGGER)->Warning(__FILE__, __LINE__, message);
+    if (Logfig::LogFactory::GetLogger(APP_LOGGER)->GetLogLevel() >= Logfig::BaseLogger::LogLevel::LOG_LEVEL_WARNING) \
+        Logfig::LogFactory::GetLogger(APP_LOGGER)->Warning(__FILE__, __LINE__, message);
 
 #define LOG_ERROR(message) \
     if (Logfig::LoggerFactory::GetLogger(APP_LOGGER)->GetLogLevel() >= Logfig::BaseLogger::LogLevel::LOG_LEVEL_ERROR) \
@@ -39,16 +39,16 @@
 
 
 #define FLOG_DEBUG(message, ...) \
-    if (Fio::LogFactory::GetLogger(APP_LOGGER)->GetLogLevel() >= Fio::BaseLogger::LogLevel::LOG_LEVEL_DEBUG) \
-        Fio::LogFactory::GetLogger(APP_LOGGER)->Debug(__FILE__, __LINE__, message, ##__VA_ARGS__);
+    if (Logfig::LogFactory::GetLogger(APP_LOGGER)->GetLogLevel() >= Logfig::BaseLogger::LogLevel::LOG_LEVEL_DEBUG) \
+        Logfig::LogFactory::GetLogger(APP_LOGGER)->Debug(__FILE__, __LINE__, message, ##__VA_ARGS__);
 
 #define FLOG_INFO(message, ...) \
     if (Logfig::LoggerFactory::GetLogger(APP_LOGGER)->GetLogLevel() >= Logfig::BaseLogger::LogLevel::LOG_LEVEL_INFO) \
         Logfig::LoggerFactory::GetLogger(APP_LOGGER)->Info(__FILE__, __LINE__, message, ##__VA_ARGS__);
 
 #define FLOG_WARNING(message, ...) \
-    if (Fio::LogFactory::GetLogger(APP_LOGGER)->GetLogLevel() >= Fio::BaseLogger::LogLevel::LOG_LEVEL_WARNING) \
-        Fio::LogFactory::GetLogger(APP_LOGGER)->Warning(__FILE__, __LINE__, message, ##__VA_ARGS__);
+    if (Logfig::LogFactory::GetLogger(APP_LOGGER)->GetLogLevel() >= Logfig::BaseLogger::LogLevel::LOG_LEVEL_WARNING) \
+        Logfig::LogFactory::GetLogger(APP_LOGGER)->Warning(__FILE__, __LINE__, message, ##__VA_ARGS__);
 
 #define FLOG_ERROR(message, ...) \
     if (Logfig::LoggerFactory::GetLogger(APP_LOGGER)->GetLogLevel() >= Logfig::BaseLogger::LogLevel::LOG_LEVEL_ERROR) \
@@ -58,9 +58,16 @@
 namespace Logfig {
 
 class LoggerFactory {
+private:
+    MAKE_STATIC(LoggerFactory);
+    
 public:
     class Logger : public BaseLogger {
         friend class LoggerFactory;
+    
+    private:
+        NON_COPY_NON_MOVE_ABLE(Logger);
+        
     public:
         void Debug(const char *fname, int line, const string &&message);
         void Info(const char *fname, int line, const string &&message);
@@ -81,20 +88,15 @@ public:
 
     protected:
         ~Logger() = default;
-        Logger() = default;
-
-    private:
-        NON_COPY_NON_MOVE_ABLE(Logger);
+        Logger() = default;    
     };
 
     static void Dispose();
     static Logger* GetLogger(std::string &&key);
     static void DisposeLogger();
     static bool DisposeLogger(std::string &key);
-
-private:
-    MAKE_STATIC(LoggerFactory);
     
+private:
     static std::map<std::string, Logger*> cm_loggersList;
 };
 

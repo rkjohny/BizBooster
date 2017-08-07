@@ -25,6 +25,12 @@ namespace Logfig {
     using namespace std;
 
     class BasePropertyReader : public ConfigReader {
+    private:
+        NON_COPY_NON_MOVE_ABLE(BasePropertyReader);
+        
+        map< string, string > m_properties;
+        string m_fileName;        
+        
     public:
         string GetValueOf(const string& key) override;
 
@@ -37,13 +43,7 @@ namespace Logfig {
         virtual ~BasePropertyReader();
 
         void LoadFile(const string& fileName) noexcept(false);
-        void Dispose() override;
-
-    private:
-        map< string, string > m_properties;
-        string m_fileName;
-
-        NON_COPY_NON_MOVE_ABLE(BasePropertyReader);
+        void Dispose() override;        
     };
 
 } /* namespace Common */
