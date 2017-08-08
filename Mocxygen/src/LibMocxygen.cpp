@@ -19,6 +19,7 @@
 #include "SOFactory.h"
 #include "LoginInput.h"
 #include "LoggedinInput.h"
+#include "AppSessionManager.h"
 
 namespace Mocxygen {
 
@@ -45,13 +46,15 @@ void ReleaseLibrary()
 {
     if (g_loaded) {
 
+        AppSessionManager::StopCleanUpThread();
+        
         UNREGISTER_CLASS(SaveUserInput, "register_user");
         UNREGISTER_CLASS(SaveUserInput, "SaveUserInput");
         REGISTER_CLASS(LoginInput, "login");
         REGISTER_CLASS(LoggedinInput, "loggedin" );
         
         Cruxdb::ReleaseLibrary();
-        
+                
         g_loaded = false;
     }
 }

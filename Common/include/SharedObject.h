@@ -13,17 +13,16 @@
 #ifndef SHARED_OBJECT_H
 #define SHARED_OBJECT_H
 
-#include <mutex>
+#include "boost/thread.hpp"
 
 namespace Common {
-    using namespace std;
-
+    
     class SharedObject {
     protected:
         SharedObject() = default;
         virtual ~SharedObject() = default;
 
-        mutex m_mutex;
+        boost::mutex m_mutex;
     };
 
 } /* namespace Common */

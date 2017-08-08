@@ -30,8 +30,8 @@ void BaseLogger::Dispose()
 {
     // user who built the list must call destructor to delete the list
     // make sure m_mutex will be destructed after streamList
-    // thats why we declared m_mutex before streamList
-    m_mutex.lock();
+    // thats why we declared m_mutex before streamList    
+    boost::lock_guard<boost::mutex> guard(m_mutex);
     if (!m_isDisposed) {
         auto itr = m_streamList.begin();
         if (itr != m_streamList.end()) {
@@ -42,7 +42,6 @@ void BaseLogger::Dispose()
         }
         m_isDisposed = true;
     }
-    m_mutex.unlock();
 }
 
 void BaseLogger::SetLogLevel(int level)
@@ -54,7 +53,7 @@ void BaseLogger::SetLogLevel(int level)
 
 void BaseLogger::AddStream(const string &key, OStream* ostram)
 {
-    m_mutex.lock();
+    boost::lock_guard<boost::mutex> guard(m_mutex);
     auto itr = m_streamList.find(key);
     if (itr != m_streamList.end()) {
         // deleting, otherwise caller will not be able to delete it
@@ -66,12 +65,11 @@ void BaseLogger::AddStream(const string &key, OStream* ostram)
     }
     m_streamList[key] = ostram;
     m_isDisposed = false;
-    m_mutex.unlock();
 }
 
 void BaseLogger::RemoveStream(const string &key)
 {
-    m_mutex.lock();
+    boost::lock_guard<boost::mutex> guard(m_mutex);
     auto itr = m_streamList.find(key);
     if (itr != m_streamList.end()) {
         // deleting, otherwise caller will not be able to delete it
@@ -84,7 +82,6 @@ void BaseLogger::RemoveStream(const string &key)
     if (m_streamList.size() == 0) {
         m_isDisposed = true;
     }
-    m_mutex.unlock();
 }
 
 void BaseLogger::Debug(const string&& prefix, const string&& message)
@@ -153,7 +150,7 @@ void BaseLogger::Error(const string&& prefix, const string& message)
 
 void BaseLogger::Write(const string&& message)
 {
-    m_mutex.lock();
+    boost::lock_guard<boost::mutex> guard(m_mutex);
     try {
         if (!m_isDisposed) {
             for (auto& stream : m_streamList) {
@@ -162,12 +159,11 @@ void BaseLogger::Write(const string&& message)
         }
     } catch (...) {
     }
-    m_mutex.unlock();
 }
 
 void BaseLogger::Write(const string& message)
 {
-    m_mutex.lock();
+    boost::lock_guard<boost::mutex> guard(m_mutex);
     try {
         if (!m_isDisposed) {
             for (auto& stream : m_streamList) {
@@ -176,7 +172,6 @@ void BaseLogger::Write(const string& message)
         }
     } catch (...) {
     }
-    m_mutex.unlock();
 }
 
 int BaseLogger::GetLogLevel()

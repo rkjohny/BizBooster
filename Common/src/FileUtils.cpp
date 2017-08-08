@@ -16,26 +16,26 @@
 
 namespace Common {
 
-void FileUtils::SplitPath(vector< string >& listPath, const string& absulateFileName)
+void FileUtils::SplitPath(std::vector< std::string >& listPath, const std::string& absulateFileName)
 {
     StringUtils::Tokenize(listPath, absulateFileName, PATH_SEPARATOR);
 }
 
-string FileUtils::GetNameWithoutType(const string& absulateFileName)
+std::string FileUtils::GetName(const std::string& absulateFileName)
 {
-    string file = "";
-    auto listPath = std::vector< string >();
+    std::string file = "";
+    std::vector< std::string > listPath;
 
     StringUtils::Tokenize(listPath, absulateFileName, PATH_SEPARATOR);
     if (listPath.size() > 0) {
         file = listPath[ listPath.size() - 1 ];
     }
 
-    listPath.clear();
-    StringUtils::Tokenize(listPath, file, FILE_TYPE_SEPERATOR);
-
 #if 0
     //eliminating extension
+    listPath.clear();
+    StringUtils::Tokenize(listPath, file, FILE_TYPE_SEPERATOR);
+    
     int ln = listPath.size();
     if (ln > 1) {
         file = "";

@@ -25,50 +25,50 @@ std::map<std::string, LoggerFactory::Logger*> LoggerFactory::cm_loggersList;
 
 void LoggerFactory::Logger::Debug(const char *fname, int line, const string &&message)
 {
-    BaseLogger::Debug(Common::FileUtils::GetNameWithoutType(fname) + ":" +
+    BaseLogger::Debug(Common::FileUtils::GetName(fname) + ":" +
             Common::Converter::ToStr(line), std::move(message));
 }
 
 void LoggerFactory::Logger::Info(const char *fname, int line, const string &&message)
 {
-    BaseLogger::Info(Common::FileUtils::GetNameWithoutType(fname) + ":" +
+    BaseLogger::Info(Common::FileUtils::GetName(fname) + ":" +
             Common::Converter::ToStr(line), std::move(message));
 }
 
 void LoggerFactory::Logger::Warning(const char *fname, int line, const string &&message)
 {
-    BaseLogger::Warning(Common::FileUtils::GetNameWithoutType(fname) + ":" +
+    BaseLogger::Warning(Common::FileUtils::GetName(fname) + ":" +
             Common::Converter::ToStr(line), std::move(message));
 }
 
 void LoggerFactory::Logger::Error(const char *fname, int line, const string &&message)
 {
-    BaseLogger::Error(Common::FileUtils::GetNameWithoutType(fname) + ":" +
+    BaseLogger::Error(Common::FileUtils::GetName(fname) + ":" +
             Common::Converter::ToStr(line), std::move(message));
 }
 
 
 void LoggerFactory::Logger::Debug(const char *fname, int line, const string &message)
 {
-    BaseLogger::Debug(Common::FileUtils::GetNameWithoutType(fname) + ":" +
+    BaseLogger::Debug(Common::FileUtils::GetName(fname) + ":" +
             Common::Converter::ToStr(line), message);
 }
 
 void LoggerFactory::Logger::Info(const char *fname, int line, const string &message)
 {
-    BaseLogger::Info(Common::FileUtils::GetNameWithoutType(fname) + ":" +
+    BaseLogger::Info(Common::FileUtils::GetName(fname) + ":" +
             Common::Converter::ToStr(line), message);
 }
 
 void LoggerFactory::Logger::Warning(const char *fname, int line, const string &message)
 {
-    BaseLogger::Warning(Common::FileUtils::GetNameWithoutType(fname) + ":" +
+    BaseLogger::Warning(Common::FileUtils::GetName(fname) + ":" +
             Common::Converter::ToStr(line), message);
 }
 
 void LoggerFactory::Logger::Error(const char *fname, int line, const string &message)
 {
-    BaseLogger::Error(Common::FileUtils::GetNameWithoutType(fname) + ":" +
+    BaseLogger::Error(Common::FileUtils::GetName(fname) + ":" +
             Common::Converter::ToStr(line), message);
 }
 
@@ -83,7 +83,7 @@ void LoggerFactory::Logger::Debug(const char *fname, int line, const char *forma
     
     va_end(argptr);
 
-    BaseLogger::Debug(Common::FileUtils::GetNameWithoutType(fname) + ":" +
+    BaseLogger::Debug(Common::FileUtils::GetName(fname) + ":" +
             Common::Converter::ToStr(line), dest);
 }
 
@@ -98,7 +98,7 @@ void LoggerFactory::Logger::Info(const char *fname, int line, const char *format
     
     va_end(argptr);
 
-    BaseLogger::Info(Common::FileUtils::GetNameWithoutType(fname) + ":" +
+    BaseLogger::Info(Common::FileUtils::GetName(fname) + ":" +
             Common::Converter::ToStr(line), dest);
 }
 
@@ -113,7 +113,7 @@ void LoggerFactory::Logger::Warning(const char *fname, int line, const char *for
 
     va_end(argptr);
 
-    BaseLogger::Warning(Common::FileUtils::GetNameWithoutType(fname) + ":" +
+    BaseLogger::Warning(Common::FileUtils::GetName(fname) + ":" +
             Common::Converter::ToStr(line), dest);
 }
 
@@ -128,7 +128,7 @@ void LoggerFactory::Logger::Error(const char *fname, int line, const char *forma
     
     va_end(argptr);
 
-    BaseLogger::Error(Common::FileUtils::GetNameWithoutType(fname) + ":" +
+    BaseLogger::Error(Common::FileUtils::GetName(fname) + ":" +
             Common::Converter::ToStr(line), dest);
 }
 

@@ -56,4 +56,6 @@ target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_COMMON})
 target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_CPP_REST})
 
 # link goole test and pthread
+target_link_libraries(${PROJECT_NAME} ${GTEST_LIBRARIES} boost_thread)
+target_link_libraries(${PROJECT_NAME} ${GTEST_LIBRARIES} boost_system)
 target_link_libraries(${PROJECT_NAME} ${GTEST_LIBRARIES} pthread)

@@ -42,6 +42,6 @@ else ()
     file(GLOB LIB_MOCXYGEN_HEADERS ${LIB_MOCXYGEN_INCLUDE_DIR}/*.h)
     file(GLOB LIB_MOCXYGEN_SOURCES ${PROJECT_SOURCE_DIR}/*.cpp)
 
-    #creating target libJson
+    #creating target libmocxygen
     add_library(${PROJECT_NAME} STATIC ${LIB_MOCXYGEN_SOURCES} ${LIB_MOCXYGEN_HEADERS})
 endif ()

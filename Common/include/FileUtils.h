@@ -19,15 +19,13 @@
 #include "AppCommonDef.h"
 
 namespace Common {
-    using namespace std;
-
     class FileUtils {
     private:
         MAKE_STATIC(FileUtils);
 
     public:
-        static void SplitPath(vector< string >& listName, const string& absulateFileName);
-        static string GetNameWithoutType(const string &absulateFileName);
+        static void SplitPath(std::vector< std::string >& listName, const std::string& absulateFileName);
+        static std::string GetName(const std::string &absulateFileName);
     };
 
 } /* namespace Common */

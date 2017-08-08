@@ -14,8 +14,8 @@
 #ifndef SINGLE_TON_H
 #define SINGLE_TON_H
 
-#include <mutex>
 #include "Disposable.h"
+#include "boost/thread.hpp"
 
 namespace Common {
 
@@ -28,15 +28,18 @@ protected:
     SingleTon() = default;
     virtual ~SingleTon() = default;
     
-    static std::mutex m_mutex;
+    static boost::once_flag m_onceFlag;
     
-public:
-    static T* GetInstance() {
-        m_mutex.lock();
+    static void Init() noexcept {
+        // no need to use mutex
         if (!m_instance) {
             m_instance = new T();
         }
-        m_mutex.unlock();
+    }
+    
+public:
+    static T* GetInstance() {
+        boost::call_once(Init, m_onceFlag);
         return m_instance;
     }    
 };
@@ -45,7 +48,7 @@ template<class T>
 T* SingleTon<T>::m_instance = nullptr;
 
 template<class T>
-std::mutex SingleTon<T>::m_mutex;
+boost::once_flag SingleTon<T>::m_onceFlag = BOOST_ONCE_INIT;
 
 }
 #endif /* SINGLE_TON_H */

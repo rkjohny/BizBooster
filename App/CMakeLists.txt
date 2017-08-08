@@ -93,7 +93,10 @@ else ()
     target_link_libraries(${PROJECT_NAME} PUBLIC z)
     target_link_libraries(${PROJECT_NAME} PUBLIC dl)
 
+    target_link_libraries(${PROJECT_NAME} PUBLIC boost_thread)
+    target_link_libraries(${PROJECT_NAME} PUBLIC boost_system)
     target_link_libraries(${PROJECT_NAME} PUBLIC pthread)
+
 
     configure_file(bizbooster.properties ${EXECUTABLE_OUTPUT_PATH}/ COPYONLY UNIX)
     configure_file(wt_config.xml ${EXECUTABLE_OUTPUT_PATH}/ COPYONLY UNIX)

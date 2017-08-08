@@ -13,134 +13,121 @@
 #include "AppSessionManager.h"
 #include "CruxdbDef.h"
 
-
 namespace Mocxygen {
 
-std::mutex AppSessionManager::m_mutex;
-std::map<std::string, std::shared_ptr<AppSession>> AppSessionManager::m_sessions;
-volatile bool AppSessionManager::m_started = false;
-AppSessionManager::Thread AppSessionManager::m_thread(&AppSessionManager::Cleanup);
+std::map<std::string, std::shared_ptr<AppSession>> AppSessionManager::cm_sessions;
+boost::mutex AppSessionManager::cm_mutex;
+boost::atomic<bool> AppSessionManager::cm_started(true);
+boost::thread AppSessionManager::cm_thread(&AppSessionManager::Cleanup);
 
 bool AppSessionManager::IsValidToken(const std::string &token)
 {
     bool ret = false;
+    
+    boost::lock_guard<boost::mutex> guard(cm_mutex);
 
-    m_mutex.lock();
-    auto itr = m_sessions.find(token);
-    if (itr != m_sessions.end()) {
+    auto itr = cm_sessions.find(token);
+    if (itr != cm_sessions.end()) {
         ret = !itr->second->IsExpired();
     }
-    m_mutex.unlock();
-
     return ret;
 }
 
 void AppSessionManager::AddSession(const std::string &token, Wt::Dbo::ptr<Cruxdb::User> &user)
 {
     bool is_pinned = false;
-
-    m_mutex.lock();
+    
+    boost::lock_guard<boost::mutex> guard(cm_mutex);
 
     auto session = std::shared_ptr<AppSession>(new AppSession());
     session->SetUser(user);
 
-    auto itr = m_sessions.find(token);
-    if (itr != m_sessions.end()) {
+    auto itr = cm_sessions.find(token);
+    if (itr != cm_sessions.end()) {
         //delete itr->second;
         is_pinned = itr->second->IsPinned();
         if (!is_pinned) {
-            m_sessions.erase(itr);
+            cm_sessions.erase(itr);
         }
     }
     if (!is_pinned) {
-        m_sessions[token] = session;
+        cm_sessions[token] = session;
     }
-
-    m_mutex.unlock();
 }
 
 void AppSessionManager::AddSession(const std::string &token, Wt::Dbo::ptr<Cruxdb::User> &user, uint64_t expiresMsc)
 {
     bool is_pinned = false;
-    
-    m_mutex.lock();
-
     auto session = std::shared_ptr<AppSession>(new AppSession());
     session->SetUser(user);
     session->ResetExpiration(expiresMsc);
+    
+    boost::lock_guard<boost::mutex> guard(cm_mutex);
 
-    auto itr = m_sessions.find(token);
-    if (itr != m_sessions.end()) {
-        //delete itr->second;
+    auto itr = cm_sessions.find(token);
+    if (itr != cm_sessions.end()) {
         is_pinned = itr->second->IsPinned();
         if (!is_pinned) {
-            m_sessions.erase(itr);
+            cm_sessions.erase(itr);
         }
     }
     if (!is_pinned) {
-        m_sessions[token] = session;
+        cm_sessions[token] = session;
     }
-
-    m_mutex.unlock();
 }
 
 bool AppSessionManager::ResetExpiration(const std::string &token, uint64_t msec)
 {
     bool ret = false;
 
-    m_mutex.lock();
-    auto itr = m_sessions.find(token);
-    if (itr != m_sessions.end()) {
+    boost::lock_guard<boost::mutex> guard(cm_mutex);
+
+    auto itr = cm_sessions.find(token);
+    if (itr != cm_sessions.end()) {
         itr->second->ResetExpiration(msec);
         ret = true;
     }
-    m_mutex.unlock();
-
     return ret;
 }
 
 bool AppSessionManager::ResetExpiration(const std::string &token)
 {
     bool ret = false;
-
-    m_mutex.lock();
-    auto itr = m_sessions.find(token);
-    if (itr != m_sessions.end()) {
+    
+    boost::lock_guard<boost::mutex> guard(cm_mutex);
+    
+    auto itr = cm_sessions.find(token);
+    if (itr != cm_sessions.end()) {
         itr->second->ResetExpiration(DEFAULT_SESSION_TIME_OUT_IN_MSC);
         ret = true;
     }
-    m_mutex.unlock();
-
-    return ret;
+   return ret;
 }
 
 bool AppSessionManager::SetPinned(const std::string &token, volatile bool pinned)
 {
     bool ret = false;
 
-    m_mutex.lock();
-    auto itr = m_sessions.find(token);
-    if (itr != m_sessions.end()) {
+    boost::lock_guard<boost::mutex> guard(cm_mutex);
+    
+    auto itr = cm_sessions.find(token);
+    if (itr != cm_sessions.end()) {
         itr->second->SetPinned(pinned);
         ret = true;
     }
-    m_mutex.unlock();
-
     return ret;
 }
 
 std::weak_ptr<AppSession> AppSessionManager::GetSession(const std::string &token)
 {
     std::weak_ptr<AppSession> session;
+        
+    boost::lock_guard<boost::mutex> guard(cm_mutex);
     
-    m_mutex.lock();
-    auto itr = m_sessions.find(token);
-    if (itr != m_sessions.end()) {
-        //itr->second->SetPinned(true);
+    auto itr = cm_sessions.find(token);
+    if (itr != cm_sessions.end()) {
         session = itr->second;
     }
-    m_mutex.unlock();
-    
     return session;
 }
 
@@ -148,59 +135,50 @@ std::weak_ptr<Cruxdb::AuthenticatedRequester> AppSessionManager::GetRequetser(co
 {
     std::weak_ptr<Cruxdb::AuthenticatedRequester> requester;
 
-    m_mutex.lock();
-    auto itr = m_sessions.find(token);
-    if (itr != m_sessions.end()) {
-        //itr->second->SetPinned(true);
+    boost::lock_guard<boost::mutex> guard(cm_mutex);
+    
+    auto itr = cm_sessions.find(token);
+    if (itr != cm_sessions.end()) {
         requester = itr->second->GetRequester();
     }
-    m_mutex.unlock();
-
     return requester;
 }
 
 void AppSessionManager::Cleanup()
 {
-    m_started = true;
-
-    while (m_started) {
-        m_mutex.lock();
-        try {
-            while (m_started) {
-                auto itr = m_sessions.begin();
-                for (; itr != m_sessions.end(); ++itr) {
-                    if (!itr->second->IsPinned()) {
-                        if (itr->second->IsExpired()) {
-                            break;
+    while (cm_started) {
+        {
+            boost::lock_guard<boost::mutex> guard(cm_mutex);
+            try {
+                while (cm_started) {
+                    auto itr = cm_sessions.begin();
+                    for (; itr != cm_sessions.end(); ++itr) {
+                        if (!itr->second->IsPinned()) {
+                            if (itr->second->IsExpired()) {
+                                break;
+                            }
                         }
                     }
+                    if (itr != cm_sessions.end()) {
+                        cm_sessions.erase(itr);
+                    } else {
+                        break;
+                    }
                 }
-                if (itr != m_sessions.end()) {
-                    //delete itr->second;
-                    m_sessions.erase(itr);
-                } else {
-                    break;
-                }
+            } catch (...) {
             }
-        } catch (...) {
         }
-        m_mutex.unlock();
-
-        sleep(MAX_SESSION_MANAGER_THREAD_SLEEP_IN_SEC);
-    }
-}
-
-void AppSessionManager::StartCleanUpThread()
-{
-    if (!m_started) {
-        m_thread.Start();
+        if (cm_started) {
+            const boost::chrono::nanoseconds ns(static_cast<uint64_t>(MAX_SESSION_MANAGER_THREAD_SLEEP_IN_SEC) * 1000 * 1000 * 1000);
+            boost::this_thread::sleep_for(ns);
+        }
     }
 }
 
 void AppSessionManager::StopCleanUpThread()
 {
-    m_started = false;
-    m_thread.Join();
+    cm_started = false;
+    cm_thread.join();
 }
 
 }

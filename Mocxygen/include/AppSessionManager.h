@@ -14,10 +14,9 @@
 #define SESSION_MANAGER_H
 
 #include "AppSession.h"
-#include "Thread.h"
 #include "AppSession.h"
-#include <mutex>
 #include <memory>
+#include "boost/thread.hpp"
 
 namespace Mocxygen {
 
@@ -25,9 +24,7 @@ class AppSessionManager {
 private:
     MAKE_STATIC(AppSessionManager);
     
-public:
-    using Thread = Common::Thread<void>;
-    
+public:    
     static void AddSession(const std::string &token, Wt::Dbo::ptr<Cruxdb::User> &user);
     
     static void AddSession(const std::string &token, Wt::Dbo::ptr<Cruxdb::User> &user, uint64_t expiresMsc);
@@ -43,17 +40,14 @@ public:
     static std::weak_ptr<AppSession> GetSession(const std::string &token);
     
     static std::weak_ptr<Cruxdb::AuthenticatedRequester> GetRequetser(const std::string &token);
-    
-    static void StartCleanUpThread();
-    
+        
     static void StopCleanUpThread();
     
 private:
-    static std::mutex m_mutex;
-    static std::map<std::string, std::shared_ptr<AppSession>> m_sessions;
-    
-    static volatile bool m_started;
-    static AppSessionManager::Thread m_thread;
+    static std::map<std::string, std::shared_ptr<AppSession>> cm_sessions;
+    static boost::mutex cm_mutex;    
+    static boost::atomic<bool> cm_started;
+    static boost::thread cm_thread;
     
     static void Cleanup();
     

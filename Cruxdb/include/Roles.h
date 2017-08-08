@@ -38,10 +38,8 @@ struct RoleStr
 class RoleUtils {
 private:
     MAKE_STATIC(RoleUtils);
-
-    static Role ToRole(const std::string &&role);
     
-    static Role ToRole(const std::string &role) noexcept(false);
+    static Role ToRole(std::string &role) noexcept(false);
 
 public:
 

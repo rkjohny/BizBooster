@@ -12,10 +12,10 @@
 namespace Cmarshal {
     namespace Json {
 
-        mutex SOFactory::cm_mutex;
+        boost::mutex SOFactory::cm_mutex;
         SOFactory::ListCreators SOFactory::cm_objectCreators;
 
-        mutex SOFactory::cm_mutexArr;
+        boost::mutex SOFactory::cm_mutexArr;
         SOFactory::ListCreatorsArr SOFactory::cm_objectArrayCreators;
 
 

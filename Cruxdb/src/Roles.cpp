@@ -16,20 +16,20 @@
 
 namespace Cruxdb {
 
-Role RoleUtils::ToRole(const std::string &role) noexcept(false)
+Role RoleUtils::ToRole(std::string &role) noexcept(false)
 {
-    auto newrole = Common::StringUtils::Trim(role);
+    Common::StringUtils::Trim(role);
 
-    if (newrole.compare(RoleStr::ROLE_CREATE_SUPER_USER) == 0) {
+    if (role.compare(RoleStr::ROLE_CREATE_SUPER_USER) == 0) {
         return Role::ROLE_CREATE_SUPER_USER;
     }
-    if (newrole.compare(RoleStr::ROLE_INTERNAL_ROOT_USER) == 0) {
+    if (role.compare(RoleStr::ROLE_INTERNAL_ROOT_USER) == 0) {
         return Role::ROLE_INTERNAL_ROOT_USER;
     }
-    if (newrole.compare(RoleStr::ROLE_PROJECT_MANAGER) == 0) {
+    if (role.compare(RoleStr::ROLE_PROJECT_MANAGER) == 0) {
         return Role::ROLE_PROJECT_MANAGER;
     }
-    if (newrole.compare(RoleStr::ROLE_SYSTEM_ADMIN) == 0) {
+    if (role.compare(RoleStr::ROLE_SYSTEM_ADMIN) == 0) {
         return Role::ROLE_SYSTEM_ADMIN;
     }
 

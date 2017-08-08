@@ -13,20 +13,19 @@
 #ifndef LOGFIG_OUTPUT_STREAM_H
 #define LOGFIG_OUTPUT_STREAM_H
 
-#include <mutex>
 #include <string>
 #include "AppCommonDef.h"
+#include "boost/thread.hpp"
 
 namespace Logfig {
-    using namespace std;
-
+    
     class OStream {
     private:
         NON_COPY_NON_MOVE_ABLE(OStream);
         
     protected:
         bool m_is_open;
-        mutex m_mutex;
+        boost::mutex m_mutex;
 
     public:
         OStream();
@@ -35,8 +34,8 @@ namespace Logfig {
         virtual void Open() = 0;
         virtual void Flush() = 0;
 
-        virtual void Write(const string&& message) = 0;
-        virtual void Write(const string& message) = 0;
+        virtual void Write(const std::string&& message) = 0;
+        virtual void Write(const std::string& message) = 0;
         virtual void Close() = 0;
     };
 

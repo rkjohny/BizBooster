@@ -31,7 +31,7 @@ OFStream::~OFStream()
 
 void OFStream::SetFile(const string &filename)
 {
-    m_mutex.lock();
+    boost::lock_guard<boost::mutex> guard(m_mutex);
     try {
         if (m_is_open) {
             m_is_open = false;
@@ -43,12 +43,11 @@ void OFStream::SetFile(const string &filename)
         m_is_open = m_ofs.is_open();
     } catch (...) {
     }
-    m_mutex.unlock();
 }
 
 void OFStream::Open()
 {
-    m_mutex.lock();
+    boost::lock_guard<boost::mutex> guard(m_mutex);
     if (!m_is_open) {
         try {
             m_ofs.open(m_fileName, ios_base::app);
@@ -56,24 +55,22 @@ void OFStream::Open()
         } catch (...) {
         }
     }
-    m_mutex.unlock();
 }
 
 void OFStream::Flush()
 {
-    m_mutex.lock();
+    boost::lock_guard<boost::mutex> guard(m_mutex);
     if (m_is_open) {
         try {
             m_ofs.flush();
         } catch (...) {
         }
     }
-    m_mutex.unlock();
 }
 
 void OFStream::Write(const string&& message)
 {
-    m_mutex.lock();
+    boost::lock_guard<boost::mutex> guard(m_mutex);
     if (m_is_open) {
         try {
             // endl will flush stream
@@ -82,12 +79,11 @@ void OFStream::Write(const string&& message)
         } catch (...) {
         }
     }
-    m_mutex.unlock();
 }
 
 void OFStream::Write(const string& message)
 {
-    m_mutex.lock();
+    boost::lock_guard<boost::mutex> guard(m_mutex);
     if (m_is_open) {
         try {
             // endl will flush stream
@@ -96,12 +92,11 @@ void OFStream::Write(const string& message)
         } catch (...) {
         }
     }
-    m_mutex.unlock();
 }
 
 void OFStream::Close()
 {
-    m_mutex.lock();
+    boost::lock_guard<boost::mutex> guard(m_mutex);
     if (m_is_open) {
         try {
             m_is_open = false;
@@ -110,6 +105,5 @@ void OFStream::Close()
         } catch (...) {
         }
     }
-    m_mutex.unlock();
 }
 } /* namespace Common */

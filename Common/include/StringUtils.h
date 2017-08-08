@@ -14,41 +14,41 @@
 #define STRING_UTILS_H
 
 #include <vector>
-#include <mutex>
 #include <sstream>
 #include <string>
 
 #include "AppCommonDef.h"
 
 namespace Common {
-    using namespace std;
-
+    
     class StringUtils {
     private:
         MAKE_STATIC(StringUtils);
 
-        static string cm_newLineStr;
-        static string cm_tabStr;
+        static std::string cm_newLineStr;
+        static std::string cm_tabStr;
 
         class Initializer {
         public:
             Initializer();
         private:
-            ostringstream m_ss;
+            std::ostringstream m_ss;
         };
 
         static Initializer cm_initializer;
 
     public:
-        static string Trim(const string& str);
+        static void Trim(std::string& str);
 
-        static void Tokenize(vector< string >& v, const string& str, const string& token, int n = 0);
+        static void Tokenize(std::vector< std::string >& v, const std::string& str, const std::string& token);
 
-        static string GetNewLineStr();
+        static std::string GetNewLineStr();
 
-        static string GetTabLineStr();
+        static std::string GetTabLineStr();
 
-        static void ToLower(string& str);
+        static void ToLower(std::string& str);
+        
+        static void ToUpper(std::string& str);
 
         static int Compare(const std::string &first, const std::string &second, bool ignore_case = false);
     };

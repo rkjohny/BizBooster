@@ -16,10 +16,11 @@
 #include "StringUtils.h"
 #include <string>
 #include <map>
-#include <mutex>
 #include <vector>
 #include "AbstractSerializable.h"
 #include <memory>
+#include "boost/thread.hpp"
+
 
 namespace  Cmarshal {
     namespace Json {
@@ -113,10 +114,10 @@ namespace  Cmarshal {
                 return v;
             }
 
-            static mutex cm_mutex;
+            static boost::mutex cm_mutex;
             static ListCreators cm_objectCreators;
 
-            static mutex cm_mutexArr;
+            static boost::mutex cm_mutexArr;
             static ListCreatorsArr cm_objectArrayCreators;
         };
 

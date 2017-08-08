@@ -15,7 +15,7 @@
 
 #include <openssl/ossl_typ.h>
 #include "OsslRandGenerator.h"
-#include <mutex>
+#include "boost/thread.hpp"
 
 namespace Cipher {
 
@@ -40,9 +40,9 @@ protected:
 
     // These point to the same engine. One is used for ENGINE_finish, and
     // the other is used for ENGINE_free.
-    static ENGINE *engFoundById;
-    static ENGINE *engInitialized;
-    static std::mutex m_mutex;
+    static ENGINE *cm_engFoundById;
+    static ENGINE *cm_engInitialized;
+    static boost::mutex cm_mutex;
 };
 
 }

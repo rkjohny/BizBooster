@@ -34,9 +34,9 @@ extern void OPENSSL_cpuid_setup(void);
 
 namespace Cipher {
 
-ENGINE* OsslHwRandGenerator::engFoundById = nullptr;
-ENGINE* OsslHwRandGenerator::engInitialized = nullptr;
-std::mutex OsslHwRandGenerator::m_mutex;
+ENGINE* OsslHwRandGenerator::cm_engFoundById = nullptr;
+ENGINE* OsslHwRandGenerator::cm_engInitialized = nullptr;
+boost::mutex OsslHwRandGenerator::cm_mutex;
 
 OsslHwRandGenerator::OsslHwRandGenerator()
 {
@@ -73,17 +73,17 @@ bool OsslHwRandGenerator::Initialize()
 
         /* Load the engine of interest */
         ENGINE_load_rdrand();
-        engFoundById = ENGINE_by_id("rdrand");
+        cm_engFoundById = ENGINE_by_id("rdrand");
         err = ERR_get_error();
 
-        if (NULL == engFoundById) {
+        if (NULL == cm_engFoundById) {
             FLOG_ERROR("ENGINE_load_rdrand failed, err = 0x%lx", err);
             break; /* failed */
         }
 
         // Make the assignment for proper cleanup (ENGINE_by_id needs one
         // cleanup, ENGINE_init needs a second distinct cleanup).
-        rc = ENGINE_init((engInitialized = engFoundById));
+        rc = ENGINE_init((cm_engInitialized = cm_engFoundById));
         err = ERR_get_error();
 
         if (0 == rc) {
@@ -92,7 +92,7 @@ bool OsslHwRandGenerator::Initialize()
         }
 
         /* Set the default RAND_method */
-        rc = ENGINE_set_default(engInitialized, ENGINE_METHOD_RAND);
+        rc = ENGINE_set_default(cm_engInitialized, ENGINE_METHOD_RAND);
         err = ERR_get_error();
 
         if (1 != rc) {
@@ -135,9 +135,8 @@ bool OsslHwRandGenerator::DoGetRandomBytes(uint8_t *buffer, int length)
 bool OsslHwRandGenerator::GetRandomBytes(std::vector<uint8_t> &bytes, int length)
 {
     uint8_t *buffer = new uint8_t[length/2];
-
-    m_mutex.lock();
     
+    boost::lock_guard<boost::mutex> guard(cm_mutex);
     bool ret = Initialize();
     if (ret) {
         ret = DoGetRandomBytes(buffer, length/2);
@@ -150,8 +149,6 @@ bool OsslHwRandGenerator::GetRandomBytes(std::vector<uint8_t> &bytes, int length
     }
     Dispose();
     
-    m_mutex.unlock();
-    
     delete buffer;
     return ret;
 }
@@ -160,8 +157,7 @@ bool OsslHwRandGenerator::GetRandomBytes(std::string &bytes, int length)
 {
     uint8_t *buffer = new uint8_t[length/2];
 
-    m_mutex.lock();
-    
+    boost::lock_guard<boost::mutex> guard(cm_mutex);
     bool ret = Initialize();
     if (ret) {
         ret = DoGetRandomBytes(buffer, length/2);
@@ -173,24 +169,22 @@ bool OsslHwRandGenerator::GetRandomBytes(std::string &bytes, int length)
         }
     }
     Dispose();
-    
-    m_mutex.unlock();
-    
+        
     delete buffer;
     return ret;
 }
 
 void OsslHwRandGenerator::Dispose()
 {
-    if (engInitialized)
-        ENGINE_finish(engInitialized);
+    if (cm_engInitialized)
+        ENGINE_finish(cm_engInitialized);
 
-    engInitialized = nullptr;
+    cm_engInitialized = nullptr;
 
-    if (engFoundById)
-        ENGINE_free(engFoundById);
+    if (cm_engFoundById)
+        ENGINE_free(cm_engFoundById);
 
-    engFoundById = nullptr;
+    cm_engFoundById = nullptr;
 
     ENGINE_cleanup();
     
