@@ -16,7 +16,7 @@
 #include "LoggerFactory.h"
 #include "ApiUtils.h"
 
-using namespace Pantoon;
+namespace Pantoon {
 
 void RequestHandler::HandleGetRequest(web::http::http_request& request)
 {
@@ -66,5 +66,7 @@ void RequestHandler::HandlePostRequest(web::http::http_request& request)
 
 void RequestHandler::HandleDeleteRequest(web::http::http_request& request)
 {
+
+}
 
 }

@@ -31,11 +31,11 @@ namespace Mocxygen {
         }
     }
 
-    string LoggedinOutput::Name() const {
+    std::string LoggedinOutput::Name() const {
         return "LoggedInOutput";
     }
 
-    string LoggedinOutput::ToString() const  {
+    std::string LoggedinOutput::ToString() const  {
         return "LoggedInOutput";
     }
 }

@@ -42,7 +42,7 @@ ConfigReader* CFReaderFactory::CreateConfigReader(const std::string &key, ConFig
             break;
 
         case XML_FILE:
-            throw runtime_error("Support of ConFigFileType::XML_FILE not implemented");
+            throw std::runtime_error("Support of ConFigFileType::XML_FILE not implemented");
         }
         cm_configReaderList[key] = reader;
     }
@@ -71,7 +71,7 @@ bool CFReaderFactory::DisposeConfigReader(const std::string &key) noexcept(false
         if (itr->second->GetType() == ConFigFileType::PROPERTY_FILE) {
             delete dynamic_cast<PropertyReader*> (itr->second);
         } else {
-            throw runtime_error("Could not delete, ConFigFileType::XML_FILE not implemented");
+            throw std::runtime_error("Could not delete, ConFigFileType::XML_FILE not implemented");
         }
         return true;
     }
@@ -87,7 +87,7 @@ void CFReaderFactory::DisposeConfigReader() noexcept(false)
         if (reader.second->GetType() == ConFigFileType::PROPERTY_FILE) {
             delete dynamic_cast<PropertyReader*> (reader.second);
         } else {
-            throw runtime_error("Could not delete, ConFigFileType::XML_FILE not implemented");
+            throw std::runtime_error("Could not delete, ConFigFileType::XML_FILE not implemented");
         }
     }
     cm_configReaderList.clear();

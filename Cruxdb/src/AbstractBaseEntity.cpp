@@ -12,7 +12,7 @@
 
 #include "AbstractBaseEntity.h"
 
-using namespace Cruxdb;
+namespace Cruxdb {
 
 long AbstractBaseEntity::GetId() const {
     return m_id;
@@ -32,3 +32,4 @@ void AbstractBaseEntity::SetVersion(int v)
     m_version = v;
 }
 
+}

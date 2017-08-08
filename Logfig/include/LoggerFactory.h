@@ -69,16 +69,16 @@ public:
         NON_COPY_NON_MOVE_ABLE(Logger);
         
     public:
-        void Debug(const char *fname, int line, const string &&message);
-        void Info(const char *fname, int line, const string &&message);
-        void Warning(const char *fname, int line, const string &&message);
-        void Error(const char *fname, int line, const string &&message);
+        void Debug(const char *fname, int line, const std::string &&message);
+        void Info(const char *fname, int line, const std::string &&message);
+        void Warning(const char *fname, int line, const std::string &&message);
+        void Error(const char *fname, int line, const std::string &&message);
         
         
-        void Debug(const char *fname, int line, const string &message);
-        void Info(const char *fname, int line, const string &message);
-        void Warning(const char *fname, int line, const string &message);
-        void Error(const char *fname, int line, const string &message);
+        void Debug(const char *fname, int line, const std::string &message);
+        void Info(const char *fname, int line, const std::string &message);
+        void Warning(const char *fname, int line, const std::string &message);
+        void Error(const char *fname, int line, const std::string &message);
         
 
         void Debug(const char *fname, int line, const char *format, ...);

@@ -62,12 +62,12 @@ void LoginOutput::SetSessionExpires(const boost::optional<uint64_t> &sessionExpi
     m_sessionExpiresMsc = sessionExpiresMsc;
 }
 
-const boost::optional<string> & LoginOutput::GetSessionToken() const
+const boost::optional<std::string> & LoginOutput::GetSessionToken() const
 {
     return  m_sessionToken;
 }
 
-void LoginOutput::SetSessionToken(const boost::optional<string> &sessionToken)
+void LoginOutput::SetSessionToken(const boost::optional<std::string> &sessionToken)
 {
     m_sessionToken = sessionToken;
 }

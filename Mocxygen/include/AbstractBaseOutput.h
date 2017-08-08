@@ -19,17 +19,15 @@
 #include "LibCruxdb.h"
 
 namespace Mocxygen {
-    using namespace Cmarshal::Json;
-
-    class AbstractBaseOutput : public AbstractSerializable {
+    class AbstractBaseOutput : public Cmarshal::Json::AbstractSerializable {
     public:
         AbstractBaseOutput() = default;
 
         virtual ~AbstractBaseOutput() = default;
 
-        virtual string ToString() const = 0;
+        virtual std::string ToString() const = 0;
 
-        virtual string Name() const = 0;
+        virtual std::string Name() const = 0;
 
         void SetError(const ApiError &error);
 

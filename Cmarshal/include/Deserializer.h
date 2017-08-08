@@ -21,20 +21,17 @@
 
 namespace Cmarshal {
     namespace Json {
-        using namespace web;
-
+        
         class Deserializer {
         private:
             MAKE_STATIC(Deserializer);
-
-
 
             /**
              * calls the setter method with type = boost::optional<T>
              */
             template<class T, class B, class ArgT>
             static void
-            SetData(T *object, void (B::*SetterPtr)(const boost::optional<ArgT> &), const json::value &jvalue) {
+            SetData(T *object, void (B::*SetterPtr)(const boost::optional<ArgT> &), const web::json::value &jvalue) {
                 std::cout << "Setdata : void (T::*SetterPtr)(const ArgT)" << std::endl;
 
                 using Type = typename Remove_CVR<ArgT>::Type;
@@ -50,7 +47,7 @@ namespace Cmarshal {
              */
             template<class T, class B, class ArgT>
             static void
-            SetData(T *object, void (B::*SetterPtr)(const Wt::Dbo::ptr<ArgT> &), const json::value &jvalue) {
+            SetData(T *object, void (B::*SetterPtr)(const Wt::Dbo::ptr<ArgT> &), const web::json::value &jvalue) {
                 std::cout << "Setdata : void (T::*SetterPtr)(const ArgT)" << std::endl;
 
                 using Type = typename Remove_CVR<ArgT>::Type;
@@ -64,7 +61,7 @@ namespace Cmarshal {
              * calls the setter method with rvalue reference type argument
              */
             template<class T, class B, class ArgT>
-            static void SetData(T *object, void ( B::*SetterPtr)(ArgT &&), const json::value &jvalue) {
+            static void SetData(T *object, void ( B::*SetterPtr)(ArgT &&), const web::json::value &jvalue) {
                 std::cout << "Setdata : void (T::*SetterPtr)(ArgT&&)" << std::endl;
 
                 using Type = typename Remove_CVR<ArgT>::Type;
@@ -79,7 +76,7 @@ namespace Cmarshal {
              * calls the setter method with rvalue reference type argument
              */
             template<class T, class B, class ArgT>
-            static void SetData(T *object, void ( B::*SetterPtr)(const ArgT &&), const json::value &jvalue) {
+            static void SetData(T *object, void ( B::*SetterPtr)(const ArgT &&), const web::json::value &jvalue) {
                 std::cout << "Setdata : void (T::*SetterPtr)(const ArgT&&)" << std::endl;
 
                 using Type = typename Remove_CVR<ArgT>::Type;
@@ -93,7 +90,7 @@ namespace Cmarshal {
              * calls the setter method with value type argument
              */
             template<class T, class B, class ArgT>
-            static void SetData(T *object, void ( B::*SetterPtr)(const ArgT), const json::value &jvalue) {
+            static void SetData(T *object, void ( B::*SetterPtr)(const ArgT), const web::json::value &jvalue) {
                 std::cout << "Setdata : void (T::*SetterPtr)(const ArgT)" << std::endl;
 
                 using Type = typename Remove_CVR<ArgT>::Type;
@@ -107,7 +104,7 @@ namespace Cmarshal {
              * calls the setter method with reference type argument
              */
             template<class T, class B, class ArgT>
-            static void SetData(T *object, void ( B::*SetterPtr)(ArgT &), const json::value &jvalue) {
+            static void SetData(T *object, void ( B::*SetterPtr)(ArgT &), const web::json::value &jvalue) {
                 std::cout << "Setdata : void (T::*SetterPtr)(ArgT&)" << std::endl;
 
                 using Type = typename Remove_CVR<ArgT>::Type;
@@ -121,7 +118,7 @@ namespace Cmarshal {
              * calls the setter method with constant reference type argument
              */
             template<class T, class B, class ArgT>
-            static void SetData(T *object, void ( B::*SetterPtr)(const ArgT &), const json::value &jvalue) {
+            static void SetData(T *object, void ( B::*SetterPtr)(const ArgT &), const web::json::value &jvalue) {
                 std::cout << "Setdata : void (T::*SetterPtr)(const ArgT&)" << std::endl;
 
                 using Type = typename Remove_CVR<ArgT>::Type;
@@ -136,7 +133,7 @@ namespace Cmarshal {
              * No other array type is supported.
              */
             template<class T, class B>
-            static void SetData(T *object, void ( B::*SetterPtr)(char *), const json::value &jvalue) {
+            static void SetData(T *object, void ( B::*SetterPtr)(char *), const web::json::value &jvalue) {
                 std::cout << "Setdata : void (T::*SetterPtr)(ArgT*)" << std::endl;
                 char *var;
                 FromJson(&var, jvalue);
@@ -148,7 +145,7 @@ namespace Cmarshal {
              * No other array type is supported.
              */
             template<class T, class B>
-            static void SetData(T *object, void ( B::*SetterPtr)(const char *), const json::value &jvalue) {
+            static void SetData(T *object, void ( B::*SetterPtr)(const char *), const web::json::value &jvalue) {
                 std::cout << "Setdata : void (T::*SetterPtr)(ArgT*)" << std::endl;
                 char *var;
                 FromJson(&var, jvalue);
@@ -159,7 +156,7 @@ namespace Cmarshal {
              * calls the setter method with pointer type argument
              */
             template<class T, class B, class ArgT>
-            static void SetData(T *object, void ( B::*SetterPtr)(ArgT *), const json::value &jvalue) {
+            static void SetData(T *object, void ( B::*SetterPtr)(ArgT *), const web::json::value &jvalue) {
                 std::cout << "Setdata : void (T::*SetterPtr)(ArgT*)" << std::endl;
 
                 using Type = typename Remove_CVR<ArgT>::Type;
@@ -173,7 +170,7 @@ namespace Cmarshal {
              * calls the setter method with constant pointer type argument
              */
             template<class T, class B, class ArgT>
-            static void SetData(T *object, void ( B::*SetterPtr)(const ArgT *), const json::value &jvalue) {
+            static void SetData(T *object, void ( B::*SetterPtr)(const ArgT *), const web::json::value &jvalue) {
                 std::cout << "Setdata : void (T::*SetterPtr)(const ArgT*)" << std::endl;
 
                 using Type = typename Remove_CVR<ArgT>::Type;
@@ -187,7 +184,7 @@ namespace Cmarshal {
              * calls the setter method with constant pointer type argument
              */
             template<class T, class B, class ArgT>
-            static void SetData(T *object, void ( B::*SetterPtr)(ArgT **), const json::value &jvalue) {
+            static void SetData(T *object, void ( B::*SetterPtr)(ArgT **), const web::json::value &jvalue) {
                 std::cout << "Setdata : void (T::*SetterPtr)(ArgT**)" << std::endl;
 
                 using Type = typename Remove_CVR<ArgT>::Type;
@@ -202,7 +199,7 @@ namespace Cmarshal {
              * TODO: make first level const, i.e const ArgT* const*
              */
             template<class T, class B, class ArgT>
-            static void SetData(T *object, void ( B::*SetterPtr)(const ArgT *const *), const json::value &jvalue) {
+            static void SetData(T *object, void ( B::*SetterPtr)(const ArgT *const *), const web::json::value &jvalue) {
                 std::cout << "Setdata : void (T::*SetterPtr)(const ArgT**)" << std::endl;
 
                 using Type = typename Remove_CVR<ArgT>::Type;
@@ -217,7 +214,7 @@ namespace Cmarshal {
              * call the setter to set the value to the object'c property.
              */
             template<size_t iteration, class T>
-            static void DoDeserialize(T *object, const json::value &jvalue) {
+            static void DoDeserialize(T *object, const web::json::value &jvalue) {
                 using BaseObjectType = typename Remove_CVR<T>::Type;
                 auto setters = BaseObjectType::setters;
                 auto setter = std::get<iteration>(setters);
@@ -250,7 +247,7 @@ namespace Cmarshal {
              */
             template<size_t iteration, class T>
             typename std::enable_if<(iteration > 1), void>::type
-            static Deserialize(T *object, const json::value &jvalue) {
+            static Deserialize(T *object, const web::json::value &jvalue) {
                 DoDeserialize<iteration - 1>(object, jvalue);
 
                 Deserialize<iteration - 1>(object, jvalue);
@@ -261,7 +258,7 @@ namespace Cmarshal {
              */
             template<size_t iteration, class T>
             typename std::enable_if<(iteration == 1), void>::type
-            static Deserialize(T *object, const json::value &jvalue) {
+            static Deserialize(T *object, const web::json::value &jvalue) {
                 DoDeserialize<0>(object, jvalue);
             }
 
@@ -271,7 +268,7 @@ namespace Cmarshal {
              */
             template<size_t iteration, class T>
             typename std::enable_if<(iteration == 0), void>::type
-            static Deserialize(T *, const json::value &) {
+            static Deserialize(T *, const web::json::value &) {
             }
 
         public:
@@ -309,7 +306,7 @@ namespace Cmarshal {
              ********************************************************************************/
             template<class T>
             typename std::enable_if<std::is_enum<T>::value, void>::type
-            static FromJson(T &object, const json::value &jvalue) {
+            static FromJson(T &object, const web::json::value &jvalue) {
                 object = static_cast<T>(jvalue.as_integer());
                 std::cout << "Deserializing object: type = Enum&, value = " << object << std::endl;
             }
@@ -319,7 +316,7 @@ namespace Cmarshal {
              ********************************************************************************/
             template<class T>
             typename std::enable_if<std::is_enum<T>::value, void>::type
-            static FromJson(T *object, const json::value &jvalue) {
+            static FromJson(T *object, const web::json::value &jvalue) {
                 *object = static_cast<T>(jvalue.as_integer());
                 std::cout << "Deserializing object: type = Enum*, value = " << *object << std::endl;
             }
@@ -329,7 +326,7 @@ namespace Cmarshal {
              ********************************************************************************/
             template<class T>
             typename std::enable_if<std::is_enum<T>::value, void>::type
-            static FromJson(T **object, const json::value &jvalue) {
+            static FromJson(T **object, const web::json::value &jvalue) {
                 //*object = static_cast<T>(jvalue.as_integer());
                 *object = new T(static_cast<T>(jvalue.as_integer()));
                 std::cout << "Deserializing object: type = Enum*, value = " << *object << std::endl;
@@ -340,7 +337,7 @@ namespace Cmarshal {
              *********************************************************************************/
             template<class T>
             typename std::enable_if<Is_Bool<T>::Value, void>::type
-            static FromJson(T &object, const json::value &jvalue) {
+            static FromJson(T &object, const web::json::value &jvalue) {
                 object = jvalue.as_bool();
                 std::cout << "Deserializing object: type = Bool&, value = " << object << std::endl;
             }
@@ -351,7 +348,7 @@ namespace Cmarshal {
              *
              * example of usages:
              *
-             *      json::value jvalue = json::value(true);
+             *      web::json::value jvalue = web::json::value(true);
              *
              * example1:
              *      bool bvalue;
@@ -364,7 +361,7 @@ namespace Cmarshal {
              *********************************************************************************/
             template<class T>
             typename std::enable_if<Is_Bool<T>::Value, void>::type
-            static FromJson(T *object, const json::value &jvalue) {
+            static FromJson(T *object, const web::json::value &jvalue) {
                 *object = jvalue.as_bool();
                 std::cout << "Deserializing object: type = Bool*, value = " << *object << std::endl;
             }
@@ -375,7 +372,7 @@ namespace Cmarshal {
              *
              * example of usages:
              *
-             *      json::value jvalue = json::value(true);
+             *      web::json::value jvalue = web::json::value(true);
              *
              * example1:
              *      bool *p = nullptr;
@@ -393,7 +390,7 @@ namespace Cmarshal {
              *********************************************************************************/
             template<class T>
             typename std::enable_if<Is_Bool<T>::Value, void>::type
-            static FromJson(T **object, const json::value &jvalue) {
+            static FromJson(T **object, const web::json::value &jvalue) {
                 *object = new bool(jvalue.as_bool());
                 std::cout << "Deserializing object: type = Bool**, value = " << **object << std::endl;
             }
@@ -403,7 +400,7 @@ namespace Cmarshal {
              *********************************************************************************/
             template<class T>
             typename std::enable_if<Is_Char<T>::Value, void>::type
-            static FromJson(T &object, const json::value &jvalue) {
+            static FromJson(T &object, const web::json::value &jvalue) {
                 object = jvalue.as_integer();
                 std::cout << "Deserializing object: type = char&, value = " << object << std::endl;
             }
@@ -415,7 +412,7 @@ namespace Cmarshal {
              ***********************************************************************************/
             template<class T>
             typename std::enable_if<Is_Char<T>::Value, void>::type
-            static FromJson(T *object, const json::value &jvalue) {
+            static FromJson(T *object, const web::json::value &jvalue) {
                 const utility::string_t &strT = jvalue.as_string();
                 std::string str = utility::conversions::to_utf8string(strT);
                 strcpy(object, str.c_str());
@@ -430,7 +427,7 @@ namespace Cmarshal {
              ***********************************************************************************/
             template<class T>
             typename std::enable_if<Is_Char<T>::Value, void>::type
-            static FromJson(T **object, const json::value &jvalue) {
+            static FromJson(T **object, const web::json::value &jvalue) {
                 const utility::string_t &strT = jvalue.as_string();
                 std::string str = utility::conversions::to_utf8string(strT);
                 *object = new char[str.length() + 1];
@@ -443,7 +440,7 @@ namespace Cmarshal {
              ***********************************************************************************/
             template<class T>
             typename std::enable_if<Is_Int8<T>::Value || Is_Int16<T>::Value || Is_Int32<T>::Value, void>::type
-            static FromJson(T &object, const json::value &jvalue) {
+            static FromJson(T &object, const web::json::value &jvalue) {
                 object = static_cast<T> (jvalue.as_number().to_int32());
                 std::cout << "Deserializing object: type = signed integer32&, value = " << (int32_t) object
                           << std::endl;
@@ -454,7 +451,7 @@ namespace Cmarshal {
              ***********************************************************************************/
             template<class T>
             typename std::enable_if<Is_Int8<T>::Value || Is_Int16<T>::Value || Is_Int32<T>::Value, void>::type
-            static FromJson(T *object, const json::value &jvalue) {
+            static FromJson(T *object, const web::json::value &jvalue) {
                 *object = static_cast<T> (jvalue.as_number().to_int32());
                 std::cout << "Deserializing object: type = signed integer32*, value = " << (int32_t) *object
                           << std::endl;
@@ -465,7 +462,7 @@ namespace Cmarshal {
              ***********************************************************************************/
             template<class T>
             typename std::enable_if<Is_Int8<T>::Value || Is_Int16<T>::Value || Is_Int32<T>::Value, void>::type
-            static FromJson(T **object, const json::value &jvalue) {
+            static FromJson(T **object, const web::json::value &jvalue) {
                 *object = new typename Remove_CVR<T>::Type(static_cast<T> (jvalue.as_number().to_int32()));
                 std::cout << "Deserializing object: type = signed integer32**, value = " << (int32_t) **object
                           << std::endl;
@@ -476,7 +473,7 @@ namespace Cmarshal {
              ***********************************************************************************/
             template<class T>
             typename std::enable_if<Is_UInt8<T>::Value || Is_UInt16<T>::Value || Is_UInt32<T>::Value, void>::type
-            static FromJson(T &object, const json::value &jvalue) {
+            static FromJson(T &object, const web::json::value &jvalue) {
                 object = static_cast<T> (jvalue.as_number().to_uint32());
                 std::cout << "Deserializing object: type = unsigned integer32&, value = " << (uint32_t) object
                           << std::endl;
@@ -487,7 +484,7 @@ namespace Cmarshal {
              ***********************************************************************************/
             template<class T>
             typename std::enable_if<Is_UInt8<T>::Value || Is_UInt16<T>::Value || Is_UInt32<T>::Value, void>::type
-            static FromJson(T *object, const json::value &jvalue) {
+            static FromJson(T *object, const web::json::value &jvalue) {
                 *object = static_cast<T> (jvalue.as_number().to_uint32());
                 std::cout << "Deserializing object: type = unsigned integer32*, value = " << (uint32_t) *object
                           << std::endl;
@@ -498,7 +495,7 @@ namespace Cmarshal {
              ***********************************************************************************/
             template<class T>
             typename std::enable_if<Is_UInt8<T>::Value || Is_UInt16<T>::Value || Is_UInt32<T>::Value, void>::type
-            static FromJson(T **object, const json::value &jvalue) {
+            static FromJson(T **object, const web::json::value &jvalue) {
 
                 *object = new typename Remove_CVR<T>::Type(static_cast<T> (jvalue.as_number().to_uint32()));
                 std::cout << "Deserializing object: type = unsigned integer32**, value = " << (uint32_t) **object
@@ -510,7 +507,7 @@ namespace Cmarshal {
              ***********************************************************************************/
             template<class T>
             typename std::enable_if<Is_Int64<T>::Value, void>::type
-            static FromJson(T &object, const json::value &jvalue) {
+            static FromJson(T &object, const web::json::value &jvalue) {
                 object = jvalue.as_number().to_int64();
                 std::cout << "Deserializing object: type = signed integer64&, value = " << object << std::endl;
             }
@@ -520,7 +517,7 @@ namespace Cmarshal {
              ***********************************************************************************/
             template<class T>
             typename std::enable_if<Is_Int64<T>::Value, void>::type
-            static FromJson(T *object, const json::value &jvalue) {
+            static FromJson(T *object, const web::json::value &jvalue) {
                 *object = jvalue.as_number().to_int64();
                 std::cout << "Deserializing object: type = signed integer64*, value = " << *object << std::endl;
             }
@@ -530,7 +527,7 @@ namespace Cmarshal {
              ***********************************************************************************/
             template<class T>
             typename std::enable_if<Is_Int64<T>::Value, void>::type
-            static FromJson(T **object, const json::value &jvalue) {
+            static FromJson(T **object, const web::json::value &jvalue) {
                 *object = new int64_t(jvalue.as_number().to_int64());
                 std::cout << "Deserializing object: type = signed integer64**, value = " << **object << std::endl;
             }
@@ -540,7 +537,7 @@ namespace Cmarshal {
              ***********************************************************************************/
             template<class T>
             typename std::enable_if<Is_UInt64<T>::Value, void>::type
-            static FromJson(T &object, const json::value &jvalue) {
+            static FromJson(T &object, const web::json::value &jvalue) {
                 object = jvalue.as_number().to_uint64();
                 std::cout << "Deserializing object: type = unsigned integer64&, value = " << object << std::endl;
             }
@@ -550,7 +547,7 @@ namespace Cmarshal {
              ***********************************************************************************/
             template<class T>
             typename std::enable_if<Is_UInt64<T>::Value, void>::type
-            static FromJson(T *object, const json::value &jvalue) {
+            static FromJson(T *object, const web::json::value &jvalue) {
                 *object = jvalue.as_number().to_uint64();
                 std::cout << "Deserializing object: type = unsigned integer64*, value = " << *object << std::endl;
             }
@@ -560,7 +557,7 @@ namespace Cmarshal {
              ***********************************************************************************/
             template<class T>
             typename std::enable_if<Is_UInt64<T>::Value, void>::type
-            static FromJson(T **object, const json::value &jvalue) {
+            static FromJson(T **object, const web::json::value &jvalue) {
                 *object = new uint64_t(jvalue.as_number().to_uint64());
                 std::cout << "Deserializing object: type = unsigned integer64**, value = " << **object << std::endl;
             }
@@ -570,7 +567,7 @@ namespace Cmarshal {
              ***********************************************************************************/
             template<class T>
             typename std::enable_if<Is_Decimal<T>::Value, void>::type
-            static FromJson(T &object, const json::value &jvalue) {
+            static FromJson(T &object, const web::json::value &jvalue) {
                 object = static_cast<T> (jvalue.as_number().to_double());
                 std::cout << "Deserializing object: type = decimal&, value = " << object << std::endl;
             }
@@ -580,7 +577,7 @@ namespace Cmarshal {
              ***********************************************************************************/
             template<class T>
             typename std::enable_if<Is_Decimal<T>::Value, void>::type
-            static FromJson(T *object, const json::value &jvalue) {
+            static FromJson(T *object, const web::json::value &jvalue) {
                 *object = static_cast<T> (jvalue.as_number().to_double());
                 std::cout << "Deserializing object: type = decimal*, value = " << *object << std::endl;
             }
@@ -590,7 +587,7 @@ namespace Cmarshal {
              ***********************************************************************************/
             template<class T>
             typename std::enable_if<Is_Decimal<T>::Value, void>::type
-            static FromJson(T **object, const json::value &jvalue) {
+            static FromJson(T **object, const web::json::value &jvalue) {
                 *object = new typename Remove_CVR<T>::Type(static_cast<T> (jvalue.as_number().to_double()));
                 std::cout << "Deserializing object: type = decimal**, value = " << **object << std::endl;
             }
@@ -600,7 +597,7 @@ namespace Cmarshal {
              ***********************************************************************************/
             template<class T>
             typename std::enable_if<Is_String<T>::Value, void>::type
-            static FromJson(T &object, const json::value &jvalue) {
+            static FromJson(T &object, const web::json::value &jvalue) {
                 object = utility::conversions::to_utf8string(jvalue.as_string());
                 std::cout << "Deserializing object: type = std::string&, value = " << object << std::endl;
             }
@@ -610,7 +607,7 @@ namespace Cmarshal {
              ***********************************************************************************/
             template<class T>
             typename std::enable_if<Is_String<T>::Value, void>::type
-            static FromJson(T *object, const json::value &jvalue) {
+            static FromJson(T *object, const web::json::value &jvalue) {
                 *object = utility::conversions::to_utf8string(jvalue.as_string());
                 std::cout << "Deserializing object: type = std::string*, value = " << *object << std::endl;
             }
@@ -620,7 +617,7 @@ namespace Cmarshal {
              ***********************************************************************************/
             template<class T>
             typename std::enable_if<Is_String<T>::Value, void>::type
-            static FromJson(T **object, const json::value &jvalue) {
+            static FromJson(T **object, const web::json::value &jvalue) {
                 *object = new std::string(utility::conversions::to_utf8string(jvalue.as_string()));
                 std::cout << "Deserializing object: type = std::string**, value = " << **object << std::endl;
             }
@@ -633,7 +630,7 @@ namespace Cmarshal {
              ***********************************************************************************/
             template<class T>
             typename std::enable_if<Is_Class<T>::Value, void>::type
-            static FromJson(T *object, const json::value &jvalue) {
+            static FromJson(T *object, const web::json::value &jvalue) {
                 std::cout << "Deserializing object: type = class{}*" << std::endl;
 
                 using Type = typename Remove_CVR<T>::Type;
@@ -649,7 +646,7 @@ namespace Cmarshal {
              ***********************************************************************************/
             template<class T>
             typename std::enable_if<Is_Class<T>::Value, void>::type
-            static FromJson(T &object, const json::value &jvalue) {
+            static FromJson(T &object, const web::json::value &jvalue) {
                 std::cout << "Deserializing object: type = class{}&" << std::endl;
 
                 FromJson(&object, jvalue);
@@ -660,7 +657,7 @@ namespace Cmarshal {
              ***********************************************************************************/
             template<class T>
             typename std::enable_if<Is_Class<T>::Value, void>::type
-            static FromJson(T **object, const json::value &jvalue) {
+            static FromJson(T **object, const web::json::value &jvalue) {
                 std::cout << "Deserializing object: type = class{}**" << std::endl;
 
                 using Type = typename Remove_CVR<T>::Type;
@@ -675,7 +672,7 @@ namespace Cmarshal {
             /***********************************************************************************
              * special handling for vector of char*
              ***********************************************************************************/
-            static void FromJson(std::vector<char *> *object, const json::value &jvalue) {
+            static void FromJson(std::vector<char *> *object, const web::json::value &jvalue) {
                 std::cout << "Deserializing object: type = vector<T>*" << std::endl;
                 for (const auto &arrItem : jvalue.as_array()) {
                     //char *var = new char[arrItem.size()];
@@ -685,7 +682,7 @@ namespace Cmarshal {
                 }
             }
 
-            static void FromJson(std::vector<const char *> *object, const json::value &jvalue) {
+            static void FromJson(std::vector<const char *> *object, const web::json::value &jvalue) {
                 std::cout << "Deserializing object: type = vector<T>*" << std::endl;
                 for (const auto &arrItem : jvalue.as_array()) {
                     //char *var = new char[arrItem.size()];
@@ -699,7 +696,7 @@ namespace Cmarshal {
              * object type: std::vector<T*>*
              ***********************************************************************************/
             template<class T>
-            static void FromJson(std::vector<T *> *object, const json::value &jvalue) {
+            static void FromJson(std::vector<T *> *object, const web::json::value &jvalue) {
                 std::cout << "Deserializing object: type = vector<T*>*" << std::endl;
 
                 using Type = typename Remove_CVR<T>::Type;
@@ -715,7 +712,7 @@ namespace Cmarshal {
              * object type: std::vector<T*>&
              ***********************************************************************************/
             template<class T>
-            static void FromJson(std::vector<T *> &object, const json::value &jvalue) {
+            static void FromJson(std::vector<T *> &object, const web::json::value &jvalue) {
                 std::cout << "Deserializing object: type = vector<T*>&" << std::endl;
 
                 FromJson(&object, jvalue);
@@ -725,7 +722,7 @@ namespace Cmarshal {
              * object type: std::vector<T*>**
              ***********************************************************************************/
             template<class T>
-            static void FromJson(std::vector<T *> **object, const json::value &jvalue) {
+            static void FromJson(std::vector<T *> **object, const web::json::value &jvalue) {
                 std::cout << "Deserializing object: type = vector<T*>*" << std::endl;
 
                 //using Type = typename Remove_CVR<T>::Type;
@@ -738,7 +735,7 @@ namespace Cmarshal {
              * object type: std::vector<T>*
              ***********************************************************************************/
             template<class T>
-            static void FromJson(std::vector<T> *object, const json::value &jvalue) {
+            static void FromJson(std::vector<T> *object, const web::json::value &jvalue) {
                 std::cout << "Deserializing object: type = vector<T>*" << std::endl;
 
                 using Type = typename Remove_CVR<T>::Type;
@@ -754,7 +751,7 @@ namespace Cmarshal {
              * object type: std::vector<T>&
              ***********************************************************************************/
             template<class T>
-            static void FromJson(std::vector<T> &object, const json::value &jvalue) {
+            static void FromJson(std::vector<T> &object, const web::json::value &jvalue) {
                 std::cout << "Deserializing object: type = vector<T>&" << std::endl;
 
                 FromJson(&object, jvalue);
@@ -764,7 +761,7 @@ namespace Cmarshal {
              * object type: std::vector<T>**
              ***********************************************************************************/
             template<class T>
-            static void FromJson(std::vector<T> **object, const json::value &jvalue) {
+            static void FromJson(std::vector<T> **object, const web::json::value &jvalue) {
                 std::cout << "Deserializing object: type = vector<T>*" << std::endl;
 
                 //using Type = typename Remove_CVR<T>::Type;
@@ -778,7 +775,7 @@ namespace Cmarshal {
              ********************************************************************************/
             template<class T>
             typename std::enable_if<Is_WtDateTime<T>::Value, void>::type
-            static FromJson(T &object, const json::value &jvalue) {
+            static FromJson(T &object, const web::json::value &jvalue) {
                 const utility::string_t &dateTimeStr = jvalue.as_string();
                 //TODO: default encoding and format used
                 object = Wt::WDateTime::fromString(utility::conversions::to_utf8string(dateTimeStr));
@@ -789,7 +786,7 @@ namespace Cmarshal {
             * object type: Wt::Dbo::ptr<T>
             ***********************************************************************************/
             template<class T>
-            static void FromJson(Wt::Dbo::ptr<T> &object, const json::value &jvalue) {
+            static void FromJson(Wt::Dbo::ptr<T> &object, const web::json::value &jvalue) {
                 std::cout << "Deserializing object: type = Wt::Dbo::ptr<T> &" << std::endl;
 
                 //FromJson(const_cast<T *>(object.get()), jvalue);
@@ -804,7 +801,7 @@ namespace Cmarshal {
             * object type: boost::optional<T>
             ***********************************************************************************/
             template<class T>
-            static void FromJson(boost::optional<T> &object, const json::value &jvalue) {
+            static void FromJson(boost::optional<T> &object, const web::json::value &jvalue) {
                 std::cout << "Deserializing object: type = boost::optional<T> &" << std::endl;
 
                 using Type = typename Remove_CVR<T>::Type;
@@ -814,7 +811,7 @@ namespace Cmarshal {
             }
 
             template<class T>
-            static void FromJson(boost::optional<T*> &object, const json::value &jvalue) {
+            static void FromJson(boost::optional<T*> &object, const web::json::value &jvalue) {
                 std::cout << "Deserializing object: type = boost::optional<T> &" << std::endl;
 
                 using Type = typename Remove_CVR<T>::Type;

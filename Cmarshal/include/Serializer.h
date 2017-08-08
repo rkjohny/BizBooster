@@ -27,10 +27,7 @@
 
 namespace Cmarshal {
     namespace Json {
-        using namespace web;
-        using namespace std;
-
-        //TODO: json::value has move constructor and move assignment operator
+        //TODO: web::json::value has move constructor and move assignment operator
         // so the returned vaue will not be copyed.
         // otherwise we should use unique_ptr
 
@@ -39,64 +36,64 @@ namespace Cmarshal {
             MAKE_STATIC(Serializer);
 
             template<class T>
-            static void GetData(const boost::optional<T> &object, json::value &jvalue, const char *name) {
+            static void GetData(const boost::optional<T> &object, web::json::value &jvalue, const char *name) {
                 if (object) {
                     jvalue[utility::string_t(U(name))] = ToJson(object);
                 } else {
-                    cout << "value is null and will be ignored." << endl;
+                    std::cout << "value is null and will be ignored." << std::endl;
                 }
             }
 
             template<class T>
-            static void GetData(const Wt::WDateTime &object, json::value &jvalue, const char *name) {
+            static void GetData(const Wt::WDateTime &object, web::json::value &jvalue, const char *name) {
                 if (!object.isNull()) {
                     jvalue[utility::string_t(U(name))] = ToJson(object);
                 } else {
-                    cout << "value is null and will be ignored." << endl;
+                    std::cout << "value is null and will be ignored." << std::endl;
                 }
             }
 
             template<class T>
-            static void GetData(const Wt::Dbo::ptr<T> &object, json::value &jvalue, const char *name) {
+            static void GetData(const Wt::Dbo::ptr<T> &object, web::json::value &jvalue, const char *name) {
                 if (object) {
                     jvalue[utility::string_t(U(name))] = ToJson(object);
                 } else {
-                    cout << "value is null and will be ignored." << endl;
+                    std::cout << "value is null and will be ignored." << std::endl;
                 }
             }
 
             template<class T>
-            static void GetData(const T &object, json::value &jvalue, const char *name) {
+            static void GetData(const T &object, web::json::value &jvalue, const char *name) {
                 jvalue[utility::string_t(U(name))] = ToJson(object);
             }
 
             template<class T>
-            static void GetData(const T *object, json::value &jvalue, const char *name) {
+            static void GetData(const T *object, web::json::value &jvalue, const char *name) {
                 if (object) {
                     jvalue[utility::string_t(U(name))] = ToJson(object);
                 } else {
-                    cout << "value is null and will be ignored." << endl;
+                    std::cout << "value is null and will be ignored." << std::endl;
                 }
             }
 
             template<class T>
-            static void GetData(const T *const *object, json::value &jvalue, const char *name) {
+            static void GetData(const T *const *object, web::json::value &jvalue, const char *name) {
                 if (object && *object) {
                     jvalue[utility::string_t(U(name))] = ToJson(object);
                 } else {
-                    cout << "value is null and will be ignored." << endl;
+                    std::cout << "value is null and will be ignored." << std::endl;
                 }
             }
 
             template<std::size_t iteration, class T>
-            static void DoSerialize(T *object, json::value &jvalue) {
+            static void DoSerialize(T *object, web::json::value &jvalue) {
                 using ObjectType = typename Remove_CVRP<T>::Type;
                 constexpr auto getter = std::get<iteration>(ObjectType::getters);
                 auto getterName = getter.name;
                 //using GetterReturnType = typename decltype( getter )::Type;
                 auto method = getter.fp;
 
-                cout << "Found a getter with name: " << getterName << std::endl;
+                std::cout << "Found a getter with name: " << getterName << std::endl;
 
                 const auto &getterReturnedObject = (object->*method)();
 
@@ -105,7 +102,7 @@ namespace Cmarshal {
 
             template<std::size_t iteration, class T>
             typename std::enable_if<(iteration > 1), void>::type
-            static Serialize(T *object, json::value &jvalue) {
+            static Serialize(T *object, web::json::value &jvalue) {
                 DoSerialize<iteration - 1, T>(object, jvalue);
 
                 Serialize<iteration - 1, T>(object, jvalue);
@@ -113,7 +110,7 @@ namespace Cmarshal {
 
             template<std::size_t iteration, class T>
             typename std::enable_if<(iteration == 1), void>::type
-            static Serialize(T *object, json::value &jvalue) {
+            static Serialize(T *object, web::json::value &jvalue) {
                 DoSerialize<0, T>(object, jvalue);
             }
 
@@ -123,14 +120,14 @@ namespace Cmarshal {
              */
             template<std::size_t iteration, class T>
             typename std::enable_if<(iteration == 0), void>::type
-            static Serialize(T *, json::value &) {
+            static Serialize(T *, web::json::value &) {
             }
 
 
         public:
 
             template<class T>
-            typename std::enable_if<std::is_array<T>::value, json::value>::type
+            typename std::enable_if<std::is_array<T>::value, web::json::value>::type
             static ToJson(const T &&) {
                 static_assert(true, "Serialization of array is not supported.");
             }
@@ -139,196 +136,196 @@ namespace Cmarshal {
             //////////////////////////////// Enum ///////////////////
 
             template<class T>
-            typename std::enable_if<std::is_enum<T>::value, json::value>::type
+            typename std::enable_if<std::is_enum<T>::value, web::json::value>::type
             static ToJson(const T &&object) {
-                cout << "Serializing object: type = enum&&, value = " << object << endl;
-                return json::value(static_cast<int>(object));
+                std::cout << "Serializing object: type = enum&&, value = " << object << std::endl;
+                return web::json::value(static_cast<int>(object));
             }
 
             template<class T>
-            typename std::enable_if<std::is_enum<T>::value, json::value>::type
+            typename std::enable_if<std::is_enum<T>::value, web::json::value>::type
             static ToJson(const T &object) {
-                cout << "Serializing object: type = enum&, value = " << object << endl;
-                return json::value(static_cast<int>(object));
+                std::cout << "Serializing object: type = enum&, value = " << object << std::endl;
+                return web::json::value(static_cast<int>(object));
             }
 
             template<class T>
-            typename std::enable_if<std::is_enum<T>::value, json::value>::type
+            typename std::enable_if<std::is_enum<T>::value, web::json::value>::type
             static ToJson(const T *object) {
-                cout << "Serializing object: type = enum*, value = " << object << endl;
-                return json::value(static_cast<int>(*object));
+                std::cout << "Serializing object: type = enum*, value = " << object << std::endl;
+                return web::json::value(static_cast<int>(*object));
             }
 
             template<class T>
-            typename std::enable_if<std::is_enum<T>::value, json::value>::type
+            typename std::enable_if<std::is_enum<T>::value, web::json::value>::type
             static ToJson(const T *const *object) {
-                cout << "Serializing object: type = enum**, value = " << object << endl;
-                return json::value(static_cast<int>(**object));
+                std::cout << "Serializing object: type = enum**, value = " << object << std::endl;
+                return web::json::value(static_cast<int>(**object));
             }
 
             //////////////////////////////// bool ///////////////////
 
             template<class T>
-            typename std::enable_if<Is_Bool<T>::Value, json::value>::type
+            typename std::enable_if<Is_Bool<T>::Value, web::json::value>::type
             static ToJson(const T &&object) {
-                cout << "Serializing object: type = bool&&, value = " << object << endl;
-                return json::value(object);
+                std::cout << "Serializing object: type = bool&&, value = " << object << std::endl;
+                return web::json::value(object);
             }
 
             template<class T>
-            typename std::enable_if<Is_Bool<T>::Value, json::value>::type
+            typename std::enable_if<Is_Bool<T>::Value, web::json::value>::type
             static ToJson(const T &object) {
-                cout << "Serializing object: type = bool&, value = " << object << endl;
-                return json::value(object);
+                std::cout << "Serializing object: type = bool&, value = " << object << std::endl;
+                return web::json::value(object);
             }
 
             template<class T>
-            typename std::enable_if<Is_Bool<T>::Value, json::value>::type
+            typename std::enable_if<Is_Bool<T>::Value, web::json::value>::type
             static ToJson(const T *object) {
-                cout << "Serializing object: type = bool*, value = " << *object << endl;
-                return json::value(*object);
+                std::cout << "Serializing object: type = bool*, value = " << *object << std::endl;
+                return web::json::value(*object);
             }
 
             template<class T>
-            typename std::enable_if<Is_Bool<T>::Value, json::value>::type
+            typename std::enable_if<Is_Bool<T>::Value, web::json::value>::type
             static ToJson(const T *const *object) {
-                cout << "Serializing object: type = bool**, value = " << **object << endl;
-                return json::value(**object);
+                std::cout << "Serializing object: type = bool**, value = " << **object << std::endl;
+                return web::json::value(**object);
             }
 
             ///////////////// char ///////////////////////////////////
 
             template<class T>
-            typename std::enable_if<Is_Char<T>::Value, json::value>::type
+            typename std::enable_if<Is_Char<T>::Value, web::json::value>::type
             static ToJson(const T &&object) {
-                cout << "Serializing object: type = char&&, value = " << object << endl;
-                return json::value(static_cast<int32_t> (object));
+                std::cout << "Serializing object: type = char&&, value = " << object << std::endl;
+                return web::json::value(static_cast<int32_t> (object));
             }
 
             template<class T>
-            typename std::enable_if<Is_Char<T>::Value, json::value>::type
+            typename std::enable_if<Is_Char<T>::Value, web::json::value>::type
             static ToJson(const T &object) {
-                cout << "Serializing object: type = char&, value = " << object << endl;
-                return json::value(static_cast<int32_t> (object));
+                std::cout << "Serializing object: type = char&, value = " << object << std::endl;
+                return web::json::value(static_cast<int32_t> (object));
             }
 
             template<class T>
-            typename std::enable_if<Is_Char<T>::Value, json::value>::type
+            typename std::enable_if<Is_Char<T>::Value, web::json::value>::type
             static ToJson(const T *object) {
                 std::string str = std::string(object);
                 utility::string_t str_t = utility::string_t(std::move(str));
-                cout << "Serializing object: type = char*, value = " << str_t << endl;
-                return json::value(std::move(str_t));
+                std::cout << "Serializing object: type = char*, value = " << str_t << std::endl;
+                return web::json::value(std::move(str_t));
             }
 
             template<class T>
-            typename std::enable_if<Is_Char<T>::Value, json::value>::type
+            typename std::enable_if<Is_Char<T>::Value, web::json::value>::type
             static ToJson(const T *const *object) {
                 std::string str = std::string(*object);
                 utility::string_t str_t = utility::string_t(std::move(str));
-                cout << "Serializing object: type = char**, value = " << str_t << endl;
-                return json::value(std::move(str_t));
+                std::cout << "Serializing object: type = char**, value = " << str_t << std::endl;
+                return web::json::value(std::move(str_t));
             }
 
             ///////////////// integer ///////////////////////////////////
 
             template<class T>
-            typename std::enable_if<Is_Integer<T>::Value, json::value>::type
+            typename std::enable_if<Is_Integer<T>::Value, web::json::value>::type
             static ToJson(const T &&object) {
-                cout << "Serializing object: type = integer&&, value = " << object << endl;
-                return json::value(object);
+                std::cout << "Serializing object: type = integer&&, value = " << object << std::endl;
+                return web::json::value(object);
             }
 
             template<class T>
-            typename std::enable_if<Is_Integer<T>::Value, json::value>::type
+            typename std::enable_if<Is_Integer<T>::Value, web::json::value>::type
             static ToJson(const T &object) {
-                cout << "Serializing object: type = integer&, value = " << object << endl;
-                return json::value(object);
+                std::cout << "Serializing object: type = integer&, value = " << object << std::endl;
+                return web::json::value(object);
             }
 
             template<class T>
-            typename std::enable_if<Is_Integer<T>::Value, json::value>::type
+            typename std::enable_if<Is_Integer<T>::Value, web::json::value>::type
             static ToJson(const T *object) {
-                cout << "Serializing object: type = integer*, value = " << *object << endl;
-                return json::value(*object);
+                std::cout << "Serializing object: type = integer*, value = " << *object << std::endl;
+                return web::json::value(*object);
             }
 
             template<class T>
-            typename std::enable_if<Is_Integer<T>::Value, json::value>::type
+            typename std::enable_if<Is_Integer<T>::Value, web::json::value>::type
             static ToJson(const T *const *object) {
-                cout << "Serializing object: type = integer**, value = " << **object << endl;
-                return json::value(**object);
+                std::cout << "Serializing object: type = integer**, value = " << **object << std::endl;
+                return web::json::value(**object);
             }
 
             /////////////////////   Decimal   ///////////////////////////////////
 
             template<class T>
-            typename std::enable_if<Is_Decimal<T>::Value, json::value>::type
+            typename std::enable_if<Is_Decimal<T>::Value, web::json::value>::type
             static ToJson(const T &&object) {
-                cout << "Serializing object: type = decimal&&, value = " << object << endl;
-                return json::value(static_cast<double_t> (object));
+                std::cout << "Serializing object: type = decimal&&, value = " << object << std::endl;
+                return web::json::value(static_cast<double_t> (object));
             }
 
             template<class T>
-            typename std::enable_if<Is_Decimal<T>::Value, json::value>::type
+            typename std::enable_if<Is_Decimal<T>::Value, web::json::value>::type
             static ToJson(const T &object) {
-                cout << "Serializing object: type = decimal&, value = " << object << endl;
-                return json::value(static_cast<double_t> (object));
+                std::cout << "Serializing object: type = decimal&, value = " << object << std::endl;
+                return web::json::value(static_cast<double_t> (object));
             }
 
             template<class T>
-            typename std::enable_if<Is_Decimal<T>::Value, json::value>::type
+            typename std::enable_if<Is_Decimal<T>::Value, web::json::value>::type
             static ToJson(const T *object) {
-                cout << "Serializing object: type = decimal*, value = " << *object << endl;
-                return json::value(static_cast<double_t> (*object));
+                std::cout << "Serializing object: type = decimal*, value = " << *object << std::endl;
+                return web::json::value(static_cast<double_t> (*object));
             }
 
             template<class T>
-            typename std::enable_if<Is_Decimal<T>::Value, json::value>::type
+            typename std::enable_if<Is_Decimal<T>::Value, web::json::value>::type
             static ToJson(const T *const *object) {
-                cout << "Serializing object: type = decimal**, value = " << **object << endl;
-                return json::value(static_cast<double_t> (**object));
+                std::cout << "Serializing object: type = decimal**, value = " << **object << std::endl;
+                return web::json::value(static_cast<double_t> (**object));
             }
 
             /////////////////////// std::string //////////////////////////////////////
 
             template<class T>
-            typename std::enable_if<Json::Is_String<T>::Value, json::value>::type
+            typename std::enable_if<Json::Is_String<T>::Value, web::json::value>::type
             static ToJson(T &&object) {
-                cout << "Serializing object: type = std::string&&, value = " << object << endl;
-                return json::value(utility::string_t(object));
+                std::cout << "Serializing object: type = std::string&&, value = " << object << std::endl;
+                return web::json::value(utility::string_t(object));
             }
 
             template<class T>
-            typename std::enable_if<Json::Is_String<T>::Value, json::value>::type
+            typename std::enable_if<Json::Is_String<T>::Value, web::json::value>::type
             static ToJson(const T &object) {
-                cout << "Serializing object: type = std::string&, value = " << object << endl;
-                return json::value(utility::string_t(object));
+                std::cout << "Serializing object: type = std::string&, value = " << object << std::endl;
+                return web::json::value(utility::string_t(object));
             }
 
             template<class T>
-            typename std::enable_if<Json::Is_String<T>::Value, json::value>::type
+            typename std::enable_if<Json::Is_String<T>::Value, web::json::value>::type
             static ToJson(const T *object) {
-                cout << "Serializing object: type = std::string*, value = " << *object << endl;
+                std::cout << "Serializing object: type = std::string*, value = " << *object << std::endl;
                 utility::string_t str(*object);
-                return json::value(std::move(str));
+                return web::json::value(std::move(str));
             }
 
             template<class T>
-            typename std::enable_if<Json::Is_String<T>::Value, json::value>::type
+            typename std::enable_if<Json::Is_String<T>::Value, web::json::value>::type
             static ToJson(const T *const *object) {
-                cout << "Serializing object: type = std::string**, value = " << **object << endl;
+                std::cout << "Serializing object: type = std::string**, value = " << **object << std::endl;
                 utility::string_t str(**object);
-                return json::value(std::move(str));
+                return web::json::value(std::move(str));
             }
 
             //////////////////  custom object ////////////////////////
 
             template<class T>
-            typename std::enable_if<Json::Is_Class<T>::Value, json::value>::type
+            typename std::enable_if<Json::Is_Class<T>::Value, web::json::value>::type
             static ToJson(const T &&object) {
-                cout << "Serializing object: type = class{}&&" << endl;
-                json::value jvalue = json::value::object();
+                std::cout << "Serializing object: type = class{}&&" << std::endl;
+                web::json::value jvalue = web::json::value::object();
 
                 using ObjectType = typename Remove_CVRP<T>::Type;
                 auto getters = ObjectType::getters;
@@ -340,10 +337,10 @@ namespace Cmarshal {
             }
 
             template<class T>
-            typename std::enable_if<Json::Is_Class<T>::Value, json::value>::type
+            typename std::enable_if<Json::Is_Class<T>::Value, web::json::value>::type
             static ToJson(const T &object) {
-                cout << "Serializing object: type = class{}&" << endl;
-                json::value jvalue = json::value::object();
+                std::cout << "Serializing object: type = class{}&" << std::endl;
+                web::json::value jvalue = web::json::value::object();
 
                 using ObjectType = typename Remove_CVRP<T>::Type;
                 auto getters = ObjectType::getters;
@@ -355,16 +352,16 @@ namespace Cmarshal {
             }
 
             template<class T>
-            typename std::enable_if<Json::Is_Class<T>::Value, json::value>::type
+            typename std::enable_if<Json::Is_Class<T>::Value, web::json::value>::type
             static ToJson(const T *object) {
-                cout << "Serializing object: type = class{}*" << endl;
+                std::cout << "Serializing object: type = class{}*" << std::endl;
                 return ToJson(*object);
             }
 
             template<class T>
-            typename std::enable_if<Json::Is_Class<T>::Value, json::value>::type
+            typename std::enable_if<Json::Is_Class<T>::Value, web::json::value>::type
             static ToJson(const T *const *object) {
-                cout << "Serializing object: type = class{}**" << endl;
+                std::cout << "Serializing object: type = class{}**" << std::endl;
                 return ToJson(**object);
             }
 
@@ -372,15 +369,15 @@ namespace Cmarshal {
             //////////////////  std::vector ////////////////////////
 
             template<class T>
-            typename std::enable_if<Json::Is_Vector<T>::Value, json::value>::type
+            typename std::enable_if<Json::Is_Vector<T>::Value, web::json::value>::type
             static ToJson(const T &&object) {
-                cout << "Serializing object: type = std::vector<>&&" << endl;
+                std::cout << "Serializing object: type = std::vector<>&&" << std::endl;
                 std::size_t length = object.size();
-                json::value jvalue = json::value::array(length);
+                web::json::value jvalue = web::json::value::array(length);
                 size_t index = 0;
 
                 if (length > 0) {
-                    json::array &jArray = jvalue.as_array();
+                    web::json::array &jArray = jvalue.as_array();
 
                     for (auto &arrValue : object) {
                         jArray[index++] = ToJson(arrValue);
@@ -391,15 +388,15 @@ namespace Cmarshal {
             }
 
             template<class T>
-            typename std::enable_if<Json::Is_Vector<T>::Value, json::value>::type
+            typename std::enable_if<Json::Is_Vector<T>::Value, web::json::value>::type
             static ToJson(const T &object) {
-                cout << "Serializing object: type = std::vector<>&" << endl;
+                std::cout << "Serializing object: type = std::vector<>&" << std::endl;
                 std::size_t length = object.size();
-                json::value jvalue = json::value::array(length);
+                web::json::value jvalue = web::json::value::array(length);
                 size_t index = 0;
 
                 if (length > 0) {
-                    json::array &jArray = jvalue.as_array();
+                    web::json::array &jArray = jvalue.as_array();
 
                     for (auto &arrValue : object) {
                         jArray[index++] = ToJson(arrValue);
@@ -410,75 +407,75 @@ namespace Cmarshal {
             }
 
             template<class T>
-            typename std::enable_if<Json::Is_Vector<T>::Value, json::value>::type
+            typename std::enable_if<Json::Is_Vector<T>::Value, web::json::value>::type
             static ToJson(const T *object) {
-                cout << "Serializing object: type = std::vector<>*" << endl;
+                std::cout << "Serializing object: type = std::vector<>*" << std::endl;
                 return ToJson(*object);
             }
 
             template<class T>
-            typename std::enable_if<Json::Is_Vector<T>::Value, json::value>::type
+            typename std::enable_if<Json::Is_Vector<T>::Value, web::json::value>::type
             static ToJson(const T *const *object) {
-                cout << "Serializing object: type = std::vector<>**" << endl;
+                std::cout << "Serializing object: type = std::vector<>**" << std::endl;
                 return ToJson(**object);
             }
 
             /////////////////////////////// wWt::WDatetime ///////////////////////////////
             template<class T>
-            typename std::enable_if<Is_WtDateTime<T>::Value, json::value>::type
+            typename std::enable_if<Is_WtDateTime<T>::Value, web::json::value>::type
             static ToJson(const T &&object) {
                 Wt::WString wstr = object.toString(); // TODO: default format used
                 std::string str = wstr.toUTF8(); // TODO: UTF8 encoding used
-                cout << "Serializing object: type = Wt::WDate&&, value = " << str << endl;
-                return json::value(str);
+                std::cout << "Serializing object: type = Wt::WDate&&, value = " << str << std::endl;
+                return web::json::value(str);
             }
 
             template<class T>
-            typename std::enable_if<Is_WtDateTime<T>::Value, json::value>::type
+            typename std::enable_if<Is_WtDateTime<T>::Value, web::json::value>::type
             static ToJson(const T &object) {
                 Wt::WString wstr = object.toString(); // TODO: default format used
                 std::string str = wstr.toUTF8(); // TODO: UTF8 encoding used
-                cout << "Serializing object: type = Wt::WDate&, value = " << str << endl;
-                return json::value(str);
+                std::cout << "Serializing object: type = Wt::WDate&, value = " << str << std::endl;
+                return web::json::value(str);
             }
 
             ///////////////////// Wt::Dbo::ptr<T> ///////////////////////////////////
             template<class T>
-            static json::value ToJson(const Wt::Dbo::ptr<T> &&object) {
-                cout << "Serializing object: type = Wt::Dbo::ptr&&" << endl;
+            static web::json::value ToJson(const Wt::Dbo::ptr<T> &&object) {
+                std::cout << "Serializing object: type = Wt::Dbo::ptr&&" << std::endl;
                 if (object) {
                     return ToJson(*object);
                 }
-                return json::value();
+                return web::json::value();
             }
 
             template<class T>
-            static json::value ToJson(const Wt::Dbo::ptr<T> &object) {
-                cout << "Serializing object: type = Wt::Dbo::ptr&" << endl;
+            static web::json::value ToJson(const Wt::Dbo::ptr<T> &object) {
+                std::cout << "Serializing object: type = Wt::Dbo::ptr&" << std::endl;
                 if (object) {
                     return ToJson(*object);
                 }
-                return json::value();
+                return web::json::value();
             }
 
 
             ///////////////////// boost::optional<T> ///////////////////////////////////
             template<class T>
-            static json::value ToJson(const boost::optional<T> &&object) {
-                cout << "Serializing object: type = Wt::Dbo::ptr&&" << endl;
+            static web::json::value ToJson(const boost::optional<T> &&object) {
+                std::cout << "Serializing object: type = Wt::Dbo::ptr&&" << std::endl;
                 if (object) {
                     return ToJson(*object);
                 }
-                return json::value();
+                return web::json::value();
             }
 
             template<class T>
-            static json::value ToJson(const boost::optional<T> &object) {
-                cout << "Serializing object: type = Wt::Dbo::ptr&&" << endl;
+            static web::json::value ToJson(const boost::optional<T> &object) {
+                std::cout << "Serializing object: type = Wt::Dbo::ptr&&" << std::endl;
                 if (object) {
                     return ToJson(*object);
                 }
-                return json::value();
+                return web::json::value();
             }
         };
 

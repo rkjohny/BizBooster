@@ -30,12 +30,12 @@ namespace Mocxygen {
         bool createNew = false;
 
 
-        if (!(m_requester->HasRole(Role::ROLE_CREATE_SUPER_USER) ||
-              m_requester->HasRole(Role::ROLE_SYSTEM_ADMIN))) {
+        if (!(m_requester->HasRole(Cruxdb::Role::ROLE_CREATE_SUPER_USER) ||
+              m_requester->HasRole(Cruxdb::Role::ROLE_SYSTEM_ADMIN))) {
             throw Common::AppException(AppErrorCode::INSIFFICIENT_PRIVILEGE, "Insufficient privilege");
         }
 
-        User *user = nullptr;
+        Cruxdb::User *user = nullptr;
         Cruxdb::AuthInfo *authInfo = nullptr;
         Cruxdb::AuthIdentity *identity = nullptr;
         auto userService = Cruxdb::GetUserService();
@@ -62,7 +62,7 @@ namespace Mocxygen {
         try {
             BlockExecutor blockExecutor;
             if (createNew) {
-                user = new User();
+                user = new Cruxdb::User();
             } else {
                 user = m_user.modify();
             }
@@ -84,7 +84,7 @@ namespace Mocxygen {
 
             //user->SetVersion(m_input->GetVersion());
 
-            Wt::Dbo::ptr<User> userSaved;
+            Wt::Dbo::ptr<Cruxdb::User> userSaved;
 
             if (blockExecutor.IsInvoked()) {
                 userSaved = userService->SaveEntity(m_requester, user);

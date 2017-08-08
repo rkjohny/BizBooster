@@ -19,31 +19,30 @@
 #include <cpprest/json.h>
 
 namespace Common {
-    using namespace std;
-
-    class AppException : public runtime_error {
+    
+    class AppException : public std::runtime_error {
     public:        
-        explicit AppException(const string& message = "Unknown");
+        explicit AppException(const std::string& message = "Unknown");
         
-        explicit AppException(AppErrorCode code, const string& message = "Unknown");
+        explicit AppException(AppErrorCode code, const std::string& message = "Unknown");
 
         AppException(const AppException &e);
 
-        explicit AppException(const exception& e, const string& message = "Unknown");
+        explicit AppException(const std::exception& e, const std::string& message = "Unknown");
 
-        explicit AppException(const exception& e, AppErrorCode code, const string& message = "Unknown");
+        explicit AppException(const std::exception& e, AppErrorCode code, const std::string& message = "Unknown");
         
         
         
-        explicit AppException(const string &&message = "Unknown");
+        explicit AppException(const std::string &&message = "Unknown");
         
-        explicit AppException(AppErrorCode code, const string&& message = "Unknown");
+        explicit AppException(AppErrorCode code, const std::string&& message = "Unknown");
 
         AppException(const AppException &&e);
 
-        explicit AppException(const exception &&e, const string &&message = "Unknown");
+        explicit AppException(const std::exception &&e, const std::string &&message = "Unknown");
 
-        explicit AppException(const exception &&e, AppErrorCode code, const string &&message = "Unknown");
+        explicit AppException(const std::exception &&e, AppErrorCode code, const std::string &&message = "Unknown");
 
         
         virtual ~AppException();
@@ -53,18 +52,18 @@ namespace Common {
 
         AppErrorCode GetCode() const;
 
-        const string& GetMessage() const;
+        const std::string& GetMessage() const;
 
         web::json::value Serialize() const;
 
-        string ToString() const;
+        std::string ToString() const;
 
     private:
         AppErrorCode m_code;
-        string m_message;
+        std::string m_message;
 
-        void SetMessage(const exception &e, const string &message);
-        void SetMessage(const exception &&e, const string &&message);
+        void SetMessage(const std::exception &e, const std::string &message);
+        void SetMessage(const std::exception &&e, const std::string &&message);
     };
 
 } /* namespace Common */

@@ -19,14 +19,12 @@
 #include "AppCommonDef.h"
 
 namespace Common {
-    using namespace std;
-
     class DateTimeUtils {
     private:
         MAKE_STATIC(DateTimeUtils);
 
     public:
-        static string GetTimeStamp();
+        static std::string GetTimeStamp();
 
         static void GetCurrentDateTime(Wt::WDateTime &dt);
         static void AddDayToCurrentDateTime(Wt::WDateTime &dt, uint32_t day);

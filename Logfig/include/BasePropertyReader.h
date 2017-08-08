@@ -22,27 +22,25 @@
 #include "ConfigReader.h"
 
 namespace Logfig {
-    using namespace std;
-
     class BasePropertyReader : public ConfigReader {
     private:
         NON_COPY_NON_MOVE_ABLE(BasePropertyReader);
         
-        map< string, string > m_properties;
-        string m_fileName;        
+        std::map< std::string, std::string > m_properties;
+        std::string m_fileName;        
         
     public:
-        string GetValueOf(const string& key) override;
+        std::string GetValueOf(const std::string& key) override;
 
         void ReloadFile() noexcept(false) override;
 
-        void SetFile(const string& fileName) noexcept(false) override;
+        void SetFile(const std::string& fileName) noexcept(false) override;
 
     protected:
         BasePropertyReader();
         virtual ~BasePropertyReader();
 
-        void LoadFile(const string& fileName) noexcept(false);
+        void LoadFile(const std::string& fileName) noexcept(false);
         void Dispose() override;        
     };
 

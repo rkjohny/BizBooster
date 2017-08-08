@@ -24,9 +24,9 @@ public:
 
     virtual ~LoggedinInput() = default;
 
-    const boost::optional<string> & GetSessionToken() const;
+    const boost::optional<std::string> & GetSessionToken() const;
 
-    void SetSessionToken(const boost::optional<string> &sessionToken);
+    void SetSessionToken(const boost::optional<std::string> &sessionToken);
 
     const boost::optional<uint64_t> & GetSessionExpiresInMS() const;
 
@@ -34,12 +34,12 @@ public:
 
     REGISTER_GETTER_INCLUDING_BASE_START(AbstractApiGetEntityInput<LoggedinInput>)
     GETTER(LoggedinInput,  const boost::optional<uint64_t> &, "sessionExpires", &LoggedinInput::GetSessionExpiresInMS),
-    GETTER(LoggedinInput,  const boost::optional<string> &, "sessionToken", &LoggedinInput::GetSessionToken)
+    GETTER(LoggedinInput,  const boost::optional<std::string> &, "sessionToken", &LoggedinInput::GetSessionToken)
     REGISTER_GETTER_INCLUDING_BASE_END
 
     REGISTER_SETTER_INCLUDING_BASE_START(AbstractApiGetEntityInput<LoggedinInput>)
     SETTER(LoggedinInput,  const boost::optional<uint64_t>&, "sessionExpires", &LoggedinInput::SetSessionExpires),
-    SETTER(LoggedinInput,  const boost::optional<string>&, "sessionToken", &LoggedinInput::SetSessionToken)
+    SETTER(LoggedinInput,  const boost::optional<std::string>&, "sessionToken", &LoggedinInput::SetSessionToken)
     REGISTER_SETTER_INCLUDING_BASE_END
 
 private:

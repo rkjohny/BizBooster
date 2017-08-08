@@ -24,6 +24,7 @@ namespace CmarshalTest {
         namespace TestSerializer {
             using namespace std;
             using namespace Cmarshal::Json;
+            using namespace web;
 
             class SimpleClass {
             private:

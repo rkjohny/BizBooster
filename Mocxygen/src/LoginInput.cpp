@@ -63,7 +63,7 @@ namespace Mocxygen {
         return Api::LogIn(requester, this);
     }
 
-    const boost::optional<string> & LoginInput::GetPassword() const {
+    const boost::optional<std::string> & LoginInput::GetPassword() const {
         return m_password;
     }
 
@@ -87,7 +87,7 @@ namespace Mocxygen {
         m_useGoogleAuth = useGoogleAuth;
     }
 
-    const boost::optional<string> & LoginInput::GetUserName() const {
+    const boost::optional<std::string> & LoginInput::GetUserName() const {
         return m_userName;
     }
 

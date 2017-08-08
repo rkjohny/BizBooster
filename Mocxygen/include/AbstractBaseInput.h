@@ -21,19 +21,15 @@
 #include "Pageable.h"
 
 namespace Mocxygen {
-    using namespace std;
-    using namespace Cmarshal::Json;
-
-
-    class AbstractBaseInput : public AbstractSerializable {
+    class AbstractBaseInput : public Cmarshal::Json::AbstractSerializable {
     public:
         AbstractBaseInput() = default;
 
         virtual ~AbstractBaseInput() = default;
 
-        virtual string ToString() const = 0;
+        virtual std::string ToString() const = 0;
 
-        virtual string Name() const = 0;
+        virtual std::string Name() const = 0;
 
         virtual std::shared_ptr<AbstractBaseOutput> Process(Cruxdb::Requester *requester) = 0;
         

@@ -20,26 +20,24 @@
 #include "OStream.h"
 
 namespace Logfig {
-    using namespace std;
-
     class OFStream : public OStream {
     private:
         NON_COPY_NON_MOVE_ABLE(OFStream);
         
-        ofstream m_ofs;
-        string m_fileName;
+        std::ofstream m_ofs;
+        std::string m_fileName;
             
     public:
         OFStream();
-        explicit OFStream(const string &filename);
+        explicit OFStream(const std::string &filename);
         virtual ~OFStream();
 
-        void SetFile(const string &filename);
+        void SetFile(const std::string &filename);
 
         void Open() override;
         void Flush() override;
-        void Write(const string&& message) override;
-        void Write(const string& message) override;
+        void Write(const std::string&& message) override;
+        void Write(const std::string& message) override;
         void Close() override;
     };
 

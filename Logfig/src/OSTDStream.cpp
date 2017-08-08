@@ -31,16 +31,16 @@ void OSTDStream::Flush()
 {
 }
 
-void OSTDStream::Write(const string&& message)
+void OSTDStream::Write(const std::string&& message)
 {
     boost::lock_guard<boost::mutex> guard(m_mutex);
-    cout << std::move(message) << endl;
+    std::cout << std::move(message) << std::endl;
 }
 
-void OSTDStream::Write(const string& message)
+void OSTDStream::Write(const std::string& message)
 {
     boost::lock_guard<boost::mutex> guard(m_mutex);
-    cout << message << endl;
+    std::cout << message << std::endl;
 }
 
 void OSTDStream::Close()

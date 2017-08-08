@@ -51,7 +51,7 @@ void BaseLogger::SetLogLevel(int level)
     }
 }
 
-void BaseLogger::AddStream(const string &key, OStream* ostram)
+void BaseLogger::AddStream(const std::string &key, OStream* ostram)
 {
     boost::lock_guard<boost::mutex> guard(m_mutex);
     auto itr = m_streamList.find(key);
@@ -67,7 +67,7 @@ void BaseLogger::AddStream(const string &key, OStream* ostram)
     m_isDisposed = false;
 }
 
-void BaseLogger::RemoveStream(const string &key)
+void BaseLogger::RemoveStream(const std::string &key)
 {
     boost::lock_guard<boost::mutex> guard(m_mutex);
     auto itr = m_streamList.find(key);
@@ -84,7 +84,7 @@ void BaseLogger::RemoveStream(const string &key)
     }
 }
 
-void BaseLogger::Debug(const string&& prefix, const string&& message)
+void BaseLogger::Debug(const std::string&& prefix, const std::string&& message)
 {
     if (m_logLevel >= LOG_LEVEL_DEBUG) {
         Write(prefix + " " + Common::DateTimeUtils::GetTimeStamp() + 
@@ -92,7 +92,7 @@ void BaseLogger::Debug(const string&& prefix, const string&& message)
     }
 }
 
-void BaseLogger::Info(const string&& prefix, const string&& message)
+void BaseLogger::Info(const std::string&& prefix, const std::string&& message)
 {
     if (m_logLevel >= LOG_LEVEL_INFO) {
         Write(prefix + " " + Common::DateTimeUtils::GetTimeStamp() + 
@@ -100,7 +100,7 @@ void BaseLogger::Info(const string&& prefix, const string&& message)
     }
 }
 
-void BaseLogger::Warning(const string&& prefix, const string&& message)
+void BaseLogger::Warning(const std::string&& prefix, const std::string&& message)
 {
     if (m_logLevel >= LOG_LEVEL_WARNING) {
         Write(prefix + " " + Common::DateTimeUtils::GetTimeStamp() + 
@@ -108,7 +108,7 @@ void BaseLogger::Warning(const string&& prefix, const string&& message)
     }
 }
 
-void BaseLogger::Error(const string&& prefix, const string&& message)
+void BaseLogger::Error(const std::string&& prefix, const std::string&& message)
 {
     if (m_logLevel >= LOG_LEVEL_ERROR) {
         Write(prefix + " " + Common::DateTimeUtils::GetTimeStamp() + 
@@ -116,7 +116,7 @@ void BaseLogger::Error(const string&& prefix, const string&& message)
     }
 }
 
-void BaseLogger::Debug(const string&& prefix, const string& message)
+void BaseLogger::Debug(const std::string&& prefix, const std::string& message)
 {
     if (m_logLevel >= LOG_LEVEL_DEBUG) {
         Write(prefix + " " + Common::DateTimeUtils::GetTimeStamp() + 
@@ -124,7 +124,7 @@ void BaseLogger::Debug(const string&& prefix, const string& message)
     }
 }
 
-void BaseLogger::Info(const string&& prefix, const string& message)
+void BaseLogger::Info(const std::string&& prefix, const std::string& message)
 {
     if (m_logLevel >= LOG_LEVEL_INFO) {
         Write(prefix + " " + Common::DateTimeUtils::GetTimeStamp() + 
@@ -132,7 +132,7 @@ void BaseLogger::Info(const string&& prefix, const string& message)
     }
 }
 
-void BaseLogger::Warning(const string&& prefix, const string& message)
+void BaseLogger::Warning(const std::string&& prefix, const std::string& message)
 {
     if (m_logLevel >= LOG_LEVEL_WARNING) {
         Write(prefix + " " + Common::DateTimeUtils::GetTimeStamp() + 
@@ -140,7 +140,7 @@ void BaseLogger::Warning(const string&& prefix, const string& message)
     }
 }
 
-void BaseLogger::Error(const string&& prefix, const string& message)
+void BaseLogger::Error(const std::string&& prefix, const std::string& message)
 {
     if (m_logLevel >= LOG_LEVEL_ERROR) {
         Write(prefix + " " + Common::DateTimeUtils::GetTimeStamp() + 
@@ -148,7 +148,7 @@ void BaseLogger::Error(const string&& prefix, const string& message)
     }
 }
 
-void BaseLogger::Write(const string&& message)
+void BaseLogger::Write(const std::string&& message)
 {
     boost::lock_guard<boost::mutex> guard(m_mutex);
     try {
@@ -161,7 +161,7 @@ void BaseLogger::Write(const string&& message)
     }
 }
 
-void BaseLogger::Write(const string& message)
+void BaseLogger::Write(const std::string& message)
 {
     boost::lock_guard<boost::mutex> guard(m_mutex);
     try {

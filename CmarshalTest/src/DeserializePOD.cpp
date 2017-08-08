@@ -21,6 +21,7 @@ namespace CmarshalTest {
 
             using namespace std;
             using namespace Cmarshal::Json;
+            using namespace web;
 
             class POD1 {
             public:

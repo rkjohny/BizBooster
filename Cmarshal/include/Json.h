@@ -55,38 +55,38 @@ namespace Cmarshal {
 /************************** Serializing *************************/
 
         template<class T>
-        json::value ToJson(const T &&object) {
+        web::json::value ToJson(const T &&object) {
             return Serializer::ToJson(std::move(object));
         }
 
         template<class T>
-        json::value ToJson(const T &object) {
+        web::json::value ToJson(const T &object) {
             return Serializer::ToJson(object);
         }
 
         template<class T>
-        json::value ToJson(const T *object) {
+        web::json::value ToJson(const T *object) {
             return Serializer::ToJson(object);
         }
 
         template<class T>
-        json::value ToJson(const T *const *object) {
+        web::json::value ToJson(const T *const *object) {
             return Serializer::ToJson(object);
         }
 
 /************************** Deserializing *************************/
         template<class T>
-        void FromJson(T &object, const json::value &jvalue) {
+        void FromJson(T &object, const web::json::value &jvalue) {
             Deserializer::FromJson(object, jvalue);
         }
 
         template<class T>
-        void FromJson(T *object, const json::value &jvalue) {
+        void FromJson(T *object, const web::json::value &jvalue) {
             Deserializer::FromJson(object, jvalue);
         }
 
         template<class T>
-        void FromJson(T **object, json::value &jvalue) {
+        void FromJson(T **object, web::json::value &jvalue) {
             Deserializer::FromJson(object, jvalue);
         }
 

@@ -26,11 +26,9 @@
 #include "LibCipher.h"
 #include <string>
 
-using namespace std;
-using namespace Pantoon;
-using namespace Common;
-using namespace Mocxygen;
 
+namespace Pantoon {
+    
 void ServiceInitializer::Initialize()
 {
     // Initializing config reader and reading server config file
@@ -53,7 +51,7 @@ void ServiceInitializer::Initialize()
 
     auto loglevelStr = server_config_reader->GetValueOf(SERVICE_LOG_LEVEL);
     try {
-        logger->SetLogLevel(Converter::ToInt32(loglevelStr));
+        logger->SetLogLevel(Common::Converter::ToInt32(loglevelStr));
     } catch (...) {
     }
 
@@ -67,4 +65,6 @@ void ServiceInitializer::Initialize()
     Logfig::LoadLibrary();
     Cmarshal::Json::LoadLibrary();
     Mocxygen::LoadLibrary();
+}
+
 }

@@ -35,7 +35,7 @@ void BasePropertyReader::Dispose()
     }
 }
 
-void BasePropertyReader::SetFile(const string& filename) noexcept(false)
+void BasePropertyReader::SetFile(const std::string& filename) noexcept(false)
 {
     boost::lock_guard<boost::mutex> guard(m_mutex);
     m_fileName = filename;
@@ -50,15 +50,15 @@ void BasePropertyReader::ReloadFile() noexcept(false)
     m_isDisposed = false;
 }
 
-void BasePropertyReader::LoadFile(const string& filename) noexcept(false)
+void BasePropertyReader::LoadFile(const std::string& filename) noexcept(false)
 {
     try {
-        ifstream infs(filename.c_str());
-        string line;
+        std::ifstream infs(filename.c_str());
+        std::string line;
         m_properties.clear();
 
         try {
-            while (getline(infs, line)) {
+            while (std::getline(infs, line)) {
                 Common::StringUtils::Trim(line);
                 if (line.length() == 0 || line.at(0) == '#') {
                     continue;
@@ -67,28 +67,28 @@ void BasePropertyReader::LoadFile(const string& filename) noexcept(false)
                 size_t pos = line.find(PAIR_SEPERATOR);
                 //pos must be valid index and cannot be the first and last index
                 if (pos > 0 && pos < line.size() - 1) {
-                    vector< string > listValue = vector< string >();
+                    std::vector< std::string > listValue = std::vector< std::string >();
                     Common::StringUtils::Tokenize(listValue, line, PAIR_SEPERATOR);
                     if (listValue.size() >= 2) {
                         m_properties[ listValue[ 0 ] ] = listValue[ 1 ];
                     }
                 }
             }
-        } catch (exception &e) {
+        } catch (std::exception &e) {
             infs.close();
             throw Common::AppException(e, AppErrorCode::COULD_NOT_OPEN_FILE,
                     "Could not open file : " + filename);
         }
         infs.close();
-    } catch (exception &e) {
+    } catch (std::exception &e) {
         throw Common::AppException(e, AppErrorCode::COULD_NOT_OPEN_FILE,
                 "Could not open file : " + filename);
     }
 }
 
-string BasePropertyReader::GetValueOf(const string& key)
+std::string BasePropertyReader::GetValueOf(const std::string& key)
 {
-    string value = "";
+    std::string value = "";
     boost::lock_guard<boost::mutex> guard(m_mutex);
     if (!m_isDisposed) {
         if (m_properties.find(key) != m_properties.end()) {

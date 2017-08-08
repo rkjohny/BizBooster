@@ -21,13 +21,12 @@
 #include "AppCommonDef.h"
 
 namespace Logfig {
-using namespace std;
 
 class BaseLogger : public Common::SharedObject, public Common::Disposable {
 private:
     NON_COPY_NON_MOVE_ABLE(BaseLogger);
 
-    map<string, OStream *> m_streamList;
+    std::map<std::string, OStream *> m_streamList;
     int m_logLevel;   
 
 protected:
@@ -47,22 +46,22 @@ public:
 
     void SetLogLevel(int level);
 
-    void AddStream(const string &key, OStream *ostram);
+    void AddStream(const std::string &key, OStream *ostram);
 
-    void RemoveStream(const string &key);
+    void RemoveStream(const std::string &key);
 
-    void Debug(const string &&prefix, const string &&message);
-    void Info(const string &&prefix, const string &&message);
-    void Warning(const string &&prefix, const string &&message);
-    void Error(const string &&prefix, const string &&message);
+    void Debug(const std::string &&prefix, const std::string &&message);
+    void Info(const std::string &&prefix, const std::string &&message);
+    void Warning(const std::string &&prefix, const std::string &&message);
+    void Error(const std::string &&prefix, const std::string &&message);
 
-    void Debug(const string &&prefix, const string &message);
-    void Info(const string &&prefix, const string &message);
-    void Warning(const string &&prefix, const string &message);
-    void Error(const string &&prefix, const string &message);
+    void Debug(const std::string &&prefix, const std::string &message);
+    void Info(const std::string &&prefix, const std::string &message);
+    void Warning(const std::string &&prefix, const std::string &message);
+    void Error(const std::string &&prefix, const std::string &message);
     
-    void Write(const string &&message);
-    void Write(const string& message);
+    void Write(const std::string &&message);
+    void Write(const std::string& message);
 
     int GetLogLevel();
 };

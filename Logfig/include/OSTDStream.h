@@ -18,8 +18,6 @@
 #include "OStream.h"
 
 namespace Logfig {
-    using namespace std;
-
     class OSTDStream : public OStream {
     private:
         NON_COPY_NON_MOVE_ABLE(OSTDStream);
@@ -32,8 +30,8 @@ namespace Logfig {
 
         void Flush() override;
 
-        void Write(const string&& message) override;
-        void Write(const string& message) override;
+        void Write(const std::string&& message) override;
+        void Write(const std::string& message) override;
         
         void Close() override;
     };

@@ -15,8 +15,6 @@
 #include <gtest/gtest.h>
 #include <type_traits>
 
-using namespace std;
-
 // running all test cases
 
 int main(int argc, char **argv)

@@ -23,50 +23,50 @@ namespace Logfig {
 std::map<std::string, LoggerFactory::Logger*> LoggerFactory::cm_loggersList;
 
 
-void LoggerFactory::Logger::Debug(const char *fname, int line, const string &&message)
+void LoggerFactory::Logger::Debug(const char *fname, int line, const std::string &&message)
 {
     BaseLogger::Debug(Common::FileUtils::GetName(fname) + ":" +
             Common::Converter::ToStr(line), std::move(message));
 }
 
-void LoggerFactory::Logger::Info(const char *fname, int line, const string &&message)
+void LoggerFactory::Logger::Info(const char *fname, int line, const std::string &&message)
 {
     BaseLogger::Info(Common::FileUtils::GetName(fname) + ":" +
             Common::Converter::ToStr(line), std::move(message));
 }
 
-void LoggerFactory::Logger::Warning(const char *fname, int line, const string &&message)
+void LoggerFactory::Logger::Warning(const char *fname, int line, const std::string &&message)
 {
     BaseLogger::Warning(Common::FileUtils::GetName(fname) + ":" +
             Common::Converter::ToStr(line), std::move(message));
 }
 
-void LoggerFactory::Logger::Error(const char *fname, int line, const string &&message)
+void LoggerFactory::Logger::Error(const char *fname, int line, const std::string &&message)
 {
     BaseLogger::Error(Common::FileUtils::GetName(fname) + ":" +
             Common::Converter::ToStr(line), std::move(message));
 }
 
 
-void LoggerFactory::Logger::Debug(const char *fname, int line, const string &message)
+void LoggerFactory::Logger::Debug(const char *fname, int line, const std::string &message)
 {
     BaseLogger::Debug(Common::FileUtils::GetName(fname) + ":" +
             Common::Converter::ToStr(line), message);
 }
 
-void LoggerFactory::Logger::Info(const char *fname, int line, const string &message)
+void LoggerFactory::Logger::Info(const char *fname, int line, const std::string &message)
 {
     BaseLogger::Info(Common::FileUtils::GetName(fname) + ":" +
             Common::Converter::ToStr(line), message);
 }
 
-void LoggerFactory::Logger::Warning(const char *fname, int line, const string &message)
+void LoggerFactory::Logger::Warning(const char *fname, int line, const std::string &message)
 {
     BaseLogger::Warning(Common::FileUtils::GetName(fname) + ":" +
             Common::Converter::ToStr(line), message);
 }
 
-void LoggerFactory::Logger::Error(const char *fname, int line, const string &message)
+void LoggerFactory::Logger::Error(const char *fname, int line, const std::string &message)
 {
     BaseLogger::Error(Common::FileUtils::GetName(fname) + ":" +
             Common::Converter::ToStr(line), message);

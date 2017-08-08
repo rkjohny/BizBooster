@@ -18,13 +18,13 @@
 namespace Common {
 
 
-AppException::AppException(const string& message) : runtime_error(message.c_str())
+AppException::AppException(const std::string& message) : runtime_error(message.c_str())
 {
     m_code = AppErrorCode::UN_KNOWN_ERROR;
     m_message = message;
 }
 
-AppException::AppException(AppErrorCode code, const string& message) : runtime_error(message.c_str())
+AppException::AppException(AppErrorCode code, const std::string& message) : runtime_error(message.c_str())
 {
     m_code = code;
     m_message = message;
@@ -36,13 +36,13 @@ AppException::AppException(const AppException &e) : runtime_error(e.GetMessage()
     m_message = e.GetMessage();
 }
 
-AppException::AppException(const exception& e, const string& message) : runtime_error(e.what() ? e.what() : message.c_str())
+AppException::AppException(const std::exception& e, const std::string& message) : runtime_error(e.what() ? e.what() : message.c_str())
 {
     m_code = AppErrorCode::UN_KNOWN_ERROR;
     SetMessage(e, message);
 }
 
-AppException::AppException(const exception& e, AppErrorCode code, const string& message) :
+AppException::AppException(const std::exception& e, AppErrorCode code, const std::string& message) :
 runtime_error(e.what() ? e.what() : message.c_str())
 {
     m_code = code;
@@ -58,13 +58,13 @@ AppException& AppException::operator=(AppException& e)
 
 
 ////////////////////////////////
-AppException::AppException(const string &&message) : runtime_error(message.c_str())
+AppException::AppException(const std::string &&message) : runtime_error(message.c_str())
 {
     m_code = AppErrorCode::UN_KNOWN_ERROR;
     m_message = std::move(message);
 }
 
-AppException::AppException(AppErrorCode code, const string &&message) : runtime_error(message.c_str())
+AppException::AppException(AppErrorCode code, const std::string &&message) : runtime_error(message.c_str())
 {
     m_code = code;
     m_message = std::move(message);
@@ -76,13 +76,13 @@ AppException::AppException(const AppException &&e) : runtime_error(e.GetMessage(
     m_message = std::move(e.GetMessage());
 }
 
-AppException::AppException(const exception &&e, const string &&message) : runtime_error(e.what() ? e.what() : message.c_str())
+AppException::AppException(const std::exception &&e, const std::string &&message) : runtime_error(e.what() ? e.what() : message.c_str())
 {
     m_code = AppErrorCode::UN_KNOWN_ERROR;
     SetMessage(std::move(e), std::move(message));
 }
 
-AppException::AppException(const exception &&e, AppErrorCode code, const string &&message) :
+AppException::AppException(const std::exception &&e, AppErrorCode code, const std::string &&message) :
 runtime_error(e.what() ? e.what() : message.c_str())
 {
     m_code = std::move(code);
@@ -108,7 +108,7 @@ AppErrorCode AppException::GetCode() const
     return m_code;
 }
 
-const string& AppException::GetMessage() const
+const std::string& AppException::GetMessage() const
 {
     return m_message;
 }
@@ -123,12 +123,12 @@ web::json::value AppException::Serialize() const
     return response;
 }
 
-string AppException::ToString() const
+std::string AppException::ToString() const
 {
     return Serialize().serialize();
 }
 
-void AppException::SetMessage(const exception& e, const string &message)
+void AppException::SetMessage(const std::exception& e, const std::string &message)
 {
     if (message.compare("Unknown") != 0) {
         if (e.what()) {
@@ -145,7 +145,7 @@ void AppException::SetMessage(const exception& e, const string &message)
     }
 }
 
-void AppException::SetMessage(const exception &&e, const string &&message)
+void AppException::SetMessage(const std::exception &&e, const std::string &&message)
 {
     if (message.compare("Unknown") != 0) {
         if (e.what()) {

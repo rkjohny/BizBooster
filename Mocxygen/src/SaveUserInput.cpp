@@ -55,11 +55,11 @@ namespace Mocxygen {
     }
 
 
-    string SaveUserInput::Name() const {
+    std::string SaveUserInput::Name() const {
         return "SaveUserInput";
     }
 
-    string SaveUserInput::ToString() const {
+    std::string SaveUserInput::ToString() const {
         return "SaveUserInput";
     }
 
@@ -67,7 +67,7 @@ namespace Mocxygen {
         return Api::SaveUser(requester, this);
     }
 
-    const boost::optional<string> &SaveUserInput::GetEmail() const {
+    const boost::optional<std::string> &SaveUserInput::GetEmail() const {
         return m_email;
     }
 
@@ -75,7 +75,7 @@ namespace Mocxygen {
         m_email = email;
     }
 
-    const boost::optional<string> &SaveUserInput::GetName() const {
+    const boost::optional<std::string> &SaveUserInput::GetName() const {
         return m_name;
     }
 
@@ -83,7 +83,7 @@ namespace Mocxygen {
         m_name = name;
     }
 
-    const boost::optional<string> &SaveUserInput::GetRoles() const {
+    const boost::optional<std::string> &SaveUserInput::GetRoles() const {
         return m_roles;
     }
 
@@ -99,7 +99,7 @@ namespace Mocxygen {
         m_version = version;
     }
 
-    const boost::optional<string> &SaveUserInput::GetPassword() const {
+    const boost::optional<std::string> &SaveUserInput::GetPassword() const {
         return m_password;
     }
 
@@ -107,7 +107,7 @@ namespace Mocxygen {
         m_password = password;
     }
 
-    const boost::optional<string> &SaveUserInput::GetStatus() const {
+    const boost::optional<std::string> &SaveUserInput::GetStatus() const {
         return m_status;
     }
 
@@ -115,7 +115,7 @@ namespace Mocxygen {
         m_status = status;
     }
 
-    const boost::optional<string> &SaveUserInput::GetConfirmPassword() const {
+    const boost::optional<std::string> &SaveUserInput::GetConfirmPassword() const {
         return m_confirmPassword;
     }
 

@@ -27,7 +27,7 @@ public:
 
     ~LoginInput() = default;
 
-    const boost::optional<string> & GetPassword() const;
+    const boost::optional<std::string> & GetPassword() const;
 
     void SetPassword(const boost::optional<std::string> &password);
 
@@ -39,7 +39,7 @@ public:
 
     void SetUseGoogleAuth(const boost::optional<bool> &useGoogleAuth);
 
-    const boost::optional<string> & GetUserName() const;
+    const boost::optional<std::string> & GetUserName() const;
 
     void SetUserName(const boost::optional<std::string> &userName);
 

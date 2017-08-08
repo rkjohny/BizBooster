@@ -93,7 +93,7 @@ void ApiError::SetCode(AppErrorCode code)
     m_code = code;
 }
 
-void ApiError::SetMessage(const string& message)
+void ApiError::SetMessage(const std::string& message)
 {
     m_message = message;
 }
@@ -109,7 +109,7 @@ AppErrorCode ApiError::GetCode() const
     return m_code;
 }
 
-const string& ApiError::GetMessage() const
+const std::string& ApiError::GetMessage() const
 {
     return m_message;
 }

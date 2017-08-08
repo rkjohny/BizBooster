@@ -19,34 +19,32 @@
 #include "AppCommonDef.h"
 
 namespace Mocxygen {
-using namespace std;
-using namespace Cmarshal::Json;
 
 class SaveUserInput : public AbstractApiSaveEntityInput<SaveUserInput> {
 public:
     API_INPUT(SaveUserInput);
     ~SaveUserInput() = default;
 
-    const boost::optional<string> & GetEmail() const;
+    const boost::optional<std::string> & GetEmail() const;
     void SetEmail(const boost::optional<std::string> &email);
 
-    const boost::optional<string> & GetName() const;
+    const boost::optional<std::string> & GetName() const;
     void SetName(const boost::optional<std::string> &name);
 
-    const boost::optional<string> & GetRoles() const;
+    const boost::optional<std::string> & GetRoles() const;
     void SetRoles(const boost::optional<std::string> &roles);
 
     const boost::optional<int> & GetVersion() const;
     void SetVersion(const boost::optional<int> &version);
 
-    const boost::optional<string> & GetPassword() const;
+    const boost::optional<std::string> & GetPassword() const;
     void SetPassword(const boost::optional<std::string> &password);
 
-    const boost::optional<string> & GetStatus() const;
+    const boost::optional<std::string> & GetStatus() const;
     void SetStatus(const boost::optional<std::string> &status);
 
 
-    const boost::optional<string> & GetConfirmPassword() const;
+    const boost::optional<std::string> & GetConfirmPassword() const;
 
     void SetConfirmPassword(const boost::optional<std::string>& confirmPassword);
 

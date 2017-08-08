@@ -19,7 +19,7 @@ OStream()
 {
 }
 
-OFStream::OFStream(const string &filename) : m_ofs(filename, ios_base::app)
+OFStream::OFStream(const std::string &filename) : m_ofs(filename, std::ios_base::app)
 {
     m_is_open = m_ofs.is_open();
 }
@@ -29,7 +29,7 @@ OFStream::~OFStream()
     OFStream::Close();
 }
 
-void OFStream::SetFile(const string &filename)
+void OFStream::SetFile(const std::string &filename)
 {
     boost::lock_guard<boost::mutex> guard(m_mutex);
     try {
@@ -39,7 +39,7 @@ void OFStream::SetFile(const string &filename)
             m_ofs.close();
         }
         this->m_fileName = filename;
-        m_ofs.open(m_fileName, ios_base::out | ios_base::app);
+        m_ofs.open(m_fileName, std::ios_base::out | std::ios_base::app);
         m_is_open = m_ofs.is_open();
     } catch (...) {
     }
@@ -50,7 +50,7 @@ void OFStream::Open()
     boost::lock_guard<boost::mutex> guard(m_mutex);
     if (!m_is_open) {
         try {
-            m_ofs.open(m_fileName, ios_base::app);
+            m_ofs.open(m_fileName, std::ios_base::app);
             m_is_open = m_ofs.is_open();
         } catch (...) {
         }
@@ -68,26 +68,26 @@ void OFStream::Flush()
     }
 }
 
-void OFStream::Write(const string&& message)
+void OFStream::Write(const std::string&& message)
 {
     boost::lock_guard<boost::mutex> guard(m_mutex);
     if (m_is_open) {
         try {
             // endl will flush stream
-            m_ofs << std::move(message) << endl;
+            m_ofs << std::move(message) << std::endl;
             //m_ofs.flush();
         } catch (...) {
         }
     }
 }
 
-void OFStream::Write(const string& message)
+void OFStream::Write(const std::string& message)
 {
     boost::lock_guard<boost::mutex> guard(m_mutex);
     if (m_is_open) {
         try {
             // endl will flush stream
-            m_ofs << message << endl;
+            m_ofs << message << std::endl;
             //m_ofs.flush();
         } catch (...) {
         }

@@ -42,7 +42,7 @@ web::json::value ApiExecutor::ExecuteSingleApi(const web::http::http_request& re
 
     if (japi.is_string() && jdata.is_object()) {
 
-        auto obj = Mocxygen::SOFactory::CreateObject(apiName);
+        auto obj = Cmarshal::Json::SOFactory::CreateObject(apiName);
         if (obj) {
             Cruxdb::Requester *requester = nullptr;
             std::shared_ptr<Cruxdb::Requester> requesterPtr = nullptr;
@@ -76,7 +76,7 @@ web::json::value ApiExecutor::ExecuteSingleApi(const web::http::http_request& re
             }
 
             if (requester) {
-                auto input = std::dynamic_pointer_cast<Mocxygen::AbstractBaseInput, Mocxygen::AbstractSerializable>(obj);
+                auto input = std::dynamic_pointer_cast<Mocxygen::AbstractBaseInput, Cmarshal::Json::AbstractSerializable>(obj);
                 
                 input->Deserialize(jdata);
                 auto output = input->Process(requester);

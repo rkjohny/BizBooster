@@ -13,7 +13,7 @@
 
 #include "Listener.h"
 
-using namespace Pantoon;
+namespace Pantoon {
 
 Listener::Listener(utility::string_t url) : m_listener(web::http::uri(url))
 {
@@ -51,4 +51,6 @@ pplx::task<void> Listener::Run()
 pplx::task<void> Listener::ShutDown()
 {
     return m_listener.close();
+}
+
 }

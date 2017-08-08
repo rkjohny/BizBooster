@@ -24,7 +24,6 @@
 
 namespace  Cmarshal {
     namespace Json {
-        using namespace std;
 
 #define REGISTER_CLASS(TYPE, NAME) \
     Cmarshal::Json::SOFactory::Register<TYPE>(NAME);
@@ -34,7 +33,7 @@ namespace  Cmarshal {
 
 #define REGISTER_CLASS_DEC(TYPE, KEY, ID) \
     Cmarshal::Json::ClassRegistrar<TYPE> \
-        TYPE::_class_registrar_##ID = Json::ClassRegistrar<TYPE>( string(KEY) );
+        TYPE::_class_registrar_##ID = Json::ClassRegistrar<TYPE>( std::string(KEY) );
 
 
 #define UNREGISTER_CLASS(TYPE, NAME) \
@@ -43,12 +42,12 @@ namespace  Cmarshal {
         class SOFactory {
         public:
 
-            static std::shared_ptr<AbstractSerializable> CreateObject(const string &key);
+            static std::shared_ptr<AbstractSerializable> CreateObject(const std::string &key);
 
-            static std::vector<std::shared_ptr<AbstractSerializable>> CreateObjectArray(const string &key, const size_t size);
+            static std::vector<std::shared_ptr<AbstractSerializable>> CreateObjectArray(const std::string &key, const std::size_t size);
 
             template<class T>
-            static void Register(const string &key) {
+            static void Register(const std::string &key) {
                 static_assert(std::is_base_of<AbstractSerializable, T>::value, "T must be derived from AbstractSerializable");
                 std::string lwKey = key;
                 Common::StringUtils::ToLower(lwKey);
@@ -60,13 +59,10 @@ namespace  Cmarshal {
                 cm_mutexArr.lock();
                 cm_objectArrayCreators[lwKey] = &CreateArrary<T>;
                 cm_mutexArr.unlock();
-
-                cout << cm_objectCreators.size() << endl;
-                cout << cm_objectArrayCreators.size() << endl;
             }
 
             template<class T>
-            static void UnRegister(const string &key) {
+            static void UnRegister(const std::string &key) {
                 static_assert(std::is_base_of<AbstractSerializable, T>::value, "T must be derived from AbstractSerializable");
                 std::string lwKey = key;
                 Common::StringUtils::ToLower(lwKey);
@@ -94,11 +90,11 @@ namespace  Cmarshal {
 
             typedef std::shared_ptr<AbstractSerializable> (*FunPtr)(void);
 
-            typedef map<string, FunPtr> ListCreators;
+            typedef std::map<std::string, FunPtr> ListCreators;
 
             typedef std::vector<std::shared_ptr<AbstractSerializable>> (*FunPtrArr)(const size_t);
 
-            typedef map<string, FunPtrArr> ListCreatorsArr;
+            typedef std::map<std::string, FunPtrArr> ListCreatorsArr;
 
             template<class T>
             static std::shared_ptr<AbstractSerializable> Create() {
@@ -125,7 +121,7 @@ namespace  Cmarshal {
         class ClassRegistrar {
         public:
 
-            ClassRegistrar(const string &key) {
+            ClassRegistrar(const std::string &key) {
                 SOFactory::Register<T>(key);
             }
 

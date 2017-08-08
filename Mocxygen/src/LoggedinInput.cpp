@@ -54,11 +54,11 @@ namespace Mocxygen {
     }
 
 
-    const boost::optional<string> & LoggedinInput::GetSessionToken() const {
+    const boost::optional<std::string> & LoggedinInput::GetSessionToken() const {
         return m_sessionToken;
     }
 
-    void LoggedinInput::SetSessionToken(const boost::optional<string> &sessionToken) {
+    void LoggedinInput::SetSessionToken(const boost::optional<std::string> &sessionToken) {
         LoggedinInput::m_sessionToken = sessionToken;
     }
 

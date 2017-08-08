@@ -18,8 +18,6 @@
 
 namespace Cmarshal {
     namespace Json {
-        using namespace std;
-
         class AbstractSerializable {
         public:
             AbstractSerializable() = default;

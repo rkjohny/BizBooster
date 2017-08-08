@@ -22,7 +22,6 @@
 
 
 namespace Mocxygen {
-using namespace std;
 
 class ApiError : public Cmarshal::Json::SerializableT<ApiError> {
 public:
@@ -31,7 +30,7 @@ public:
     ApiError(AppErrorCode code, const std::string &message);
 
     void SetCode(AppErrorCode code);
-    void SetMessage(const string& message);
+    void SetMessage(const std::string& message);
     void SetError(AppErrorCode code, const std::string &message);
     void SetError(const ApiError &error);
     void SetError(ApiError &&error);
@@ -47,25 +46,25 @@ public:
     ApiError& operator=(std::exception &&e);
 
     AppErrorCode GetCode() const;
-    const string& GetMessage() const;
+    const std::string& GetMessage() const;
 
     web::json::value Serialize() const;
     std::string ToString() const;
 
     REGISTER_GETTER_INCLUDING_BASE_START(Cmarshal::Json::SerializableT<ApiError>)
     GETTER(ApiError, AppErrorCode, "code", &ApiError::GetCode),
-    GETTER(ApiError, const string&, "message", &ApiError::GetMessage)
+    GETTER(ApiError, const std::string&, "message", &ApiError::GetMessage)
     REGISTER_GETTER_INCLUDING_BASE_END
 
 
     REGISTER_SETTER_INCLUDING_BASE_START(Cmarshal::Json::SerializableT<ApiError>)
     SETTER(ApiError, AppErrorCode, "code", &ApiError::SetCode),
-    SETTER(ApiError, const string&, "message", &ApiError::SetMessage)
+    SETTER(ApiError, const std::string&, "message", &ApiError::SetMessage)
     REGISTER_SETTER_INCLUDING_BASE_END
 
 private:
     AppErrorCode m_code;
-    string m_message;
+    std::string m_message;
 };
 
 } /* namespace Mocxygen */

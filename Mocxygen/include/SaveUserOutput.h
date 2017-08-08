@@ -20,10 +20,6 @@
 
 
 namespace Mocxygen {
-    using namespace std;
-    using namespace Cmarshal::Json;
-    using namespace Cruxdb;
-
     class SaveUserOutput : public AbstractApiSaveEntityOutput<SaveUserOutput, Cruxdb::User> {
     private:
         using SaveUserOutputT = AbstractApiSaveEntityOutput<SaveUserOutput, Cruxdb::User>;

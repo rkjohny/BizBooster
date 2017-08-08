@@ -26,13 +26,8 @@
 #include "ServiceDisposer.h"
 #include "CFReaderFactory.h"
 
-using namespace Pantoon;
-using namespace Common;
-using namespace std;
-using namespace web;
-//using namespace http;
-using namespace utility;
-//using namespace http::experimental::listener;
+
+namespace Pantoon {
 
 Service::Service()
 {
@@ -53,13 +48,13 @@ Service::Service()
     addr.append(U(":"));
     addr.append(port);
     
-    uri_builder uri(addr);
+    web::uri_builder uri(addr);
     uri.append_path(path);
 
     this->address = uri.to_uri().to_string();
     this->uri = uri;
     
-    m_listener = unique_ptr<Listener> (new Listener(this->address));
+    m_listener = std::unique_ptr<Listener> (new Listener(this->address));
 }
 
 void Service::Run()
@@ -75,15 +70,17 @@ void Service::ShutDown()
     m_listener->ShutDown().wait();
 }
 
+}
+
 int main(int argc, char** argv)
 {
     UNUSED(argc), UNUSED(argv);
     
-    Service server;
+    Pantoon::Service serevice;
 
     LOG_DEBUG("Pantoon service starting ...");
 
-    server.Run();
+    serevice.Run();
 
     LOG_DEBUG("Pantoon service started.");
     while (1) {
@@ -103,8 +100,8 @@ int main(int argc, char** argv)
 
     LOG_DEBUG("Pantoon service is shutting down ...");
 
-    server.ShutDown();
-    ServiceDisposer::Dispose();
+    serevice.ShutDown();
+    Pantoon::ServiceDisposer::Dispose();
 
 #ifdef _WIN32
     Sleep(1000);

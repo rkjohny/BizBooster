@@ -17,7 +17,7 @@
 
 namespace Common {
 
-string DateTimeUtils::GetTimeStamp()
+std::string DateTimeUtils::GetTimeStamp()
 {
     time_t now;
     struct tm tstruct;
@@ -35,7 +35,7 @@ string DateTimeUtils::GetTimeStamp()
     //strftime(buf, sizeof (buf), "%Y-%m-%d %I:%M:%S %p", &tstruct);
     strftime(buf, sizeof (buf), "%Y-%m-%d %H:%M:%S", &tstruct);
 
-    return string(buf);
+    return std::string(buf);
 }
 
 void DateTimeUtils::GetCurrentDateTime(Wt::WDateTime &dt)
