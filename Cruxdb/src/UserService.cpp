@@ -46,24 +46,28 @@ namespace Cruxdb {
         return user;
     }
 
-    Wt::Dbo::ptr<User> UserService::GetUser(Requester *requester, const std::string &identity) {
+    Wt::Dbo::ptr<User> 
+    UserService::GetUser(Requester *requester, const std::string &identity) {
         return GetUser(requester, DEFAULT_LOG_IN_PROVIDER, identity);
     }
 
-    Wt::Dbo::ptr<AuthInfo> UserService::AddAuthInfo(Requester *requester, AuthInfo *authInfo) {
+    Wt::Dbo::ptr<AuthInfo> 
+    UserService::AddAuthInfo(Requester *requester, Wt::Dbo::ptr<AuthInfo> &authInfo) {
         return m_session->add<AuthInfo>(authInfo);
     }
 
-    Wt::Dbo::ptr<AuthInfo::AuthIdentityType>
-    UserService::AddIdentity(Requester *requester, AuthInfo::AuthIdentityType *identity) {
+    Wt::Dbo::ptr<AuthIdentityType>
+    UserService::AddIdentity(Requester *requester, Wt::Dbo::ptr<AuthIdentityType> &identity) {
         return m_session->add<AuthInfo::AuthIdentityType>(identity);
     }
 
-    Wt::Dbo::ptr<User> UserService::GetUser(Requester *requester, int64_t id) {
+    Wt::Dbo::ptr<User> 
+    UserService::GetUser(Requester *requester, int64_t id) {
         return m_session->find<Cruxdb::User>().where("id = ? and status = ?").bind(id).bind(StatusStr::V);
     }
 
-    Wt::Dbo::ptr<User> UserService::GetUser(Requester *requester, const Wt::Auth::User &authUser) {
+    Wt::Dbo::ptr<User> 
+    UserService::GetUser(Requester *requester, const Wt::Auth::User &authUser) {
         Wt::Dbo::ptr<Cruxdb::User> user;
 
         Wt::Dbo::ptr<Cruxdb::AuthInfo> authInfo = GetUserDB().find(authUser);
@@ -71,16 +75,16 @@ namespace Cruxdb {
             user = authInfo->user();
 
             if (!user) {
-                user = Wt::Dbo::ptr<Cruxdb::User>(new Cruxdb::User());
-                SaveEntity(requester, static_cast<Cruxdb::User*>(user.modify()));
-                authInfo.modify()->setUser(user);
-                return user;
+                Wt::Dbo::ptr<Cruxdb::User> newUser = SaveEntity(requester, Wt::Dbo::make_ptr<User>());
+                authInfo.modify()->setUser(newUser);
+                return newUser;
             }
         }
         return user;
     }
 
-    Cruxdb::UserDatabase &UserService::GetUserDB() {
+    Cruxdb::UserDatabase&
+    UserService::GetUserDB() {
         return m_session->GetUserDB();
     }
 }

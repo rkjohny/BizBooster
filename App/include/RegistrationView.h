@@ -7,8 +7,8 @@
 #ifndef REGISTRATION_VIEW_H_
 #define REGISTRATION_VIEW_H_
 
-#include <Wt/Auth/RegistrationWidget>
-#include <Wt/Auth/Login>
+#include <Wt/Auth/RegistrationWidget.h>
+#include <Wt/Auth/Login.h>
 
 #include "UserDetailsModel.h"
 #include "WtSession.h"
@@ -21,7 +21,7 @@ public:
   RegistrationView(Wt::Auth::Login &login, Wt::Auth::AuthWidget *authWidget = nullptr);
 
   /* specialize to create user details fields */
-  Wt::WWidget *createFormWidget(Wt::WFormModel::Field field) override;
+   std::unique_ptr<Wt::WWidget> createFormWidget(Wt::WFormModel::Field field) override;
 
 protected:
   /* specialize to also validate the user details */

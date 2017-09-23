@@ -14,7 +14,7 @@
 #ifndef ENTITY_USER_H
 #define ENTITY_USER_H
 
-#include <Wt/Dbo/Dbo>
+#include <Wt/Dbo/Dbo.h>
 #include <string>
 
 #include "Json.h"
@@ -22,8 +22,8 @@
 #include "CruxdbDef.h"
 #include "Roles.h"
 
-#include <Wt/Dbo/Impl>
-#include <Wt/Auth/Dbo/AuthInfo>
+#include <Wt/Dbo/Impl.h>
+#include <Wt/Auth/Dbo/AuthInfo.h>
 
 #include "DboTypes.h"
 
@@ -101,17 +101,17 @@ public:
     std::string GetPasswordHashMethod() const;
 
     void AddIdentity(const std::string &provider, const std::string &identity);
-    void AddIdentity(const Wt::Dbo::ptr<Cruxdb::AuthInfo::AuthIdentityType> &identity);
+    void AddIdentity(const Wt::Dbo::ptr<Cruxdb::AuthIdentityType> &identity);
     
     Cruxdb::AuthTokens GetAuthTokens() const;
     
     const Wt::Dbo::weak_ptr<Cruxdb::AuthInfo>& GetAuthInfo() const;
     
-    void SetEmailToken(const std::string &token, const Wt::WDateTime &expires, const Wt::Auth::User::EmailTokenRole &role);
+    void SetEmailToken(const std::string &token, const Wt::WDateTime &expires, const Wt::Auth::EmailTokenRole &role);
     
     std::string GetEmailToken() const;
     Wt::WDateTime GetEmailTokenExpirationDate() const;
-    Wt::Auth::User::EmailTokenRole GetEmailTokenRole() const;
+    Wt::Auth::EmailTokenRole GetEmailTokenRole() const;
     
     void SetDateCreated(Wt::WDateTime &dt);
     const Wt::WDateTime& GetDateCreated() const;

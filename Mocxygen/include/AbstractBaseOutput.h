@@ -125,7 +125,7 @@ namespace Mocxygen {
             return m_entity;
         }
 
-        void SetEntity(const Wt::Dbo::ptr<E> entity) {
+        void SetEntity(const Wt::Dbo::ptr<E> &entity) {
             AbstractApiGetEntityOutput::m_entity = entity;
         }
 
@@ -134,7 +134,7 @@ namespace Mocxygen {
         REGISTER_GETTER_INCLUDING_BASE_END
 
         REGISTER_SETTER_INCLUDING_BASE_START(AbstractApiOutput<T>)
-        SETTER(AbstractApiGetEntityOutputTE, const Wt::Dbo::ptr<E>, "entity", &AbstractApiGetEntityOutputTE::SetEntity)
+        SETTER(AbstractApiGetEntityOutputTE, const Wt::Dbo::ptr<E>&, "entity", &AbstractApiGetEntityOutputTE::SetEntity)
         REGISTER_SETTER_INCLUDING_BASE_END
     };
 

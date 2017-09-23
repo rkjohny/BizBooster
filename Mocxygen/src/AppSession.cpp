@@ -22,7 +22,7 @@ AppSession::AppSession()
     std::time(&m_tmExpiresOn);
 
     // 30 minutes to expire
-    m_tmExpiresOn += DEFAULT_SESSION_TIME_OUT_IN_MSC;
+    m_tmExpiresOn += DEFAULT_SESSION_TIME_OUT_IN_SEC;
 
     m_requester = std::shared_ptr<Cruxdb::AuthenticatedRequester>(new Cruxdb::AuthenticatedRequester());
 }
@@ -54,7 +54,7 @@ void AppSession::ExtendExpiration()
     time_t tm;
     std::time(&tm);
     
-    tm += DEFAULT_SESSION_TIME_OUT_IN_MSC; 
+    tm += DEFAULT_SESSION_TIME_OUT_IN_SEC; 
     
     if (tm > m_tmExpiresOn) {
         m_tmExpiresOn = tm;

@@ -36,31 +36,33 @@ protected:
 public:
     void Dispose() override;
 
+    Cruxdb::WtSession* GetSession();
+    
     virtual void CreateTables(Requester *requester);
 
     virtual int GetNextDmVersion(Requester *requester);
 
-    virtual Wt::Dbo::Transaction BeginTransaction(Requester *requester);
-
-    virtual bool CommitTransaction(Requester *requester, Wt::Dbo::Transaction&);
-
-    virtual void RollbackTransaction(Requester *requester, Wt::Dbo::Transaction&);
+//    virtual Wt::Dbo::Transaction BeginTransaction(Requester *requester);
+//
+//    virtual bool CommitTransaction(Requester *requester, Wt::Dbo::Transaction&&);
+//
+//    virtual void RollbackTransaction(Requester *requester, Wt::Dbo::Transaction&&);
 
     virtual bool TableExists(Requester *requester, const std::string &table_name);
 
     template<class C>
     typename std::enable_if<(std::is_base_of<Cruxdb::AbstractAuditableEntity, C>::value == true ||
                              std::is_base_of<Cruxdb::User, C>::value == true), void >::type
-    OnSave(Requester *requester, C *entity)
+    OnSave(Requester *requester, Wt::Dbo::ptr<C> &entity)
     {
         auto now = Common::DateTimeUtils::Now();
 
         if (entity->GetDateCreated().isNull() || !entity->GetCreatedBy()) {
-            entity->SetDateCreated(now);
-            entity->SetCreatedBy(requester->GetUser());
+            entity.modify()->SetDateCreated(now);
+            entity.modify()->SetCreatedBy(requester->GetUser());
         }
-        entity->SetDateLastUpdated(now);
-        entity->SetLastUpdatedBy(requester->GetUser());
+        entity.modify()->SetDateLastUpdated(now);
+        entity.modify()->SetLastUpdatedBy(requester->GetUser());
     }
 
 //    template<class C>
@@ -71,7 +73,7 @@ public:
 
     template<class C>
     typename std::enable_if<std::is_base_of<Cruxdb::AbstractBaseEntity, C>::value == true, Wt::Dbo::ptr<C> >::type
-    SaveEntity(Requester *requester, C *entity)
+    SaveEntity(Requester *requester, Wt::Dbo::ptr<C> &&entity)
     {
         Wt::Dbo::ptr<C> newEntity;
 
@@ -80,11 +82,23 @@ public:
         if (entity->GetId() <= 0) {
             newEntity = m_session->add(entity);
             return newEntity;
-        } else {
-            newEntity = entity;
         }
+        return entity;
+    }
+    
+    template<class C>
+    typename std::enable_if<std::is_base_of<Cruxdb::AbstractBaseEntity, C>::value == true, Wt::Dbo::ptr<C> >::type
+    SaveEntity(Requester *requester, Wt::Dbo::ptr<C> &entity)
+    {
+        Wt::Dbo::ptr<C> newEntity;
 
-        return newEntity;
+        this->OnSave(requester, entity);
+
+        if (entity->GetId() <= 0) {
+            newEntity = m_session->add(entity);
+            return newEntity;
+        }
+        return entity;
     }
 };
 }

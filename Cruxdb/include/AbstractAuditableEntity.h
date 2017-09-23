@@ -13,12 +13,12 @@
 #ifndef AUDITABLE_ENTITY_H
 #define AUDITABLE_ENTITY_H
 
-#include <Wt/WDateTime>
+#include <Wt/WDateTime.h>
 #include "AbstractSimpleEntity.h"
 #include "User.h"
 #include "Json.h"
 
-#include <Wt/Dbo/WtSqlTraits>
+#include <Wt/Dbo/WtSqlTraits.h>
 
 
 namespace Cruxdb {

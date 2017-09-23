@@ -12,9 +12,8 @@
 
 #include "Application.h"
 #include "LogInWidget.h"
-
-#include <Wt/WServer>
-#include <Wt/WBootstrapTheme>
+#include <Wt/WGlobal.h>
+#include <Wt/WServer.h>
 
 #include "AppInitializer.h"
 #include "AuthServices.h"
@@ -30,7 +29,9 @@ Application::Application(const Wt::WEnvironment &env) : Wt::WApplication(env)
     AppInitializer::Initialize();
 
     root()->addStyleClass("container");
-    setTheme(new Wt::WBootstrapTheme());
+    
+    m_theme = std::make_shared<Wt::WBootstrapTheme>();
+    setTheme(m_theme);
 
     useStyleSheet(appRoot() + "resources/css/style.css");
     useStyleSheet(appRoot() + "resources/css/app.css");
@@ -45,7 +46,7 @@ Application::Application(const Wt::WEnvironment &env) : Wt::WApplication(env)
 
     m_login.changed().connect(this, &Application::HandleAuthEvent);
 
-    LogInWidget *logInWidget = new LogInWidget(root(), m_login);
+    std::unique_ptr<LogInWidget> logInWidget = std::make_unique<LogInWidget>(root(), m_login);
 
     logInWidget->model()->addPasswordAuth(&Cruxdb::AuthServices::GetPasswordService());
 
@@ -54,7 +55,7 @@ Application::Application(const Wt::WEnvironment &env) : Wt::WApplication(env)
 
     logInWidget->processEnvironment();
 
-    root()->addWidget(logInWidget);
+    root()->addWidget(std::move(logInWidget));
 }
 
 void Application::HandleAuthEvent()
@@ -65,7 +66,7 @@ void Application::HandleAuthEvent()
 
         auto dao = Cruxdb::GetUserService();
         auto requester = Common::SingleTon<Cruxdb::InternalRootRequester>::GetInstance();
-        auto transaction = dao->BeginTransaction(requester);
+        auto &&transaction = Wt::Dbo::Transaction(*dao->GetSession());
 
         auto &authUser = m_login.user();
         auto user = dao->GetUser(requester, authUser);
@@ -73,8 +74,7 @@ void Application::HandleAuthEvent()
         Wt::log("notice") << "User.email = " << user->GetEmail();
         //Wt::log("notice") << "(Favourite pet: " << user->favouritePet << ")";
 
-        dao->CommitTransaction(requester, transaction);
-
+        transaction.commit();
     } else {
         Wt::log("notice") << "User logged out.";
     }
@@ -82,9 +82,9 @@ void Application::HandleAuthEvent()
 
 } /* end namespace */
 
-Wt::WApplication* createApplication(const Wt::WEnvironment &env)
+std::unique_ptr<Wt::WApplication> createApplication(const Wt::WEnvironment &env)
 {
-    return new BizBooster::Application(env);
+    return std::make_unique<BizBooster::Application>(env);
 }
 
 int main(int argc, char **argv)
@@ -95,7 +95,7 @@ int main(int argc, char **argv)
 
         Wt::WServer server(argc, argv, WTHTTP_CONFIGURATION);
 
-        server.addEntryPoint(Wt::Application, createApplication);
+        server.addEntryPoint(Wt::EntryPointType::Application, createApplication);
 
         server.run();
 

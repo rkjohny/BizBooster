@@ -18,8 +18,8 @@
 #include <string>
 #include <vector>
 
-#include <Wt/Dbo/SqlTraits>
-#include <Wt/WDateTime>
+#include <Wt/Dbo/SqlTraits.h>
+#include <Wt/WDateTime.h>
 
 namespace  Cmarshal {
     namespace Json {
@@ -60,7 +60,7 @@ namespace  Cmarshal {
         public:
             static const bool Value = Is_WtDateTime_Type<U>::Value;
         };
-
+        
 /**
  * type char
  * it may vary among platforms
@@ -506,8 +506,8 @@ namespace  Cmarshal {
         struct Is_Vector<std::vector<T, Alloc> &> {
             static const bool Value = true;
         };
-
-/**
+        
+ /**
  * Checks if T is a custom defined type
  */
 //    template<class T>

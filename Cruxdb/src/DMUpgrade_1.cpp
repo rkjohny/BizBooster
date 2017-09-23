@@ -37,46 +37,47 @@ void DMUpgrade_1::Execute() noexcept(false)
     std::string superUserIdentityProvider = DEFAULT_LOG_IN_PROVIDER;
     std::string superUserIdentity = "admin";
 
-    User *user = nullptr;
-    Cruxdb::AuthInfo *authInfo = nullptr;
-    Cruxdb::AuthInfo::AuthIdentityType *identity = nullptr;
+    Wt::Dbo::ptr<User> user = nullptr;
+    Wt::Dbo::ptr<Cruxdb::AuthInfo> authInfo = nullptr;
+    Wt::Dbo::ptr<Cruxdb::AuthIdentityType> identity = nullptr;
 
     auto dao = Cruxdb::GetUserService();
     
     try {
         //Creating super user;
-        user = new User();
-        user->SetName(superUserName);
-        user->SetRoles(Role::ROLE_CREATE_SUPER_USER);
-        user->SetStatus(Status::V);
+        user = Wt::Dbo::make_ptr<User>();
+        user.modify()->SetName(superUserName);
+        user.modify()->SetRoles(Role::ROLE_CREATE_SUPER_USER);
+        user.modify()->SetStatus(Status::V);
 
         Requester *requester = Common::SingleTon<InternalRootRequester>::GetInstance();
-        auto userAdded = dao->SaveEntity(requester, user);
+        Wt::Dbo::ptr<User> userAdded = dao->SaveEntity(requester, user);
 
         if (userAdded) {
-            authInfo = new Cruxdb::AuthInfo();
+            authInfo = Wt::Dbo::make_ptr<Cruxdb::AuthInfo>();
 
-            authInfo->setEmail(superUserEmail);
-            authInfo->setUnverifiedEmail(superUserEmail);
+            authInfo.modify()->setEmail(superUserEmail);
+            authInfo.modify()->setUnverifiedEmail(superUserEmail);
 
-            auto now = Common::DateTimeUtils::AddMscToNow(DEFAULT_SESSION_TIME_OUT_IN_MSC);
-            authInfo->setEmailToken(Cruxdb::AuthUtils::GenerateEmailToken(), now, Wt::Auth::User::EmailTokenRole::VerifyEmail);
+            auto now = Common::DateTimeUtils::AddMsecToNow(DEFAULT_SESSION_TIME_OUT_IN_SEC);
+            authInfo.modify()->setEmailToken(Cruxdb::AuthUtils::GenerateEmailToken(), now, Wt::Auth::EmailTokenRole::VerifyEmail);
 
             auto passwdEncoder = Cipher::GetPasswordEncoder();
             auto salt = passwdEncoder->GenerateSalt();
             auto hash = passwdEncoder->Encode(superUserPassword, salt);
             auto hashMethod = passwdEncoder->HashMethodName();
-            authInfo->setPassword(hash, hashMethod, salt);
+            authInfo.modify()->setPassword(hash, hashMethod, salt);
 
-            authInfo->setStatus(Wt::Auth::User::Status::Normal);
+            authInfo.modify()->setStatus(Wt::Auth::User::Status::Normal);
 
-            authInfo->setUser(userAdded);
+            authInfo.modify()->setUser(userAdded);
 
-            auto authInfoAdded = dao->AddAuthInfo(requester, authInfo);
+            Wt::Dbo::ptr<Cruxdb::AuthInfo> authInfoAdded = dao->AddAuthInfo(requester, authInfo);
 
             if (authInfoAdded) {
-                identity = new Cruxdb::AuthIdentity(superUserIdentityProvider, superUserIdentity);
+                //identity = new Cruxdb::AuthInfo::AuthIdentityType(superUserIdentityProvider, superUserIdentity);
 
+                identity = Wt::Dbo::make_ptr<Cruxdb::AuthIdentityType>();
                 authInfoAdded.modify()->authIdentities().insert(identity);
 
                 // Wt::Cruxdb::ptr<AuthInfo::AuthIdentityType> identityAdded =
@@ -90,17 +91,9 @@ void DMUpgrade_1::Execute() noexcept(false)
                     "Database operation of adding super user failed");
         }
     } catch (Common::AppException &e) {
-        //cleanup if not yet
-        if (user) delete user;
-        if (authInfo) delete authInfo;
-        if (identity) delete identity;
         //raise error
         throw e;
     } catch (std::exception &e) {
-        //cleanup if not yet
-        if (user) delete user;
-        if (authInfo) delete authInfo;
-        if (identity) delete identity;
         //raise error
         throw Common::AppException(e);
     }

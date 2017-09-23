@@ -15,8 +15,8 @@
 
 #include "AppCommonDef.h"
 
-#include <Wt/Auth/AuthService>
-#include <Wt/Auth/PasswordService>
+#include <Wt/Auth/AuthService.h>
+#include <Wt/Auth/PasswordService.h>
 
 namespace Cruxdb {
 

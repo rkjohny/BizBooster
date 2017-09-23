@@ -15,9 +15,9 @@
 
 #include "AppCommonDef.h"
 #include "Disposable.h"
-#include <Wt/Dbo/Dbo>
-#include <Wt/Dbo/WtSqlTraits>
-#include <Wt/Dbo/backend/Postgres>
+#include <Wt/Dbo/Dbo.h>
+#include <Wt/Dbo/WtSqlTraits.h>
+#include <Wt/Dbo/backend/Postgres.h>
 
 namespace Cruxdb {
 

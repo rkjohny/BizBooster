@@ -13,12 +13,13 @@
 #ifndef W_APPLICATION_H
 #define W_APPLICATION_H
 
-#include <Wt/WApplication>
-#include <Wt/WBreak>
-#include <Wt/WContainerWidget>
-#include <Wt/WLineEdit>
-#include <Wt/WPushButton>
-#include <Wt/WText>
+#include <Wt/WApplication.h>
+#include <Wt/WBreak.h>
+#include <Wt/WContainerWidget.h>
+#include <Wt/WLineEdit.h>
+#include <Wt/WPushButton.h>
+#include <Wt/WText.h>
+#include <Wt/WBootstrapTheme.h>
 
 #include "DboTypes.h"
 #include "LogInWidget.h"
@@ -33,6 +34,7 @@ public:
     
 private:
     Wt::Auth::Login m_login;
+    std::shared_ptr<Wt::WTheme> m_theme;
 };
 
 }

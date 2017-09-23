@@ -25,6 +25,10 @@ namespace Cruxdb {
         Dispose();
     }
 
+    Cruxdb::WtSession* BaseService::GetSession() {
+        return m_session;
+    }
+    
     void BaseService::Dispose()
     {
         //     if (!m_isDosposed) {
@@ -65,23 +69,23 @@ namespace Cruxdb {
         return nextDmVersion;
     }
 
-    Wt::Dbo::Transaction BaseService::BeginTransaction(Requester *requester)
-    {
-        return Wt::Dbo::Transaction(*m_session);
-    }
-
-    bool BaseService::CommitTransaction(Requester *requester, Wt::Dbo::Transaction& transaction)
-    {
-        //TODO: what will happen if this transaction is not the most recent transaction in the session?
-        //      i.e, if commit returns false;
-        bool commited = transaction.commit();
-        return commited;
-    }
-
-    void BaseService::RollbackTransaction(Requester *requester, Wt::Dbo::Transaction& transaction)
-    {
-        transaction.rollback();
-    }
+//    Wt::Dbo::Transaction BaseService::BeginTransaction(Requester *requester)
+//    {
+//        return Wt::Dbo::Transaction(*m_session);
+//    }
+//
+//    bool BaseService::CommitTransaction(Requester *requester, Wt::Dbo::Transaction &&transaction)
+//    {
+//        //TODO: what will happen if this transaction is not the most recent transaction in the session?
+//        //      i.e, if commit returns false;
+//        bool commited = transaction.commit();
+//        return commited;
+//    }
+//
+//    void BaseService::RollbackTransaction(Requester *requester, Wt::Dbo::Transaction &&transaction)
+//    {
+//        transaction.rollback();
+//    }
 
     bool BaseService::TableExists(Requester *requester, const std::string &table_name)
     {

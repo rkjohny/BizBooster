@@ -7,8 +7,8 @@
 #ifndef USER_DETAILS_MODEL_H_
 #define USER_DETAILS_MODEL_H_
 
-#include <Wt/WFormModel>
-#include <Wt/Auth/Login>
+#include <Wt/WFormModel.h>
+#include <Wt/Auth/Login.h>
 
 #include "WtSession.h"
 

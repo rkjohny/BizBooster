@@ -68,7 +68,7 @@ public:
     {
         web::json::value response;
         auto dao = Cruxdb::GetUserService();
-        auto transaction = dao->BeginTransaction(m_requester);
+        Wt::Dbo::Transaction && transaction =  Wt::Dbo::Transaction(*dao->GetSession());
         try {
 
             ExecuteHelper();
@@ -76,23 +76,22 @@ public:
             if (m_output->GetError().GetCode() == AppErrorCode::SUCCESS) {
                 m_output->Serialize();
                 //TODO: what to do  if commit failes
-                bool succeeded = dao->CommitTransaction(m_requester, transaction);                
+                bool succeeded = transaction.commit(); // dao->CommitTransaction(m_requester, std::move(transaction));                
             } else {
-                dao->RollbackTransaction(m_requester, transaction);
+                transaction.rollback();
                 response = m_output->GetErrorResponse();
                 LOG_ERROR(std::string("Input: ") + m_input->Name() +
                         " failed with with error: [" + response.serialize() + "]");
             }
         } catch (Common::AppException &e) {
-            dao->RollbackTransaction(m_requester, transaction);
-            
+            transaction.rollback();            
             m_output->SetError(ApiError(e.GetCode(), e.GetMessage()));
             
             response = e.Serialize();
             LOG_ERROR(std::string("Input: ") + m_input->Name() +
                     " failed with with error: [" + response.serialize() + "]");
         } catch (std::exception &e) {
-            dao->RollbackTransaction(m_requester, transaction);
+            transaction.rollback();
             Common::AppException ex = Common::AppException(e);
             
             m_output->SetError(ApiError(ex.GetCode(), ex.GetMessage()));

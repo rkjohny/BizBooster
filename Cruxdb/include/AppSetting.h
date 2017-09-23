@@ -14,7 +14,7 @@
 #define APP_SETTING_H
 
 #include <string>
-#include <Wt/Dbo/Dbo>
+#include <Wt/Dbo/Dbo.h>
 #include "SerializableAuditableEntity.h"
 
 

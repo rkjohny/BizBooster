@@ -15,6 +15,7 @@
 #include "CruxdbDef.h"
 #include "AppSetting.h"
 #include "AuthServices.h"
+#include "Converter.h"
 
 
 namespace Cruxdb {
@@ -35,10 +36,11 @@ WtSession::WtSession()
 
     std::cout << conn_string << std::endl;
 
-    m_connection.connect(conn_string);
-    m_connection.setProperty("show-queries", "true");
+    std::unique_ptr<WtPgConnection> connection = std::make_unique<WtPgConnection>();
+    connection->connect(conn_string);
+    connection->setProperty("show-queries", "true");
 
-    setConnection(m_connection);
+    setConnection(Common::Converter::DynamicUpCast<WtPgConnection, Wt::Dbo::SqlConnection>(connection));
 
     mapClass<Cruxdb::AppSetting>("setting");
     mapClass<Cruxdb::User>("user");
@@ -46,7 +48,7 @@ WtSession::WtSession()
     mapClass<Cruxdb::AuthInfo::AuthIdentityType>("auth_identity");
     mapClass<Cruxdb::AuthInfo::AuthTokenType>("auth_token");
     
-    m_users = std::make_shared<Cruxdb::UserDatabase>(*this, &AuthServices::GetAuthService());
+    m_userDatabase = std::make_shared<Cruxdb::UserDatabase>(*this, &AuthServices::GetAuthService());
 }
 
 WtSession::~WtSession()
@@ -57,8 +59,6 @@ WtSession::~WtSession()
 void WtSession::Dispose()
 {
     if (!m_isDisposed) {
-        m_connection.Dispose();
-        //Just flush the session, we are not closing connection.
         this->flush();
         m_isDisposed = true;
     }
@@ -66,7 +66,7 @@ void WtSession::Dispose()
 
 Cruxdb::UserDatabase& WtSession::GetUserDB()
 {
-    return *m_users;
+    return *m_userDatabase;
 }
 
 }

@@ -69,12 +69,12 @@ namespace Mocxygen {
                     throw Common::AppException(AppErrorCode::AUTHTICATION_FAILURE, "Invalid username password.");
                 }
                 auto now = Common::DateTimeUtils::Now();
-                auto expires = Common::DateTimeUtils::AddMscToNow(DEFAULT_SESSION_TIME_OUT_IN_MSC);
+                auto expires = Common::DateTimeUtils::AddSecToNow(DEFAULT_SESSION_TIME_OUT_IN_SEC);
 
                 std::string authToken;
                 Cipher::GetRndGenerator()->GetRandomBytes(authToken, AUTH_TOKEN_LENGTH);
                 //auto authTokenObj = new Wt::Cruxdb::ptr<Cruxdb::AuthInfo::AuthTokenType>(authToken, expires);
-                auto authTokenObj = new Cruxdb::AuthToken(authToken, expires);
+                auto authTokenObj = Wt::Dbo::make_ptr<Cruxdb::AuthTokenType>(authToken, expires);
 
                 m_authInfo.modify()->setLastLoginAttempt(now);
                 m_authInfo.modify()->authTokens().insert(authTokenObj);
@@ -87,5 +87,4 @@ namespace Mocxygen {
             }
         }
     }
-
 }

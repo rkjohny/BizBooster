@@ -11,10 +11,12 @@
  */
 
 #include "AuthServices.h"
-
-#include <Wt/Auth/PasswordVerifier>
-#include <Wt/Auth/PasswordStrengthValidator>
-#include <Wt/Auth/HashFunction>
+#include "Converter.h"
+#include "CruxdbDef.h"
+#include <Wt/Auth/PasswordVerifier.h>
+#include <Wt/Auth/PasswordStrengthValidator.h>
+#include <Wt/Auth/HashFunction.h>
+#include <Wt/Auth/Identity.h>
 
 
 namespace Cruxdb {
@@ -39,13 +41,13 @@ void AuthServices::ConfigureAuthService()
         m_authService.setAuthTokensEnabled(true, "logincookie");
         m_authService.setEmailVerificationEnabled(true);
         //m_authService.setEmailVerificationRequired(true);
-        m_authService.setIdentityPolicy(Wt::Auth::IdentityPolicy::EmailAddressIdentity);
+        m_authService.setIdentityPolicy(Wt::Auth::IdentityPolicy::EmailAddress);
 
-        Wt::Auth::PasswordVerifier *verifier = new Wt::Auth::PasswordVerifier();
-        verifier->addHashFunction(new Wt::Auth::BCryptHashFunction(7));
-        m_passwordService.setVerifier(verifier);
+        std::unique_ptr<Wt::Auth::PasswordVerifier> verifier = std::make_unique<Wt::Auth::PasswordVerifier>();
+        verifier->addHashFunction(std::make_unique<Wt::Auth::BCryptHashFunction>(BECRYPTY_HASH_NUMBER_OF_ITERATION));
+        m_passwordService.setVerifier(Common::Converter::DynamicUpCast<Wt::Auth::PasswordVerifier, Wt::Auth::PasswordService::AbstractVerifier>(verifier));
         m_passwordService.setAttemptThrottlingEnabled(true);
-        m_passwordService.setStrengthValidator(new Wt::Auth::PasswordStrengthValidator());
+        m_passwordService.setStrengthValidator(std::make_unique<Wt::Auth::PasswordStrengthValidator>());
 
         //        if (Wt::Auth::GoogleService::configured())
         //            myOAuthServices.push_back(new Wt::Auth::GoogleService(myAuthService));

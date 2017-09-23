@@ -18,7 +18,7 @@
 #include "AuthUtils.h"
 #include "PasswordEncoder.h"
 #include "LibCipher.h"
-#include <Wt/Dbo/WtSqlTraits>
+#include <Wt/Dbo/WtSqlTraits.h>
 #include <BlockExecutor.h>
 
 
@@ -35,51 +35,55 @@ namespace Mocxygen {
             throw Common::AppException(AppErrorCode::INSIFFICIENT_PRIVILEGE, "Insufficient privilege");
         }
 
-        Cruxdb::User *user = nullptr;
-        Cruxdb::AuthInfo *authInfo = nullptr;
-        Cruxdb::AuthIdentity *identity = nullptr;
+        Wt::Dbo::ptr<Cruxdb::User> user = nullptr;
+        Wt::Dbo::ptr<Cruxdb::AuthInfo> authInfo = nullptr;
+        Wt::Dbo::ptr<Cruxdb::AuthIdentityType> identity = nullptr;
         auto userService = Cruxdb::GetUserService();
         
-        if (m_input->GetId()) {
+        if (!m_input->GetId()) {
             createNew = true;
         }
 
-        if (!createNew) {
-            if (m_input->GetEmail()) {
-                m_user = userService->GetUser(m_requester, *m_input->GetEmail());
 
+        if (m_input->GetEmail()) {
+            m_user = userService->GetUser(m_requester, *m_input->GetEmail());
+            if (createNew) {
                 if (m_user) {
-                    throw Common::AppException(AppErrorCode::USER_ALREADY_EXISTS,
-                                               "User with the email already exists");
+                    throw Common::AppException(AppErrorCode::USER_ALREADY_EXISTS, "User with the email already exists");
                 }
             } else {
-                return;
+                if (!m_user) {
+                    throw Common::AppException(AppErrorCode::USER_NOT_FOUND, "User with the email not found");
+                }
             }
+        } else {
+            throw Common::AppException(AppErrorCode::INVALID_ARGUMENT, "User email is empty");
         }
+        
 
         LOG_DEBUG("Registering new user.");
 
         try {
             BlockExecutor blockExecutor;
             if (createNew) {
-                user = new Cruxdb::User();
+                user = Wt::Dbo::make_ptr<Cruxdb::User>();
             } else {
-                user = m_user.modify();
+                user = m_user;
             }
 
 
             blockExecutor.Execute(m_input->GetName() != boost::none, [&]() -> void {
-                user->SetName(*(m_input->GetName()));
+                user.modify()->SetName(*(m_input->GetName()));
             });
 
 
             blockExecutor.Execute(m_input->GetRoles() != boost::none, [&]() -> void {
-                user->SetRolesStr(*(m_input->GetRoles()));
+                user.modify()->SetRolesStr(*(m_input->GetRoles()));
             });
 
 
             blockExecutor.Execute(m_input->GetStatus() != boost::none, [&]() -> void {
-                user->SetStatusStr(*(m_input->GetStatus()));
+                user.modify()->SetStatusStr(*(m_input->GetStatus()));
             });
 
             //user->SetVersion(m_input->GetVersion());
@@ -91,30 +95,30 @@ namespace Mocxygen {
             }
 
             if (userSaved && createNew && m_input->GetPassword()) {
-                authInfo = new Cruxdb::AuthInfo();
-                authInfo->setEmail(*(m_input->GetEmail()));
-                authInfo->setUnverifiedEmail(*(m_input->GetEmail()));
+                authInfo = Wt::Dbo::make_ptr<Cruxdb::AuthInfo>();
+                authInfo.modify()->setEmail(*(m_input->GetEmail()));
+                authInfo.modify()->setUnverifiedEmail(*(m_input->GetEmail()));
 
-                auto now = Common::DateTimeUtils::AddMscToNow(DEFAULT_SESSION_TIME_OUT_IN_MSC);
-                authInfo->setEmailToken(Cruxdb::AuthUtils::GenerateEmailToken(), now,
-                                        Wt::Auth::User::EmailTokenRole::VerifyEmail);
+                auto now = Common::DateTimeUtils::AddSecToNow(DEFAULT_SESSION_TIME_OUT_IN_SEC);
+                authInfo.modify()->setEmailToken(Cruxdb::AuthUtils::GenerateEmailToken(), now,
+                                        Wt::Auth::EmailTokenRole::VerifyEmail);
 
                 auto passwdEncoder = Cipher::GetPasswordEncoder();
                 auto salt = passwdEncoder->GenerateSalt();
                 auto hash = passwdEncoder->Encode(*(m_input->GetPassword()), salt);
                 auto hashMethod = passwdEncoder->HashMethodName();
-                authInfo->setPassword(hash, hashMethod, salt);
+                authInfo.modify()->setPassword(hash, hashMethod, salt);
 
 
-                authInfo->setStatus(Wt::Auth::User::Status::Normal);
+                authInfo.modify()->setStatus(Wt::Auth::User::Status::Normal);
 
-                authInfo->setUser(userSaved);
+                authInfo.modify()->setUser(userSaved);
 
                 auto authInfoAdded = userService->AddAuthInfo(m_requester, authInfo);
 
                 if (authInfoAdded) {
                     //TODO: hard coded identity provider
-                    identity = new Cruxdb::AuthIdentity(DEFAULT_LOG_IN_PROVIDER, *m_input->GetEmail());
+                    identity = Wt::Dbo::make_ptr<Cruxdb::AuthIdentityType>(DEFAULT_LOG_IN_PROVIDER, *m_input->GetEmail());
 
                     authInfoAdded.modify()->authIdentities().insert(identity);
 
@@ -133,17 +137,9 @@ namespace Mocxygen {
                                            "Database operation of adding new user failed");
             }
         } catch (Common::AppException &e) {
-            //cleanup if not yet
-            if (user && createNew) delete user;
-            if (authInfo && createNew) delete authInfo;
-            if (identity && createNew) delete identity;
             //raise error
             throw e;
         } catch (std::exception &e) {
-            //cleanup if not yet
-            if (user && createNew) delete user;
-            if (authInfo && createNew) delete authInfo;
-            if (identity&& createNew) delete identity;
             //raise error
             throw Common::AppException(e);
         }

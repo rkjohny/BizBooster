@@ -32,7 +32,7 @@ void LoginOutput::CopyFrom(const LoginOutput&& orig)
 void LoginOutput::CopyFrom(const LoginOutput& orig)
 {
     if (orig.m_entity) {
-        m_entity = Wt::Dbo::ptr<Cruxdb::User>(new Cruxdb::User(*orig.m_entity));
+        m_entity = orig.m_entity;
     }
     if (orig.m_sessionExpiresMsc) {
         m_sessionExpiresMsc = *orig.m_sessionExpiresMsc;

@@ -17,8 +17,8 @@
 #include "WtPgConnection.h"
 #include "DboTypes.h"
 
-#include <Wt/Dbo/Dbo>
-#include <Wt/Auth/Login>
+#include <Wt/Dbo/Dbo.h>
+#include <Wt/Auth/Login.h>
 
 namespace Cruxdb {
 
@@ -35,8 +35,8 @@ protected:
     virtual ~WtSession();
 
 private:
-    WtPgConnection m_connection;
-    std::shared_ptr<Cruxdb::UserDatabase> m_users;    
+
+    std::shared_ptr<Cruxdb::UserDatabase> m_userDatabase;    
 };
 
 }

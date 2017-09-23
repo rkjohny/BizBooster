@@ -17,7 +17,7 @@
 #include "TypeTratits.h"
 #include "AppCommonDef.h"
 #include <iostream>
-#include <Wt/WDateTime>
+#include <Wt/WDateTime.h>
 
 namespace Cmarshal {
     namespace Json {
@@ -48,15 +48,60 @@ namespace Cmarshal {
             template<class T, class B, class ArgT>
             static void
             SetData(T *object, void (B::*SetterPtr)(const Wt::Dbo::ptr<ArgT> &), const web::json::value &jvalue) {
-                std::cout << "Setdata : void (T::*SetterPtr)(const ArgT)" << std::endl;
+                std::cout << "Setdata : void (B::*SetterPtr)(const Wt::Dbo::ptr<ArgT> &)" << std::endl;
 
                 using Type = typename Remove_CVR<ArgT>::Type;
 
-                Wt::Dbo::ptr<Type> var; // = Wt::Dbo::ptr<Type>(new Type());
+                Wt::Dbo::ptr<Type> var;
                 FromJson(var, jvalue);
                 (object->*SetterPtr)(var);
             }
+            
+            /**
+             * calls the setter method with type = std::unique_ptr<T>
+             */
+            template<class T, class B, class ArgT>
+            static void
+            SetData(T *object, void (B::*SetterPtr)(const std::unique_ptr<ArgT> &&), const web::json::value &jvalue) {
+                std::cout << "Setdata : void (B::*SetterPtr)(const Wt::Dbo::ptr<ArgT>)" << std::endl;
 
+                using Type = typename Remove_CVR<ArgT>::Type;
+
+                std::unique_ptr<Type> var;
+                FromJson(var, jvalue);
+                (object->*SetterPtr)(std::move(var));
+            }
+
+            /**
+             * calls the setter method with type = std::shared_ptr<T>
+             */
+            template<class T, class B, class ArgT>
+            static void
+            SetData(T *object, void (B::*SetterPtr)(const std::shared_ptr<ArgT> &), const web::json::value &jvalue) {
+                std::cout << "Setdata : void (B::*SetterPtr)(const Wt::Dbo::ptr<ArgT>)" << std::endl;
+
+                using Type = typename Remove_CVR<ArgT>::Type;
+
+                std::shared_ptr<Type> var;
+                FromJson(var, jvalue);
+                (object->*SetterPtr)(var);
+            }
+            
+            /**
+             * calls the setter method with type = std::weak_ptr<T>
+             */
+            template<class T, class B, class ArgT>
+            static void
+            SetData(T *object, void (B::*SetterPtr)(const std::weak_ptr<ArgT> &), const web::json::value &jvalue) {
+                std::cout << "Setdata : void (B::*SetterPtr)(const Wt::Dbo::ptr<ArgT>)" << std::endl;
+
+                using Type = typename Remove_CVR<ArgT>::Type;
+
+                std::weak_ptr<Type> var;
+                FromJson(var, jvalue);
+                (object->*SetterPtr)(var);
+            }
+                        
             /**
              * calls the setter method with rvalue reference type argument
              */
@@ -642,7 +687,7 @@ namespace Cmarshal {
             }
 
             /***********************************************************************************
-             * object type: userdefined class{}&
+             * object type: user defined class{}&
              ***********************************************************************************/
             template<class T>
             typename std::enable_if<Is_Class<T>::Value, void>::type
@@ -653,7 +698,7 @@ namespace Cmarshal {
             }
 
             /***********************************************************************************
-             * object type: userdefined class{}**
+             * object type: user defined class{}**
              ***********************************************************************************/
             template<class T>
             typename std::enable_if<Is_Class<T>::Value, void>::type
@@ -789,12 +834,51 @@ namespace Cmarshal {
             static void FromJson(Wt::Dbo::ptr<T> &object, const web::json::value &jvalue) {
                 std::cout << "Deserializing object: type = Wt::Dbo::ptr<T> &" << std::endl;
 
-                //FromJson(const_cast<T *>(object.get()), jvalue);
+                using Type = typename Remove_CVR<T>::Type;
+                
+                std::unique_ptr<Type> var = std::make_unique<Type>();
+                FromJson(var, jvalue);
+                object.reset(std::move(var));
+            }
+            
+            
+            /***********************************************************************************
+            * object type: std::unique_ptr<T>
+            ***********************************************************************************/
+            template<class T>
+            static void FromJson(std::unique_ptr<T> &object, const web::json::value &jvalue) {
+                std::cout << "Deserializing object: type = std::unique_ptr<T> &" << std::endl;
 
                 using Type = typename Remove_CVR<T>::Type;
-                Type *var = new Type();
-                FromJson(var, jvalue);
-                object.reset(var);
+                std::unique_ptr<Type> var = std::make_unique<Type>();
+                FromJson(var.get(), jvalue);
+                object = std::move(var);
+            }
+            
+            /***********************************************************************************
+            * object type: std::shared_ptr<T>
+            ***********************************************************************************/
+            template<class T>
+            static void FromJson(std::shared_ptr<T> &object, const web::json::value &jvalue) {
+                std::cout << "Deserializing object: type = std::shared_ptr<T> &" << std::endl;
+
+                using Type = typename Remove_CVR<T>::Type;
+                std::shared_ptr<Type> var = std::make_shared<Type>();
+                FromJson(var.get(), jvalue);
+                object = std::move(var);
+            }
+            
+            /***********************************************************************************
+            * object type: std::weak_ptr<T>
+            ***********************************************************************************/
+            template<class T>
+            static void FromJson(std::weak_ptr<T> &object, const web::json::value &jvalue) {
+                std::cout << "Deserializing object: type = std::weak_ptr<T> &" << std::endl;
+
+                using Type = typename Remove_CVR<T>::Type;
+                std::shared_ptr<Type> var = std::make_shared<Type>();
+                FromJson(var.get(), jvalue);
+                object = var;
             }
 
             /***********************************************************************************

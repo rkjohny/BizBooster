@@ -16,13 +16,15 @@
 
 namespace Cruxdb {
 
-    void AppSettingService::AddOrUpdateAppSetting(Requester *requester, AppSetting &&setting)
+    Wt::Dbo::ptr<Cruxdb::AppSetting> 
+    AppSettingService::AddOrUpdateAppSetting(Requester *requester, AppSetting &&setting)
     {
-        auto query = m_session->find<Cruxdb::AppSetting>().where("name = ?").bind(setting.GetName());
-        auto objPtr = query.resultValue();
+        Wt::Dbo::Query<Wt::Dbo::ptr<Cruxdb::AppSetting>> query = m_session->find<Cruxdb::AppSetting>().where("name = ?").bind(setting.GetName());
+        Wt::Dbo::ptr<Cruxdb::AppSetting> objPtr = query.resultValue();
         if (!objPtr) {
-            objPtr = m_session->add<Cruxdb::AppSetting>(new AppSetting(setting.GetName()));
+             return m_session->addNew<Cruxdb::AppSetting>(setting.GetName(), setting.GetValue());
         }
         objPtr.modify()->SetValue(setting.GetValue());
+        return objPtr;
     }
 }

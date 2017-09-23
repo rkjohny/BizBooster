@@ -15,10 +15,10 @@ namespace BizBooster {
 const Wt::WFormModel::Field
 UserDetailsModel::FavouritePetField = "favourite-pet";
 
-UserDetailsModel::UserDetailsModel(Wt::Auth::Login &login, Wt::WObject *parent) :
-Wt::WFormModel(parent), m_login(login)
+UserDetailsModel::UserDetailsModel(Wt::Auth::Login &login, Wt::WObject *parent) : Wt::WFormModel(), m_login(login)
 {
     addField(FavouritePetField, Wt::WString::tr("favourite-pet-info"));
+    //parent->addChild(std::unique_ptr<Wt::WObject>(this));
 }
 
 void UserDetailsModel::save(const Wt::Auth::User& authUser)
@@ -26,7 +26,7 @@ void UserDetailsModel::save(const Wt::Auth::User& authUser)
     if (m_login.loggedIn()) {
         auto userService = Cruxdb::GetUserService();
         auto requester = Common::SingleTon<Cruxdb::InternalRootRequester>::GetInstance();
-        auto transaction = userService->BeginTransaction(requester);
+        auto &&transaction = Wt::Dbo::Transaction(*userService->GetSession());
 
         auto &authUser = m_login.user();
         auto user = userService->GetUser(requester, authUser);
@@ -35,7 +35,7 @@ void UserDetailsModel::save(const Wt::Auth::User& authUser)
             //user.modify()->favouritePet = valueText(FavouritePetField).toUTF8();
         }
 
-        userService->CommitTransaction(requester, transaction);
+        transaction.commit();
     }
 }
 

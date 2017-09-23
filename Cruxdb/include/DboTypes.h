@@ -14,19 +14,24 @@
 #ifndef DBO_TYPES_H
 #define DBO_TYPES_H
 
-#include <Wt/Auth/Dbo/AuthInfo>
-#include <Wt/Auth/Dbo/UserDatabase>
+#include <Wt/Auth/Dbo/AuthInfo.h>
+#include <Wt/Auth/Dbo/UserDatabase.h>
 
 namespace Cruxdb {
 
 class User;
 
 typedef Wt::Auth::Dbo::AuthInfo<Cruxdb::User> AuthInfo;
-typedef Wt::Auth::Dbo::AuthToken<Cruxdb::AuthInfo> AuthToken;
-typedef Wt::Auth::Dbo::AuthIdentity< Cruxdb::AuthInfo > AuthIdentity;
 
-typedef Wt::Dbo::collection<Wt::Dbo::ptr<Cruxdb::AuthToken>> AuthTokens;
-typedef Wt::Dbo::collection<Wt::Dbo::ptr<Cruxdb::AuthIdentity>> AuthIdentities;
+typedef AuthInfo::AuthTokenType AuthTokenType;
+typedef AuthInfo::AuthTokens AuthTokens;
+typedef AuthInfo::AuthIdentityType AuthIdentityType;
+typedef AuthInfo::AuthIdentities AuthIdentities;
+
+//typedef Wt::Auth::Dbo::AuthToken<Cruxdb::AuthInfo> AuthToken;
+//typedef Wt::Auth::Dbo::AuthIdentity< Cruxdb::AuthInfo > AuthIdentity;
+//typedef Wt::Dbo::collection<Wt::Dbo::ptr<Cruxdb::AuthToken>> AuthTokens;
+//typedef Wt::Dbo::collection<Wt::Dbo::ptr<Cruxdb::AuthIdentity>> AuthIdentities;
 
 typedef Wt::Auth::Dbo::UserDatabase<Cruxdb::AuthInfo> UserDatabase;
 

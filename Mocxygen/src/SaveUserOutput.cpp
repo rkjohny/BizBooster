@@ -23,7 +23,7 @@ namespace Mocxygen {
 
     void SaveUserOutput::CopyFrom(const SaveUserOutput &orig) {
         if (orig.m_entity) {
-            m_entity = Wt::Dbo::ptr<Cruxdb::User>(new Cruxdb::User(*orig.m_entity));
+            m_entity = orig.m_entity;
         }
     }
 

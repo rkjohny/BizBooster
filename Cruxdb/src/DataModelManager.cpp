@@ -37,7 +37,7 @@ void DataModelManager::Run()
     
     baseService->CreateTables(requester);
     
-    auto transaction = baseService->BeginTransaction(requester);
+    auto &&transaction = Wt::Dbo::Transaction(*baseService->GetSession());
     
     nextDmVersion = baseService->GetNextDmVersion(requester);
 
@@ -49,9 +49,8 @@ void DataModelManager::Run()
     }
     if (i != nextDmVersion) {
         Cruxdb::GetAppSettingService()->AddOrUpdateAppSetting(requester, AppSetting(NEXT_DM_VERSION_KEY, Common::Converter::ToStr(i)));
-    }
-    
-    baseService->CommitTransaction(requester, transaction);
+    }    
+    transaction.commit();
 }
 
 }

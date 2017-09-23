@@ -4,7 +4,7 @@
  * See the LICENSE file for terms of use.
  */
 
-#include <Wt/WLineEdit>
+#include <Wt/WLineEdit.h>
 
 #include "LogInWidget.h"
 #include "RegistrationView.h"
@@ -18,6 +18,8 @@ namespace BizBooster {
 LogInWidget::LogInWidget(Wt::WContainerWidget *parent, Wt::Auth::Login &login) :
 Wt::Auth::AuthWidget(Cruxdb::AuthServices::GetAuthService(), Cruxdb::GetUserService()->GetUserDB(), login), m_login(login)
 {
+    //parent->addChild(std::make_unique<LogInWidget>(this));
+    
 //    Wt::WTemplate *t = new Wt::WTemplate(Wt::WString::tr("auth_template.xml"));
 //    
 //    setTemplateText(tr("Wt.Auth.template.login"));
@@ -26,16 +28,16 @@ Wt::Auth::AuthWidget(Cruxdb::AuthServices::GetAuthService(), Cruxdb::GetUserServ
 //    t->bindWidget("user-name", usrName);   
 }
 
-Wt::WWidget* LogInWidget::createRegistrationView(const Wt::Auth::Identity& id)
+std::unique_ptr<Wt::WWidget> LogInWidget::createRegistrationView(const Wt::Auth::Identity& id)
 {
-    RegistrationView *w = new RegistrationView(m_login, this);
-    Wt::Auth::RegistrationModel *model = createRegistrationModel();
+    std::unique_ptr<RegistrationView>  registrationVew =  std::make_unique<RegistrationView>(m_login, this);
+    std::unique_ptr<Wt::Auth::RegistrationModel> model = createRegistrationModel();
 
     if (id.isValid())
         model->registerIdentified(id);
 
-    w->setModel(model);
-    return w;
+    registrationVew->setModel(std::move(model));
+    return registrationVew;
 }
 
 

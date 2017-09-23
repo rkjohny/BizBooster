@@ -9,7 +9,7 @@
 
 #include "WtSession.h"
 
-#include <Wt/Auth/AuthWidget>
+#include <Wt/Auth/AuthWidget.h>
 
 namespace BizBooster {
 
@@ -19,7 +19,7 @@ public:
   LogInWidget(Wt::WContainerWidget *parent, Wt::Auth::Login &login);
 
   /* We will use a custom registration view */
-  Wt::WWidget* createRegistrationView(const Wt::Auth::Identity& id) override;
+  std::unique_ptr<Wt::WWidget> createRegistrationView(const Wt::Auth::Identity& id) override;
 
 private:
   Wt::Auth::Login &m_login;

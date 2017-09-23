@@ -28,7 +28,7 @@ namespace Cruxdb {
         virtual ~AppSettingService() = default;
         
     public:
-        void AddOrUpdateAppSetting(Requester *requester, AppSetting &&setting);
+        Wt::Dbo::ptr<Cruxdb::AppSetting> AddOrUpdateAppSetting(Requester *requester, AppSetting &&setting);
     };
 }
 

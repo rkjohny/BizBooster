@@ -10,8 +10,8 @@
  * magnetic storage, computer print-out or visual display.
  */
 
-#include <Wt/Auth/Identity>
-#include <Wt/WTheme>
+#include <Wt/Auth/Identity.h>
+#include <Wt/WTheme.h>
 
 #include "User.h"
 #include "PasswordEncoder.h"
@@ -110,13 +110,11 @@ void User::AddIdentity(const std::string &provider, const std::string &identity)
     auto authInfo = m_authInfo.lock();
 
     if (authInfo) {
-        Wt::Dbo::ptr<Cruxdb::AuthInfo::AuthIdentityType> idenPtr =
-                Wt::Dbo::ptr<Cruxdb::AuthInfo::AuthIdentityType>(new Cruxdb::AuthInfo::AuthIdentityType(provider, identity));
-        authInfo.modify()->authIdentities().insert(idenPtr);
+        authInfo.modify()->authIdentities().insert(Wt::Dbo::make_ptr<Cruxdb::AuthIdentityType>(provider, identity));
     }
 }
 
-void User::AddIdentity(const Wt::Dbo::ptr<Cruxdb::AuthInfo::AuthIdentityType> &identity)
+void User::AddIdentity(const Wt::Dbo::ptr<Cruxdb::AuthIdentityType> &identity)
 {
     auto authInfo = m_authInfo.lock();
 
@@ -310,7 +308,7 @@ void User::SetRoles(std::vector<Role> roles)
     m_rolesStr = RoleUtils::ToStr(roles);
 }
 
-void User::SetEmailToken(const std::string &token, const Wt::WDateTime &expires, const Wt::Auth::User::EmailTokenRole &role)
+void User::SetEmailToken(const std::string &token, const Wt::WDateTime &expires, const Wt::Auth::EmailTokenRole &role)
 {
     auto authInfo = m_authInfo.lock();
 
@@ -354,7 +352,7 @@ Wt::WDateTime User::GetEmailTokenExpirationDate() const
     return Wt::WDateTime();
 }
 
-Wt::Auth::User::EmailTokenRole User::GetEmailTokenRole() const
+Wt::Auth::EmailTokenRole User::GetEmailTokenRole() const
 {
     auto authInfo = m_authInfo.lock();
 
@@ -362,7 +360,7 @@ Wt::Auth::User::EmailTokenRole User::GetEmailTokenRole() const
         return authInfo->emailTokenRole();
     }
     //TODO:: what to return when AuthInfo not exists
-    return Wt::Auth::User::EmailTokenRole::VerifyEmail;
+    return Wt::Auth::EmailTokenRole::VerifyEmail;
 }
 
 Wt::Auth::User::Status User::GetAuthInfoStatus() const

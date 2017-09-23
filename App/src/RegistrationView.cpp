@@ -6,7 +6,7 @@
 #include "RegistrationView.h"
 #include "UserDetailsModel.h"
 
-#include <Wt/WLineEdit>
+#include <Wt/WLineEdit.h>
 
 namespace BizBooster {
 
@@ -19,10 +19,10 @@ Wt::Auth::RegistrationWidget(authWidget), m_login(login)
     updateView(m_detailsModel);
 }
 
-Wt::WWidget *RegistrationView::createFormWidget(Wt::WFormModel::Field field)
+ std::unique_ptr<Wt::WWidget> RegistrationView::createFormWidget(Wt::WFormModel::Field field)
 {
     if (field == UserDetailsModel::FavouritePetField)
-        return new Wt::WLineEdit();
+        return std::make_unique<Wt::WLineEdit>();
     else
         return Wt::Auth::RegistrationWidget::createFormWidget(field);
 }

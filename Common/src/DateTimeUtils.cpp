@@ -66,11 +66,20 @@ Wt::WDateTime DateTimeUtils::Now()
     return now;
 }
 
-Wt::WDateTime DateTimeUtils::AddMscToNow(uint64_t msec)
+Wt::WDateTime DateTimeUtils::AddMsecToNow(uint64_t msec)
 {
     Wt::WDateTime now;
     std::time_t curTime = std::time(nullptr);
     curTime += msec;
+    now.setTime_t(curTime);
+    return now;
+}
+
+Wt::WDateTime DateTimeUtils::AddSecToNow(uint64_t sec)
+{
+    Wt::WDateTime now;
+    std::time_t curTime = std::time(nullptr);
+    curTime += (sec * 1000);
     now.setTime_t(curTime);
     return now;
 }

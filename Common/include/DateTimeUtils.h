@@ -13,7 +13,7 @@
 #ifndef DATE_TIME_UTILS_H
 #define DATE_TIME_UTILS_H
 
-#include <Wt/Dbo/WtSqlTraits>
+#include <Wt/Dbo/WtSqlTraits.h>
 #include <string>
 
 #include "AppCommonDef.h"
@@ -30,7 +30,8 @@ namespace Common {
         static void AddDayToCurrentDateTime(Wt::WDateTime &dt, uint32_t day);
         
         static Wt::WDateTime Now();
-        static Wt::WDateTime AddMscToNow(uint64_t msec);
+        static Wt::WDateTime AddMsecToNow(uint64_t msec);
+        static Wt::WDateTime AddSecToNow(uint64_t sec);
     };
 
 } /* namespace Common */

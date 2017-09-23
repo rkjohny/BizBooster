@@ -22,7 +22,7 @@
 #include <cpprest/asyncrt_utils.h>
 
 #include <iostream>
-#include <Wt/WDateTime>
+#include <Wt/WDateTime.h>
 #include <boost/optional.hpp>
 
 namespace Cmarshal {
@@ -35,6 +35,35 @@ namespace Cmarshal {
         private:
             MAKE_STATIC(Serializer);
 
+            
+            template<class T>
+            static void GetData(const std::unique_ptr<T> &object, web::json::value &jvalue, const char *name) {
+                if (object) {
+                    jvalue[utility::string_t(U(name))] = ToJson(object);
+                } else {
+                    std::cout << "value is null and will be ignored." << std::endl;
+                }
+            }
+            
+            template<class T>
+            static void GetData(const std::shared_ptr<T> &object, web::json::value &jvalue, const char *name) {
+                if (object) {
+                    jvalue[utility::string_t(U(name))] = ToJson(object);
+                } else {
+                    std::cout << "value is null and will be ignored." << std::endl;
+                }
+            }
+            
+            template<class T>
+            static void GetData(const std::weak_ptr<T> &object, web::json::value &jvalue, const char *name) {
+                std::shared_ptr<T> shareObject = object.lock();
+                if (shareObject) {
+                    jvalue[utility::string_t(U(name))] = ToJson(shareObject);
+                } else {
+                    std::cout << "value is null and will be ignored." << std::endl;
+                }
+            }
+            
             template<class T>
             static void GetData(const boost::optional<T> &object, web::json::value &jvalue, const char *name) {
                 if (object) {
@@ -458,6 +487,66 @@ namespace Cmarshal {
                 return web::json::value();
             }
 
+            
+            ///////////////////// std::unique_ptr<T> ///////////////////////////////////
+            template<class T>
+            static web::json::value ToJson(const std::unique_ptr<T> &&object) {
+                std::cout << "Serializing object: type = std::unique::ptr&&" << std::endl;
+                if (object) {
+                    return ToJson(*object);
+                }
+                return web::json::value();
+            }
+
+            template<class T>
+            static web::json::value ToJson(const std::unique_ptr<T> &object) {
+                std::cout << "Serializing object: type = std::unique::ptr&" << std::endl;
+                if (object) {
+                    return ToJson(*object);
+                }
+                return web::json::value();
+            }
+            
+            ///////////////////// std::shared_ptr<T> ///////////////////////////////////
+            template<class T>
+            static web::json::value ToJson(const std::shared_ptr<T> &&object) {
+                std::cout << "Serializing object: type = std::shared_ptr&&" << std::endl;
+                if (object) {
+                    return ToJson(*object);
+                }
+                return web::json::value();
+            }
+
+            template<class T>
+            static web::json::value ToJson(const std::shared_ptr<T> &object) {
+                std::cout << "Serializing object: type = std::shared_ptr&" << std::endl;
+                if (object) {
+                    return ToJson(*object);
+                }
+                return web::json::value();
+            }
+
+            
+            ///////////////////// std::weak_ptr<T> ///////////////////////////////////
+            template<class T>
+            static web::json::value ToJson(const std::weak_ptr<T> &&object) {
+                std::cout << "Serializing object: type = std::weak::ptr&&" << std::endl;
+                auto sharedObject = object.lock();
+                if (sharedObject) {
+                    return ToJson(*sharedObject);
+                }
+                return web::json::value();
+            }
+
+            template<class T>
+            static web::json::value ToJson(const std::weak_ptr<T> &object) {
+                std::cout << "Serializing object: type = std::weak_ptr&" << std::endl;
+                auto sharedObject = object.lock();
+                if (sharedObject) {
+                    return ToJson(*sharedObject);
+                }
+                return web::json::value();
+            }
 
             ///////////////////// boost::optional<T> ///////////////////////////////////
             template<class T>

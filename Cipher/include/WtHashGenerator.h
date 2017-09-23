@@ -16,7 +16,7 @@
 
 #include "AppCommonDef.h"
 #include "HashGenerator.h"
-#include <Wt/Auth/HashFunction>
+#include <Wt/Auth/HashFunction.h>
 #include <string>
 
 #define BCRYPT_ITERATION 10
