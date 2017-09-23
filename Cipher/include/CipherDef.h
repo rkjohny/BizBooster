@@ -33,8 +33,11 @@
 //column size = 64
 #define AUTH_TOKEN_LENGTH 64
 
+#define BECRYPTY_HASH_NUMBER_OF_ITERATION 7
+
 #define HASH_METHOD_SHA1 "sha1"
 #define HASH_METHOD_BCRYPT "bcrypt"
+
 
 #endif /* LIB_CIPHER_DEF_H */
 

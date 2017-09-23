@@ -42,6 +42,4 @@
 // 30 minutes
 #define DEFAULT_SESSION_TIME_OUT_IN_SEC (30 * 60)
 
-#define BECRYPTY_HASH_NUMBER_OF_ITERATION 7
-
 #endif

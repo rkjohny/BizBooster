@@ -12,7 +12,7 @@
 
 #include "AuthServices.h"
 #include "Converter.h"
-#include "CruxdbDef.h"
+#include "CipherDef.h"
 #include <Wt/Auth/PasswordVerifier.h>
 #include <Wt/Auth/PasswordStrengthValidator.h>
 #include <Wt/Auth/HashFunction.h>
