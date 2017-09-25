@@ -25,12 +25,11 @@ class OsslHwRandGenerator : public OsslRandGenerator {
     MAKE_SINGLE_TON(OsslHwRandGenerator);
     
 private:
-    bool Initialize() override;
-    void Dispose() override;
-    
+    bool Initialize() override;    
     bool DoGetRandomBytes(uint8_t *buff, int length);
 
 public:
+    void Dispose() override;
     bool GetRandomBytes(std::vector<uint8_t> &bytes, int length) override;
     bool GetRandomBytes(std::string &bytes, int length) override;
 

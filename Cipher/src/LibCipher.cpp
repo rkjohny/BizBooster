@@ -22,7 +22,6 @@ static bool g_loaded = false;
 void LoadLibrary()
 {
     if (!g_loaded) {
-        //OsslHwRandGenerator::GetInstance()->Initialize();
         g_loaded = true;
     }
 }
@@ -31,7 +30,7 @@ void ReleaseLibrary()
 {
     if (g_loaded) {
         g_loaded = false;
-        //OsslHwRandGenerator::GetInstance()->Dispose();
+        Common::SingleTon<OsslHwRandGenerator>::GetInstance()->Dispose();
     }
 }
 
