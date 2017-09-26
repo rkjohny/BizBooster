@@ -14,10 +14,14 @@
 #include "Converter.h"
 
 namespace Cipher {
-
+#ifdef WINDOWS
+    BoostRandGenerator::BoostRandGenerator() : m_boostRandDevice("MS_DEF_PROV") {
+    }
+#elif defined LINUX
     BoostRandGenerator::BoostRandGenerator() : m_boostRandDevice("/dev/urandom") {
     }
-
+#endif
+    
     BoostRandGenerator::~BoostRandGenerator() {
     }
 
