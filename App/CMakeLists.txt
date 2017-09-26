@@ -95,6 +95,7 @@ else ()
 
     target_link_libraries(${PROJECT_NAME} PUBLIC boost_thread)
     target_link_libraries(${PROJECT_NAME} PUBLIC boost_system)
+    target_link_libraries(${PROJECT_NAME} PUBLIC boost_random)
     target_link_libraries(${PROJECT_NAME} PUBLIC pthread)
 
 

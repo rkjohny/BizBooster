@@ -55,13 +55,13 @@ namespace Mocxygen {
                 if (m_input->GetPassword()) {
                     if (passMethod.compare(HASH_METHOD_BCRYPT) == 0) {
                         valid = hasFun->Verify(Cipher::HashGenerator::HashMethod::BCRYPT, *m_input->GetPassword(),
-                                               passHash,
-                                               passSalt);
+                                passHash,
+                                passSalt);
 
                     } else if (passMethod.compare(HASH_METHOD_SHA1) == 0) {
                         valid = hasFun->Verify(Cipher::HashGenerator::HashMethod::SHA1, *m_input->GetPassword(),
-                                               passHash,
-                                               passSalt);
+                                passHash,
+                                passSalt);
                     }
                 }
 

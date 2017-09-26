@@ -4,7 +4,6 @@ message("Executing Common::CMakeLists.txt")
 
 project(${LIB_COMMON} CXX)
 
-# stting the heared and source files path required by libcommon target
 set (PROJECT_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 set (PROJECT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 

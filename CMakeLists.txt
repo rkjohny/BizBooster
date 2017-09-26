@@ -24,9 +24,13 @@ set(LIB_COMMON common)
 set(LIB_LOGFIG logfig)
 # Crypto Cpipher module
 set(LIB_CIPHER cipher)
+set(LIB_CIPHER_TEST ciphertester)
+
 # JSON serialization module
 set(LIB_CMARSHAL cmarshal)
+
 set(LIB_CMARSHAL_TEST cmarshaltester)
+
 # SQL DB module
 set(LIB_BIZ_BOOSTER_SQLDB cruxdb)
 # API module
@@ -164,6 +168,7 @@ add_subdirectory(Cruxdb)
 add_subdirectory(Mocxygen)
 add_subdirectory(Pantoon)
 add_subdirectory(App)
+add_subdirectory(CipherTest)
 
 
 

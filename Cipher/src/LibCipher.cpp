@@ -14,6 +14,7 @@
 #include "OsslHwRandGenerator.h"
 #include "WtHashGenerator.h"
 #include "CipherDef.h"
+#include "BoostRandGenerator.h"
 
 namespace Cipher {
 
@@ -30,7 +31,11 @@ void ReleaseLibrary()
 {
     if (g_loaded) {
         g_loaded = false;
+#ifdef OPEN_SSL_CRYPTO_ENGINE
         Common::SingleTon<OsslHwRandGenerator>::GetInstance()->Dispose();
+#elif defined BOOST_RANDOM_ENGINE
+        Common::SingleTon<BoostRandGenerator>::GetInstance()->Dispose();
+#endif
     }
 }
 
@@ -47,6 +52,8 @@ RndGenerator *GetRndGenerator()
 {
 #ifdef OPEN_SSL_CRYPTO_ENGINE
     return Common::SingleTon<OsslHwRandGenerator>::GetInstance();
+#elif defined BOOST_RANDOM_ENGINE
+    return Common::SingleTon<BoostRandGenerator>::GetInstance();
 #else
     return nullptr;
 #endif

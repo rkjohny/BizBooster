@@ -19,7 +19,9 @@
 
 #define WT_HASH_FUNCTION
 
-#define OPEN_SSL_CRYPTO_ENGINE
+#undef OPEN_SSL_CRYPTO_ENGINE
+
+#define BOOST_RANDOM_ENGINE
 
 //column size == 100
 #define PASSWORD_HASH_LENGTH 100  

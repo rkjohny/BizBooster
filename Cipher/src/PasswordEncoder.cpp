@@ -15,6 +15,7 @@
 #include "OsslHwRandGenerator.h"
 #include "Converter.h"
 #include "CipherDef.h"
+#include "BoostRandGenerator.h"
 
 namespace Cipher {
 
@@ -23,6 +24,13 @@ namespace Cipher {
 PasswordEncoder::PasswordEncoder() : 
         m_hasGenerator(Common::SingleTon<WtHashGenerator>::GetInstance()),
         m_randGenerator(Common::SingleTon<OsslHwRandGenerator>::GetInstance())
+{
+    
+}
+#elif defined WT_HASH_FUNCTION && defined BOOST_RANDOM_ENGINE
+PasswordEncoder::PasswordEncoder() : 
+        m_hasGenerator(Common::SingleTon<WtHashGenerator>::GetInstance()),
+        m_randGenerator(Common::SingleTon<BoostRandGenerator>::GetInstance())
 {
     
 }
