@@ -31,7 +31,8 @@ private:
 public:
     ~SaveUserHelper() = default;
 
-    SaveUserHelper(Cruxdb::Requester *requester, SaveUserInput *input, SaveUserOutput *output = nullptr) :
+    SaveUserHelper(std::shared_ptr<Cruxdb::Requester> requester, std::shared_ptr<SaveUserInput> input,
+                   std::shared_ptr<SaveUserOutput> output = nullptr) :
     AbstractApiHelper<SaveUserInput, SaveUserOutput>(requester, input, output)
     {
     }

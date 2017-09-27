@@ -15,12 +15,13 @@
 
 #include "AbstractBaseInput.h"
 #include "AppCommonDef.h"
+#include <memory>
 
 namespace Mocxygen {
 
 class LoggedinInput : public AbstractApiGetEntityInput<LoggedinInput> {
 public:
-    API_INPUT(LoggedinInput);
+    API_INPUT(LoggedinInput)
 
     virtual ~LoggedinInput() = default;
 

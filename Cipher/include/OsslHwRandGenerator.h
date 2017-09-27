@@ -15,6 +15,7 @@
 
 #include <openssl/ossl_typ.h>
 #include "OsslRandGenerator.h"
+#include "SingleTon.h"
 #include "boost/thread.hpp"
 
 namespace Cipher {

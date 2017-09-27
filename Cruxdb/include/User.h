@@ -16,7 +16,7 @@
 
 #include <Wt/Dbo/Dbo.h>
 #include <string>
-
+#include <memory>
 #include "Json.h"
 #include "SerializableSimpleEntity.h"
 #include "CruxdbDef.h"

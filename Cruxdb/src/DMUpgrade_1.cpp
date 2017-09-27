@@ -50,7 +50,7 @@ void DMUpgrade_1::Execute() noexcept(false)
         user.modify()->SetRoles(Role::ROLE_CREATE_SUPER_USER);
         user.modify()->SetStatus(Status::V);
 
-        Requester *requester = Common::SingleTon<InternalRootRequester>::GetInstance();
+        std::shared_ptr<Requester> requester = std::make_shared<InternalRootRequester>();
         Wt::Dbo::ptr<User> userAdded = dao->SaveEntity(requester, user);
 
         if (userAdded) {

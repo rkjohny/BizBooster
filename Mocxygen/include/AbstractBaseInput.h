@@ -14,6 +14,7 @@
 #define _BASE_INPUT_H_
 
 #include <string>
+#include <memory>
 #include "AbstractSerializable.h"
 #include "Json.h"
 #include "AbstractBaseOutput.h"
@@ -31,7 +32,7 @@ namespace Mocxygen {
 
         virtual std::string Name() const = 0;
 
-        virtual std::shared_ptr<AbstractBaseOutput> Process(Cruxdb::Requester *requester) = 0;
+        virtual std::shared_ptr<AbstractBaseOutput> Process(std::shared_ptr<Cruxdb::Requester> requester) = 0;
         
         REGISTER_GETTER_INCLUDING_BASE_START(AbstractSerializable)
         REGISTER_GETTER_INCLUDING_BASE_END
@@ -72,7 +73,7 @@ namespace Mocxygen {
 
         virtual ~AbstractApiGetInput() = default;
 
-        virtual std::shared_ptr<AbstractBaseOutput> Process(Cruxdb::Requester *requester) = 0;
+        virtual std::shared_ptr<AbstractBaseOutput> Process(std::shared_ptr<Cruxdb::Requester> requester) = 0;
 
         REGISTER_GETTER_INCLUDING_BASE_START(AbstractApiInput<T>)
         REGISTER_GETTER_INCLUDING_BASE_END
@@ -89,7 +90,7 @@ namespace Mocxygen {
 
         virtual ~AbstractApiGetEntityInput() = default;
 
-        virtual std::shared_ptr<AbstractBaseOutput> Process(Cruxdb::Requester *requester) = 0;
+        virtual std::shared_ptr<AbstractBaseOutput> Process(std::shared_ptr<Cruxdb::Requester> requester) = 0;
 
         const boost::optional<long> & GetId() const {
             return m_Id;
@@ -118,7 +119,7 @@ namespace Mocxygen {
 
         virtual ~AbstractApiGetEntityListInput() = default;
 
-        virtual std::shared_ptr<AbstractBaseOutput> Process(Cruxdb::Requester *requester) = 0;
+        virtual std::shared_ptr<AbstractBaseOutput> Process(std::shared_ptr<Cruxdb::Requester> requester) = 0;
 
         web::json::value &Serialize() override {
             m_serializedValue = Cmarshal::Json::ToJson<T>(reinterpret_cast<const T *> (this));
@@ -170,7 +171,7 @@ namespace Mocxygen {
 
         virtual ~AbstractApiSaveInput() = default;
 
-        virtual std::shared_ptr<AbstractBaseOutput> Process(Cruxdb::Requester *requester) = 0;
+        virtual std::shared_ptr<AbstractBaseOutput> Process(std::shared_ptr<Cruxdb::Requester> requester) = 0;
 
         REGISTER_GETTER_INCLUDING_BASE_START(AbstractApiSaveInput<T>)
         REGISTER_GETTER_INCLUDING_BASE_END
@@ -186,7 +187,7 @@ namespace Mocxygen {
 
         virtual ~AbstractApiSaveEntityInput() = default;
 
-        virtual std::shared_ptr<AbstractBaseOutput> Process(Cruxdb::Requester *requester) = 0;
+        virtual std::shared_ptr<AbstractBaseOutput> Process(std::shared_ptr<Cruxdb::Requester> requester) = 0;
 
         const boost::optional<long> & GetId() const {
             return m_Id;

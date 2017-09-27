@@ -15,6 +15,7 @@
 #define LOGIN_INPUT_H
 
 #include <string>
+#include <memory>
 #include "Json.h"
 #include "AbstractBaseInput.h"
 #include "AppCommonDef.h"
@@ -23,7 +24,7 @@ namespace Mocxygen {
 
 class LoginInput : public AbstractApiGetEntityInput<LoginInput> {
 public:
-    API_INPUT(LoginInput);
+    API_INPUT(LoginInput)
 
     ~LoginInput() = default;
 
@@ -45,6 +46,7 @@ public:
 
     const boost::optional<bool> & IsRememberMe() const;
     void SetRememberMe(const boost::optional<bool> &rememberMe);
+
 
     REGISTER_GETTER_INCLUDING_BASE_START(AbstractApiGetEntityInput<LoginInput>)
     GETTER(LoginInput, const boost::optional<std::string>&, "userName", &LoginInput::GetUserName),

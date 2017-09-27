@@ -15,6 +15,7 @@
 
 #include "RndGenerator.h"
 #include "CipherDef.h"
+#include "SingleTon.h"
 #include "boost/random/random_device.hpp"
 
 namespace Cipher {

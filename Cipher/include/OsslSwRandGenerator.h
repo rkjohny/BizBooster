@@ -14,6 +14,7 @@
 #define OPENSSL_SW_RNG_H
 
 #include "OsslRandGenerator.h"
+#include "SingleTon.h"
 
 namespace Cipher {
 

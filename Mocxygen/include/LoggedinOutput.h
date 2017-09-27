@@ -17,6 +17,7 @@
 #include "AbstractBaseOutput.h"
 #include "AppCommonDef.h"
 #include "User.h"
+#include <memory>
 
 namespace Mocxygen {
     class LoggedinOutput : public Mocxygen::AbstractApiGetEntityOutput<LoggedinOutput, Cruxdb::User> {

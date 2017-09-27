@@ -15,6 +15,8 @@
 
 #include "AbstractBaseOutput.h"
 #include "User.h"
+#include <memory>
+
 
 namespace Mocxygen {
 

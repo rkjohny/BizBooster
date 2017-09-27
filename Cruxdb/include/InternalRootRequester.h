@@ -20,13 +20,12 @@ namespace Cruxdb {
 
 class InternalRootRequester : public Requester {
 private:
-    MAKE_SINGLE_TON(InternalRootRequester);
-    
-protected:
+    NON_COPY_NON_MOVE_ABLE(InternalRootRequester);
+
+public:
     InternalRootRequester();
     virtual ~InternalRootRequester() = default;
 
-public:
     Wt::Dbo::ptr<Cruxdb::User> GetUser() override;
     bool HasRole(const std::string &) override;
     bool HasRole(const Role &) override;

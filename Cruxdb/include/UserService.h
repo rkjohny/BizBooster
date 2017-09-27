@@ -21,6 +21,7 @@
 #include "WtSession.h"
 #include "WtPgConnection.h"
 #include "DateTimeUtils.h"
+#include "SingleTon.h"
 #include <string>
 #include <memory>
 #include <Wt/Dbo/Dbo.h>
@@ -41,15 +42,17 @@ protected:
     virtual ~UserService();
 
 public:
-    Wt::Dbo::ptr<User> GetUser(Requester *requester, const std::string &provider, const std::string &identity);
-    Wt::Dbo::ptr<User> GetUser(Requester *requester, const std::string &identity);
+    Wt::Dbo::ptr<User> GetUser(std::shared_ptr<Requester> requester, const std::string &provider,
+                               const std::string &identity);
+    Wt::Dbo::ptr<User> GetUser(std::shared_ptr<Requester> requester, const std::string &identity);
 
-    Wt::Dbo::ptr<AuthInfo> AddAuthInfo(Requester *requester, Wt::Dbo::ptr<AuthInfo> &authInfo);
+    Wt::Dbo::ptr<AuthInfo> AddAuthInfo(std::shared_ptr<Requester> requester, Wt::Dbo::ptr<AuthInfo> &authInfo);
 
-    Wt::Dbo::ptr<AuthIdentityType> AddIdentity(Requester *requester, Wt::Dbo::ptr<AuthIdentityType> &identity);
+    Wt::Dbo::ptr<AuthIdentityType> AddIdentity(std::shared_ptr<Requester> requester,
+                                               Wt::Dbo::ptr<AuthIdentityType> &identity);
 
-    Wt::Dbo::ptr<User> GetUser(Requester *requester, int64_t id);
-    Wt::Dbo::ptr<User> GetUser(Requester *requester, const Wt::Auth::User &authUser);
+    Wt::Dbo::ptr<User> GetUser(std::shared_ptr<Requester> requester, int64_t id);
+    Wt::Dbo::ptr<User> GetUser(std::shared_ptr<Requester> requester, const Wt::Auth::User &authUser);
     
     Cruxdb::UserDatabase& GetUserDB();
 };

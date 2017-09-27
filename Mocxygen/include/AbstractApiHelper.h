@@ -33,20 +33,21 @@ private:
     NON_COPY_NON_MOVE_ABLE(AbstractApiHelper);
 
 protected:
-    InputT *m_input;
+    std::shared_ptr<InputT> m_input;
     std::shared_ptr<OutputT> m_output;
 
-    Cruxdb::Requester *m_requester;
+    std::shared_ptr<Cruxdb::Requester> m_requester;
 
 public:
 
-    AbstractApiHelper(Cruxdb::Requester * requester, InputT *input, OutputT *output = nullptr) :
-    m_input(input), m_output(nullptr), m_requester(requester)
+    AbstractApiHelper(std::shared_ptr<Cruxdb::Requester> requester, std::shared_ptr<InputT> input,
+                      std::shared_ptr<OutputT> output = nullptr) :
+    m_input(input), m_requester(requester)
     {
         if (!output) {
             m_output = std::make_shared<OutputT>();
         } else {
-            m_output = std::shared_ptr<OutputT>(output);
+            m_output = output;
         }
     }
 
@@ -59,7 +60,7 @@ public:
         return m_output;
     }
 
-    virtual InputT* GetInput()
+    virtual std::shared_ptr<InputT> GetInput()
     {
         return m_input;
     }

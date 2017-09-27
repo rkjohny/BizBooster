@@ -17,7 +17,7 @@
 namespace Cruxdb {
 
     Wt::Dbo::ptr<Cruxdb::AppSetting> 
-    AppSettingService::AddOrUpdateAppSetting(Requester *requester, AppSetting &&setting)
+    AppSettingService::AddOrUpdateAppSetting(std::shared_ptr<Requester> requester, AppSetting &&setting)
     {
         Wt::Dbo::Query<Wt::Dbo::ptr<Cruxdb::AppSetting>> query = m_session->find<Cruxdb::AppSetting>().where("name = ?").bind(setting.GetName());
         Wt::Dbo::ptr<Cruxdb::AppSetting> objPtr = query.resultValue();

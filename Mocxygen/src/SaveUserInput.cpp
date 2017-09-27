@@ -63,8 +63,8 @@ namespace Mocxygen {
         return "SaveUserInput";
     }
 
-    std::shared_ptr<AbstractBaseOutput> SaveUserInput::Process(Cruxdb::Requester *requester) {
-        return Api::SaveUser(requester, this);
+    std::shared_ptr<AbstractBaseOutput> SaveUserInput::Process(std::shared_ptr<Cruxdb::Requester> requester) {
+        return Api::SaveUser(requester, std::shared_ptr<SaveUserInput>(this));
     }
 
     const boost::optional<std::string> &SaveUserInput::GetEmail() const {

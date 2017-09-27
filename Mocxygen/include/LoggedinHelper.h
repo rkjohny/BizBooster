@@ -28,7 +28,8 @@ private:
     API_HELPER(LoggedinHelper);
     
 public:
-    LoggedinHelper(Cruxdb::Requester *requester, LoggedinInput *input, LoggedinOutput *output = nullptr) :
+    LoggedinHelper(std::shared_ptr<Cruxdb::Requester> requester, std::shared_ptr<LoggedinInput> input,
+                   std::shared_ptr<LoggedinOutput> output = nullptr) :
     AbstractApiHelper<LoggedinInput, LoggedinOutput>(requester, input, output)
     {
 

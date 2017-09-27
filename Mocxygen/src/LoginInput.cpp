@@ -59,8 +59,8 @@ namespace Mocxygen {
         return "LoginInput";
     }
 
-    std::shared_ptr<AbstractBaseOutput> LoginInput::Process(Cruxdb::Requester *requester) {
-        return Api::LogIn(requester, this);
+    std::shared_ptr<AbstractBaseOutput> LoginInput::Process(std::shared_ptr<Cruxdb::Requester> requester) {
+        return Api::LogIn(requester, std::shared_ptr<LoginInput>(this));
     }
 
     const boost::optional<std::string> & LoginInput::GetPassword() const {

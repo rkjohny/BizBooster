@@ -16,6 +16,7 @@
 #include "AppCommonDef.h"
 #include "WtPgConnection.h"
 #include "DboTypes.h"
+#include "SingleTon.h"
 
 #include <Wt/Dbo/Dbo.h>
 #include <Wt/Auth/Login.h>

@@ -19,6 +19,7 @@
 #include "WtHashGenerator.h"
 #include "HashGenerator.h"
 #include "RndGenerator.h"
+#include "SingleTon.h"
 #include <string>
 
 namespace Cipher {

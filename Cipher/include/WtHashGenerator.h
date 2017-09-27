@@ -16,6 +16,7 @@
 
 #include "AppCommonDef.h"
 #include "HashGenerator.h"
+#include "SingleTon.h"
 #include <Wt/Auth/HashFunction.h>
 #include <string>
 

@@ -29,7 +29,8 @@ private:
     
 public:
 
-    LoginHelper(Cruxdb::Requester *requester, LoginInput *input, LoginOutput *output = nullptr) :
+    LoginHelper(std::shared_ptr<Cruxdb::Requester> requester, std::shared_ptr<LoginInput> input,
+                std::shared_ptr<LoginOutput> output = nullptr) :
     AbstractApiHelper<LoginInput, LoginOutput>(requester, input, output)
     {
     }

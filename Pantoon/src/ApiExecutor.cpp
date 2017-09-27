@@ -42,17 +42,16 @@ web::json::value ApiExecutor::ExecuteSingleApi(const web::http::http_request& re
 
     if (japi.is_string() && jdata.is_object()) {
 
-        auto obj = Cmarshal::Json::SOFactory::CreateObject(apiName);
+        std::shared_ptr<Cmarshal::Json::AbstractSerializable> obj = Cmarshal::Json::SOFactory::CreateObject(apiName);
         if (obj) {
-            Cruxdb::Requester *requester = nullptr;
-            std::shared_ptr<Cruxdb::Requester> requesterPtr = nullptr;
+            std::shared_ptr<Cruxdb::Requester> requester = nullptr;
             std::shared_ptr<Mocxygen::AppSession> session = nullptr;
             auto extendExpiration = false;
 
             if (apiName.compare("login") == 0) {
-                requester = Common::SingleTon<Cruxdb::InternalRootRequester>::GetInstance();
+                requester = std::make_shared<Cruxdb::InternalRootRequester>();
             } else if (apiName.compare("loggedin") == 0) {
-                requester = Common::SingleTon<Cruxdb::InternalRootRequester>::GetInstance();
+                requester = std::make_shared<Cruxdb::InternalRootRequester>();
             } else {
                 auto &headers = request.headers();
                 bool hasToken = headers.has(U("Auth-Token"));
@@ -67,16 +66,13 @@ web::json::value ApiExecutor::ExecuteSingleApi(const web::http::http_request& re
                     extendExpiration = true;
                     session = Mocxygen::AppSessionManager::GetSession(token).lock();
                     if (session && !session->IsExpired()) {
-                        requesterPtr = session->GetRequester().lock();
-                        if (requesterPtr) {
-                            requester = requesterPtr.get();
-                        }
+                        requester = session->GetRequester().lock();
                     }
                 }
             }
 
             if (requester) {
-                auto input = std::dynamic_pointer_cast<Mocxygen::AbstractBaseInput, Cmarshal::Json::AbstractSerializable>(obj);
+                std::shared_ptr<Mocxygen::AbstractBaseInput> input = std::dynamic_pointer_cast<Mocxygen::AbstractBaseInput, Cmarshal::Json::AbstractSerializable>(obj);
                 
                 input->Deserialize(jdata);
                 auto output = input->Process(requester);

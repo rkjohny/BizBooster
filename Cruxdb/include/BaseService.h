@@ -20,6 +20,8 @@
 #include "WtSession.h"
 #include "Requester.h"
 #include "Disposable.h"
+#include "SingleTon.h"
+
 
 namespace Cruxdb {
 
@@ -38,9 +40,9 @@ public:
 
     Cruxdb::WtSession* GetSession();
     
-    virtual void CreateTables(Requester *requester);
+    virtual void CreateTables(std::shared_ptr<Requester> requester);
 
-    virtual int GetNextDmVersion(Requester *requester);
+    virtual int GetNextDmVersion(std::shared_ptr<Requester> requester);
 
 //    virtual Wt::Dbo::Transaction BeginTransaction(Requester *requester);
 //
@@ -48,12 +50,12 @@ public:
 //
 //    virtual void RollbackTransaction(Requester *requester, Wt::Dbo::Transaction&&);
 
-    virtual bool TableExists(Requester *requester, const std::string &table_name);
+    virtual bool TableExists(std::shared_ptr<Requester> requester, const std::string &table_name);
 
     template<class C>
     typename std::enable_if<(std::is_base_of<Cruxdb::AbstractAuditableEntity, C>::value == true ||
                              std::is_base_of<Cruxdb::User, C>::value == true), void >::type
-    OnSave(Requester *requester, Wt::Dbo::ptr<C> &entity)
+    OnSave(std::shared_ptr<Requester> requester, Wt::Dbo::ptr<C> &entity)
     {
         auto now = Common::DateTimeUtils::Now();
 
@@ -73,7 +75,7 @@ public:
 
     template<class C>
     typename std::enable_if<std::is_base_of<Cruxdb::AbstractBaseEntity, C>::value == true, Wt::Dbo::ptr<C> >::type
-    SaveEntity(Requester *requester, Wt::Dbo::ptr<C> &&entity)
+    SaveEntity(std::shared_ptr<Requester> requester, Wt::Dbo::ptr<C> &&entity)
     {
         Wt::Dbo::ptr<C> newEntity;
 
@@ -88,7 +90,7 @@ public:
     
     template<class C>
     typename std::enable_if<std::is_base_of<Cruxdb::AbstractBaseEntity, C>::value == true, Wt::Dbo::ptr<C> >::type
-    SaveEntity(Requester *requester, Wt::Dbo::ptr<C> &entity)
+    SaveEntity(std::shared_ptr<Requester> requester, Wt::Dbo::ptr<C> &entity)
     {
         Wt::Dbo::ptr<C> newEntity;
 

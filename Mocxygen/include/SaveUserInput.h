@@ -13,16 +13,18 @@
 #ifndef REGISTER_USER_INPUT_H
 #define REGISTER_USER_INPUT_H
 
+#include <memory>
 #include <string>
 #include "AbstractBaseInput.h"
 #include "Json.h"
 #include "AppCommonDef.h"
 
+
 namespace Mocxygen {
 
 class SaveUserInput : public AbstractApiSaveEntityInput<SaveUserInput> {
 public:
-    API_INPUT(SaveUserInput);
+    API_INPUT(SaveUserInput)
     ~SaveUserInput() = default;
 
     const boost::optional<std::string> & GetEmail() const;
@@ -55,6 +57,7 @@ public:
     const boost::optional<bool> & IsUseGoogleAuth() const;
 
     void SetUseGoogleAuth(const boost::optional<bool> &useGoogleAuth);
+
 
     REGISTER_GETTER_INCLUDING_BASE_START(AbstractApiSaveEntityInput<SaveUserInput>)
     GETTER(SaveUserInput, const boost::optional<std::string>&, "email", &SaveUserInput::GetEmail),

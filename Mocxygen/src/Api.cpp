@@ -12,31 +12,31 @@
 
 #include "Api.h"
 #include "SaveUserHelper.h"
-#include "LoginInput.h"
-#include "LoginOutput.h"
 #include "LoginHelper.h"
 #include "LoggedinHelper.h"
 
 
 namespace Mocxygen {
 
-std::shared_ptr<SaveUserOutput> Api::SaveUser(Cruxdb::Requester *requester, SaveUserInput *input,
-                                                        SaveUserOutput *output)
-{
-    SaveUserHelper helper(requester, input, output);
-    return std::dynamic_pointer_cast<SaveUserOutput, AbstractBaseOutput>(helper.Execute());
-}
+    std::shared_ptr<SaveUserOutput> Api::SaveUser(std::shared_ptr<Cruxdb::Requester> requester,
+                                                  std::shared_ptr<SaveUserInput> input,
+                                                  std::shared_ptr<SaveUserOutput> output) {
+        SaveUserHelper helper(requester, input, output);
+        return std::dynamic_pointer_cast<SaveUserOutput, AbstractBaseOutput>(helper.Execute());
+    }
 
-std::shared_ptr<LoginOutput> Api::LogIn(Cruxdb::Requester *requester, LoginInput *input, LoginOutput *output)
-{
-    LoginHelper &&helper = LoginHelper(requester, input, output);
-    return std::dynamic_pointer_cast<LoginOutput, AbstractBaseOutput>(helper.Execute());
-}
+    std::shared_ptr<LoginOutput>
+    Api::LogIn(std::shared_ptr<Cruxdb::Requester> requester, std::shared_ptr<LoginInput> input,
+               std::shared_ptr<LoginOutput> output) {
+        LoginHelper &&helper = LoginHelper(requester, input, output);
+        return std::dynamic_pointer_cast<LoginOutput, AbstractBaseOutput>(helper.Execute());
+    }
 
-std::shared_ptr<LoggedinOutput> Api::UserLoggedIn(Cruxdb::Requester *requester, LoggedinInput *input, LoggedinOutput *output)
-{
-    LoggedinHelper helper(requester, input, output);
-    return std::dynamic_pointer_cast<LoggedinOutput, AbstractBaseOutput>(helper.Execute());
-}
+    std::shared_ptr<LoggedinOutput> Api::UserLoggedIn(std::shared_ptr<Cruxdb::Requester> requester,
+                                                      std::shared_ptr<LoggedinInput> input,
+                                                      std::shared_ptr<LoggedinOutput> output) {
+        LoggedinHelper helper(requester, input, output);
+        return std::dynamic_pointer_cast<LoggedinOutput, AbstractBaseOutput>(helper.Execute());
+    }
 
 } /* namespace Mocxygen */

@@ -13,8 +13,9 @@
 #ifndef APP_COMMON_DEF_H
 #define APP_COMMON_DEF_H
 
-#include "SingleTon.h"
-
+//#include "SingleTon.h"
+//#include "Requester.h
+//#include <memory>
 
 #if defined(WIN32) || defined(_WIN32)
 #define WINDOWS
@@ -96,7 +97,7 @@
     COPY_ABLE_MOVE_ABLE(TYPE) \
     std::string ToString() const override; \
     std::string Name() const override; \
-    std::shared_ptr<AbstractBaseOutput> Process(Cruxdb::Requester *requester) override;
+    std::shared_ptr<AbstractBaseOutput> Process(std::shared_ptr<Cruxdb::Requester> requester) override;
 
 #define API_OUTPUT(TYPE) \
     TYPE() = default; \

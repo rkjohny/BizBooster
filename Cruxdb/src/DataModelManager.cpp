@@ -33,7 +33,7 @@ void DataModelManager::Run()
 
     size_t nextDmVersion = 0;
 
-    auto requester = Common::SingleTon<InternalRootRequester>::GetInstance();
+    std::shared_ptr<Requester> requester = std::make_shared<InternalRootRequester>();
     
     baseService->CreateTables(requester);
     

@@ -22,7 +22,7 @@ namespace Cruxdb {
     }
 
     Wt::Dbo::ptr<User>
-    UserService::GetUser(Requester *requester, const std::string &provider, const std::string &identity) {
+    UserService::GetUser(std::shared_ptr<Requester> requester, const std::string &provider, const std::string &identity) {
         typedef Wt::Dbo::ptr<Cruxdb::User> PUser;
         typedef Wt::Dbo::Query<PUser> QUsers;
         typedef Wt::Dbo::collection<PUser> Users;
@@ -47,27 +47,27 @@ namespace Cruxdb {
     }
 
     Wt::Dbo::ptr<User> 
-    UserService::GetUser(Requester *requester, const std::string &identity) {
+    UserService::GetUser(std::shared_ptr<Requester> requester, const std::string &identity) {
         return GetUser(requester, DEFAULT_LOG_IN_PROVIDER, identity);
     }
 
     Wt::Dbo::ptr<AuthInfo> 
-    UserService::AddAuthInfo(Requester *requester, Wt::Dbo::ptr<AuthInfo> &authInfo) {
+    UserService::AddAuthInfo(std::shared_ptr<Requester> requester, Wt::Dbo::ptr<AuthInfo> &authInfo) {
         return m_session->add<AuthInfo>(authInfo);
     }
 
     Wt::Dbo::ptr<AuthIdentityType>
-    UserService::AddIdentity(Requester *requester, Wt::Dbo::ptr<AuthIdentityType> &identity) {
+    UserService::AddIdentity(std::shared_ptr<Requester> requester, Wt::Dbo::ptr<AuthIdentityType> &identity) {
         return m_session->add<AuthInfo::AuthIdentityType>(identity);
     }
 
     Wt::Dbo::ptr<User> 
-    UserService::GetUser(Requester *requester, int64_t id) {
+    UserService::GetUser(std::shared_ptr<Requester> requester, int64_t id) {
         return m_session->find<Cruxdb::User>().where("id = ? and status = ?").bind(id).bind(StatusStr::V);
     }
 
     Wt::Dbo::ptr<User> 
-    UserService::GetUser(Requester *requester, const Wt::Auth::User &authUser) {
+    UserService::GetUser(std::shared_ptr<Requester> requester, const Wt::Auth::User &authUser) {
         Wt::Dbo::ptr<Cruxdb::User> user;
 
         Wt::Dbo::ptr<Cruxdb::AuthInfo> authInfo = GetUserDB().find(authUser);

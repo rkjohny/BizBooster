@@ -65,7 +65,7 @@ void Application::HandleAuthEvent()
                 << " logged in.";
 
         auto dao = Cruxdb::GetUserService();
-        auto requester = Common::SingleTon<Cruxdb::InternalRootRequester>::GetInstance();
+        auto requester = std::make_shared<Cruxdb::InternalRootRequester>();
         auto &&transaction = Wt::Dbo::Transaction(*dao->GetSession());
 
         auto &authUser = m_login.user();

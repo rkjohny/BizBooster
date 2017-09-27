@@ -49,8 +49,8 @@ namespace Mocxygen {
         return "LoggedInInput";
     }
 
-    std::shared_ptr<AbstractBaseOutput> LoggedinInput::Process(Cruxdb::Requester *requester) {
-        return Api::UserLoggedIn(requester, this);
+    std::shared_ptr<AbstractBaseOutput> LoggedinInput::Process(std::shared_ptr<Cruxdb::Requester> requester) {
+        return Api::UserLoggedIn(requester, std::shared_ptr<LoggedinInput>(this));
     }
 
 

@@ -25,7 +25,7 @@ void UserDetailsModel::save(const Wt::Auth::User& authUser)
 {
     if (m_login.loggedIn()) {
         auto userService = Cruxdb::GetUserService();
-        auto requester = Common::SingleTon<Cruxdb::InternalRootRequester>::GetInstance();
+        auto requester = std::make_shared<Cruxdb::InternalRootRequester>();
         auto &&transaction = Wt::Dbo::Transaction(*userService->GetSession());
 
         auto &authUser = m_login.user();

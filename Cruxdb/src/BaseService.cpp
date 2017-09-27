@@ -41,7 +41,7 @@ namespace Cruxdb {
         m_session->flush();
     }
 
-    void BaseService::CreateTables(Requester *requester)
+    void BaseService::CreateTables(std::shared_ptr<Requester> requester)
     {
         try {
             LOG_INFO("Creating Tables...");
@@ -52,7 +52,7 @@ namespace Cruxdb {
         }
     }
 
-    int BaseService::GetNextDmVersion(Requester *requester)
+    int BaseService::GetNextDmVersion(std::shared_ptr<Requester> requester)
     {
         int nextDmVersion = 0;
 
@@ -87,7 +87,7 @@ namespace Cruxdb {
 //        transaction.rollback();
 //    }
 
-    bool BaseService::TableExists(Requester *requester, const std::string &table_name)
+    bool BaseService::TableExists(std::shared_ptr<Requester> requester, const std::string &table_name)
     {
         auto count = m_session->query<int>("SELECT count(1) FROM PG_CLASS").where("RELNAME = ?").bind(table_name);
         return (count > 0) ? true : false;

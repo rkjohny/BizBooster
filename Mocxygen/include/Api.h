@@ -21,21 +21,23 @@
 #include "LoggedinOutput.h"
 
 namespace Mocxygen {
+    class Api {
+    private:
+        MAKE_STATIC(Api);
 
-//TODO: Use forward declaration for class SaveUserInput if needed
+    public:
+        static std::shared_ptr<SaveUserOutput> SaveUser(std::shared_ptr<Cruxdb::Requester> requester,
+                                                        std::shared_ptr<SaveUserInput> input,
+                                                        std::shared_ptr<SaveUserOutput> output = nullptr);
 
-class Api {
-private:
-    MAKE_STATIC(Api);
-    
-public:
-    static std::shared_ptr<SaveUserOutput> SaveUser(Cruxdb::Requester *requester, SaveUserInput *input,
-                                                    SaveUserOutput *output = nullptr);
-    
-    static std::shared_ptr<LoginOutput> LogIn(Cruxdb::Requester *requester, LoginInput *input, LoginOutput *output = nullptr);
+        static std::shared_ptr<LoginOutput> LogIn(std::shared_ptr<Cruxdb::Requester> requester,
+                                                  std::shared_ptr<LoginInput> input,
+                                                  std::shared_ptr<LoginOutput> output = nullptr);
 
-    static std::shared_ptr<LoggedinOutput> UserLoggedIn(Cruxdb::Requester *requester, LoggedinInput *input, LoggedinOutput *output = nullptr);
-};
+        static std::shared_ptr<LoggedinOutput> UserLoggedIn(std::shared_ptr<Cruxdb::Requester> requester,
+                                                            std::shared_ptr<LoggedinInput> input,
+                                                            std::shared_ptr<LoggedinOutput> output = nullptr);
+    };
 
 } /* namespace Mocxygen */
 

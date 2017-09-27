@@ -16,6 +16,7 @@
 
 
 #include "BaseService.h"
+#include "SingleTon.h"
 
 namespace Cruxdb {
 
@@ -28,7 +29,8 @@ namespace Cruxdb {
         virtual ~AppSettingService() = default;
         
     public:
-        Wt::Dbo::ptr<Cruxdb::AppSetting> AddOrUpdateAppSetting(Requester *requester, AppSetting &&setting);
+        Wt::Dbo::ptr<Cruxdb::AppSetting> AddOrUpdateAppSetting(std::shared_ptr<Requester> requester,
+                                                               AppSetting &&setting);
     };
 }
 
