@@ -32,12 +32,12 @@ namespace Mocxygen {
 
         virtual std::string Name() const = 0;
 
-        virtual std::shared_ptr<AbstractBaseOutput> Process(std::shared_ptr<Cruxdb::Requester> requester) = 0;
+        virtual std::shared_ptr<AbstractBaseOutput> Process(std::shared_ptr<Cruxdb::Requester> requester, std::shared_ptr<AbstractBaseInput> input) = 0;
         
-        REGISTER_GETTER_INCLUDING_BASE_START(AbstractSerializable)
+        REGISTER_GETTER_INCLUDING_BASE_START(Cmarshal::Json::AbstractSerializable)
         REGISTER_GETTER_INCLUDING_BASE_END
 
-        REGISTER_SETTER_INCLUDING_BASE_START(AbstractSerializable)
+        REGISTER_SETTER_INCLUDING_BASE_START(Cmarshal::Json::AbstractSerializable)
         REGISTER_SETTER_INCLUDING_BASE_END
     };
 
@@ -73,8 +73,6 @@ namespace Mocxygen {
 
         virtual ~AbstractApiGetInput() = default;
 
-        virtual std::shared_ptr<AbstractBaseOutput> Process(std::shared_ptr<Cruxdb::Requester> requester) = 0;
-
         REGISTER_GETTER_INCLUDING_BASE_START(AbstractApiInput<T>)
         REGISTER_GETTER_INCLUDING_BASE_END
 
@@ -89,8 +87,6 @@ namespace Mocxygen {
         AbstractApiGetEntityInput() = default;
 
         virtual ~AbstractApiGetEntityInput() = default;
-
-        virtual std::shared_ptr<AbstractBaseOutput> Process(std::shared_ptr<Cruxdb::Requester> requester) = 0;
 
         const boost::optional<long> & GetId() const {
             return m_Id;
@@ -113,22 +109,12 @@ namespace Mocxygen {
     };
 
     template<class T>
-    class AbstractApiGetEntityListInput : public AbstractBaseInput {
+    class AbstractApiGetEntityListInput : public AbstractApiGetInput<T> {
     public:
         AbstractApiGetEntityListInput() = default;
 
         virtual ~AbstractApiGetEntityListInput() = default;
 
-        virtual std::shared_ptr<AbstractBaseOutput> Process(std::shared_ptr<Cruxdb::Requester> requester) = 0;
-
-        web::json::value &Serialize() override {
-            m_serializedValue = Cmarshal::Json::ToJson<T>(reinterpret_cast<const T *> (this));
-            return m_serializedValue;
-        }
-
-        void Deserialize(const web::json::value &jvalue) override {
-            Cmarshal::Json::FromJson<T>(reinterpret_cast<T *> (this), jvalue);
-        }
 
         const boost::optional<Pageable> &GetPageable() const {
             return m_pageable;
@@ -146,13 +132,13 @@ namespace Mocxygen {
             AbstractApiGetEntityListInput::ids = ids;
         }
 
-        REGISTER_GETTER_INCLUDING_BASE_START(AbstractBaseInput)
+        REGISTER_GETTER_INCLUDING_BASE_START(AbstractApiGetInput<T>)
         GETTER(AbstractApiGetEntityListInput<T>, const boost::optional<Pageable>&, "pageable", &AbstractApiGetEntityListInput<T>::GetPageable),
         GETTER(AbstractApiGetEntityListInput<T>, const boost::optional<std::vector<long>> &, "ids", &AbstractApiGetEntityListInput<T>::GetIds)
 
         REGISTER_GETTER_INCLUDING_BASE_END
 
-        REGISTER_SETTER_INCLUDING_BASE_START(AbstractBaseInput)
+        REGISTER_SETTER_INCLUDING_BASE_START(AbstractApiGetInput<T>)
         SETTER(AbstractApiGetEntityListInput<T>, boost::optional<Pageable>&, "pageable", &AbstractApiGetEntityListInput<T>::SetPageable),
         SETTER(AbstractApiGetEntityListInput<T>, boost::optional<std::vector<long>> &, "ids", &AbstractApiGetEntityListInput<T>::SetIds)
         REGISTER_SETTER_INCLUDING_BASE_END
@@ -171,12 +157,10 @@ namespace Mocxygen {
 
         virtual ~AbstractApiSaveInput() = default;
 
-        virtual std::shared_ptr<AbstractBaseOutput> Process(std::shared_ptr<Cruxdb::Requester> requester) = 0;
-
-        REGISTER_GETTER_INCLUDING_BASE_START(AbstractApiSaveInput<T>)
+        REGISTER_GETTER_INCLUDING_BASE_START(AbstractApiInput<T>)
         REGISTER_GETTER_INCLUDING_BASE_END
 
-        REGISTER_SETTER_INCLUDING_BASE_START(AbstractApiSaveInput<T>)
+        REGISTER_SETTER_INCLUDING_BASE_START(AbstractApiInput<T>)
         REGISTER_SETTER_INCLUDING_BASE_END
     };
 
@@ -186,8 +170,6 @@ namespace Mocxygen {
         AbstractApiSaveEntityInput() = default;
 
         virtual ~AbstractApiSaveEntityInput() = default;
-
-        virtual std::shared_ptr<AbstractBaseOutput> Process(std::shared_ptr<Cruxdb::Requester> requester) = 0;
 
         const boost::optional<long> & GetId() const {
             return m_Id;

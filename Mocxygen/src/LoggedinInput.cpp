@@ -49,8 +49,9 @@ namespace Mocxygen {
         return "LoggedInInput";
     }
 
-    std::shared_ptr<AbstractBaseOutput> LoggedinInput::Process(std::shared_ptr<Cruxdb::Requester> requester) {
-        return Api::UserLoggedIn(requester, std::shared_ptr<LoggedinInput>(this));
+    std::shared_ptr<AbstractBaseOutput> LoggedinInput::Process(std::shared_ptr<Cruxdb::Requester> requester, std::shared_ptr<AbstractBaseInput> input) {
+        std::shared_ptr<LoggedinInput> in = std::dynamic_pointer_cast<LoggedinInput, AbstractBaseInput>(input);
+        return Api::UserLoggedIn(requester, in);
     }
 
 

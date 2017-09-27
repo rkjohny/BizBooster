@@ -43,11 +43,11 @@ namespace Mocxygen {
     protected:
         ApiError m_error;
 
-        REGISTER_GETTER_INCLUDING_BASE_START(AbstractSerializable)
+        REGISTER_GETTER_INCLUDING_BASE_START(Cmarshal::Json::AbstractSerializable)
         GETTER(AbstractBaseOutput, ApiError, "error", &AbstractBaseOutput::GetError)
         REGISTER_GETTER_INCLUDING_BASE_END
 
-        REGISTER_SETTER_INCLUDING_BASE_START(AbstractSerializable)
+        REGISTER_SETTER_INCLUDING_BASE_START(Cmarshal::Json::AbstractSerializable)
         SETTER(AbstractBaseOutput, const ApiError&, "error", &AbstractBaseOutput::SetError)
         REGISTER_SETTER_INCLUDING_BASE_END
     };

@@ -64,12 +64,13 @@ void Application::HandleAuthEvent()
         Wt::log("notice") << "User " << m_login.user().id()
                 << " logged in.";
 
-        auto dao = Cruxdb::GetUserService();
-        auto requester = std::make_shared<Cruxdb::InternalRootRequester>();
-        auto &&transaction = Wt::Dbo::Transaction(*dao->GetSession());
+        Cruxdb::UserService *userService = Cruxdb::GetUserService();
+        std::shared_ptr<Cruxdb::InternalRootRequester> requester = std::make_shared<Cruxdb::InternalRootRequester>();
 
-        auto &authUser = m_login.user();
-        auto user = dao->GetUser(requester, authUser);
+        auto &&transaction = Wt::Dbo::Transaction(*userService->GetSession());
+
+        const Wt::Auth::User &authUser = m_login.user();
+        Wt::Dbo::ptr<Cruxdb::User> user = userService->GetUser(requester, authUser);
 
         Wt::log("notice") << "User.email = " << user->GetEmail();
         //Wt::log("notice") << "(Favourite pet: " << user->favouritePet << ")";

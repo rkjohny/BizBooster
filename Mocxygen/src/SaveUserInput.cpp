@@ -63,8 +63,9 @@ namespace Mocxygen {
         return "SaveUserInput";
     }
 
-    std::shared_ptr<AbstractBaseOutput> SaveUserInput::Process(std::shared_ptr<Cruxdb::Requester> requester) {
-        return Api::SaveUser(requester, std::shared_ptr<SaveUserInput>(this));
+    std::shared_ptr<AbstractBaseOutput> SaveUserInput::Process(std::shared_ptr<Cruxdb::Requester> requester, std::shared_ptr<AbstractBaseInput> input) {
+        std::shared_ptr<SaveUserInput> in = std::dynamic_pointer_cast<SaveUserInput, AbstractBaseInput>(input);
+        return Api::SaveUser(requester, in);
     }
 
     const boost::optional<std::string> &SaveUserInput::GetEmail() const {

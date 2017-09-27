@@ -75,7 +75,7 @@ web::json::value ApiExecutor::ExecuteSingleApi(const web::http::http_request& re
                 std::shared_ptr<Mocxygen::AbstractBaseInput> input = std::dynamic_pointer_cast<Mocxygen::AbstractBaseInput, Cmarshal::Json::AbstractSerializable>(obj);
                 
                 input->Deserialize(jdata);
-                auto output = input->Process(requester);
+                auto output = input->Process(requester, input);
                 
                 if (output->GetError().GetCode() == AppErrorCode::SUCCESS) {
                     jresponse = output->SerializedValue();

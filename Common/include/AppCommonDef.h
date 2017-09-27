@@ -97,7 +97,7 @@
     COPY_ABLE_MOVE_ABLE(TYPE) \
     std::string ToString() const override; \
     std::string Name() const override; \
-    std::shared_ptr<AbstractBaseOutput> Process(std::shared_ptr<Cruxdb::Requester> requester) override;
+    std::shared_ptr<AbstractBaseOutput> Process(std::shared_ptr<Cruxdb::Requester> requester, std::shared_ptr<AbstractBaseInput> input) override;
 
 #define API_OUTPUT(TYPE) \
     TYPE() = default; \

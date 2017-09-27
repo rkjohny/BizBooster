@@ -77,7 +77,7 @@ void DMUpgrade_1::Execute() noexcept(false)
             if (authInfoAdded) {
                 //identity = new Cruxdb::AuthInfo::AuthIdentityType(superUserIdentityProvider, superUserIdentity);
 
-                identity = Wt::Dbo::make_ptr<Cruxdb::AuthIdentityType>();
+                identity = Wt::Dbo::make_ptr<Cruxdb::AuthIdentityType>(superUserIdentityProvider, superUserIdentity);
                 authInfoAdded.modify()->authIdentities().insert(identity);
 
                 // Wt::Cruxdb::ptr<AuthInfo::AuthIdentityType> identityAdded =
