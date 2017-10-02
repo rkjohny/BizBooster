@@ -33,7 +33,7 @@ namespace Mocxygen {
             if (!m_user) {
                 throw Common::AppException(AppErrorCode::AUTHTICATION_FAILURE, "Invalid username password.");
             }
-            auto &authInfo = m_user->GetAuthInfo();
+            Wt::Dbo::weak_ptr<Cruxdb::AuthInfo> authInfo = m_user->GetAuthInfo();
             m_authInfo = authInfo.lock();
 
             if (!m_authInfo) {
@@ -69,21 +69,21 @@ namespace Mocxygen {
                     throw Common::AppException(AppErrorCode::AUTHTICATION_FAILURE, "Invalid username password.");
                 }
                 auto now = Common::DateTimeUtils::Now();
-                auto expires = Common::DateTimeUtils::AddSecToNow(DEFAULT_SESSION_TIME_OUT_IN_SEC);
+                Wt::WDateTime expiresAfter = Common::DateTimeUtils::AddMinutesToNow(DEFAULT_SESSION_TIME_OUT_IN_MINUTES);
 
                 std::string authToken;
                 Cipher::GetRndGenerator()->GetRandomBytes(authToken, AUTH_TOKEN_LENGTH);
-                //auto authTokenObj = new Wt::Cruxdb::ptr<Cruxdb::AuthInfo::AuthTokenType>(authToken, expires);
-                auto authTokenObj = Wt::Dbo::make_ptr<Cruxdb::AuthTokenType>(authToken, expires);
+                //auto authTokenObj = new Wt::Cruxdb::ptr<Cruxdb::AuthInfo::AuthTokenType>(authToken, expiresAfter);
+                auto authTokenObj = Wt::Dbo::make_ptr<Cruxdb::AuthTokenType>(authToken, expiresAfter);
 
                 m_authInfo.modify()->setLastLoginAttempt(now);
                 m_authInfo.modify()->authTokens().insert(authTokenObj);
 
                 m_output->SetSessionToken(authToken);
-                m_output->SetSessionExpires(static_cast<uint64_t> (expires.toTime_t()));
+                m_output->SetSessionExpiresInSec(static_cast<uint64_t> (expiresAfter.toTime_t()));
                 m_output->SetEntity(m_user);
 
-                Mocxygen::AppSessionManager::AddSession(authToken, m_user, static_cast<uint64_t> (expires.toTime_t()));
+                Mocxygen::AppSessionManager::AddSession(authToken, m_user, static_cast<uint64_t> (expiresAfter.toTime_t()));
             }
         }
     }

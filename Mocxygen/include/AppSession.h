@@ -38,9 +38,9 @@ public:
 
     void ExtendExpiration();
 
-    void ResetExpiration(uint64_t msec);
+    void ResetExpiration(uint64_t sec);
 
-    void ExtendExpiration(uint64_t msec);
+    void ExtendExpiration(uint64_t sec);
 
     Wt::Dbo::ptr<Cruxdb::User> Getuser();
 

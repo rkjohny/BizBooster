@@ -24,7 +24,8 @@ enum Role {
     ROLE_CREATE_SUPER_USER,
     ROLE_INTERNAL_ROOT_USER,
     ROLE_SYSTEM_ADMIN,
-    ROLE_PROJECT_MANAGER
+    ROLE_MANAGER,
+    ROLE_USER
 };
 
 struct RoleStr
@@ -32,7 +33,8 @@ struct RoleStr
     static constexpr char *ROLE_CREATE_SUPER_USER = "ROLE_CREATE_SUPER_USER";
     static constexpr char *ROLE_INTERNAL_ROOT_USER = "ROLE_INTERNAL_ROOT_USER"; 
     static constexpr char *ROLE_SYSTEM_ADMIN = "ROLE_SYSTEM_ADMIN";
-    static constexpr char *ROLE_PROJECT_MANAGER = "ROLE_PROJECT_MANAGER";
+    static constexpr char *ROLE_MANAGER = "ROLE_MANAGER";
+    static constexpr char *ROLE_USER = "ROLE_USER";
 };
 
 class RoleUtils {

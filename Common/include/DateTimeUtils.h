@@ -30,8 +30,10 @@ namespace Common {
         static void AddDayToCurrentDateTime(Wt::WDateTime &dt, uint32_t day);
         
         static Wt::WDateTime Now();
-        static Wt::WDateTime AddMsecToNow(uint64_t msec);
-        static Wt::WDateTime AddSecToNow(uint64_t sec);
+        static Wt::WDateTime AddSecondsToNow(uint64_t sec);
+        static Wt::WDateTime AddMinutesToNow(uint64_t minute);
+        static Wt::WDateTime AddHoursToNow(uint64_t hour);
+        static Wt::WDateTime AddDaysToNow(uint64_t day);
     };
 
 } /* namespace Common */

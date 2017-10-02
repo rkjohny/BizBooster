@@ -98,7 +98,7 @@ bool AppSessionManager::ResetExpiration(const std::string &token)
     
     auto itr = cm_sessions.find(token);
     if (itr != cm_sessions.end()) {
-        itr->second->ResetExpiration(DEFAULT_SESSION_TIME_OUT_IN_SEC);
+        itr->second->ResetExpiration(DEFAULT_SESSION_TIME_OUT_IN_MINUTES * 60);
         ret = true;
     }
    return ret;

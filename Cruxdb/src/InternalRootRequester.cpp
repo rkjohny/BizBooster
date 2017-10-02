@@ -18,7 +18,7 @@ namespace Cruxdb {
 
 InternalRootRequester::InternalRootRequester()
 {
-    //m_user- SetName("root");
+    //m_user- SetLogin("root");
     //m_user->SetRoles(Role::ROLE_INTERNAL_ROOT_USER);
 }
 

@@ -93,7 +93,7 @@
 	       When a session remains inactive for this amount of time, it is
 	       cleaned up.
 	      -->
-	    <timeout>600</timeout>
+	    <timeout>60</timeout>
 
 	    <!-- Server push timeout (seconds).
 
@@ -232,7 +232,7 @@
 	   (e.g. for apache + fastcgi module), or on stderr (e.g. for
 	   the built-in httpd).
          -->
-	<log-file></log-file>
+	<log-file>app.log</log-file>
 
 	<!-- Logger configuration
 

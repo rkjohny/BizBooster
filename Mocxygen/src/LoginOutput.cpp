@@ -21,8 +21,8 @@ void LoginOutput::CopyFrom(const LoginOutput&& orig)
     if (orig.m_entity) {
         m_entity = std::move(orig.m_entity);
     }
-    if (orig.m_sessionExpiresMsc) {
-        m_sessionExpiresMsc = std::move(orig.m_sessionExpiresMsc);
+    if (orig.m_sessionExpiresSec) {
+        m_sessionExpiresSec = std::move(orig.m_sessionExpiresSec);
     }
     if (orig.m_sessionToken) {
         m_sessionToken = std::move(orig.m_sessionToken);
@@ -34,8 +34,8 @@ void LoginOutput::CopyFrom(const LoginOutput& orig)
     if (orig.m_entity) {
         m_entity = orig.m_entity;
     }
-    if (orig.m_sessionExpiresMsc) {
-        m_sessionExpiresMsc = *orig.m_sessionExpiresMsc;
+    if (orig.m_sessionExpiresSec) {
+        m_sessionExpiresSec = *orig.m_sessionExpiresSec;
     }
     if (orig.m_sessionToken) {
         m_sessionToken = *orig.m_sessionToken;
@@ -52,14 +52,14 @@ std::string LoginOutput::ToString() const
     return "LogInOutput";
 }
 
-const boost::optional<uint64_t> & LoginOutput::GetSessionExpiresInMS() const
+const boost::optional<uint64_t> & LoginOutput::GetSessionExpiresInSec() const
 {
-    return m_sessionExpiresMsc;
+    return m_sessionExpiresSec;
 }
 
-void LoginOutput::SetSessionExpires(const boost::optional<uint64_t> &sessionExpiresMsc)
+void LoginOutput::SetSessionExpiresInSec(const boost::optional<uint64_t> &sessionExpiresSec)
 {
-    m_sessionExpiresMsc = sessionExpiresMsc;
+    m_sessionExpiresSec = sessionExpiresSec;
 }
 
 const boost::optional<std::string> & LoginOutput::GetSessionToken() const

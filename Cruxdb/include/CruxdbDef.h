@@ -37,9 +37,12 @@
 #define DEFAULT_LOG_IN_PROVIDER "loginname"
 
 // 30 seconds
-#define MAX_SESSION_MANAGER_THREAD_SLEEP_IN_SEC 30
+#define MAX_SESSION_MANAGER_THREAD_SLEEP_IN_SEC (30)
 
-// 30 minutes
-#define DEFAULT_SESSION_TIME_OUT_IN_SEC (30 * 60)
+// 60 minutes
+#define DEFAULT_SESSION_TIME_OUT_IN_MINUTES (60)
+
+//3 dayas
+#define DEFAULT_TOKEN_TIME_OUT_IN_DAYS (3)
 
 #endif

@@ -26,9 +26,9 @@ public:
 
     ~LoginOutput() = default;
 
-    const boost::optional<uint64_t> & GetSessionExpiresInMS() const;
+    const boost::optional<uint64_t> & GetSessionExpiresInSec() const;
 
-    void SetSessionExpires(const boost::optional<uint64_t> &sessionExpiresMsc);
+    void SetSessionExpiresInSec(const boost::optional<uint64_t> &sessionExpiresSec);
 
     const boost::optional<std::string> & GetSessionToken() const;
 
@@ -36,17 +36,17 @@ public:
 
     REGISTER_GETTER_INCLUDING_BASE_START(AbstractApiOutput<LoginOutput>)
     GETTER(LoginOutput, const boost::optional<std::string> &, "sessionToken", &LoginOutput::GetSessionToken),
-    GETTER(LoginOutput, const boost::optional<uint64_t> &, "sessionExpires", &LoginOutput::GetSessionExpiresInMS)
+    GETTER(LoginOutput, const boost::optional<uint64_t> &, "sessionExpires", &LoginOutput::GetSessionExpiresInSec)
     REGISTER_GETTER_INCLUDING_BASE_END
 
     REGISTER_SETTER_INCLUDING_BASE_START(AbstractApiOutput<LoginOutput>)
     SETTER(LoginOutput, const boost::optional<std::string> &, "sessionToken", &LoginOutput::SetSessionToken),
-    SETTER(LoginOutput, const boost::optional<uint64_t> &, "sessionExpires", &LoginOutput::SetSessionExpires)
+    SETTER(LoginOutput, const boost::optional<uint64_t> &, "sessionExpires", &LoginOutput::SetSessionExpiresInSec)
     REGISTER_SETTER_INCLUDING_BASE_END
 
 private:
     boost::optional<std::string> m_sessionToken;
-    boost::optional<uint64_t> m_sessionExpiresMsc;
+    boost::optional<uint64_t> m_sessionExpiresSec;
 };
 
 }

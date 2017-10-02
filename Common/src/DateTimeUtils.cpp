@@ -17,71 +17,82 @@
 
 namespace Common {
 
-std::string DateTimeUtils::GetTimeStamp()
-{
-    time_t now;
-    struct tm tstruct;
-    char buf[ 80 ];
+    std::string DateTimeUtils::GetTimeStamp() {
+        time_t now;
+        struct tm tstruct;
+        char buf[80];
 
-    now = time(0);
+        now = time(0);
 
 #ifdef WIN32
-    localtime_s(&tstruct, &now);
+        localtime_s(&tstruct, &now);
 #else
-    localtime_r(&now, &tstruct);
+        localtime_r(&now, &tstruct);
 #endif
 
-    // Reference: http://en.cppreference.com/w/cpp/chrono/c/strftime
-    //strftime(buf, sizeof (buf), "%Y-%m-%d %I:%M:%S %p", &tstruct);
-    strftime(buf, sizeof (buf), "%Y-%m-%d %H:%M:%S", &tstruct);
+        // Reference: http://en.cppreference.com/w/cpp/chrono/c/strftime
+        //strftime(buf, sizeof (buf), "%Y-%m-%d %I:%M:%S %p", &tstruct);
+        strftime(buf, sizeof(buf), "%Y-%m-%d %H:%M:%S", &tstruct);
 
-    return std::string(buf);
-}
+        return std::string(buf);
+    }
 
-void DateTimeUtils::GetCurrentDateTime(Wt::WDateTime &dt)
-{
-    std::time_t curTime = std::time(nullptr);
-    dt.setTime_t(curTime);
-}
+    void DateTimeUtils::GetCurrentDateTime(Wt::WDateTime &dt) {
+        std::time_t curTime = std::time(nullptr);
+        dt.setTime_t(curTime);
+    }
 
-void DateTimeUtils::AddDayToCurrentDateTime(Wt::WDateTime &dt, uint32_t day)
-{
-    std::time_t curTime = std::time(nullptr);
-    
-    curTime += (day * 24 * 60 * 60 * 100);
-    
+    void DateTimeUtils::AddDayToCurrentDateTime(Wt::WDateTime &dt, uint32_t day) {
+        std::time_t curTime = std::time(nullptr);
+
+        curTime += (day * 24 * 60 * 60 * 100);
+
 //    std::tm *tm_local = std::localtime(&curTime);
 //    tm_local->tm_mday += day;
 //    std::time_t next = std::mktime(tm_local);
 //    dt.setTime_t(next);
-    
-    dt.setTime_t(curTime);
-}
 
-Wt::WDateTime DateTimeUtils::Now()
-{
-    Wt::WDateTime now;
-    std::time_t curTime = std::time(nullptr);
-    now.setTime_t(curTime);
-    return now;
-}
+        dt.setTime_t(curTime);
+    }
 
-Wt::WDateTime DateTimeUtils::AddMsecToNow(uint64_t msec)
-{
-    Wt::WDateTime now;
-    std::time_t curTime = std::time(nullptr);
-    curTime += msec;
-    now.setTime_t(curTime);
-    return now;
-}
+    Wt::WDateTime DateTimeUtils::Now() {
+        Wt::WDateTime now;
+        std::time_t curTime = std::time(nullptr);
+        now.setTime_t(curTime);
+        return now;
+    }
 
-Wt::WDateTime DateTimeUtils::AddSecToNow(uint64_t sec)
-{
-    Wt::WDateTime now;
-    std::time_t curTime = std::time(nullptr);
-    curTime += (sec * 1000);
-    now.setTime_t(curTime);
-    return now;
-}
+
+    Wt::WDateTime DateTimeUtils::AddSecondsToNow(uint64_t sec) {
+        Wt::WDateTime now;
+        std::time_t curTime = std::time(nullptr);
+        curTime += (sec);
+        now.setTime_t(curTime);
+        return now;
+    }
+
+    Wt::WDateTime DateTimeUtils::AddMinutesToNow(uint64_t minute) {
+        Wt::WDateTime now;
+        std::time_t curTime = std::time(nullptr);
+        curTime += (minute * 60);
+        now.setTime_t(curTime);
+        return now;
+    }
+
+    Wt::WDateTime DateTimeUtils::AddHoursToNow(uint64_t hour) {
+        Wt::WDateTime now;
+        std::time_t curTime = std::time(nullptr);
+        curTime += (hour * 60 * 60);
+        now.setTime_t(curTime);
+        return now;
+    }
+
+    Wt::WDateTime DateTimeUtils::AddDaysToNow(uint64_t day) {
+        Wt::WDateTime now;
+        std::time_t curTime = std::time(nullptr);
+        curTime += (day * 24 * 60 * 60);
+        now.setTime_t(curTime);
+        return now;
+    }
 
 } /* namespace Common */

@@ -73,7 +73,7 @@ namespace Mocxygen {
 
 
             blockExecutor.Execute(m_input->GetName() != boost::none, [&]() -> void {
-                user.modify()->SetName(*(m_input->GetName()));
+                user.modify()->SetLogin(*(m_input->GetName()));
             });
 
 
@@ -99,8 +99,8 @@ namespace Mocxygen {
                 authInfo.modify()->setEmail(*(m_input->GetEmail()));
                 authInfo.modify()->setUnverifiedEmail(*(m_input->GetEmail()));
 
-                auto now = Common::DateTimeUtils::AddSecToNow(DEFAULT_SESSION_TIME_OUT_IN_SEC);
-                authInfo.modify()->setEmailToken(Cruxdb::AuthUtils::GenerateEmailToken(), now,
+                Wt::WDateTime expiresAfter = Common::DateTimeUtils::AddMinutesToNow(DEFAULT_TOKEN_TIME_OUT_IN_DAYS);
+                authInfo.modify()->setEmailToken(Cruxdb::AuthUtils::GenerateEmailToken(), expiresAfter,
                                         Wt::Auth::EmailTokenRole::VerifyEmail);
 
                 auto passwdEncoder = Cipher::GetPasswordEncoder();

@@ -15,25 +15,26 @@
 
 namespace BizBooster {
 
-class RegistrationView : public Wt::Auth::RegistrationWidget
-{
-public:
-  RegistrationView(Wt::Auth::Login &login, Wt::Auth::AuthWidget *authWidget = nullptr);
+    class RegistrationView : public Wt::Auth::RegistrationWidget {
+    public:
+        RegistrationView(Wt::Auth::Login &login, Wt::Auth::AuthWidget *authWidget = nullptr);
 
-  /* specialize to create user details fields */
-   std::unique_ptr<Wt::WWidget> createFormWidget(Wt::WFormModel::Field field) override;
+        /* specialize to create user details fields */
+        std::unique_ptr<Wt::WWidget> createFormWidget(Wt::WFormModel::Field field) override;
 
-protected:
-  /* specialize to also validate the user details */
-  bool validate() override;
+    protected:
+        /* specialize to also validate the user details */
+        bool validate() override;
 
-  /* specialize to register user details */
-  void registerUserDetails(Wt::Auth::User& user) override;
+        /* specialize to register user details */
+        void registerUserDetails(Wt::Auth::User &user) override;
 
-private:
-  UserDetailsModel *m_detailsModel;
-  Wt::Auth::Login &m_login;
-};
+    private:
+        UserDetailsModel *m_detailsModel;
+        Wt::Auth::Login &m_login;
+        //Wt::WLineEdit *firstName;
+        //Wt::WLineEdit *lastName;
+    };
 
 }
 

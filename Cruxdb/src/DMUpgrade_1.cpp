@@ -46,7 +46,8 @@ void DMUpgrade_1::Execute() noexcept(false)
     try {
         //Creating super user;
         user = Wt::Dbo::make_ptr<User>();
-        user.modify()->SetName(superUserName);
+        user.modify()->SetLogin(superUserEmail);
+        user.modify()->SetFirstName(superUserName);
         user.modify()->SetRoles(Role::ROLE_CREATE_SUPER_USER);
         user.modify()->SetStatus(Status::V);
 
@@ -59,13 +60,13 @@ void DMUpgrade_1::Execute() noexcept(false)
             authInfo.modify()->setEmail(superUserEmail);
             authInfo.modify()->setUnverifiedEmail(superUserEmail);
 
-            auto now = Common::DateTimeUtils::AddMsecToNow(DEFAULT_SESSION_TIME_OUT_IN_SEC);
-            authInfo.modify()->setEmailToken(Cruxdb::AuthUtils::GenerateEmailToken(), now, Wt::Auth::EmailTokenRole::VerifyEmail);
+            auto expiresAt = Common::DateTimeUtils::AddSecondsToNow(DEFAULT_TOKEN_TIME_OUT_IN_DAYS);
+            authInfo.modify()->setEmailToken(Cruxdb::AuthUtils::GenerateEmailToken(), expiresAt, Wt::Auth::EmailTokenRole::VerifyEmail);
 
-            auto passwdEncoder = Cipher::GetPasswordEncoder();
-            auto salt = passwdEncoder->GenerateSalt();
-            auto hash = passwdEncoder->Encode(superUserPassword, salt);
-            auto hashMethod = passwdEncoder->HashMethodName();
+            Cipher::PasswordEncoder *passwordEncoder = Cipher::GetPasswordEncoder();
+            auto salt = passwordEncoder->GenerateSalt();
+            auto hash = passwordEncoder->Encode(superUserPassword, salt);
+            auto hashMethod = passwordEncoder->HashMethodName();
             authInfo.modify()->setPassword(hash, hashMethod, salt);
 
             authInfo.modify()->setStatus(Wt::Auth::User::Status::Normal);

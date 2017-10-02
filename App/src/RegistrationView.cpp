@@ -20,6 +20,11 @@ namespace BizBooster {
     }
 
     std::unique_ptr<Wt::WWidget> RegistrationView::createFormWidget(Wt::WFormModel::Field field) {
+        if (field == UserDetailsModel::FirstName) {
+            return std::make_unique<Wt::WLineEdit>();
+        } else if (field == UserDetailsModel::LastName) {
+            return std::make_unique<Wt::WLineEdit>();
+        }
         return Wt::Auth::RegistrationWidget::createFormWidget(field);
     }
 

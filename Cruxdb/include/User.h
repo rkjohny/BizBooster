@@ -57,8 +57,11 @@ public:
     ~User() = default;
     
 private:
-    std::string m_name;
+    std::string m_login;
+    std::string m_firstName;
+    std::string m_lastName;
     std::string m_rolesStr;
+    std::vector<Role> m_roles;
 
     Wt::WDateTime m_dateCreated;
     Wt::WDateTime m_dateLastUpdated;
@@ -68,9 +71,18 @@ private:
 
     Wt::Dbo::weak_ptr<Cruxdb::AuthInfo> m_authInfo;
     
-public: 
+public:
+
     bool HasRole(const std::string &) const;
     bool HasRole(const Role &) const;
+
+    const std::string &GetFirstName() const;
+
+    void SetFirstName(const std::string &m_firstName);
+
+    const std::string &GetLastName() const;
+
+    void SetLastName(const std::string &m_lastName);
 
     std::string GetEmail() const;
     void SetEmail(const std::string &email);
@@ -78,8 +90,8 @@ public:
     std::string GetUnverifiedEmail() const;
     void SetUnverifiedEmail(const std::string &email);
     
-    const std::string& GetName() const;
-    void SetName(const std::string &name);
+    const std::string& GetLogin() const;
+    void SetLogin(const std::string &name);
     
     std::string GetPassword() const;
     void SetPassword(const std::string &password);
@@ -89,11 +101,11 @@ public:
     void SetStatus(const Status &status) override;
     void SetStatusStr(const std::string &status) override;
 
-    const std::vector<Role> GetRoles() const;
+    const std::vector<Role> & GetRoles() const;
     const std::string& GetRolesStr() const;
     void SetRolesStr(const std::string &roles);
     void SetRoles(Role role);
-    void SetRoles(std::vector<Role> roles);
+    void SetRoles(std::vector<Role> &roles);
     
     void SetPasswordHash(const std::string &hash, const std::string &hashMethod, const std::string &salt);
     std::string GetPassWordHash() const;
@@ -103,9 +115,9 @@ public:
     void AddIdentity(const std::string &provider, const std::string &identity);
     void AddIdentity(const Wt::Dbo::ptr<Cruxdb::AuthIdentityType> &identity);
     
-    Cruxdb::AuthTokens GetAuthTokens() const;
+    AuthTokens GetAuthTokens() const;
     
-    const Wt::Dbo::weak_ptr<Cruxdb::AuthInfo>& GetAuthInfo() const;
+    Wt::Dbo::weak_ptr<AuthInfo> GetAuthInfo() const;
     
     void SetEmailToken(const std::string &token, const Wt::WDateTime &expires, const Wt::Auth::EmailTokenRole &role);
     
@@ -132,8 +144,10 @@ public:
     GETTER(User, const Wt::WDateTime&, COLUMN_DATE_CREATED, &User::GetDateCreated),
     GETTER(User, const Wt::WDateTime&, COLUMN_DATE_LAST_UPDATED, &User::GetDateLastUpdated),
     GETTER(User, std::string, "email", &User::GetEmail),
-    GETTER(User, const std::string&, "name", &User::GetName),
-    GETTER(User, const std::string&, "roles", &User::GetRolesStr)
+    GETTER(User, const std::string&, "login", &User::GetLogin),
+    GETTER(User, const std::string&, "roles", &User::GetRolesStr),
+    GETTER(User, const std::string&, "firstName", &User::GetFirstName),
+    GETTER(User, const std::string&, "lastName", &User::GetLastName)
     REGISTER_GETTER_INCLUDING_BASE_END
 
 
@@ -141,14 +155,18 @@ public:
     SETTER(User, Wt::WDateTime&, COLUMN_DATE_CREATED, &User::SetDateCreated),
     SETTER(User, Wt::WDateTime&, COLUMN_DATE_LAST_UPDATED, &User::SetDateLastUpdated),
     SETTER(User, const std::string&, "email", &User::SetEmail),
-    SETTER(User, const std::string&, "name", &User::SetName),
-    SETTER(User, const std::string&, "roles", &User::SetRolesStr)
+    SETTER(User, const std::string&, "login", &User::SetLogin),
+    SETTER(User, const std::string&, "roles", &User::SetRolesStr),
+    SETTER(User, const std::string&, "firstName", &User::SetFirstName),
+    SETTER(User, const std::string&, "lastName", &User::SetLastName)
     REGISTER_SETTER_INCLUDING_BASE_END
 
     template<class Action>
     void persist(Action &a)
     {
-        Wt::Dbo::field(a, m_name, "name");
+        Wt::Dbo::field(a, m_login, "login");
+        Wt::Dbo::field(a, m_firstName, "first_name");
+        Wt::Dbo::field(a, m_lastName, "last_name");
         Wt::Dbo::field(a, m_rolesStr, "roles");
         Wt::Dbo::field(a, m_statusStr, COLUMN_STATUS);
         Wt::Dbo::field(a, m_dateCreated, COLUMN_DATE_CREATED);
