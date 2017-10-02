@@ -15,11 +15,10 @@
 
 namespace BizBooster {
 
-LogInWidget::LogInWidget(Wt::WContainerWidget *parent, Wt::Auth::Login &login) :
+LogInWidget::LogInWidget(Wt::Auth::Login &login) :
 Wt::Auth::AuthWidget(Cruxdb::AuthServices::GetAuthService(), Cruxdb::GetUserService()->GetUserDB(), login), m_login(login)
 {
-    //parent->addChild(std::make_unique<LogInWidget>(this));
-    
+
 //    Wt::WTemplate *t = new Wt::WTemplate(Wt::WString::tr("auth_template.xml"));
 //    
 //    setTemplateText(tr("Wt.Auth.template.login"));

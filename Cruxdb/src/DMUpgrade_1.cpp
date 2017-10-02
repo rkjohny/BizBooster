@@ -35,7 +35,7 @@ void DMUpgrade_1::Execute() noexcept(false)
     std::string superUserEmail = "admin@bizbooster.com";
     std::string superUserPassword = "admin";
     std::string superUserIdentityProvider = DEFAULT_LOG_IN_PROVIDER;
-    std::string superUserIdentity = "admin";
+    std::string superUserIdentity = "admin@bizbooster.com";
 
     Wt::Dbo::ptr<User> user = nullptr;
     Wt::Dbo::ptr<Cruxdb::AuthInfo> authInfo = nullptr;

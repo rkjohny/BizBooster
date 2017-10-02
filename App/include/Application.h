@@ -33,6 +33,7 @@ public:
     void HandleAuthEvent();
     
 private:
+    LogInWidget *m_logInWidget;
     Wt::Auth::Login m_login;
     std::shared_ptr<Wt::WTheme> m_theme;
 };

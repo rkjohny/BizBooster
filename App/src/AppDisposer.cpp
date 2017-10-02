@@ -15,13 +15,15 @@
 #include "LibCommon.h"
 #include "Json.h"
 #include "LibCipher.h"
+#include "LibCruxdb.h"
 
 namespace BizBooster {
 
 void AppDisposer::Dispose()
 {
-    Cmarshal::Json::LoadLibrary();
-    Cipher::LoadLibrary();
+    Cruxdb::ReleaseLibrary();
+    Cmarshal::Json::ReleaseLibrary();
+    Cipher::ReleaseLibrary();
     Logfig::ReleaseLibrary();
     Common::ReleaseLibrary();
 }

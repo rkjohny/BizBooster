@@ -34,8 +34,6 @@ else ()
     #including libfio include directory
     include_directories(${LIB_LOGFIG_INCLUDE_DIR})
 
-    #including libcrypto include directory
-    include_directories(${LIB_CIPHER_INCLUDE_DIR})
 
     file(GLOB LIB_CRUXDB_HEADERS ${LIB_CRUXDB_INCLUDE_DIR}/*.h)
     file(GLOB LIB_CRUXDB_SOURCES ${PROJECT_SOURCE_DIR}/*.cpp)

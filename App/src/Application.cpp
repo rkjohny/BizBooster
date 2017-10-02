@@ -46,16 +46,15 @@ Application::Application(const Wt::WEnvironment &env) : Wt::WApplication(env)
 
     m_login.changed().connect(this, &Application::HandleAuthEvent);
 
-    std::unique_ptr<LogInWidget> logInWidget = std::make_unique<LogInWidget>(root(), m_login);
+    m_logInWidget = root()->addWidget(std::make_unique<LogInWidget>(m_login));
+    m_logInWidget->model()->addPasswordAuth(&Cruxdb::AuthServices::GetPasswordService());
 
-    logInWidget->model()->addPasswordAuth(&Cruxdb::AuthServices::GetPasswordService());
+    //m_logInWidget->model()->addOAuth(Session::oAuth());
+    m_logInWidget->setRegistrationEnabled(true);
 
-    //logInWidget->model()->addOAuth(Session::oAuth());
-    logInWidget->setRegistrationEnabled(true);
+    m_logInWidget->processEnvironment();
 
-    logInWidget->processEnvironment();
 
-    root()->addWidget(std::move(logInWidget));
 }
 
 void Application::HandleAuthEvent()

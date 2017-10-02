@@ -14,18 +14,17 @@
 
 namespace BizBooster {
 
-class UserDetailsModel : public Wt::WFormModel
-{
-public:
-  static const Field FavouritePetField;
+    class UserDetailsModel : public Wt::WFormModel {
+    public:
+        static const Field FavouritePetField;
 
-  UserDetailsModel(Wt::Auth::Login &login, Wt::WObject *parent = 0);
+        UserDetailsModel(Wt::Auth::Login &login);
 
-  void save(const Wt::Auth::User &user);
+        void save(const Wt::Auth::User &user);
 
-private:
-    Wt::Auth::Login &m_login;
-};
+    private:
+        Wt::Auth::Login &m_login;
+    };
 
 }
 #endif // USER_DETAILS_MODEL_H_

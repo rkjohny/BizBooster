@@ -19,6 +19,7 @@
 #include "LoggerFactory.h"
 #include "CFReaderFactory.h"
 #include "AuthServices.h"
+#include "LibCipher.h"
 
 namespace Cruxdb {
 
@@ -27,6 +28,8 @@ namespace Cruxdb {
     void LoadLibrary() {
         if (!g_loaded) {
             Cmarshal::Json::LoadLibrary();
+
+            Cipher::LoadLibrary();
 
             AuthServices::ConfigureAuthService();
 
@@ -38,6 +41,7 @@ namespace Cruxdb {
             config_reader->SetFile(DBO_CONFIG_FILE_NAME);
 
             //Initializing Cruxdb objects
+            Cruxdb::GetBaseService();
             Cruxdb::GetUserService();
             Cruxdb::GetAppSettingService();
 
@@ -57,7 +61,9 @@ namespace Cruxdb {
 
             Cruxdb::GetUserService()->Dispose();
             Cruxdb::GetAppSettingService()->Dispose();
+            Cruxdb::GetBaseService()->Dispose();
 
+            Cipher::ReleaseLibrary();
             g_loaded = false;
         }
     }

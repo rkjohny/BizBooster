@@ -47,7 +47,7 @@ void AuthServices::ConfigureAuthService()
         verifier->addHashFunction(std::make_unique<Wt::Auth::BCryptHashFunction>(BECRYPTY_HASH_NUMBER_OF_ITERATION));
         m_passwordService.setVerifier(Common::Converter::DynamicUpCast<Wt::Auth::PasswordVerifier, Wt::Auth::PasswordService::AbstractVerifier>(verifier));
         m_passwordService.setAttemptThrottlingEnabled(true);
-        m_passwordService.setStrengthValidator(std::make_unique<Wt::Auth::PasswordStrengthValidator>());
+        //m_passwordService.setStrengthValidator(std::make_unique<Wt::Auth::PasswordStrengthValidator>());
 
         //        if (Wt::Auth::GoogleService::configured())
         //            myOAuthServices.push_back(new Wt::Auth::GoogleService(myAuthService));
