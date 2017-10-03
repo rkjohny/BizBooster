@@ -24,7 +24,7 @@
 #include "Requester.h"
 #include "InternalRootRequester.h"
 #include "CruxdbDef.h"
-
+#include "HashGenerator.h"
 
 namespace Cruxdb {
 
@@ -60,14 +60,16 @@ void DMUpgrade_1::Execute() noexcept(false)
             authInfo.modify()->setEmail(superUserEmail);
             authInfo.modify()->setUnverifiedEmail(superUserEmail);
 
-            auto expiresAt = Common::DateTimeUtils::AddDaysToNow(DEFAULT_TOKEN_TIME_OUT_IN_DAYS);
-            authInfo.modify()->setEmailToken(Cruxdb::AuthUtils::GenerateEmailToken(), expiresAt, Wt::Auth::EmailTokenRole::VerifyEmail);
-
             Cipher::PasswordEncoder *passwordEncoder = Cipher::GetPasswordEncoder();
             auto salt = passwordEncoder->GenerateSalt();
             auto hash = passwordEncoder->Encode(superUserPassword, salt);
             auto hashMethod = passwordEncoder->HashMethodName();
             authInfo.modify()->setPassword(hash, hashMethod, salt);
+
+            auto emailToken = AuthUtils::GenerateEmailToken(Cipher::HashGenerator::HashMethod::BCRYPT, salt);
+            auto expiresAt = Common::DateTimeUtils::AddMinutesToNow(DEFAULT_TOKEN_TIME_OUT_IN_MINUTES);
+            authInfo.modify()->setEmailToken(emailToken, expiresAt, Wt::Auth::EmailTokenRole::VerifyEmail);
+
 
             authInfo.modify()->setStatus(Wt::Auth::User::Status::Normal);
 

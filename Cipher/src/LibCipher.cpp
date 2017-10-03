@@ -43,8 +43,6 @@ HashGenerator *GetHashGenerator()
 {
 #ifdef WT_HASH_FUNCTION
     return Common::SingleTon<WtHashGenerator>::GetInstance();
-#else
-    return nullptr;
 #endif
 }
 
@@ -54,8 +52,8 @@ RndGenerator *GetRndGenerator()
     return Common::SingleTon<OsslHwRandGenerator>::GetInstance();
 #elif defined BOOST_RANDOM_ENGINE
     return Common::SingleTon<BoostRandGenerator>::GetInstance();
-#else
-    return nullptr;
+#elif defined WT_RANDOM_ENGINE
+    return Common::SingleTon<WtRndGenerator>::GetInstance();
 #endif
 }
 

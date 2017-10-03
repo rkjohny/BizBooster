@@ -169,6 +169,12 @@ namespace Cipher {
         return ret;
     }
 
+    std::string OsslHwRandGenerator::GetRandomBytes(int length) {
+        std::string randomBytes;
+        GetRandomBytes(randomBytes, length);
+        return randomBytes;
+    }
+
     void OsslHwRandGenerator::Dispose() {
         if (cm_engInitialized)
             ENGINE_finish(cm_engInitialized);

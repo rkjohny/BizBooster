@@ -54,14 +54,15 @@ namespace Mocxygen {
 
                 if (m_input->GetPassword()) {
                     if (passMethod.compare(HASH_METHOD_BCRYPT) == 0) {
-                        valid = hasFun->Verify(Cipher::HashGenerator::HashMethod::BCRYPT, *m_input->GetPassword(),
-                                passHash,
-                                passSalt);
+                        valid = hasFun->Match(Cipher::HashGenerator::HashMethod::BCRYPT, *m_input->GetPassword(),
+                                              passSalt, passHash);
 
                     } else if (passMethod.compare(HASH_METHOD_SHA1) == 0) {
-                        valid = hasFun->Verify(Cipher::HashGenerator::HashMethod::SHA1, *m_input->GetPassword(),
-                                passHash,
-                                passSalt);
+                        valid = hasFun->Match(Cipher::HashGenerator::HashMethod::SHA1, *m_input->GetPassword(),
+                                              passSalt, passHash);
+                    } else if (passMethod.compare(HASH_METHOD_MD5) == 0) {
+                        valid = hasFun->Match(Cipher::HashGenerator::HashMethod::MD5, *m_input->GetPassword(),
+                                              passSalt, passHash);
                     }
                 }
 
@@ -69,10 +70,10 @@ namespace Mocxygen {
                     throw Common::AppException(AppErrorCode::AUTHTICATION_FAILURE, "Invalid username password.");
                 }
                 auto now = Common::DateTimeUtils::Now();
-                Wt::WDateTime expiresAfter = Common::DateTimeUtils::AddMinutesToNow(DEFAULT_SESSION_TIME_OUT_IN_MINUTES);
+                Wt::WDateTime expiresAfter = Common::DateTimeUtils::AddMinutesToNow(
+                        DEFAULT_SESSION_TIME_OUT_IN_SECONDS);
 
-                std::string authToken;
-                Cipher::GetRndGenerator()->GetRandomBytes(authToken, AUTH_TOKEN_LENGTH);
+                std::string authToken = Cipher::GetRndGenerator()->GetRandomBytes(RANDOM_TOKEN_LENGTH);
                 //auto authTokenObj = new Wt::Cruxdb::ptr<Cruxdb::AuthInfo::AuthTokenType>(authToken, expiresAfter);
                 auto authTokenObj = Wt::Dbo::make_ptr<Cruxdb::AuthTokenType>(authToken, expiresAfter);
 
@@ -83,7 +84,8 @@ namespace Mocxygen {
                 m_output->SetSessionExpiresInSec(static_cast<uint64_t> (expiresAfter.toTime_t()));
                 m_output->SetEntity(m_user);
 
-                Mocxygen::AppSessionManager::AddSession(authToken, m_user, static_cast<uint64_t> (expiresAfter.toTime_t()));
+                Mocxygen::AppSessionManager::AddSession(authToken, m_user,
+                                                        static_cast<uint64_t> (expiresAfter.toTime_t()));
             }
         }
     }

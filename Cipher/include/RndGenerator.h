@@ -29,6 +29,7 @@ public:
     virtual bool Initialize() = 0;
     virtual bool GetRandomBytes(std::vector<uint8_t> &bytes, int length) = 0;
     virtual bool GetRandomBytes(std::string &bytes, int length) = 0;
+    virtual std::string GetRandomBytes(int length) = 0;
     
     bool IsInitialized() const {
         return m_isInitialized;

@@ -46,12 +46,12 @@ namespace Cruxdb {
         return user;
     }
 
-    Wt::Dbo::ptr<User> 
+    Wt::Dbo::ptr<User>
     UserService::GetUser(std::shared_ptr<Requester> requester, const std::string &identity) {
         return GetUser(requester, DEFAULT_LOG_IN_PROVIDER, identity);
     }
 
-    Wt::Dbo::ptr<AuthInfo> 
+    Wt::Dbo::ptr<AuthInfo>
     UserService::AddAuthInfo(std::shared_ptr<Requester> requester, Wt::Dbo::ptr<AuthInfo> &authInfo) {
         return m_session->add<AuthInfo>(authInfo);
     }
@@ -61,12 +61,12 @@ namespace Cruxdb {
         return m_session->add<AuthInfo::AuthIdentityType>(identity);
     }
 
-    Wt::Dbo::ptr<User> 
+    Wt::Dbo::ptr<User>
     UserService::GetUser(std::shared_ptr<Requester> requester, int64_t id) {
         return m_session->find<Cruxdb::User>().where("id = ? and status = ?").bind(id).bind(StatusStr::V);
     }
 
-    Wt::Dbo::ptr<User> 
+    Wt::Dbo::ptr<User>
     UserService::GetUser(std::shared_ptr<Requester> requester, const Wt::Auth::User &authUser) {
         Wt::Dbo::ptr<Cruxdb::User> user;
 
@@ -83,8 +83,7 @@ namespace Cruxdb {
         return user;
     }
 
-    Cruxdb::UserDatabase&
-    UserService::GetUserDB() {
+    Cruxdb::UserDatabase &UserService::GetUserDB() {
         return m_session->GetUserDB();
     }
 }

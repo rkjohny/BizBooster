@@ -33,6 +33,7 @@ public:
     void Dispose() override;
     bool GetRandomBytes(std::vector<uint8_t> &bytes, int length) override;
     bool GetRandomBytes(std::string &bytes, int length) override;
+    std::string GetRandomBytes(int length) override;
 
 protected:
     OsslHwRandGenerator();

@@ -15,30 +15,25 @@
 #define LIB_CIPHER_DEF_H
 
 
-#define OPENSSL_USE_DEPRECATED
-
 #define WT_HASH_FUNCTION
 
 #undef OPEN_SSL_CRYPTO_ENGINE
 
-#define BOOST_RANDOM_ENGINE
+#undef BOOST_RANDOM_ENGINE
 
-//column size == 100
-#define PASSWORD_HASH_LENGTH 100  
+#define WT_RANDOM_ENGINE
 
 //column size == 20
 #define PASSWORD_SALT_LENGTH 20
 
 //column size = 64
-#define EMAIL_TOKEN_LENGTH 64
+#define RANDOM_TOKEN_LENGTH 64
 
-//column size = 64
-#define AUTH_TOKEN_LENGTH 64
-
-#define BECRYPTY_HASH_NUMBER_OF_ITERATION 7
+#define BCRYPT_HASH_NUMBER_OF_ITERATION 7
 
 #define HASH_METHOD_SHA1 "sha1"
 #define HASH_METHOD_BCRYPT "bcrypt"
+#define HASH_METHOD_MD5 "md5"
 
 
 #endif /* LIB_CIPHER_DEF_H */

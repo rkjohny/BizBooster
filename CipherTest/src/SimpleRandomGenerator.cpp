@@ -13,6 +13,7 @@
 
 #include <iostream>
 #include <gtest/gtest.h>
+#include <WtRndGenerator.h>
 #include "SingleTon.h"
 #include "BoostRandGenerator.h"
 #include "CipherDef.h"
@@ -24,19 +25,22 @@ namespace CipherTest {
     TEST(SimpleRandomGenerator, GenerateSimpleBuff) {
 #if defined BOOST_RANDOM_ENGINE
         auto rndgen = Common::SingleTon<Cipher::BoostRandGenerator>::GetInstance();
-#elif defined
+#elif defined OPEN_SSL_CRYPTO_ENGINE
         auto rndgen = Common::SingleTon<Cipher::OsslHwRandGenerator>::GetInstance();
+#elif defined WT_RANDOM_ENGINE
+      auto rndgen = Common::SingleTon<Cipher::WtRndGenerator>::GetInstance();
 #endif
+
         std::string bytes;
-        rndgen->GetRandomBytes(bytes, AUTH_TOKEN_LENGTH);
+        rndgen->GetRandomBytes(bytes, RANDOM_TOKEN_LENGTH);
         std::cout << bytes << std::endl;
-        ASSERT_EQ(bytes.length(), AUTH_TOKEN_LENGTH);
+        ASSERT_EQ(bytes.length(), RANDOM_TOKEN_LENGTH);
         
         std::vector<uint8_t> vec;
-        rndgen->GetRandomBytes(vec, AUTH_TOKEN_LENGTH);
+        rndgen->GetRandomBytes(vec, RANDOM_TOKEN_LENGTH);
         bytes = Common::Converter::ToHexStr(vec);
         std::cout << bytes << std::endl;
-        ASSERT_EQ(bytes.length(), AUTH_TOKEN_LENGTH);
+        ASSERT_EQ(bytes.length(), RANDOM_TOKEN_LENGTH);
     }
     
 }

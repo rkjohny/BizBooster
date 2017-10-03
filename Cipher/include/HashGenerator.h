@@ -27,12 +27,13 @@ private:
 public:
     enum HashMethod {
         SHA1,
-        BCRYPT
+        BCRYPT,
+        MD5
     };
        
     virtual std::string Name(HashMethod method) = 0;
 
-    virtual bool Verify(HashMethod method, const std::string &msg, const std::string &hash, const std::string &salt) = 0;
+    virtual bool Match(HashMethod method, const std::string &msg, const std::string &salt, const std::string &hash) = 0;
     virtual std::string Generate(HashMethod method, const std::string &msg, const std::string &salt) = 0;
     
 protected:

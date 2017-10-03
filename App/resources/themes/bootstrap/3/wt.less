@@ -107,7 +107,7 @@
 /*
  * Show pointer even if anchor has no href
  */
-.navbar .nav > li > a {
+.nav > li > a {
    cursor: pointer;
 }
 
@@ -125,11 +125,14 @@
  */
 
 .modal-dialog {
+    width: auto;
     display: block;
 
-    .modal-header {
+    .movable .modal-header {
 	cursor: move;
- 
+    }
+
+    .modal-header {
 	h3 {
 	    font-size: 18px;	
 	}
@@ -357,7 +360,8 @@
 /*
  * WPushButton
  */
-.btn.with-label img {
+.btn.with-label img,
+.list-group-item.with-label img {
    padding-right: 10px;
 }
 
@@ -1084,4 +1088,22 @@ body.Wt-rtl {
 .close {
   z-index : 1050;
   position: relative;
+}
+
+/*
+ * WFileDropWidget
+ */
+.Wt-filedropzone {
+    width: 200px;
+    height: 200px;
+    border: thick dashed grey;
+    background-color: lightgrey;
+}
+
+.Wt-filedropzone-hover {
+    border-color: green;
+}
+
+.Wt-filedropzone-hover * {
+    pointer-events: none;
 }

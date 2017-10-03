@@ -1,3 +1,4 @@
+
 /**
  * Author: Rezaul Karim
  * Email: rkjohny@gmail.com
@@ -10,35 +11,34 @@
  * magnetic storage, computer print-out or visual display.
  */
 
-#ifndef BOOST_RAND_GENERATOR_H
-#define BOOST_RAND_GENERATOR_H
+#ifndef WT_RND_GENERATOR_H
+#define WT_RND_GENERATOR_H
 
 #include "RndGenerator.h"
-#include "CipherDef.h"
-#include "SingleTon.h"
-#include "boost/random/random_device.hpp"
+#include "Disposable.h"
+#include "Wt/WRandom.h"
+
 
 namespace Cipher {
 
-    class BoostRandGenerator : public RndGenerator {
-        MAKE_SINGLE_TON(BoostRandGenerator);
+    class WtRndGenerator : public RndGenerator {
+        MAKE_SINGLE_TON(WtRndGenerator)
 
     protected:
-        BoostRandGenerator();
-        virtual ~BoostRandGenerator();
+        WtRndGenerator();
+        virtual ~WtRndGenerator();
 
     public:
         void Dispose() override;
         bool Initialize() override;
         bool GetRandomBytes(std::vector<uint8_t> &bytes, int length) override;
         bool GetRandomBytes(std::string &bytes, int length) override;
-        std::string GetRandomBytes(int length) override;
+        std::string GetRandomBytes(int length) override;;
 
     private:
-        boost::random_device m_boostRandDevice;       
+        Wt::WRandom m_wtRanGenerator;
     };
-
 }
 
-#endif /* BOOST_RAND_GENERATOR_H */
 
+#endif //WT_RND_GENERATOR_H

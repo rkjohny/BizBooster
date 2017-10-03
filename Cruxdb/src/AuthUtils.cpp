@@ -11,20 +11,38 @@
  */
 
 #include "AuthUtils.h"
-#include "RndGenerator.h"
 #include "LibCipher.h"
 #include "CipherDef.h"
 
-namespace  Cruxdb {
+namespace Cruxdb {
 
-std::string AuthUtils::GenerateEmailToken()
-{
-    std::string emailToken;
+    std::string AuthUtils::GenerateEmailToken(Cipher::HashGenerator::HashMethod hashMethod, std::string &salt) {
+        auto randGenerator = Cipher::GetRndGenerator();
+        auto hashGenerator = Cipher::GetHashGenerator();
 
-    auto randGenerator = Cipher::GetRndGenerator();
-    randGenerator->GetRandomBytes(emailToken, EMAIL_TOKEN_LENGTH);
+        std::string randomBytes = randGenerator->GetRandomBytes(RANDOM_TOKEN_LENGTH);
+        return hashGenerator->Generate(hashMethod, randomBytes, salt);
+    }
 
-    return emailToken;
-}
+    std::string AuthUtils::GenerateSalt() {
+        auto randGenerator = Cipher::GetRndGenerator();
+        return randGenerator->GetRandomBytes(PASSWORD_SALT_LENGTH);
+    }
+
+    std::string AuthUtils::Encode(Cipher::HashGenerator::HashMethod hashMethod, std::string &msg, std::string &salt) {
+        auto hashGenerator = Cipher::GetHashGenerator();
+        return hashGenerator->Generate(hashMethod, msg, salt);
+    }
+
+    std::string AuthUtils::HashMethodName(Cipher::HashGenerator::HashMethod hashMethod) {
+        auto hashGenerator = Cipher::GetHashGenerator();
+        return hashGenerator->Name(hashMethod);
+    }
+
+    bool AuthUtils::Match(Cipher::HashGenerator::HashMethod hashMethod, const std::string &msg, const std::string &salt,
+                             const std::string &hash) {
+        auto hashGenerator = Cipher::GetHashGenerator();
+        return hashGenerator->Match(hashMethod, msg, salt, hash);
+    }
 
 }

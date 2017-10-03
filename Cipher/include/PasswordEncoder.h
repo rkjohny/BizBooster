@@ -20,6 +20,7 @@
 #include "HashGenerator.h"
 #include "RndGenerator.h"
 #include "SingleTon.h"
+#include "WtRndGenerator.h"
 #include <string>
 
 namespace Cipher {
@@ -30,7 +31,7 @@ private:
     
 public:
     std::string Encode(const std::string &passwd, const std::string &salt);
-    bool Match(const std::string &passwd, const std::string &hash, const std::string &salt);
+    bool Match(const std::string &passwd, const std::string &salt, const std::string &hash);
     
     std::string HashMethodName();
     

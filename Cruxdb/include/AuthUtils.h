@@ -13,18 +13,25 @@
 #ifndef AUTH_UTILS_H
 #define AUTH_UTILS_H
 
+#include "RndGenerator.h"
 #include "AppCommonDef.h"
+#include <HashGenerator.h>
 #include <string>
 
 namespace Cruxdb {
+
 
 class AuthUtils {
 private:
     MAKE_STATIC(AuthUtils);
     
 public:
-    static std::string GenerateEmailToken();
-
+    static std::string GenerateEmailToken(Cipher::HashGenerator::HashMethod hashMethod, std::string &salt);
+    static std::string GenerateSalt();
+    static std::string Encode(Cipher::HashGenerator::HashMethod hashMethod, std::string &msg, std::string &salt);
+    static std::string HashMethodName(Cipher::HashGenerator::HashMethod hashMethod);
+    static bool Match(Cipher::HashGenerator::HashMethod hashMethod, const std::string &msg, const std::string &salt,
+                         const std::string &hash);
 };
 
 }

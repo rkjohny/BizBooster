@@ -12,6 +12,7 @@
 
 #include "AuthServices.h"
 #include "Converter.h"
+#include "CruxdbDef.h"
 #include "CipherDef.h"
 #include <Wt/Auth/PasswordVerifier.h>
 #include <Wt/Auth/PasswordStrengthValidator.h>
@@ -42,9 +43,13 @@ void AuthServices::ConfigureAuthService()
         m_authService.setEmailVerificationEnabled(true);
         //m_authService.setEmailVerificationRequired(true);
         m_authService.setIdentityPolicy(Wt::Auth::IdentityPolicy::EmailAddress);
+        m_authService.setTokenHashFunction(new Wt::Auth::BCryptHashFunction(BCRYPT_HASH_NUMBER_OF_ITERATION));
+        m_authService.setRandomTokenLength(RANDOM_TOKEN_LENGTH);
+        m_authService.setAuthTokenValidity(DEFAULT_TOKEN_TIME_OUT_IN_MINUTES);
+        m_authService.setEmailTokenValidity(DEFAULT_TOKEN_TIME_OUT_IN_MINUTES);
 
         std::unique_ptr<Wt::Auth::PasswordVerifier> verifier = std::make_unique<Wt::Auth::PasswordVerifier>();
-        verifier->addHashFunction(std::make_unique<Wt::Auth::BCryptHashFunction>(BECRYPTY_HASH_NUMBER_OF_ITERATION));
+        verifier->addHashFunction(std::make_unique<Wt::Auth::BCryptHashFunction>(BCRYPT_HASH_NUMBER_OF_ITERATION));
         m_passwordService.setVerifier(Common::Converter::DynamicUpCast<Wt::Auth::PasswordVerifier, Wt::Auth::PasswordService::AbstractVerifier>(verifier));
         m_passwordService.setAttemptThrottlingEnabled(true);
         //m_passwordService.setStrengthValidator(std::make_unique<Wt::Auth::PasswordStrengthValidator>());

@@ -57,11 +57,15 @@ span.Wt-disabled, fieldset.Wt-disabled legend {
  */
 .Wt-dialogcover {
     background: #CCCCCC;
-    background: rgb(204, 204, 204); /* For IE, ... */
-    background: rgba(204, 204, 204, 0.5);
+    background: rgb(204, 204, 204);
     height: 100%; width: 100%;
     top: 0px; left: 0px;
     position: fixed;
+}
+
+.Wt-dialogcover.in {
+    filter: alpha(opacity=50);
+    opacity: 0.5;
 }
 
 /*
@@ -216,9 +220,12 @@ span.Wt-disabled, fieldset.Wt-disabled legend {
 .Wt-dialog .titlebar {
     color: #FFFFFF;
     background: #6880A0 url(title-gradient.png) repeat-x scroll 0 -20px;
-    cursor: move;
     font: bold 12px Verdana;
     padding: 3px 6px;
+}
+
+.Wt-dialog .movable .titlebar {
+    cursor: move;
 }
 
 .Wt-dialog .closeicon {
@@ -1196,4 +1203,19 @@ body.Wt-rtl .Wt-treeview li .Wt-tv-row .Wt-tv-c {
 
 table.x-grid3-row-table {
     table-layout: fixed;
+}
+
+.Wt-filedropzone {
+    width: 200px;
+    height: 200px;
+    border: thick dashed grey;
+    background-color: lightgrey;
+}
+
+.Wt-filedropzone-hover {
+    border-color: green;
+}
+
+.Wt-filedropzone-hover * {
+    pointer-events: none;
 }

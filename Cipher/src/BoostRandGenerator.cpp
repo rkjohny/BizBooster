@@ -26,11 +26,16 @@ namespace Cipher {
     }
 
     void BoostRandGenerator::Dispose() {
-
+        if (!m_isDisposed) {
+            m_isDisposed = true;
+        }
     }
 
     bool BoostRandGenerator::Initialize() {
-        return false;
+        if(!m_isInitialized) {
+            m_isInitialized = true;
+        }
+        return m_isInitialized;
     }
 
     bool BoostRandGenerator::GetRandomBytes(std::vector<uint8_t> &bytes, int length) {
@@ -56,6 +61,12 @@ namespace Cipher {
 
         delete buffer;
         return true;
+    }
+
+    std::string BoostRandGenerator::GetRandomBytes(int length) {
+        std::string randomBytes;
+        GetRandomBytes(randomBytes, length);
+        return randomBytes;
     }
 
 }

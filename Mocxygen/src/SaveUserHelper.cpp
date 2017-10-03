@@ -39,7 +39,7 @@ namespace Mocxygen {
         Wt::Dbo::ptr<Cruxdb::AuthInfo> authInfo = nullptr;
         Wt::Dbo::ptr<Cruxdb::AuthIdentityType> identity = nullptr;
         auto userService = Cruxdb::GetUserService();
-        
+
         if (!m_input->GetId()) {
             createNew = true;
         }
@@ -59,7 +59,7 @@ namespace Mocxygen {
         } else {
             throw Common::AppException(AppErrorCode::INVALID_ARGUMENT, "User email is empty");
         }
-        
+
 
         LOG_DEBUG("Registering new user.");
 
@@ -99,9 +99,6 @@ namespace Mocxygen {
                 authInfo.modify()->setEmail(*(m_input->GetEmail()));
                 authInfo.modify()->setUnverifiedEmail(*(m_input->GetEmail()));
 
-                Wt::WDateTime expiresAfter = Common::DateTimeUtils::AddDaysToNow(DEFAULT_TOKEN_TIME_OUT_IN_DAYS);
-                authInfo.modify()->setEmailToken(Cruxdb::AuthUtils::GenerateEmailToken(), expiresAfter,
-                                        Wt::Auth::EmailTokenRole::VerifyEmail);
 
                 auto passwdEncoder = Cipher::GetPasswordEncoder();
                 auto salt = passwdEncoder->GenerateSalt();
@@ -109,6 +106,9 @@ namespace Mocxygen {
                 auto hashMethod = passwdEncoder->HashMethodName();
                 authInfo.modify()->setPassword(hash, hashMethod, salt);
 
+                Wt::WDateTime expiresAfter = Common::DateTimeUtils::AddMinutesToNow(DEFAULT_TOKEN_TIME_OUT_IN_MINUTES);
+                auto emailToken = Cruxdb::AuthUtils::GenerateEmailToken(Cipher::HashGenerator::HashMethod::BCRYPT, salt);
+                authInfo.modify()->setEmailToken(emailToken, expiresAfter, Wt::Auth::EmailTokenRole::VerifyEmail);
 
                 authInfo.modify()->setStatus(Wt::Auth::User::Status::Normal);
 

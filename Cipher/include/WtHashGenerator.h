@@ -20,8 +20,6 @@
 #include <Wt/Auth/HashFunction.h>
 #include <string>
 
-#define BCRYPT_ITERATION 10
-
 namespace Cipher {
 
 class WtHashGenerator : public HashGenerator {
@@ -35,7 +33,7 @@ protected:
 public:
     std::string Name(HashMethod method) override;
     
-    bool Verify(HashMethod method, const std::string &msg, const std::string &hash, const std::string &salt) override;
+    bool Match(HashMethod method, const std::string &msg, const std::string &salt, const std::string &hash) override;
     std::string Generate(HashMethod method, const std::string &msg, const std::string &salt) override;
 
     void Dispose() override;
@@ -43,6 +41,7 @@ public:
 private:
     Wt::Auth::BCryptHashFunction m_bcryptHash;
     Wt::Auth::SHA1HashFunction m_sha1Hash;
+    Wt::Auth::MD5HashFunction m_md5Hash;
 };
 
 }

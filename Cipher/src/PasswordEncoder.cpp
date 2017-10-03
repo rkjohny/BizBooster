@@ -16,6 +16,7 @@
 #include "Converter.h"
 #include "CipherDef.h"
 #include "BoostRandGenerator.h"
+#include "WtRndGenerator.h"
 
 namespace Cipher {
 
@@ -34,17 +35,10 @@ PasswordEncoder::PasswordEncoder() :
 {
     
 }
-#elif defined WT_HASH_FUNCTION
+#elif defined WT_HASH_FUNCTION && defined WT_RANDOM_ENGINE
 PasswordEncoder::PasswordEncoder() :
         m_hasGenerator(Common::SingleTon<WtHashGenerator>::GetInstance()),
-        m_randGenerator(nullptr)
-{
-    
-}
-#elif defined OPEN_SSL_CRYPTO_ENGINE
-PasswordEncoder::PasswordEncoder() :
-        m_hasGenerator(nullptr),
-        m_randGenerator(Common::SingleTon<OsslHwRandGenerator>::GetInstance())
+        m_randGenerator(Common::SingleTon<WtRndGenerator>::GetInstance())
 {
     
 }
@@ -64,16 +58,14 @@ std::string PasswordEncoder::Encode(const std::string &passwd, const std::string
     return m_hasGenerator->Generate(HashGenerator::HashMethod::BCRYPT, passwd, salt);
 }
 
-bool PasswordEncoder::Match(const std::string &passwd, const std::string &hash, const std::string &salt)
+bool PasswordEncoder::Match(const std::string &passwd, const std::string &salt, const std::string &hash)
 {
-    return m_hasGenerator->Verify(HashGenerator::HashMethod::BCRYPT, passwd, hash, salt);
+    return m_hasGenerator->Match(HashGenerator::HashMethod::BCRYPT, passwd, salt, hash);
 }
 
 std::string PasswordEncoder::GenerateSalt()
 {
-    std::vector<uint8_t> vec;
-    m_randGenerator->GetRandomBytes(vec, PASSWORD_SALT_LENGTH);    
-    return Common::Converter::ToHexStr(vec);
+    return m_randGenerator->GetRandomBytes(PASSWORD_SALT_LENGTH);
 }
 
 void PasswordEncoder::Dispose()
