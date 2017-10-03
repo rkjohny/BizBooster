@@ -18,6 +18,26 @@
           ${user-name}
         ${</if:user-name>}
 
+        ${<if:email>}
+        <label for="${id:email}">
+          <!--${tr:Wt.Auth.email}-->
+          ${email-info class="Wt-info"}
+        </label>
+        ${email}
+        ${</if:email>}
+
+        <label for="${id:first-name}">
+          <!--${tr:first-name}:-->
+          ${first-name-info class="Wt-info"}
+        </label>
+        ${first-name}
+
+        <label for="${id:last-name}">
+          <!--${tr:last-name}-->
+          ${last-name-info class="Wt-info"}
+        </label>
+        ${last-name}
+
         ${<if:choose-password>}
           <label for="${id:choose-password}">
               <!--${tr:Wt.Auth.choose-password}-->
@@ -31,26 +51,6 @@
           </label>
           ${repeat-password}
         ${</if:choose-password>}
-
-        ${<if:email>}
-          <label for="${id:email}">
-              <!--${tr:Wt.Auth.email}-->
-            ${email-info class="Wt-info"}
-          </label>
-          ${email}
-        ${</if:email>}
-
-        <label for="${id:first-name}">
-            <!--${tr:first-name}:-->
-          ${first-name-info class="Wt-info"}
-        </label>
-        ${first-name}
-
-        <label for="${id:last-name}">
-            <!--${tr:last-name}-->
-          ${last-name-info class="Wt-info"}
-        </label>
-        ${last-name}
 
 	    <!--${favourite-pet}-->
       </div>
