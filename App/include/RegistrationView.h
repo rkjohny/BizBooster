@@ -32,8 +32,6 @@ namespace BizBooster {
     private:
         UserDetailsModel *m_detailsModel;
         Wt::Auth::Login &m_login;
-        //Wt::WLineEdit *firstName;
-        //Wt::WLineEdit *lastName;
     };
 
 }
