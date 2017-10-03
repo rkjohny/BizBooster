@@ -49,7 +49,7 @@
 	       use this for dynamic FCGI servers, but only in conjunction
 	       with a fixed number of static FCGI servers.
 
-	       This requires careful programming, as memory corruption in one
+	        This requires careful programming, as memory corruption in one
 	       session will kill all of the sessions in the same process. You
 	       should debug extensively using valgrind. Also, it is your
 	       responsibility to keep session state not interfering and

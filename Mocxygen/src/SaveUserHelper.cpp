@@ -99,7 +99,7 @@ namespace Mocxygen {
                 authInfo.modify()->setEmail(*(m_input->GetEmail()));
                 authInfo.modify()->setUnverifiedEmail(*(m_input->GetEmail()));
 
-                Wt::WDateTime expiresAfter = Common::DateTimeUtils::AddMinutesToNow(DEFAULT_TOKEN_TIME_OUT_IN_DAYS);
+                Wt::WDateTime expiresAfter = Common::DateTimeUtils::AddDaysToNow(DEFAULT_TOKEN_TIME_OUT_IN_DAYS);
                 authInfo.modify()->setEmailToken(Cruxdb::AuthUtils::GenerateEmailToken(), expiresAfter,
                                         Wt::Auth::EmailTokenRole::VerifyEmail);
 

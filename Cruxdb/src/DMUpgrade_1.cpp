@@ -60,7 +60,7 @@ void DMUpgrade_1::Execute() noexcept(false)
             authInfo.modify()->setEmail(superUserEmail);
             authInfo.modify()->setUnverifiedEmail(superUserEmail);
 
-            auto expiresAt = Common::DateTimeUtils::AddSecondsToNow(DEFAULT_TOKEN_TIME_OUT_IN_DAYS);
+            auto expiresAt = Common::DateTimeUtils::AddDaysToNow(DEFAULT_TOKEN_TIME_OUT_IN_DAYS);
             authInfo.modify()->setEmailToken(Cruxdb::AuthUtils::GenerateEmailToken(), expiresAt, Wt::Auth::EmailTokenRole::VerifyEmail);
 
             Cipher::PasswordEncoder *passwordEncoder = Cipher::GetPasswordEncoder();

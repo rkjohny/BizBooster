@@ -50,7 +50,7 @@ public:
 
 private:
     std::shared_ptr<Cruxdb::AuthenticatedRequester> m_requester;
-    time_t m_tmExpiresOn;
+    std::time_t m_tmExpiresOn;
 
     volatile bool m_pinned;
 };
