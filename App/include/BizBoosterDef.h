@@ -19,5 +19,8 @@
 #define APP_LOG_FILE_NAME "app.logfile.name"
 #define APP_LOG_LEVEL "app.log.level"
 
+#define MAIL_SERVER_IP "mail.server.ip"
+#define MAIL_SERVER_PORT "mail.server.port"
+
 #endif /* BIZBOOSTER_DEF_H */
 
