@@ -12,7 +12,7 @@ namespace BizBooster {
 
     RegistrationView::RegistrationView(Wt::Auth::Login &login, Wt::Auth::AuthWidget *authWidget) :
             Wt::Auth::RegistrationWidget(authWidget), m_login(login) {
-        setTemplateText(tr("template.registration"));
+        setTemplateText(tr("Wt.Auth.template.registration"));
 
         m_detailsModel = std::make_unique<UserDetailsModel>(m_login);
 

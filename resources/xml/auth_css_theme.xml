@@ -68,6 +68,7 @@
                         ${confirm-is-you class="Wt-info"}
                     </label>
                     ${user-name}
+
                 ${
                 </if:user-name>
                 }

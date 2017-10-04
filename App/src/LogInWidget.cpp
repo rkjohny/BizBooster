@@ -21,7 +21,7 @@ Wt::Auth::AuthWidget(Cruxdb::AuthServices::GetAuthService(), Cruxdb::GetUserServ
 
 //    Wt::WTemplate *t = new Wt::WTemplate(Wt::WString::tr("auth_template.xml"));
 //    
-//    setTemplateText(tr("Wt.Auth.template.login"));
+    setTemplateText(tr("Wt.Auth.template.login"));
 //    Wt::WLineEdit *usrName = new Wt::WLineEdit(parent);
 //    usrName->setPlaceholderText("Enter your email address");
 //    t->bindWidget("user-name", usrName);   
