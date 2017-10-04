@@ -2,12 +2,12 @@
 <messages xmlns:if="Wt.WTemplate.conditions">
     <message id="Wt.Auth.field">
         <![CDATA[
-        ${<if:{1}>}
-          <label for="${id:{1}}">${tr:Wt.Auth.{1}}
-            ${{1}-info class="Wt-info"}
-          </label>
-          ${{1}}
-        ${</if:{1}>}
+            ${<if:{1}>}
+              <label for="${id:{1}}">${tr:Wt.Auth.{1}}
+                ${{1}-info class="Wt-info"}
+              </label>
+              ${{1}}
+            ${</if:{1}>}
         ]]>
     </message>
 
@@ -17,7 +17,8 @@
             <p>${tr:Wt.Auth.login-form-info}</p>
 
             <div class="Wt-fields">
-                ${<if:passwords>}
+                ${
+                <if:passwords>}
                     <label for="${id:user-name}">
                         ${user-name-label}
                         ${user-name-info class="Wt-info"}
@@ -26,17 +27,22 @@
 
                     ${block:Wt.Auth.field password}
                     ${block:Wt.Auth.field remember-me}
-                    ${</if:passwords>}
+                ${
+                </if:passwords>
+                }
             </div>
 
-            ${<if:oauth>}
+            ${
+            <if:oauth>}
 
                 <div class="Wt-col-right">
                     <h3>Or use:</h3>
                     ${icons}
                 </div>
 
-                ${</if:oauth>}
+            ${
+            </if:oauth>
+            }
 
             <div class="Wt-buttons">
                 ${login}
