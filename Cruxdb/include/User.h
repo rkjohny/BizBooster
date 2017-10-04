@@ -15,6 +15,7 @@
 #define ENTITY_USER_H
 
 #include <Wt/Dbo/Dbo.h>
+#include <Wt/Dbo/Types.h>
 #include <string>
 #include <memory>
 #include "Json.h"

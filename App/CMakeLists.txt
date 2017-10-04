@@ -102,15 +102,4 @@ else ()
     configure_file(bizbooster.properties ${EXECUTABLE_OUTPUT_PATH}/ COPYONLY UNIX)
     configure_file(wt_config.xml ${EXECUTABLE_OUTPUT_PATH}/ COPYONLY UNIX)
 
-
-    #TODO: copies only first time
-    #file(MAKE_DIRECTORY ${EXECUTABLE_OUTPUT_PATH}/resources)
-    file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/resources DESTINATION ${EXECUTABLE_OUTPUT_PATH}/)
-
-    #install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/resources/ DESTINATION ${EXECUTABLE_OUTPUT_PATH}/resources/ FILES_MATCHING PATTERN "*.*")
-
-    #add_custom_command(TARGET MyTarget PRE_BUILD
-    #                   COMMAND ${CMAKE_COMMAND} -E copy_directory
-    #                       ${CMAKE_CURRENT_SOURCE_DIR}/releases $<TARGET_FILE_DIR:MyTarget>)
-
 endif ()

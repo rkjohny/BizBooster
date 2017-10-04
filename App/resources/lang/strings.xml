@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<messages>
-  <message id="favourite-pet-info">Could be a dog, cat ?</message>
-  <message id="first-name-info">Enter your first name</message>
-  <message id="last-name-info">Enter your last name</message>
-  <message id="first-name">First name:</message>
-  <message id="last-name">Last name:</message>
-</messages>

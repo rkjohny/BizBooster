@@ -36,7 +36,7 @@ std::unique_ptr<Wt::WWidget> LogInWidget::createRegistrationView(const Wt::Auth:
         model->registerIdentified(id);
 
     registrationVew->setModel(std::move(model));
-    return registrationVew;
+    return std::move(registrationVew);
 }
 
 

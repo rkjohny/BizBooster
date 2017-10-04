@@ -30,7 +30,7 @@ namespace BizBooster {
         void registerUserDetails(Wt::Auth::User &user) override;
 
     private:
-        UserDetailsModel *m_detailsModel;
+        std::unique_ptr<UserDetailsModel> m_detailsModel;
         Wt::Auth::Login &m_login;
     };
 

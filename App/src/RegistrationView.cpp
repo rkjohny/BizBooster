@@ -14,9 +14,9 @@ namespace BizBooster {
             Wt::Auth::RegistrationWidget(authWidget), m_login(login) {
         setTemplateText(tr("template.registration"));
 
-        m_detailsModel = addChild(std::make_unique<UserDetailsModel>(m_login));
+        m_detailsModel = std::make_unique<UserDetailsModel>(m_login);
 
-        updateView(m_detailsModel);
+        updateView(m_detailsModel.get());
     }
 
     std::unique_ptr<Wt::WWidget> RegistrationView::createFormWidget(Wt::WFormModel::Field field) {
@@ -31,10 +31,10 @@ namespace BizBooster {
     bool RegistrationView::validate() {
         bool result = Wt::Auth::RegistrationWidget::validate();
 
-        updateModel(m_detailsModel);
+        updateModel(m_detailsModel.get());
         if (!m_detailsModel->validate())
             result = false;
-        updateView(m_detailsModel);
+        updateView(m_detailsModel.get());
 
         return result;
     }

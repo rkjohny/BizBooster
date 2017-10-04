@@ -171,6 +171,15 @@ add_subdirectory(App)
 add_subdirectory(CipherTest)
 
 
+#TODO: copies only first time
+#file(MAKE_DIRECTORY ${EXECUTABLE_OUTPUT_PATH}/resources)
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/resources DESTINATION ${EXECUTABLE_OUTPUT_PATH}/)
+#install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/resources/ DESTINATION ${EXECUTABLE_OUTPUT_PATH}/resources/ FILES_MATCHING PATTERN "*.*")
+
+#add_custom_command(TARGET MyTarget PRE_BUILD
+#                   COMMAND ${CMAKE_COMMAND} -E copy_directory
+#                       ${CMAKE_CURRENT_SOURCE_DIR}/releases $<TARGET_FILE_DIR:MyTarget>)
+
 
 # setting linking dependices explecitely
 # add_dependencies(CmarshalTest Cmarshal)
