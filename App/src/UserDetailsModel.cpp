@@ -41,7 +41,6 @@ namespace BizBooster {
             user.modify()->SetLastName(valueText(LastName).toUTF8());
             user.modify()->SetStatus(Cruxdb::Status::V);
             user.modify()->SetRoles(Cruxdb::Role::ROLE_USER);
-            //user.modify()->favouritePet = valueText(FavouritePetField).toUTF8();
         }
         transaction.commit();
 

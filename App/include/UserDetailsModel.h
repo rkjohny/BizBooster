@@ -16,7 +16,6 @@ namespace BizBooster {
 
     class UserDetailsModel : public Wt::WFormModel {
     public:
-        //static const Field FavouritePetField;
         static const Wt::WFormModel::Field FirstName;
         static const Wt::WFormModel::Field LastName;
 
