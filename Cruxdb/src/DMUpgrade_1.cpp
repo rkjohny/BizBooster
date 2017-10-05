@@ -66,10 +66,9 @@ void DMUpgrade_1::Execute() noexcept(false)
             auto hashMethod = passwordEncoder->HashMethodName();
             authInfo.modify()->setPassword(hash, hashMethod, salt);
 
-            auto emailToken = AuthUtils::GenerateEmailToken(Cipher::HashGenerator::HashMethod::BCRYPT, salt);
-            auto expiresAt = Common::DateTimeUtils::AddMinutesToNow(DEFAULT_TOKEN_TIME_OUT_IN_MINUTES);
-            authInfo.modify()->setEmailToken(emailToken, expiresAt, Wt::Auth::EmailTokenRole::VerifyEmail);
-
+            //auto emailToken = AuthUtils::GenerateEmailToken(Cipher::HashGenerator::HashMethod::BCRYPT, salt);
+            //auto expiresAt = Common::DateTimeUtils::AddMinutesToNow(DEFAULT_TOKEN_TIME_OUT_IN_MINUTES);
+            //authInfo.modify()->setEmailToken(emailToken, expiresAt, Wt::Auth::EmailTokenRole::VerifyEmail);
 
             authInfo.modify()->setStatus(Wt::Auth::User::Status::Normal);
 

@@ -41,7 +41,7 @@ void AuthServices::ConfigureAuthService()
     if (!m_authServiceConfigured) {
         m_authService.setAuthTokensEnabled(true, "logincookie");
         m_authService.setEmailVerificationEnabled(true);
-        //m_authService.setEmailVerificationRequired(true);
+        m_authService.setEmailVerificationRequired(true);
         m_authService.setIdentityPolicy(Wt::Auth::IdentityPolicy::EmailAddress);
         m_authService.setTokenHashFunction(new Wt::Auth::BCryptHashFunction(BCRYPT_HASH_NUMBER_OF_ITERATION));
         m_authService.setRandomTokenLength(RANDOM_TOKEN_LENGTH);
@@ -53,6 +53,7 @@ void AuthServices::ConfigureAuthService()
         m_passwordService.setVerifier(Common::Converter::DynamicUpCast<Wt::Auth::PasswordVerifier, Wt::Auth::PasswordService::AbstractVerifier>(verifier));
         m_passwordService.setAttemptThrottlingEnabled(true);
         //m_passwordService.setStrengthValidator(std::make_unique<Wt::Auth::PasswordStrengthValidator>());
+
 
         //        if (Wt::Auth::GoogleService::configured())
         //            myOAuthServices.push_back(new Wt::Auth::GoogleService(myAuthService));

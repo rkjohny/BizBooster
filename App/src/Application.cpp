@@ -33,13 +33,13 @@ Application::Application(const Wt::WEnvironment &env) : Wt::WApplication(env)
     m_theme = std::make_shared<Wt::WBootstrapTheme>();
     setTheme(m_theme);
 
-    //useStyleSheet(appRoot() + "resources/style.css");
+    useStyleSheet(appRoot() + "resources/style.css");
     useStyleSheet(appRoot() + "resources/css/app.css");
-    //messageResourceBundle().use(appRoot() + "resources/xml/bootstrap_theme");
-    //messageResourceBundle().use(appRoot() + "resources/xml/bootstrap3_theme");
-    //messageResourceBundle().use(appRoot() + "resources/xml/wt.xml");
-    //messageResourceBundle().use(appRoot() + "resources/xml/auth_strings");
-    //messageResourceBundle().use(appRoot() + "resources/xml/auth_css_theme");
+    messageResourceBundle().use(appRoot() + "resources/bootstrap_theme");
+    messageResourceBundle().use(appRoot() + "resources/bootstrap3_theme");
+    messageResourceBundle().use(appRoot() + "resources/wt");
+    messageResourceBundle().use(appRoot() + "resources/auth_strings");
+    messageResourceBundle().use(appRoot() + "resources/auth_css_theme");
 
     //root()->setContentAlignment(Wt::AlignmentFlag::AlignCenter);
 

@@ -34,7 +34,7 @@ namespace BizBooster {
         if (user && user.get()) {
             std::string email = authUser.unverifiedEmail();
             //authUser.setEmail(email);
-            authUser.setStatus(Wt::Auth::User::Status::Normal);
+            //authUser.setStatus(Wt::Auth::User::Status::Normal);
 
             user.modify()->SetLogin(email);
             user.modify()->SetFirstName(valueText(FirstName).toUTF8());
