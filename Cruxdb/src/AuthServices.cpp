@@ -18,51 +18,51 @@
 #include <Wt/Auth/PasswordStrengthValidator.h>
 #include <Wt/Auth/HashFunction.h>
 #include <Wt/Auth/Identity.h>
-
+#include "Wt/Auth/GoogleService.h"
+#include "Wt/Auth/FacebookService.h"
 
 namespace Cruxdb {
 
-bool AuthServices::m_authServiceConfigured = false;
-Wt::Auth::AuthService AuthServices::m_authService;
-Wt::Auth::PasswordService AuthServices::m_passwordService(AuthServices::m_authService);
+    bool AuthServices::m_authServiceConfigured = false;
+    Wt::Auth::AuthService AuthServices::m_wtAuthService;
+    Wt::Auth::PasswordService AuthServices::m_wtPasswordService(AuthServices::m_wtAuthService);
+    std::unique_ptr<Wt::Auth::OAuthService> AuthServices::m_wtGoogleOAuthServices;
 
-Wt::Auth::AuthService& AuthServices::GetAuthService()
-{
-    return m_authService;
-}
-
-Wt::Auth::PasswordService& AuthServices::GetPasswordService()
-{
-    return m_passwordService;
-}
-
-void AuthServices::ConfigureAuthService()
-{
-    if (!m_authServiceConfigured) {
-        m_authService.setAuthTokensEnabled(true, "logincookie");
-        m_authService.setEmailVerificationEnabled(true);
-        m_authService.setEmailVerificationRequired(true);
-        m_authService.setIdentityPolicy(Wt::Auth::IdentityPolicy::EmailAddress);
-        m_authService.setTokenHashFunction(new Wt::Auth::BCryptHashFunction(BCRYPT_HASH_NUMBER_OF_ITERATION));
-        m_authService.setRandomTokenLength(RANDOM_TOKEN_LENGTH);
-        m_authService.setAuthTokenValidity(DEFAULT_TOKEN_TIME_OUT_IN_MINUTES);
-        m_authService.setEmailTokenValidity(DEFAULT_TOKEN_TIME_OUT_IN_MINUTES);
-
-        std::unique_ptr<Wt::Auth::PasswordVerifier> verifier = std::make_unique<Wt::Auth::PasswordVerifier>();
-        verifier->addHashFunction(std::make_unique<Wt::Auth::BCryptHashFunction>(BCRYPT_HASH_NUMBER_OF_ITERATION));
-        m_passwordService.setVerifier(Common::Converter::DynamicUpCast<Wt::Auth::PasswordVerifier, Wt::Auth::PasswordService::AbstractVerifier>(verifier));
-        m_passwordService.setAttemptThrottlingEnabled(true);
-        //m_passwordService.setStrengthValidator(std::make_unique<Wt::Auth::PasswordStrengthValidator>());
-
-
-        //        if (Wt::Auth::GoogleService::configured())
-        //            myOAuthServices.push_back(new Wt::Auth::GoogleService(myAuthService));
-        //
-        //        if (Wt::Auth::FacebookService::configured())
-        //            myOAuthServices.push_back(new Wt::Auth::FacebookService(myAuthService));
-
-        m_authServiceConfigured = true;
+    Wt::Auth::AuthService &AuthServices::GetWtAuthService() {
+        return m_wtAuthService;
     }
-}
 
+    Wt::Auth::PasswordService &AuthServices::GetWtPasswordService() {
+        return m_wtPasswordService;
+    }
+
+    void AuthServices::ConfigureAuthService() {
+        if (!m_authServiceConfigured) {
+            m_wtAuthService.setAuthTokensEnabled(true, "logincookie");
+            m_wtAuthService.setEmailVerificationEnabled(true);
+            m_wtAuthService.setEmailVerificationRequired(true);
+            m_wtAuthService.setIdentityPolicy(Wt::Auth::IdentityPolicy::EmailAddress);
+            m_wtAuthService.setTokenHashFunction(new Wt::Auth::BCryptHashFunction(BCRYPT_HASH_NUMBER_OF_ITERATION));
+            m_wtAuthService.setRandomTokenLength(RANDOM_TOKEN_LENGTH);
+            m_wtAuthService.setAuthTokenValidity(DEFAULT_TOKEN_TIME_OUT_IN_MINUTES);
+            m_wtAuthService.setEmailTokenValidity(DEFAULT_TOKEN_TIME_OUT_IN_MINUTES);
+
+            std::unique_ptr<Wt::Auth::PasswordVerifier> verifier = std::make_unique<Wt::Auth::PasswordVerifier>();
+            verifier->addHashFunction(std::make_unique<Wt::Auth::BCryptHashFunction>(BCRYPT_HASH_NUMBER_OF_ITERATION));
+            m_wtPasswordService.setVerifier(
+                    Common::Converter::DynamicUpCast<Wt::Auth::PasswordVerifier, Wt::Auth::PasswordService::AbstractVerifier>(
+                            std::move(verifier)));
+            m_wtPasswordService.setAttemptThrottlingEnabled(true);
+            //m_wtPasswordService.setStrengthValidator(std::make_unique<Wt::Auth::PasswordStrengthValidator>());
+
+
+            m_wtGoogleOAuthServices = std::make_unique<Wt::Auth::GoogleService>(m_wtAuthService);
+
+            m_authServiceConfigured = true;
+        }
+    }
+
+    const Wt::Auth::OAuthService * AuthServices::GetWtGoogleOauthServices() {
+        return m_wtGoogleOAuthServices.get();
+    }
 }

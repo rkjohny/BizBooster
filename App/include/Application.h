@@ -22,7 +22,7 @@
 #include <Wt/WBootstrapTheme.h>
 
 #include "DboTypes.h"
-#include "LogInWidget.h"
+#include "AuthView.h"
 
 namespace BizBooster {
 
@@ -33,9 +33,11 @@ public:
     void HandleAuthEvent();
     
 private:
-    LogInWidget *m_logInWidget;
+    AuthView *m_logInWidget;
     Wt::Auth::Login m_login;
     std::shared_ptr<Wt::WTheme> m_theme;
+
+    std::unique_ptr<Wt::Auth::OAuthProcess> m_wtGoogleOAuthProcesses;
 };
 
 }

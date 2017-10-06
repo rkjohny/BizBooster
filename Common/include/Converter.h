@@ -29,28 +29,27 @@ namespace Common {
     public:
 
         template<typename Derived, typename Base>
-        std::unique_ptr<Derived> static DynamicDownCast(std::unique_ptr<Base> &p)
+        std::unique_ptr<Derived> static DynamicDownCast(std::unique_ptr<Base> &&basePtr)
         {           
             static_assert(std::is_base_of< Base, Derived >::value, "Incompatible types");
-            if(Derived *result = dynamic_cast<Derived *>(p.get())) {
-                p.release();
+            if(Derived *result = dynamic_cast<Derived *>(basePtr.get())) {
+                basePtr.release();
                 return std::unique_ptr<Derived>(result);
             }
             return std::unique_ptr<Derived>(nullptr);
         }
 
         template<typename Derived, typename Base>
-        std::unique_ptr<Base> static DynamicUpCast(std::unique_ptr<Derived> &p)
+        std::unique_ptr<Base> static DynamicUpCast(std::unique_ptr<Derived> &&derivedPtr)
         {
             static_assert(std::is_base_of< Base, Derived >::value, "Incompatible types");
 
-            if(Base *result = dynamic_cast<Base *>(p.get())) {
-                p.release();
+            if(Base *result = dynamic_cast<Base *>(derivedPtr.get())) {
+                derivedPtr.release();
                 return std::unique_ptr<Base>(result);
             }
             return std::unique_ptr<Base>(nullptr);
         }
-
 
         static int64_t ToInt32(const std::string &num, int8_t base = 10) noexcept(false);
 

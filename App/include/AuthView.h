@@ -13,10 +13,10 @@
 
 namespace BizBooster {
 
-class LogInWidget : public Wt::Auth::AuthWidget
+class AuthView : public Wt::Auth::AuthWidget
 {
 public:
-  LogInWidget(Wt::Auth::Login &login);
+  AuthView(Wt::Auth::Login &login);
 
   /* We will use a custom registration view */
   std::unique_ptr<Wt::WWidget> createRegistrationView(const Wt::Auth::Identity& id) override;

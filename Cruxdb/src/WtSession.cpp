@@ -40,7 +40,7 @@ WtSession::WtSession()
     connection->connect(conn_string);
     connection->setProperty("show-queries", "true");
 
-    setConnection(Common::Converter::DynamicUpCast<WtPgConnection, Wt::Dbo::SqlConnection>(connection));
+    setConnection(Common::Converter::DynamicUpCast<WtPgConnection, Wt::Dbo::SqlConnection>(std::move(connection)));
 
     mapClass<Cruxdb::AppSetting>("setting");
     mapClass<Cruxdb::User>("user");
@@ -48,7 +48,7 @@ WtSession::WtSession()
     mapClass<Cruxdb::AuthInfo::AuthIdentityType>("auth_identity");
     mapClass<Cruxdb::AuthInfo::AuthTokenType>("auth_token");
     
-    m_userDatabase = std::make_shared<Cruxdb::UserDatabase>(*this, &AuthServices::GetAuthService());
+    m_userDatabase = std::make_shared<Cruxdb::UserDatabase>(*this, &AuthServices::GetWtAuthService());
 }
 
 WtSession::~WtSession()

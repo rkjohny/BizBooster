@@ -11,7 +11,7 @@
  */
 
 #include "Application.h"
-#include "LogInWidget.h"
+#include "AuthView.h"
 #include <Wt/WGlobal.h>
 #include <Wt/WServer.h>
 
@@ -21,73 +21,73 @@
 #include "LibCruxdb.h"
 
 
-
 namespace BizBooster {
 
-Application::Application(const Wt::WEnvironment &env) : Wt::WApplication(env)
-{
-    AppInitializer::Initialize();
+    Application::Application(const Wt::WEnvironment &env) : Wt::WApplication(env) {
+        AppInitializer::Initialize();
 
-    root()->addStyleClass("container");
-    
-    m_theme = std::make_shared<Wt::WBootstrapTheme>();
-    setTheme(m_theme);
+        root()->addStyleClass("container");
 
-    useStyleSheet(appRoot() + "resources/style.css");
-    useStyleSheet(appRoot() + "resources/css/app.css");
-    messageResourceBundle().use(appRoot() + "resources/bootstrap_theme");
-    messageResourceBundle().use(appRoot() + "resources/bootstrap3_theme");
-    messageResourceBundle().use(appRoot() + "resources/wt");
-    messageResourceBundle().use(appRoot() + "resources/auth_strings");
-    messageResourceBundle().use(appRoot() + "resources/auth_css_theme");
+        m_theme = std::make_shared<Wt::WBootstrapTheme>();
+        setTheme(m_theme);
 
-    //root()->setContentAlignment(Wt::AlignmentFlag::AlignCenter);
+        useStyleSheet(appRoot() + "resources/style.css");
+        useStyleSheet(appRoot() + "resources/css/app.css");
+        messageResourceBundle().use(appRoot() + "resources/bootstrap_theme");
+        messageResourceBundle().use(appRoot() + "resources/bootstrap3_theme");
+        messageResourceBundle().use(appRoot() + "resources/wt");
+        messageResourceBundle().use(appRoot() + "resources/auth_strings");
+        messageResourceBundle().use(appRoot() + "resources/auth_css_theme");
 
-    m_login.changed().connect(this, &Application::HandleAuthEvent);
+        //root()->setContentAlignment(Wt::AlignmentFlag::AlignCenter);
 
-    m_logInWidget = root()->addWidget(std::make_unique<LogInWidget>(m_login));
-    m_logInWidget->model()->addPasswordAuth(&Cruxdb::AuthServices::GetPasswordService());
+        m_login.changed().connect(this, &Application::HandleAuthEvent);
 
-    //m_logInWidget->model()->addOAuth(Session::oAuth());
-    m_logInWidget->setRegistrationEnabled(true);
+        m_logInWidget = root()->addWidget(std::make_unique<AuthView>(m_login));
+        m_logInWidget->model()->addPasswordAuth(&Cruxdb::AuthServices::GetWtPasswordService());
 
-    m_logInWidget->processEnvironment();
+        const Wt::Auth::OAuthService *googleOAuthService = Cruxdb::AuthServices::GetWtGoogleOauthServices();
+        m_wtGoogleOAuthProcesses = googleOAuthService->createProcess(googleOAuthService->authenticationScope());
+        m_wtGoogleOAuthProcesses->authenticated().connect(this, &Application::HandleAuthEvent);
 
+        auto ggi = root()->addWidget(std::make_unique<Wt::WImage>(appRoot() + "resources/oauth-google.png"));
+        ggi->clicked().connect(m_wtGoogleOAuthProcesses.get(), &Wt::Auth::OAuthProcess::startAuthenticate);
 
-}
+        m_logInWidget->model()->addOAuth(googleOAuthService);
+        //m_logInWidget->model()->addOAuth(Session::oAuth());
+        m_logInWidget->setRegistrationEnabled(true);
 
-void Application::HandleAuthEvent()
-{
-    if (m_login.loggedIn()) {
-        Wt::log("notice") << "User " << m_login.user().id()
-                << " logged in.";
-
-        Cruxdb::UserService *userService = Cruxdb::GetUserService();
-        std::shared_ptr<Cruxdb::InternalRootRequester> requester = std::make_shared<Cruxdb::InternalRootRequester>();
-
-        auto &&transaction = Wt::Dbo::Transaction(*userService->GetSession());
-
-        const Wt::Auth::User &authUser = m_login.user();
-        Wt::Dbo::ptr<Cruxdb::User> user = userService->GetUser(requester, authUser);
-
-        Wt::log("notice") << "User.email = " << user->GetEmail();
-        //Wt::log("notice") << "(Favourite pet: " << user->favouritePet << ")";
-
-        transaction.commit();
-    } else {
-        Wt::log("notice") << "User logged out.";
+        m_logInWidget->processEnvironment();
     }
-}
+
+    void Application::HandleAuthEvent() {
+        if (m_login.loggedIn()) {
+            Wt::log("notice") << "User " << m_login.user().id()
+                              << " logged in.";
+
+            Cruxdb::UserService *userService = Cruxdb::GetUserService();
+            std::shared_ptr<Cruxdb::InternalRootRequester> requester = std::make_shared<Cruxdb::InternalRootRequester>();
+
+            auto &&transaction = Wt::Dbo::Transaction(*userService->GetSession());
+
+            const Wt::Auth::User &authUser = m_login.user();
+            Wt::Dbo::ptr<Cruxdb::User> user = userService->GetUser(requester, authUser);
+
+            Wt::log("notice") << "User.email = " << user->GetEmail();
+
+            transaction.commit();
+        } else {
+            Wt::log("notice") << "User logged out.";
+        }
+    }
 
 } /* end namespace */
 
-std::unique_ptr<Wt::WApplication> createApplication(const Wt::WEnvironment &env)
-{
+std::unique_ptr<Wt::WApplication> createApplication(const Wt::WEnvironment &env) {
     return std::make_unique<BizBooster::Application>(env);
 }
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
     try {
 
         BizBooster::AppInitializer::Initialize();

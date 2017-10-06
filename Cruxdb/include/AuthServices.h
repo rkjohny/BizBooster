@@ -20,22 +20,25 @@
 
 namespace Cruxdb {
 
-class AuthServices {
-private:
-    MAKE_STATIC(AuthServices);
+    class AuthServices {
+    private:
+        MAKE_STATIC(AuthServices);
 
-public:
-    static Wt::Auth::AuthService &GetAuthService();
+    public:
+        static Wt::Auth::AuthService &GetWtAuthService();
 
-    static Wt::Auth::PasswordService &GetPasswordService();
+        static Wt::Auth::PasswordService &GetWtPasswordService();
 
-    static void ConfigureAuthService();
+        static void ConfigureAuthService();
 
-private:
-    static bool m_authServiceConfigured;
-    static Wt::Auth::AuthService m_authService;
-    static Wt::Auth::PasswordService m_passwordService;
-};
+        static const Wt::Auth::OAuthService *GetWtGoogleOauthServices();
+
+    private:
+        static bool m_authServiceConfigured;
+        static Wt::Auth::AuthService m_wtAuthService;
+        static Wt::Auth::PasswordService m_wtPasswordService;
+        static std::unique_ptr<Wt::Auth::OAuthService> m_wtGoogleOAuthServices;
+    };
 
 }
 
