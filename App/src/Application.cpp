@@ -38,6 +38,7 @@ namespace BizBooster {
         messageResourceBundle().use(appRoot() + "resources/wt");
         messageResourceBundle().use(appRoot() + "resources/auth_strings");
         messageResourceBundle().use(appRoot() + "resources/auth_css_theme");
+        messageResourceBundle().use(appRoot() + "resources/oauth-google.png");
 
         //root()->setContentAlignment(Wt::AlignmentFlag::AlignCenter);
 
@@ -46,20 +47,22 @@ namespace BizBooster {
         m_logInWidget = root()->addWidget(std::make_unique<AuthView>(m_login));
         m_logInWidget->model()->addPasswordAuth(&WtAuthServices::GetWtPasswordService());
 
-        const Wt::Auth::OAuthService &googleOAuthService = WtAuthServices::GetWtGoogleOauthServices();
-        m_wtGoogleOAuthProcesses = googleOAuthService.createProcess(googleOAuthService.authenticationScope());
+        const Wt::Auth::OAuthService *googleOAuthService = WtAuthServices::GetWtGoogleOauthServices();
+        m_wtGoogleOAuthProcesses = googleOAuthService->createProcess(googleOAuthService->authenticationScope());
         m_wtGoogleOAuthProcesses->authenticated().connect(this, &Application::HandleOAuthEvent);
 
         //TODO: move inside AuthView constructor
         auto ggi = m_logInWidget->addChild(std::make_unique<Wt::WImage>(appRoot() + "resources/oauth-google.png"));
         ggi->clicked().connect(m_wtGoogleOAuthProcesses.get(), &Wt::Auth::OAuthProcess::startAuthenticate);
 
-        m_logInWidget->model()->addOAuth(&googleOAuthService);
+        m_logInWidget->model()->addOAuth(googleOAuthService);
 
         //m_logInWidget->model()->addOAuth(Session::oAuth());
         m_logInWidget->setRegistrationEnabled(true);
 
         m_logInWidget->processEnvironment();
+
+        Wt::WApplication::instance()->internalPathChanged().connect(this, &Application::HandleInternalPath);
     }
 
     Application::~Application() {
@@ -82,8 +85,26 @@ namespace BizBooster {
             Wt::log("notice") << "User.email = " << user->GetEmail();
 
             transaction.commit();
+
+            Wt::WApplication::instance()->setInternalPath("/home");
+            HandleInternalPath(Wt::WApplication::instance()->internalPath());
         } else {
             Wt::log("notice") << "User logged out.";
+            HandleInternalPath("/login");
+        }
+    }
+
+    void Application::HandleInternalPath(const std::string &internalPath) {
+        if (m_login.loggedIn()) {
+            if (internalPath == "/google-oauth-finish") {
+
+            } else if (internalPath == "/profile") {
+
+            } else {
+                Wt::WApplication::instance()->setInternalPath("/home", true);
+            }
+        } else {
+            Wt::WApplication::instance()->setInternalPath("/login", true);
         }
     }
 

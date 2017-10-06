@@ -31,7 +31,7 @@ namespace BizBooster {
 
         static void ConfigureAuthService();
 
-        static const Wt::Auth::OAuthService & GetWtGoogleOauthServices();
+        static const Wt::Auth::OAuthService * GetWtGoogleOauthServices();
 
     private:
         static bool m_authServiceConfigured;

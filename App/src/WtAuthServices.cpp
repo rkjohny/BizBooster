@@ -62,7 +62,7 @@ namespace BizBooster {
         }
     }
 
-    const Wt::Auth::OAuthService & WtAuthServices::GetWtGoogleOauthServices() {
-        return *m_wtGoogleOAuthServices.get();
+    const Wt::Auth::OAuthService * WtAuthServices::GetWtGoogleOauthServices() {
+        return m_wtGoogleOAuthServices.get();
     }
 }

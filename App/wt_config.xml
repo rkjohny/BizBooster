@@ -582,6 +582,16 @@
 		<property name="smtp-host">192.168.10.91</property>
 		<property name="smtp-port">25</property>
 
+		<property name="google-oauth2-redirect-endpoint">
+			http://localhost:8080/bizbooster/google-oauth-finish
+		</property>
+		<property name="google-oauth2-client-id">
+			435909566105-t05m4b38lh6su7ahavs747hjrh333ol8.apps.googleusercontent.com
+		</property>
+		<property name="google-oauth2-client-secret">
+			EDE2j7kM3K3penGDihBK_lc1
+		</property>
+
 	    <!-- favicon property
 
 	       By default, a browser will try to fetch a /favicon.ico icon
