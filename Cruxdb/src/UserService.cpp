@@ -65,27 +65,6 @@ namespace Cruxdb {
     UserService::GetUser(std::shared_ptr<Requester> requester, int64_t id) {
         return m_session->find<Cruxdb::User>().where("id = ? and status = ?").bind(id).bind(StatusStr::V);
     }
-
-    Wt::Dbo::ptr<User>
-    UserService::GetUser(std::shared_ptr<Requester> requester, const Wt::Auth::User &authUser) {
-        Wt::Dbo::ptr<Cruxdb::User> user;
-
-        Wt::Dbo::ptr<Cruxdb::AuthInfo> authInfo = GetUserDB().find(authUser);
-        if (authInfo) {
-            user = authInfo->user();
-
-            if (!user) {
-                Wt::Dbo::ptr<Cruxdb::User> newUser = SaveEntity(requester, Wt::Dbo::make_ptr<User>());
-                authInfo.modify()->setUser(newUser);
-                return newUser;
-            }
-        }
-        return user;
-    }
-
-    Cruxdb::UserDatabase &UserService::GetUserDB() {
-        return m_session->GetUserDB();
-    }
 }
 
 

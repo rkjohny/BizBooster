@@ -14,7 +14,6 @@
 #include "CFReaderFactory.h"
 #include "CruxdbDef.h"
 #include "AppSetting.h"
-#include "AuthServices.h"
 #include "Converter.h"
 
 
@@ -47,8 +46,6 @@ WtSession::WtSession()
     mapClass<Cruxdb::AuthInfo>("auth_info");
     mapClass<Cruxdb::AuthInfo::AuthIdentityType>("auth_identity");
     mapClass<Cruxdb::AuthInfo::AuthTokenType>("auth_token");
-    
-    m_userDatabase = std::make_shared<Cruxdb::UserDatabase>(*this, &AuthServices::GetWtAuthService());
 }
 
 WtSession::~WtSession()
@@ -62,11 +59,6 @@ void WtSession::Dispose()
         this->flush();
         m_isDisposed = true;
     }
-}
-
-Cruxdb::UserDatabase& WtSession::GetUserDB()
-{
-    return *m_userDatabase;
 }
 
 }

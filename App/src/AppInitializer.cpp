@@ -22,6 +22,7 @@
 #include "Json.h"
 #include "LibCipher.h"
 #include "LibCruxdb.h"
+#include "WtAuthServices.h"
 
 #include <string>
 
@@ -64,6 +65,8 @@ void AppInitializer::Initialize()
     Cmarshal::Json::LoadLibrary();
     Cipher::LoadLibrary();
     Cruxdb::LoadLibrary();
+
+    WtAuthServices::ConfigureAuthService();
 }
 
 

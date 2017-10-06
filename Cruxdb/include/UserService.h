@@ -52,9 +52,6 @@ public:
                                                Wt::Dbo::ptr<AuthIdentityType> &identity);
 
     Wt::Dbo::ptr<User> GetUser(std::shared_ptr<Requester> requester, int64_t id);
-    Wt::Dbo::ptr<User> GetUser(std::shared_ptr<Requester> requester, const Wt::Auth::User &authUser);
-    
-    Cruxdb::UserDatabase& GetUserDB();
 };
 
 }

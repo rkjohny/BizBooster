@@ -10,7 +10,7 @@
  * magnetic storage, computer print-out or visual display.
  */
 
-#include "AuthServices.h"
+#include "WtAuthServices.h"
 #include "Converter.h"
 #include "CruxdbDef.h"
 #include "CipherDef.h"
@@ -21,22 +21,22 @@
 #include "Wt/Auth/GoogleService.h"
 #include "Wt/Auth/FacebookService.h"
 
-namespace Cruxdb {
+namespace BizBooster {
 
-    bool AuthServices::m_authServiceConfigured = false;
-    Wt::Auth::AuthService AuthServices::m_wtAuthService;
-    Wt::Auth::PasswordService AuthServices::m_wtPasswordService(AuthServices::m_wtAuthService);
-    std::unique_ptr<Wt::Auth::OAuthService> AuthServices::m_wtGoogleOAuthServices;
+    bool WtAuthServices::m_authServiceConfigured = false;
+    Wt::Auth::AuthService WtAuthServices::m_wtAuthService;
+    Wt::Auth::PasswordService WtAuthServices::m_wtPasswordService(WtAuthServices::m_wtAuthService);
+    std::unique_ptr<Wt::Auth::OAuthService> WtAuthServices::m_wtGoogleOAuthServices;
 
-    Wt::Auth::AuthService &AuthServices::GetWtAuthService() {
+    Wt::Auth::AuthService &WtAuthServices::GetWtAuthService() {
         return m_wtAuthService;
     }
 
-    Wt::Auth::PasswordService &AuthServices::GetWtPasswordService() {
+    Wt::Auth::PasswordService &WtAuthServices::GetWtPasswordService() {
         return m_wtPasswordService;
     }
 
-    void AuthServices::ConfigureAuthService() {
+    void WtAuthServices::ConfigureAuthService() {
         if (!m_authServiceConfigured) {
             m_wtAuthService.setAuthTokensEnabled(true, "logincookie");
             m_wtAuthService.setEmailVerificationEnabled(true);
@@ -62,7 +62,7 @@ namespace Cruxdb {
         }
     }
 
-    const Wt::Auth::OAuthService * AuthServices::GetWtGoogleOauthServices() {
-        return m_wtGoogleOAuthServices.get();
+    const Wt::Auth::OAuthService & WtAuthServices::GetWtGoogleOauthServices() {
+        return *m_wtGoogleOAuthServices.get();
     }
 }

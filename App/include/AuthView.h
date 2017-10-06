@@ -13,17 +13,17 @@
 
 namespace BizBooster {
 
-class AuthView : public Wt::Auth::AuthWidget
-{
-public:
-  AuthView(Wt::Auth::Login &login);
+    class AuthView : public Wt::Auth::AuthWidget {
+    public:
+        AuthView(Wt::Auth::Login &login);
 
-  /* We will use a custom registration view */
-  std::unique_ptr<Wt::WWidget> createRegistrationView(const Wt::Auth::Identity& id) override;
+        /* We will use a custom registration view */
+        std::unique_ptr<Wt::WWidget> createRegistrationView(const Wt::Auth::Identity &id) override;
 
-private:
-  Wt::Auth::Login &m_login;
-};
+    private:
+        Wt::Auth::Login &m_login;
+
+    };
 
 }
 

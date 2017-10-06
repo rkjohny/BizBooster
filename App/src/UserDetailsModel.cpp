@@ -4,12 +4,10 @@
  * See the LICENSE file for terms of use.
  */
 
+#include <WtUserService.h>
 #include "UserDetailsModel.h"
-#include "User.h"
 #include "LibCruxdb.h"
 #include "InternalRootRequester.h"
-#include "CFReaderFactory.h"
-#include "BizBoosterDef.h"
 #include "Wt/Mail/Client.h"
 #include "Wt/Mail/Message.h"
 
@@ -26,7 +24,7 @@ namespace BizBooster {
 
     void UserDetailsModel::save(Wt::Auth::User &authUser) {
 
-        auto userService = Cruxdb::GetUserService();
+        auto userService = Common::SingleTon<WtUserService>::GetInstance();
         auto requester = std::make_shared<Cruxdb::InternalRootRequester>();
         auto &&transaction = Wt::Dbo::Transaction(*userService->GetSession());
         auto user = userService->GetUser(requester, authUser);

@@ -18,11 +18,11 @@
 #include <Wt/Auth/AuthService.h>
 #include <Wt/Auth/PasswordService.h>
 
-namespace Cruxdb {
+namespace BizBooster {
 
-    class AuthServices {
+    class WtAuthServices {
     private:
-        MAKE_STATIC(AuthServices);
+        MAKE_STATIC(WtAuthServices);
 
     public:
         static Wt::Auth::AuthService &GetWtAuthService();
@@ -31,7 +31,7 @@ namespace Cruxdb {
 
         static void ConfigureAuthService();
 
-        static const Wt::Auth::OAuthService *GetWtGoogleOauthServices();
+        static const Wt::Auth::OAuthService & GetWtGoogleOauthServices();
 
     private:
         static bool m_authServiceConfigured;

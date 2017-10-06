@@ -26,19 +26,22 @@
 
 namespace BizBooster {
 
-class Application : public Wt::WApplication {
-public:
-    Application(const Wt::WEnvironment &env);
+    class Application : public Wt::WApplication {
+    public:
+        Application(const Wt::WEnvironment &env);
 
-    void HandleAuthEvent();
-    
-private:
-    AuthView *m_logInWidget;
-    Wt::Auth::Login m_login;
-    std::shared_ptr<Wt::WTheme> m_theme;
+        ~Application();
 
-    std::unique_ptr<Wt::Auth::OAuthProcess> m_wtGoogleOAuthProcesses;
-};
+        void HandleAuthEvent();
+
+        void HandleOAuthEvent(const Wt::Auth::Identity &identity);
+
+    private:
+        AuthView *m_logInWidget;
+        Wt::Auth::Login m_login;
+        std::shared_ptr<Wt::WTheme> m_theme;
+        std::unique_ptr<Wt::Auth::OAuthProcess> m_wtGoogleOAuthProcesses;
+    };
 
 }
 

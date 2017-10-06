@@ -11,14 +11,14 @@
  */
 
 #include "Application.h"
-#include "AuthView.h"
-#include <Wt/WGlobal.h>
 #include <Wt/WServer.h>
 
 #include "AppInitializer.h"
-#include "AuthServices.h"
+#include "WtAuthServices.h"
 #include "InternalRootRequester.h"
 #include "LibCruxdb.h"
+#include "WtUserService.h"
+#include "AppDisposer.h"
 
 
 namespace BizBooster {
@@ -44,20 +44,26 @@ namespace BizBooster {
         m_login.changed().connect(this, &Application::HandleAuthEvent);
 
         m_logInWidget = root()->addWidget(std::make_unique<AuthView>(m_login));
-        m_logInWidget->model()->addPasswordAuth(&Cruxdb::AuthServices::GetWtPasswordService());
+        m_logInWidget->model()->addPasswordAuth(&WtAuthServices::GetWtPasswordService());
 
-        const Wt::Auth::OAuthService *googleOAuthService = Cruxdb::AuthServices::GetWtGoogleOauthServices();
-        m_wtGoogleOAuthProcesses = googleOAuthService->createProcess(googleOAuthService->authenticationScope());
-        m_wtGoogleOAuthProcesses->authenticated().connect(this, &Application::HandleAuthEvent);
+        const Wt::Auth::OAuthService &googleOAuthService = WtAuthServices::GetWtGoogleOauthServices();
+        m_wtGoogleOAuthProcesses = googleOAuthService.createProcess(googleOAuthService.authenticationScope());
+        m_wtGoogleOAuthProcesses->authenticated().connect(this, &Application::HandleOAuthEvent);
 
-        auto ggi = root()->addWidget(std::make_unique<Wt::WImage>(appRoot() + "resources/oauth-google.png"));
+        //TODO: move inside AuthView constructor
+        auto ggi = m_logInWidget->addChild(std::make_unique<Wt::WImage>(appRoot() + "resources/oauth-google.png"));
         ggi->clicked().connect(m_wtGoogleOAuthProcesses.get(), &Wt::Auth::OAuthProcess::startAuthenticate);
 
-        m_logInWidget->model()->addOAuth(googleOAuthService);
+        m_logInWidget->model()->addOAuth(&googleOAuthService);
+
         //m_logInWidget->model()->addOAuth(Session::oAuth());
         m_logInWidget->setRegistrationEnabled(true);
 
         m_logInWidget->processEnvironment();
+    }
+
+    Application::~Application() {
+        AppDisposer::Dispose();
     }
 
     void Application::HandleAuthEvent() {
@@ -65,7 +71,7 @@ namespace BizBooster {
             Wt::log("notice") << "User " << m_login.user().id()
                               << " logged in.";
 
-            Cruxdb::UserService *userService = Cruxdb::GetUserService();
+            auto userService = Common::SingleTon<WtUserService>::GetInstance();
             std::shared_ptr<Cruxdb::InternalRootRequester> requester = std::make_shared<Cruxdb::InternalRootRequester>();
 
             auto &&transaction = Wt::Dbo::Transaction(*userService->GetSession());
@@ -81,6 +87,11 @@ namespace BizBooster {
         }
     }
 
+    void Application::HandleOAuthEvent(const Wt::Auth::Identity& identity) {
+        root()->clear();
+        root()->addWidget(std::make_unique<Wt::WText>("Welcome, " + identity.name()));
+    }
+
 } /* end namespace */
 
 std::unique_ptr<Wt::WApplication> createApplication(const Wt::WEnvironment &env) {
@@ -90,11 +101,11 @@ std::unique_ptr<Wt::WApplication> createApplication(const Wt::WEnvironment &env)
 int main(int argc, char **argv) {
     try {
 
-        BizBooster::AppInitializer::Initialize();
-
         Wt::WServer server(argc, argv, WTHTTP_CONFIGURATION);
 
         server.addEntryPoint(Wt::EntryPointType::Application, createApplication);
+
+        //BizBooster::AppInitializer::Initialize();
 
         server.run();
 

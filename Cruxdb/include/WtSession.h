@@ -29,15 +29,13 @@ private:
     
 public:
     void Dispose() override;
-    Cruxdb::UserDatabase& GetUserDB();
-    
+
 protected:
     WtSession();
     virtual ~WtSession();
 
 private:
 
-    std::shared_ptr<Cruxdb::UserDatabase> m_userDatabase;    
 };
 
 }

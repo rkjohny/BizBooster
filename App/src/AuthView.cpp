@@ -8,15 +8,14 @@
 
 #include "AuthView.h"
 #include "RegistrationView.h"
-#include "AuthServices.h"
+#include "WtAuthServices.h"
 #include "BaseService.h"
-#include "LibCruxdb.h"
-#include "InternalRootRequester.h"
+#include "WtUserService.h"
 
 namespace BizBooster {
 
 AuthView::AuthView(Wt::Auth::Login &login) :
-Wt::Auth::AuthWidget(Cruxdb::AuthServices::GetWtAuthService(), Cruxdb::GetUserService()->GetUserDB(), login), m_login(login)
+Wt::Auth::AuthWidget(WtAuthServices::GetWtAuthService(), Common::SingleTon<WtUserService>::GetInstance()->GetUserDB(), login), m_login(login)
 {
 
 //    Wt::WTemplate *t = new Wt::WTemplate(Wt::WString::tr("auth_template.xml"));

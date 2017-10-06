@@ -13,12 +13,9 @@
 
 #include "LibCruxdb.h"
 #include "SOFactory.h"
-#include "CruxdbDef.h"
-#include "UserService.h"
 #include "DataModelManager.h"
 #include "LoggerFactory.h"
 #include "CFReaderFactory.h"
-#include "AuthServices.h"
 #include "LibCipher.h"
 
 namespace Cruxdb {
@@ -30,8 +27,6 @@ namespace Cruxdb {
             Cmarshal::Json::LoadLibrary();
 
             Cipher::LoadLibrary();
-
-            AuthServices::ConfigureAuthService();
 
             LOG_DEBUG("Registering User calss...");
             REGISTER_CLASS(User, "user");
