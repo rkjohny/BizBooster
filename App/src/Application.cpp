@@ -48,12 +48,13 @@ namespace BizBooster {
         m_logInWidget->model()->addPasswordAuth(&WtAuthServices::GetWtPasswordService());
 
         const Wt::Auth::OAuthService *googleOAuthService = WtAuthServices::GetWtGoogleOauthServices();
+        std::string googleOAuthRedirectEndPoint = googleOAuthService->generateRedirectEndpoint();
         m_wtGoogleOAuthProcesses = googleOAuthService->createProcess(googleOAuthService->authenticationScope());
         m_wtGoogleOAuthProcesses->authenticated().connect(this, &Application::HandleOAuthEvent);
 
         //TODO: move inside AuthView constructor
-        auto ggi = m_logInWidget->addChild(std::make_unique<Wt::WImage>(appRoot() + "resources/oauth-google.png"));
-        ggi->clicked().connect(m_wtGoogleOAuthProcesses.get(), &Wt::Auth::OAuthProcess::startAuthenticate);
+        //auto ggi = m_logInWidget->addChild(std::make_unique<Wt::WImage>(appRoot() + "resources/oauth-google.png"));
+        //ggi->clicked().connect(m_wtGoogleOAuthProcesses.get(), &Wt::Auth::OAuthProcess::startAuthenticate);
 
         m_logInWidget->model()->addOAuth(googleOAuthService);
 

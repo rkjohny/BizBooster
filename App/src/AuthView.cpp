@@ -5,7 +5,7 @@
  */
 
 #include <Wt/WLineEdit.h>
-
+#include "Wt/WIcon.h"
 #include "AuthView.h"
 #include "RegistrationView.h"
 #include "WtAuthServices.h"
@@ -24,6 +24,8 @@ Wt::Auth::AuthWidget(WtAuthServices::GetWtAuthService(), Common::SingleTon<WtUse
 //    Wt::WLineEdit *usrName = new Wt::WLineEdit(parent);
 //    usrName->setPlaceholderText("Enter your email address");
 //    t->bindWidget("user-name", usrName);
+
+    auto icons = bindWidget("icons",  std::make_unique<Wt::WIcon>("resources/oauth-google.png"));
 
 }
 

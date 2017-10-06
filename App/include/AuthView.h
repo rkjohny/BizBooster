@@ -8,7 +8,6 @@
 #define AUTH_WIDGET_H
 
 #include "WtSession.h"
-
 #include <Wt/Auth/AuthWidget.h>
 
 namespace BizBooster {
