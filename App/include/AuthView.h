@@ -21,12 +21,11 @@ namespace BizBooster {
 
         /* We will use a custom registration view */
         std::unique_ptr<Wt::WWidget> createRegistrationView(const Wt::Auth::Identity &id) override;
-        void HandleOAuthEvent(const Wt::Auth::Identity &identity);
 
     private:
         Wt::Auth::Login &m_login;
         Wt::WIcon* icons;
-        std::unique_ptr<Wt::Auth::OAuthProcess> m_wtGoogleOAuthProcesses;
+
     };
 
 }

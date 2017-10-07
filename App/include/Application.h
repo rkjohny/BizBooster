@@ -36,6 +36,8 @@ namespace BizBooster {
 
         void HandleInternalPath(const std::string &internalPath);
 
+        void HandleOAuthEvent(const Wt::Auth::Identity &identity);
+
     private:
         AuthView *m_logInWidget;
         Wt::Auth::Login m_login;

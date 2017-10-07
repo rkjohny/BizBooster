@@ -27,6 +27,7 @@ namespace BizBooster {
     Wt::Auth::AuthService WtAuthServices::m_wtAuthService;
     Wt::Auth::PasswordService WtAuthServices::m_wtPasswordService(WtAuthServices::m_wtAuthService);
     std::unique_ptr<Wt::Auth::OAuthService> WtAuthServices::m_wtGoogleOAuthServices;
+    std::unique_ptr<Wt::Auth::OAuthProcess> WtAuthServices::m_wtGoogleOAuthProcesses;
 
     Wt::Auth::AuthService &WtAuthServices::GetWtAuthService() {
         return m_wtAuthService;
@@ -56,7 +57,14 @@ namespace BizBooster {
             //m_wtPasswordService.setStrengthValidator(std::make_unique<Wt::Auth::PasswordStrengthValidator>());
 
 
-            m_wtGoogleOAuthServices = std::make_unique<Wt::Auth::GoogleService>(m_wtAuthService);
+            if (Wt::Auth::GoogleService::configured()) {
+                m_wtGoogleOAuthServices = std::make_unique<Wt::Auth::GoogleService>(m_wtAuthService);
+                const Wt::Auth::OAuthService *googleOAuthService = m_wtGoogleOAuthServices.get();
+                std::string googleOAuthRedirectEndPoint = googleOAuthService->generateRedirectEndpoint();
+                m_wtGoogleOAuthProcesses = googleOAuthService->createProcess(googleOAuthService->authenticationScope());
+            } else {
+                BOOST_ASSERT_MSG(false, "Google oauth service is not configured.");
+            }
 
             m_authServiceConfigured = true;
         }
@@ -64,5 +72,9 @@ namespace BizBooster {
 
     const Wt::Auth::OAuthService * WtAuthServices::GetWtGoogleOauthService() {
         return m_wtGoogleOAuthServices.get();
+    }
+
+    Wt::Auth::OAuthProcess * WtAuthServices::GetWtGoogleOauthProcess() {
+        return m_wtGoogleOAuthProcesses.get();
     }
 }

@@ -24,23 +24,13 @@ namespace BizBooster {
         //usrName->setPlaceholderText("Enter your email address");
         //t->bindWidget("user-name", usrName);
 
-        const Wt::Auth::OAuthService *googleOAuthService = WtAuthServices::GetWtGoogleOauthService();
-        std::string googleOAuthRedirectEndPoint = googleOAuthService->generateRedirectEndpoint();
-        m_wtGoogleOAuthProcesses = googleOAuthService->createProcess(googleOAuthService->authenticationScope());
-        m_wtGoogleOAuthProcesses->authenticated().connect(this, &AuthView::HandleOAuthEvent);
-
-        model()->addOAuth(googleOAuthService);
+        model()->addOAuth(WtAuthServices::GetWtGoogleOauthService());
         model()->addPasswordAuth(&WtAuthServices::GetWtPasswordService());
 
         setRegistrationEnabled(true);
 
         icons = bindWidget("icons", std::make_unique<Wt::WIcon>("resources/oauth-google.png"));
-        //icons = t->bindWidget("icons", std::make_unique<Wt::WImage>("resources/oauth-google.png"));
-        icons->clicked().connect(m_wtGoogleOAuthProcesses.get(), &Wt::Auth::OAuthProcess::startAuthenticate);
-
-        //TODO: move inside AuthView constructor
-        //auto ggi = m_logInWidget->addChild(std::make_unique<Wt::WImage>(appRoot() + "resources/oauth-google.png"));
-        //ggi->clicked().connect(m_wtGoogleOAuthProcesses.get(), &Wt::Auth::OAuthProcess::startAuthenticate);
+        icons->clicked().connect(WtAuthServices::GetWtGoogleOauthProcess(), &Wt::Auth::OAuthProcess::startAuthenticate);
 
         processEnvironment();
     }
@@ -55,10 +45,4 @@ namespace BizBooster {
         registrationVew->setModel(std::move(model));
         return std::move(registrationVew);
     }
-
-    void AuthView::HandleOAuthEvent(const Wt::Auth::Identity &identity) {
-//        root()->clear();
-//        root()->addWidget(std::make_unique<Wt::WText>("Welcome, " + identity.name()));
-    }
-
 }

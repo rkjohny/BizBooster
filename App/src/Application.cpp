@@ -44,6 +44,8 @@ namespace BizBooster {
 
         m_login.changed().connect(this, &Application::HandleAuthEvent);
 
+        WtAuthServices::GetWtGoogleOauthProcess()->authenticated().connect(this, &Application::HandleOAuthEvent);
+
         m_logInWidget = root()->addWidget(std::make_unique<AuthView>(m_login));
 
         Wt::WApplication::instance()->internalPathChanged().connect(this, &Application::HandleInternalPath);
@@ -91,6 +93,11 @@ namespace BizBooster {
             Wt::WApplication::instance()->setInternalPath("/login", true);
         }
     }
+
+    void Application::HandleOAuthEvent(const Wt::Auth::Identity &identity) {
+        std::cout << "Authenticated using Google OAuth service !!" << std::endl;
+    }
+
 } /* end namespace */
 
 std::unique_ptr<Wt::WApplication> createApplication(const Wt::WEnvironment &env) {

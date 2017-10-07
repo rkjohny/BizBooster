@@ -17,6 +17,7 @@
 
 #include <Wt/Auth/AuthService.h>
 #include <Wt/Auth/PasswordService.h>
+#include "Wt/Auth/OAuthService.h"
 
 namespace BizBooster {
 
@@ -32,12 +33,14 @@ namespace BizBooster {
         static void ConfigureAuthService();
 
         static const Wt::Auth::OAuthService * GetWtGoogleOauthService();
+        static Wt::Auth::OAuthProcess * GetWtGoogleOauthProcess();
 
     private:
         static bool m_authServiceConfigured;
         static Wt::Auth::AuthService m_wtAuthService;
         static Wt::Auth::PasswordService m_wtPasswordService;
         static std::unique_ptr<Wt::Auth::OAuthService> m_wtGoogleOAuthServices;
+        static std::unique_ptr<Wt::Auth::OAuthProcess> m_wtGoogleOAuthProcesses;
     };
 
 }
