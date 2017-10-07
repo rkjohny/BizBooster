@@ -35,13 +35,12 @@ namespace BizBooster {
         void HandleAuthEvent();
 
         void HandleInternalPath(const std::string &internalPath);
-        void HandleOAuthEvent(const Wt::Auth::Identity& identity);
 
     private:
         AuthView *m_logInWidget;
         Wt::Auth::Login m_login;
         std::shared_ptr<Wt::WTheme> m_theme;
-        std::unique_ptr<Wt::Auth::OAuthProcess> m_wtGoogleOAuthProcesses;
+
     };
 
 }

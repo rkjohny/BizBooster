@@ -45,23 +45,6 @@ namespace BizBooster {
         m_login.changed().connect(this, &Application::HandleAuthEvent);
 
         m_logInWidget = root()->addWidget(std::make_unique<AuthView>(m_login));
-        m_logInWidget->model()->addPasswordAuth(&WtAuthServices::GetWtPasswordService());
-
-        const Wt::Auth::OAuthService *googleOAuthService = WtAuthServices::GetWtGoogleOauthServices();
-        std::string googleOAuthRedirectEndPoint = googleOAuthService->generateRedirectEndpoint();
-        m_wtGoogleOAuthProcesses = googleOAuthService->createProcess(googleOAuthService->authenticationScope());
-        m_wtGoogleOAuthProcesses->authenticated().connect(this, &Application::HandleOAuthEvent);
-
-        //TODO: move inside AuthView constructor
-        //auto ggi = m_logInWidget->addChild(std::make_unique<Wt::WImage>(appRoot() + "resources/oauth-google.png"));
-        //ggi->clicked().connect(m_wtGoogleOAuthProcesses.get(), &Wt::Auth::OAuthProcess::startAuthenticate);
-
-        m_logInWidget->model()->addOAuth(googleOAuthService);
-
-        //m_logInWidget->model()->addOAuth(Session::oAuth());
-        m_logInWidget->setRegistrationEnabled(true);
-
-        m_logInWidget->processEnvironment();
 
         Wt::WApplication::instance()->internalPathChanged().connect(this, &Application::HandleInternalPath);
     }
@@ -108,12 +91,6 @@ namespace BizBooster {
             Wt::WApplication::instance()->setInternalPath("/login", true);
         }
     }
-
-    void Application::HandleOAuthEvent(const Wt::Auth::Identity& identity) {
-        root()->clear();
-        root()->addWidget(std::make_unique<Wt::WText>("Welcome, " + identity.name()));
-    }
-
 } /* end namespace */
 
 std::unique_ptr<Wt::WApplication> createApplication(const Wt::WEnvironment &env) {
