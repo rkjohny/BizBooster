@@ -119,6 +119,11 @@
     You will be able to login after confirming your email address using the
     email we've just sent you.
   </message>
+  <message id="Wt.Auth.first-name">First name</message>
+  <message id="Wt.Auth.first-name-info">Enter your first name.</message>
+  <message id="Wt.Auth.last-name">Last name</message>
+  <message id="Wt.Auth.last-name-info">Enter your last name.</message>
+
 
   <!-- PasswordPromptDialog -->
 
