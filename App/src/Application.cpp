@@ -33,11 +33,17 @@ namespace BizBooster {
 
         useStyleSheet(appRoot() + "resources/style.css");
         useStyleSheet(appRoot() + "resources/css/app.css");
+        useStyleSheet(appRoot() + "resources/form.css");
+        useStyleSheet(appRoot() + "resources/html4_default.css");
+        useStyleSheet(appRoot() + "resources/moz-transitions.css");
+        useStyleSheet(appRoot() + "resources/transitions.css");
+        useStyleSheet(appRoot() + "resources/webkit-transitions.css");
+
         messageResourceBundle().use(appRoot() + "resources/bootstrap_theme");
         messageResourceBundle().use(appRoot() + "resources/bootstrap3_theme");
         messageResourceBundle().use(appRoot() + "resources/wt");
         messageResourceBundle().use(appRoot() + "resources/auth_strings");
-        messageResourceBundle().use(appRoot() + "resources/auth_css_theme");
+        //messageResourceBundle().use(appRoot() + "resources/auth_css_theme");
         messageResourceBundle().use(appRoot() + "resources/oauth-google.png");
 
         //root()->setContentAlignment(Wt::AlignmentFlag::AlignCenter);
