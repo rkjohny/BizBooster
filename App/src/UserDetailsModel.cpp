@@ -41,19 +41,6 @@ namespace BizBooster {
             user.modify()->SetRoles(Cruxdb::Role::ROLE_USER);
         }
         transaction.commit();
-
-        //auto configReader = Logfig::CFReaderFactory::GetConfigReader(APP_CONFIG_FILE_NAME);
-        Wt::Mail::Message message;
-        message.setFrom(Wt::Mail::Mailbox("rezaul@nilavodev.com", "Rezaul Karim"));
-        message.addRecipient(Wt::Mail::RecipientType::To, Wt::Mail::Mailbox("rezaul1@nilavodev.com", "Rezaul1 Karim1"));
-        message.setSubject("Hey there, koen!");
-        message.setBody("That mail client seems to be working.");
-        message.addHtmlBody ("<p>"
-                                     "<a href=\"http://www.webtoolkit.eu/wt\">That mail client</a>"
-                                     " seems to be working just great!</p>");
-        Wt::Mail::Client client;
-        client.connect("192.168.10.91", 25);
-        client.send(message);
     }
 
 }
