@@ -120,9 +120,9 @@
     email we've just sent you.
   </message>
   <message id="Wt.Auth.first-name">First name</message>
-  <message id="Wt.Auth.first-name-info">Enter your first name.</message>
+  <message id="first-name-info">Enter your first name.</message>
   <message id="Wt.Auth.last-name">Last name</message>
-  <message id="Wt.Auth.last-name-info">Enter your last name.</message>
+  <message id="last-name-info">Enter your last name.</message>
 
 
   <!-- PasswordPromptDialog -->

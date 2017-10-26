@@ -87,8 +87,8 @@
 
       <div class="form-horizontal">
 	${block:Wt.Auth.field3 user-name user-name-label confirm-is-you}
-    ${block:Wt.Auth.field first-name}
-    ${block:Wt.Auth.field last-name}
+        ${block:Wt.Auth.field first-name}
+        ${block:Wt.Auth.field last-name}
 	${block:Wt.Auth.field choose-password}
 	${block:Wt.Auth.field repeat-password}
 	${block:Wt.Auth.field email}

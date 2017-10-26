@@ -29,9 +29,6 @@ namespace BizBooster {
 
         setRegistrationEnabled(true);
 
-        icons = bindWidget("icons", std::make_unique<Wt::WIcon>("resources/oauth-google.png"));
-        icons->clicked().connect(WtAuthServices::GetWtGoogleOauthProcess(), &Wt::Auth::OAuthProcess::startAuthenticate);
-
         processEnvironment();
     }
 

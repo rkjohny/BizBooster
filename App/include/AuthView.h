@@ -24,8 +24,6 @@ namespace BizBooster {
 
     private:
         Wt::Auth::Login &m_login;
-        Wt::WIcon* icons;
-
     };
 
 }
