@@ -32,15 +32,23 @@ namespace BizBooster {
 
         static void ConfigureAuthService();
 
-        static const Wt::Auth::OAuthService * GetWtGoogleOauthService();
-        static Wt::Auth::OAuthProcess * GetWtGoogleOauthProcess();
+        static std::unique_ptr<Wt::Auth::OAuthService>::pointer GetWtGoogleOauthService();
+        static std::unique_ptr<Wt::Auth::OAuthProcess>::pointer GetWtGoogleOauthProcess();
+
+        const static std::vector<const Wt::Auth::OAuthService*> &GetOauthServices();
 
     private:
         static bool m_authServiceConfigured;
         static Wt::Auth::AuthService m_wtAuthService;
         static Wt::Auth::PasswordService m_wtPasswordService;
+
+        static std::vector<const Wt::Auth::OAuthService*> m_oauthServices;
+
         static std::unique_ptr<Wt::Auth::OAuthService> m_wtGoogleOAuthServices;
         static std::unique_ptr<Wt::Auth::OAuthProcess> m_wtGoogleOAuthProcesses;
+
+        static std::unique_ptr<Wt::Auth::OAuthService> m_wtFacebookOAuthServices;
+        static std::unique_ptr<Wt::Auth::OAuthProcess> m_wtFacebookOAuthProcesses;
     };
 
 }

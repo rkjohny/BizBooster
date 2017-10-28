@@ -29,13 +29,15 @@ namespace BizBooster {
         root()->addStyleClass("container");
 
         m_theme = std::make_shared<Wt::WBootstrapTheme>();
+        m_theme->setVersion(Wt::WBootstrapTheme::Version::v2);
+        //m_theme->setResponsive(true);
         setTheme(m_theme);
 
         useStyleSheet(appRoot() + "resources/style.css");
         useStyleSheet(appRoot() + "contents/css/app.css");
 
         messageResourceBundle().use(appRoot() + "contents/templates/bootstrap_theme");
-        messageResourceBundle().use(appRoot() + "contents/templates/bootstrap3_theme");
+        //messageResourceBundle().use(appRoot() + "contents/templates/bootstrap3_theme");
         messageResourceBundle().use(appRoot() + "contents/templates/wt");
         messageResourceBundle().use(appRoot() + "contents/templates/auth_strings");
 

@@ -592,6 +592,16 @@
 			EDE2j7kM3K3penGDihBK_lc1
 		</property>
 
+		<property name="facebook-oauth2-redirect-endpoint">
+			http://localhost:8080/bizbooster/facebook-oauth-finish
+		</property>
+		<property name="facebook-oauth2-app-id">
+			771246269725262
+		</property>
+		<property name="facebook-oauth2-app-secret">
+			17498a37072f3fac83b9a7ab7185a819
+		</property>
+
 	    <!-- favicon property
 
 	       By default, a browser will try to fetch a /favicon.ico icon

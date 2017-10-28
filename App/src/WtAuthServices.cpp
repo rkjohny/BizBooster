@@ -26,8 +26,14 @@ namespace BizBooster {
     bool WtAuthServices::m_authServiceConfigured = false;
     Wt::Auth::AuthService WtAuthServices::m_wtAuthService;
     Wt::Auth::PasswordService WtAuthServices::m_wtPasswordService(WtAuthServices::m_wtAuthService);
+
+    std::vector<const Wt::Auth::OAuthService*> WtAuthServices::m_oauthServices;
+
     std::unique_ptr<Wt::Auth::OAuthService> WtAuthServices::m_wtGoogleOAuthServices;
     std::unique_ptr<Wt::Auth::OAuthProcess> WtAuthServices::m_wtGoogleOAuthProcesses;
+
+    std::unique_ptr<Wt::Auth::OAuthService> WtAuthServices::m_wtFacebookOAuthServices;
+    std::unique_ptr<Wt::Auth::OAuthProcess> WtAuthServices::m_wtFacebookOAuthProcesses;
 
     Wt::Auth::AuthService &WtAuthServices::GetWtAuthService() {
         return m_wtAuthService;
@@ -49,7 +55,7 @@ namespace BizBooster {
             m_wtAuthService.setEmailTokenValidity(DEFAULT_TOKEN_TIME_OUT_IN_MINUTES);
 
             std::unique_ptr<Wt::Auth::PasswordVerifier> verifier = std::make_unique<Wt::Auth::PasswordVerifier>();
-            verifier->addHashFunction(std::make_unique<Wt::Auth::BCryptHashFunction>(BCRYPT_HASH_NUMBER_OF_ITERATION));
+            verifier.get()->addHashFunction(std::make_unique<Wt::Auth::BCryptHashFunction>( ));
             m_wtPasswordService.setVerifier(
                     Common::Converter::DynamicUpCast<Wt::Auth::PasswordVerifier, Wt::Auth::PasswordService::AbstractVerifier>(
                             std::move(verifier)));
@@ -59,22 +65,36 @@ namespace BizBooster {
 
             if (Wt::Auth::GoogleService::configured()) {
                 m_wtGoogleOAuthServices = std::make_unique<Wt::Auth::GoogleService>(m_wtAuthService);
-                const Wt::Auth::OAuthService *googleOAuthService = m_wtGoogleOAuthServices.get();
-                std::string googleOAuthRedirectEndPoint = googleOAuthService->generateRedirectEndpoint();
-                m_wtGoogleOAuthProcesses = googleOAuthService->createProcess(googleOAuthService->authenticationScope());
+                std::string googleOAuthRedirectEndPoint = m_wtGoogleOAuthServices.get()->generateRedirectEndpoint();
+                m_wtGoogleOAuthProcesses = m_wtGoogleOAuthServices.get()->createProcess(m_wtGoogleOAuthServices.get()->authenticationScope());
             } else {
                 BOOST_ASSERT_MSG(false, "Google oauth service is not configured.");
             }
+
+            if (Wt::Auth::FacebookService::configured()) {
+                m_wtFacebookOAuthServices = std::make_unique<Wt::Auth::FacebookService>(m_wtAuthService);
+                std::string facebookOAuthRedirectEndPoint = m_wtFacebookOAuthServices.get()->generateRedirectEndpoint();
+                m_wtFacebookOAuthProcesses = m_wtFacebookOAuthServices.get()->createProcess(m_wtFacebookOAuthServices.get()->authenticationScope());
+            } else {
+                BOOST_ASSERT_MSG(false, "Facebook oauth service is not configured.");
+            }
+
+            m_oauthServices.push_back(m_wtGoogleOAuthServices.get());
+            m_oauthServices.push_back(m_wtFacebookOAuthServices.get());
 
             m_authServiceConfigured = true;
         }
     }
 
-    const Wt::Auth::OAuthService * WtAuthServices::GetWtGoogleOauthService() {
+    std::unique_ptr<Wt::Auth::OAuthService>::pointer WtAuthServices::GetWtGoogleOauthService() {
         return m_wtGoogleOAuthServices.get();
     }
 
-    Wt::Auth::OAuthProcess * WtAuthServices::GetWtGoogleOauthProcess() {
+    std::unique_ptr<Wt::Auth::OAuthProcess>::pointer WtAuthServices::GetWtGoogleOauthProcess() {
         return m_wtGoogleOAuthProcesses.get();
+    }
+
+    const std::vector<const Wt::Auth::OAuthService*> &WtAuthServices::GetOauthServices() {
+        return m_oauthServices;
     }
 }

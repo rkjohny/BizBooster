@@ -24,7 +24,7 @@ namespace BizBooster {
         //usrName->setPlaceholderText("Enter your email address");
         //t->bindWidget("user-name", usrName);
 
-        model()->addOAuth(WtAuthServices::GetWtGoogleOauthService());
+        model()->addOAuth(WtAuthServices::GetOauthServices());
         model()->addPasswordAuth(&WtAuthServices::GetWtPasswordService());
 
         setRegistrationEnabled(true);
@@ -37,9 +37,9 @@ namespace BizBooster {
         std::unique_ptr<Wt::Auth::RegistrationModel> model = createRegistrationModel();
 
         if (id.isValid())
-            model->registerIdentified(id);
+            model.get()->registerIdentified(id);
 
-        registrationVew->setModel(std::move(model));
+        registrationVew.get()->setModel(std::move(model));
         return std::move(registrationVew);
     }
 }

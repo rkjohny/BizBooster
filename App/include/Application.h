@@ -41,7 +41,7 @@ namespace BizBooster {
     private:
         AuthView *m_logInWidget;
         Wt::Auth::Login m_login;
-        std::shared_ptr<Wt::WTheme> m_theme;
+        std::shared_ptr<Wt::WBootstrapTheme> m_theme;
 
     };
 
