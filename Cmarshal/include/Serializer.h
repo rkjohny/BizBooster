@@ -28,7 +28,7 @@
 namespace Cmarshal {
     namespace Json {
         //TODO: web::json::value has move constructor and move assignment operator
-        // so the returned vaue will not be copyed.
+        // so the returned value will not be copied.
         // otherwise we should use unique_ptr
 
         class Serializer {

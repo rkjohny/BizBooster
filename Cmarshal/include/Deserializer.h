@@ -255,8 +255,8 @@ namespace Cmarshal {
             }
 
             /**
-             * get the setter at tuple position referenced by iteratiorn.
-             * call the setter to set the value to the object'c property.
+             * get the setter at tuple position referenced by iteration.
+             * call the setter to set the value to the object's property.
              */
             template<size_t iteration, class T>
             static void DoDeserialize(T *object, const web::json::value &jvalue) {
