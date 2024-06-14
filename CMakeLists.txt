@@ -9,7 +9,7 @@ set(CMAKE_BUILD_TYPE Debug)
 
 
 # setting the output path
-#TODO: how to get the path from where cmake commade was given without hard coding build
+#TODO: how to get the path from where cmake command was given without hard coding build
 set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/Binary)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR})
